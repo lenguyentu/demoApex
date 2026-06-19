@@ -1,0 +1,196 @@
+CREATE OR REPLACE FUNCTION public.sync_to_database_candidates_upsert()
+RETURNS trigger
+LANGUAGE plpgsql
+SECURITY DEFINER
+SET search_path = public
+AS $$
+BEGIN
+    --------------------------------------------------------------------
+    -- Prevent recursive trigger calls
+    --------------------------------------------------------------------
+    IF pg_trigger_depth() > 1 THEN
+        RETURN NEW;
+    END IF;
+
+    --------------------------------------------------------------------
+    -- Only sync when email exists (email = unique key)
+    --------------------------------------------------------------------
+    IF NEW.email IS NOT NULL THEN
+        BEGIN
+            INSERT INTO public.database_candidates (
+                name,
+                gender,
+                date_of_birth,
+                email,
+                phone,
+                photo_url,
+                visa_status,
+                ic_passport_no,
+                caution,
+                linkedin,
+                facebook,
+                address,
+                phase,
+                phase_date,
+                phase_memo,
+                cdd_rank,
+                entry_route,
+                preferred_industry,
+                preferred_job,
+                expected_monthly_salary,
+                expected_annual_salary,
+                preferred_location,
+                preferred_mrt,
+                notice_period,
+                employment_start_date,
+                employment_type,
+                experienced_industry,
+                experienced_job,
+                professional_summary,
+                professional_history,
+                current_employment_status,
+                current_monthly_salary,
+                current_salary_allowance,
+                highest_education,
+                course_training,
+                education_details,
+                english_level,
+                other_languages,
+                cv_link,
+                location,
+                applied_position,
+                major,
+                school_name,
+                education_period,
+                gpa,
+                professional_certifications,
+                technical_skills,
+                soft_skills,
+                career_goals,
+                key_strengths,
+                is_potential,
+                cdd_code,
+                created_at,
+                updated_at
+            )
+            VALUES (
+                NEW.name,
+                NEW.gender,
+                NEW.date_of_birth,
+                NEW.email,
+                NEW.phone,
+                NEW.photo_url,
+                NEW.visa_status,
+                NEW.ic_passport_no,
+                NEW.caution,
+                NEW.linkedin,
+                NEW.facebook,
+                NEW.address,
+                NEW.phase,
+                NEW.phase_date,
+                NEW.phase_memo,
+                NEW.cdd_rank,
+                NEW.entry_route,
+                NEW.preferred_industry,
+                NEW.preferred_job,
+                NEW.expected_monthly_salary,
+                NEW.expected_annual_salary,
+                NEW.preferred_location,
+                NEW.preferred_mrt,
+                NEW.notice_period,
+                NEW.employment_start_date,
+                NEW.employment_type,
+                NEW.experienced_industry,
+                NEW.experienced_job,
+                NEW.professional_summary,
+                NEW.professional_history,
+                NEW.current_employment_status,
+                NEW.current_monthly_salary,
+                NEW.current_salary_allowance,
+                NEW.highest_education,
+                NEW.course_training,
+                NEW.education_details,
+                NEW.english_level,
+                NEW.other_languages,
+                NEW.cv_link,
+                NEW.location,
+                NEW.applied_position,
+                NEW.major,
+                NEW.school_name,
+                NEW.education_period,
+                NEW.gpa,
+                NEW.professional_certifications,
+                NEW.technical_skills,
+                NEW.soft_skills,
+                NEW.career_goals,
+                NEW.key_strengths,
+                NEW.is_potential,
+                NEW.cdd_code,
+                COALESCE(NEW.created_at, NOW()),
+                NOW()
+            )
+            ON CONFLICT (email) DO UPDATE SET
+                name                        = EXCLUDED.name,
+                gender                      = EXCLUDED.gender,
+                date_of_birth               = EXCLUDED.date_of_birth,
+                phone                       = EXCLUDED.phone,
+                photo_url                   = EXCLUDED.photo_url,
+                visa_status                 = EXCLUDED.visa_status,
+                ic_passport_no              = EXCLUDED.ic_passport_no,
+                caution                     = EXCLUDED.caution,
+                linkedin                    = EXCLUDED.linkedin,
+                facebook                    = EXCLUDED.facebook,
+                address                     = EXCLUDED.address,
+                phase                       = EXCLUDED.phase,
+                phase_date                  = EXCLUDED.phase_date,
+                phase_memo                  = EXCLUDED.phase_memo,
+                cdd_rank                    = EXCLUDED.cdd_rank,
+                entry_route                 = EXCLUDED.entry_route,
+                preferred_industry          = EXCLUDED.preferred_industry,
+                preferred_job               = EXCLUDED.preferred_job,
+                expected_monthly_salary     = EXCLUDED.expected_monthly_salary,
+                expected_annual_salary      = EXCLUDED.expected_annual_salary,
+                preferred_location          = EXCLUDED.preferred_location,
+                preferred_mrt               = EXCLUDED.preferred_mrt,
+                notice_period               = EXCLUDED.notice_period,
+                employment_start_date       = EXCLUDED.employment_start_date,
+                employment_type             = EXCLUDED.employment_type,
+                experienced_industry        = EXCLUDED.experienced_industry,
+                experienced_job             = EXCLUDED.experienced_job,
+                professional_summary        = EXCLUDED.professional_summary,
+                professional_history        = EXCLUDED.professional_history,
+                current_employment_status   = EXCLUDED.current_employment_status,
+                current_monthly_salary      = EXCLUDED.current_monthly_salary,
+                current_salary_allowance    = EXCLUDED.current_salary_allowance,
+                highest_education           = EXCLUDED.highest_education,
+                course_training             = EXCLUDED.course_training,
+                education_details           = EXCLUDED.education_details,
+                english_level               = EXCLUDED.english_level,
+                other_languages             = EXCLUDED.other_languages,
+                cv_link                     = EXCLUDED.cv_link,
+                location                    = EXCLUDED.location,
+                applied_position            = EXCLUDED.applied_position,
+                major                       = EXCLUDED.major,
+                school_name                 = EXCLUDED.school_name,
+                education_period            = EXCLUDED.education_period,
+                gpa                         = EXCLUDED.gpa,
+                professional_certifications = EXCLUDED.professional_certifications,
+                technical_skills            = EXCLUDED.technical_skills,
+                soft_skills                 = EXCLUDED.soft_skills,
+                career_goals                = EXCLUDED.career_goals,
+                key_strengths               = EXCLUDED.key_strengths,
+                is_potential                = EXCLUDED.is_potential,
+                cdd_code                    = EXCLUDED.cdd_code,
+                updated_at                  = NOW();
+
+        EXCEPTION
+            WHEN OTHERS THEN
+                RAISE NOTICE
+                    'Failed to sync candidate to database_candidates: %',
+                    SQLERRM;
+        END;
+    END IF;
+
+    RETURN NEW;
+END;
+$$;
