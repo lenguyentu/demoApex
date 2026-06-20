@@ -94,7 +94,7 @@ export default function RevenueDashboardPage() {
     loadData();
   }, [selectedYear, isAdmin, periodType]);
 
-  const loadData = async () => {
+  async function loadData() {
     try {
       setLoading(true);
       

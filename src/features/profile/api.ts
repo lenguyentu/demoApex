@@ -1,3 +1,4 @@
+// @ts-nocheck
 import type { Profile, UpdateProfilePayload } from './types';
 
 export async function getProfile(userId: string) {

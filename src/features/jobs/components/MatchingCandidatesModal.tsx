@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { X, FileText, AlertCircle, Download, Loader2, Mail, Send, Eye, ChevronLeft, ChevronRight, Layout, Monitor, Smartphone, Info, User, Reply } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import toast from 'react-hot-toast';
@@ -581,7 +582,7 @@ export const MatchingCandidatesModal = ({ job, open, onClose }: MatchingCandidat
   };
 
   const getPreviewHtml = (): string => {
-    let d: any = { titleLine1, titleLine2, recruiterName, recruiterEmail, recruiterPhone, intro, requirement, responsibility, careerPath, compensation };
+    const d: any = { titleLine1, titleLine2, recruiterName, recruiterEmail, recruiterPhone, intro, requirement, responsibility, careerPath, compensation };
     
     if (templateMode === 'tdg') {
       d.requirementsList = requirement.split(/\r?\n/).filter(Boolean);

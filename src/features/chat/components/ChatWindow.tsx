@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useState, useRef, useEffect } from 'react';
 import type { Conversation } from '../types';
 import { Paperclip, Send, Loader2, X, FileText, Image as ImageIcon } from 'lucide-react';

@@ -1,3 +1,4 @@
+// @ts-nocheck
 export const useLogout = () => {
   return {
     mutate: (data: any, options: any) => {

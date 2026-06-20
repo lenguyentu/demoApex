@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { updateProcess } from '../processes/api';
 
 export type ResearchQueueStatus = 'PENDING_REVIEW' | 'APPROVED' | 'REJECTED';

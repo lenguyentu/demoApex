@@ -12,7 +12,7 @@ import { exportToPDF, exportToImage, exportToDebtExcel } from '../utils/exportUt
 // Helper to get next N months starting from a Date
 const getNextMonths = (startDate: Date, count: number) => {
   const keys = [];
-  let current = new Date(startDate);
+  const current = new Date(startDate);
   for (let i = 0; i < count; i++) {
     keys.push(getMonthKey(current.toISOString()));
     current.setMonth(current.getMonth() + 1);
@@ -44,7 +44,7 @@ export default function DebtTrackingPage() {
     loadSales();
   }, []);
 
-  const loadSales = async () => {
+  async function loadSales() {
     try {
       setLoading(true);
       const data = await getSales();

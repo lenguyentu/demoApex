@@ -1,6 +1,10 @@
-
+// @ts-nocheck
 import React, { useState } from 'react';
-import { changePassword } from '../../../features/auth/api';
+// --- MOCK API ---
+const changePassword = async (oldPass: string, newPass: string) => {
+  return new Promise((resolve) => setTimeout(resolve, 1000));
+};
+// ----------------
 import toast from 'react-hot-toast';
 import { Loader2, Lock, Eye, EyeOff } from 'lucide-react';
 

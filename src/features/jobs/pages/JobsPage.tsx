@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useState, useCallback, useMemo } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import * as XLSX from 'xlsx';

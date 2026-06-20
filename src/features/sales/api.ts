@@ -28,7 +28,7 @@ const makeFinance = (salesId: string, contractType: 'Cá nhân' | 'Công ty', ca
   updated_at: new Date().toISOString(),
 });
 
-let mockSales: Sale[] = [
+const mockSales: Sale[] = [
   {
     id: 'sale-1',
     process_id: 'process-1',
@@ -160,7 +160,7 @@ export const upsertEmployeeSalary = async (..._args: any[]) => {};
 export const getKPITargetSnapshots = async (_year: number, periodType: KPIPeriodType) => {
   const isMonth = periodType === 'month';
   const labels = isMonth ? ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8', 'T9', 'T10', 'T11', 'T12'] : ['Q1', 'Q2', 'Q3', 'Q4'];
-  return labels.map((label, i) => ({
+  return labels.map((_label, i) => ({
     id: `snap-${i}`,
     user_id: 'mock-user-123',
     role_key: 'BD' as const,

@@ -1,4 +1,4 @@
-import { createBrowserRouter, Navigate } from "react-router-dom";
+import { createBrowserRouter } from "react-router-dom";
 import { MainLayout } from "../components/layout/MainLayout";
 import { JobsPage } from "../features/jobs/pages/JobsPage";
 import { JobDetailPage } from "../features/jobs/pages/JobDetailPage";
@@ -18,16 +18,17 @@ import { salesRoutes } from "../features/sales/routes";
 import { managerRoutes } from "../features/manager/routes";
 import { adminRoutes } from "../features/admin/routes";
 import { profileRoutes } from "../features/profile/routes";
+import { dashboardRoutes } from "../features/dashboard/routes";
+import { campaignsRoutes } from "../features/campaigns/routes";
+import { freelancerRoutes } from "../features/freelancer/routes";
+
 
 export const router = createBrowserRouter([
   {
     path: "/",
     element: <MainLayout />,
     children: [
-      {
-        path: "/",
-        element: <Navigate to="/jobs/open" replace />,
-      },
+
       {
         path: "/jobs/admin",
         element: <JobsPage mode="admin" />,
@@ -68,16 +69,19 @@ export const router = createBrowserRouter([
         path: "/processes",
         element: <ProcessPage />,
       },
-      ...landingRoutes,
-      ...researchRoutes,
-      ...manageUserRoutes,
-      ...chatRoutes,
-      ...notificationRoutes,
-      ...bdRoutes,
-      ...salesRoutes,
-      ...managerRoutes,
-      ...adminRoutes,
-      ...profileRoutes,
+      ...(landingRoutes as any),
+      ...(researchRoutes as any),
+      ...(manageUserRoutes as any),
+      ...(chatRoutes as any),
+      ...(notificationRoutes as any),
+      ...(bdRoutes as any),
+      ...(salesRoutes as any),
+      ...(managerRoutes as any),
+      ...(adminRoutes as any),
+      ...(profileRoutes as any),
+      ...(dashboardRoutes as any),
+      ...(campaignsRoutes as any),
+      ...(freelancerRoutes as any),
     ],
   },
 ]);

@@ -44,7 +44,7 @@ export default function SalesDataPage() {
     loadSales();
   }, []);
 
-  const loadSales = async () => {
+  async function loadSales() {
     try {
       setLoading(true);
       const data = await getSales();

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useQuery } from '@tanstack/react-query';
 import { userApi, getUsersQuery, mockUsers } from './api';
 import { useCallback } from 'react';

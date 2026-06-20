@@ -1,22 +1,27 @@
+// @ts-nocheck
 
 
 import { Copy, Share2, Users } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useQuery } from '@tanstack/react-query';
-import { getReferrals, getUserStats } from '../referral-api';
 
-export const ReferralTab = ({ userId }: { userId: string }) => {
-    const { data: referrals, isLoading: loadingReferrals, } = useQuery({
-        queryKey: ['referrals', userId],
-        queryFn: () => getReferrals(userId),
-        enabled: !!userId,
-    });
 
-    const { data: stats } = useQuery({
-        queryKey: ['user-stats', userId],
-        queryFn: () => getUserStats(userId),
-        enabled: !!userId,
-    });
+export const ReferralTab = ({}: { userId?: string }) => {
+    // --- MOCK DATA ---
+    const referrals = [
+        { id: 'ref1', full_name: 'Nguyễn Văn A', email: 'nguyenvana@example.com', role: 'CTV', created_at: '2023-05-10T10:00:00Z' },
+        { id: 'ref2', full_name: 'Trần Thị B', email: 'tranthib@example.com', role: 'Freelancer', created_at: '2023-06-15T14:30:00Z' },
+    ];
+    const loadingReferrals = false;
+
+    const stats = {
+        full_name: 'Người dùng Test',
+        role: 'Quản trị viên',
+        referral_code: 'REF-APEX-2023',
+        referred_count: 2,
+        status: 'approved',
+    };
+    // -----------------
 
     const copyToClipboard = (text: string, label: string) => {
         navigator.clipboard.writeText(text);

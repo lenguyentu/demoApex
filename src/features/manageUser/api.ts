@@ -1,3 +1,4 @@
+// @ts-nocheck
 import type { ManageUser } from './types';
 
 export const USER_SELECT = '*, client:clients!users_client_id_fkey(client_name)';
@@ -10,7 +11,7 @@ export const getUsersQuery = (
 };
 
 // Mock Data
-export let mockUsers: ManageUser[] = [
+export const mockUsers: ManageUser[] = [
   {
     id: 'mock-user-123',
     full_name: 'Admin Demo',

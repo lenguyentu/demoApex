@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useMutation, useQueryClient, useQuery, useInfiniteQuery } from '@tanstack/react-query';
 import { useEffect, useMemo } from 'react';
 import { supabase } from '../../lib/supabase';

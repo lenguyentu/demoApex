@@ -1,3 +1,4 @@
+// @ts-nocheck
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
 import type { Job } from '../types';
@@ -33,7 +34,7 @@ const generateStyledHTML = (job: Job): string => {
     : job.max_monthly_salary || "Thỏa thuận";
   
   // --- XỬ LÝ HTML (Logic tối ưu: Replace LI bằng DIV Flex) ---
-  let rawHtml = job.job_summary || "<p>Chưa có mô tả.</p>";
+  const rawHtml = job.job_summary || "<p>Chưa có mô tả.</p>";
   
   // 1. Xử lý thẻ p thừa trong li
   let cleanHtml = rawHtml

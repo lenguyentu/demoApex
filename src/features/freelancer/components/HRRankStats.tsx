@@ -1,0 +1,107 @@
+
+import { Trophy, ChevronDown, ChevronUp, ExternalLink, Mail } from 'lucide-react';
+import { useState } from 'react';
+import { useHRRankByRefCount } from '../hooks';
+import type { DateRange } from '../../../components/DateRangePicker';
+import { HRReferralDetailsModal } from './HRReferralDetailsModal';
+
+interface HRRankStatsProps {
+  dateRange: DateRange;
+}
+
+export const HRRankStats = ({ dateRange }: HRRankStatsProps) => {
+  const [limit, setLimit] = useState(5);
+  const [selectedHR, setSelectedHR] = useState<{ id: string; name: string } | null>(null);
+  const { data, isLoading } = useHRRankByRefCount(dateRange, limit);
+
+  const toggleLimit = () => {
+    setLimit(prev => prev === 5 ? 10 : 5);
+  };
+
+  return (
+    <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden mb-6">
+      {/* Header */}
+      <div className="p-6 border-b border-gray-100 flex items-center justify-between bg-linear-to-r from-amber-50/50 to-transparent">
+        <div className="flex items-center gap-4">
+          <div className="p-2.5 bg-amber-100 rounded-lg shadow-sm">
+            <Trophy className="w-5 h-5 text-amber-600" />
+          </div>
+          <div>
+            <h3 className="text-lg font-bold text-gray-900">Xếp hạng Nhân viên (Theo số lượng Ref)</h3>
+            <p className="text-sm text-gray-500 mt-0.5">Dựa trên số lượng user có assigned_hr_id tương ứng</p>
+          </div>
+        </div>
+        
+        <button 
+          onClick={toggleLimit}
+          className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-full hover:bg-gray-50 shadow-sm active:scale-95 transition-all"
+        >
+          {limit === 5 ? 'Xem thêm' : 'Thu gọn'}
+          {limit === 5 ? <ChevronDown className="w-4 h-4 text-gray-400" /> : <ChevronUp className="w-4 h-4 text-gray-400" />}
+        </button>
+      </div>
+
+      <div className="p-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
+            {isLoading ? (
+                Array(4).fill(0).map((_, i) => (
+                    <div key={i} className="flex items-center gap-4 p-4 rounded-xl border border-gray-50 animate-pulse">
+                        <div className="h-4 bg-gray-100 rounded w-32 mb-2"></div>
+                        <div className="h-3 bg-gray-100 rounded w-48"></div>
+                    </div>
+                ))
+            ) : data && data.length > 0 ? (
+                data.map((item, index) => (
+                    <div key={item.hr_id} className="group relative p-4 rounded-xl border border-gray-100 hover:border-amber-200 hover:bg-amber-50/20 transition-all flex items-center justify-between gap-4">
+                        <div className="flex items-center gap-4 overflow-hidden">
+                           <div className={`shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-sm font-black shadow-sm ${
+                                index === 0 ? 'bg-amber-400 text-white' : index === 1 ? 'bg-slate-300 text-slate-700' : index === 2 ? 'bg-amber-700 text-white' : 'bg-gray-100 text-gray-500'
+                           }`}>
+                                {index + 1}
+                           </div>
+                           <div className="min-w-0 pr-4">
+                              <h4 className="text-sm font-bold text-gray-900 truncate group-hover:text-amber-800 transition-colors">
+                                  {item.hr_name || 'N/A'}
+                              </h4>
+                              <p className="text-xs text-gray-500 truncate flex items-center gap-1 mt-0.5">
+                                 <Mail className="w-3 h-3" />
+                                 {item.hr_email || 'no-email'}
+                              </p>
+                           </div>
+                        </div>
+
+                        <div className="flex items-center gap-4 shrink-0">
+                            <div className="flex flex-col items-end">
+                                <span className="text-sm font-black text-amber-600 bg-amber-50 px-3 py-1 rounded-full border border-amber-100 shadow-sm">
+                                    {item.ref_count} Ref
+                                </span>
+                            </div>
+                            <button 
+                                onClick={() => setSelectedHR({ id: item.hr_id, name: item.hr_name })}
+                                className="p-2 text-gray-400 hover:text-amber-600 hover:bg-amber-100/50 rounded-lg transition-all"
+                                title="Xem chi tiết"
+                            >
+                                <ExternalLink className="w-4 h-4" />
+                            </button>
+                        </div>
+                    </div>
+                ))
+            ) : (
+                <div className="col-span-full py-12 text-center text-gray-400 italic">
+                    Chưa có dữ liệu xếp hạng trong khoảng thời gian này.
+                </div>
+            )}
+        </div>
+      </div>
+
+      {/* Referral Details Modal */}
+      <HRReferralDetailsModal 
+        isOpen={!!selectedHR}
+        onClose={() => setSelectedHR(null)}
+        hrId={selectedHR?.id || null}
+        hrName={selectedHR?.name || null}
+        dateRange={dateRange}
+      />
+    </div>
+  );
+};

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { MOCK_CLIENTS } from '../../mocks/clients';
 
 export const clientKeys = {

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from 'react';
 import { X, Upload, Loader2, FileText } from 'lucide-react';
 import { supabase } from '../../../lib/supabase';

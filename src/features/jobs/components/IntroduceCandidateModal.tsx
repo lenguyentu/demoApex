@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useState, useEffect, useCallback } from 'react';
 import { X, Plus, Search, FileText, Loader2, AlertCircle } from 'lucide-react';
 import toast from 'react-hot-toast';

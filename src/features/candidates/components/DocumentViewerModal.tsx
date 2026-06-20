@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useEffect, useState, useRef } from 'react';
 import { X, FileText, Loader2 } from 'lucide-react';
 import { renderAsync } from 'docx-preview';

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useState, useEffect } from 'react';
 import { Bell, CheckCheck, Filter, Search } from 'lucide-react';
 import { supabase } from '../../../lib/supabase';

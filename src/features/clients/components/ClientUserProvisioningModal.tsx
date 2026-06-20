@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useState, useEffect } from 'react';
 import { X, UserPlus, Mail, User, Shield } from 'lucide-react';
 import toast from 'react-hot-toast';

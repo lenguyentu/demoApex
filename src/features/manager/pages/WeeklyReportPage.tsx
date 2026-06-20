@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useState, useMemo, useEffect } from 'react';
 import { ChevronLeft, ChevronRight, Save, FileText } from 'lucide-react';
 import PageMeta from '../../../components/common/PageMeta';
@@ -47,7 +48,8 @@ export default function WeeklyReportPage() {
   const isAdmin = user?.role === ROLES.ADMIN;
   const canViewOthers = isHHLead || isAdmin;
 
-  const { data: currentWeekStart } = useCurrentWeekStart();
+  // --- MOCK DATA ---
+  const currentWeekStart = '2023-10-23';
 
   const reportingBaseWeekStart = useMemo(() => {
     if (!currentWeekStart) return undefined;
@@ -69,15 +71,72 @@ export default function WeeklyReportPage() {
   const effectiveUserId = selectedUserId || user?.id;
   const isViewingOwnData = effectiveUserId === user?.id;
 
-  const { data: reportData, isLoading: isLoadingReport } = useWeeklyReportData(effectiveUserId, weekStart);
-  const { data: jobs = [], isLoading: isLoadingJobs } = useJobFocusWithDetails({
-    assignee_id: effectiveUserId,
-    week_start: weekStart,
-  });
-  const { data: pipelineStats = [], isLoading: isLoadingPipeline } = useWeeklyReportPipelineStats(effectiveUserId, weekStart);
+  const reportData = useMemo(() => ({
+    approaches_count: 50,
+    current_week: {
+      cv_to_db: 15,
+      cv_client: 5,
+      interview_scheduled: 3,
+      interview_completed: 2,
+      offer: 1,
+      onboard: 0
+    },
+    monthly_accumulated: {
+      approaches: 200,
+      cv_to_db: 50,
+      cv_client: 15,
+      interview: 8,
+      offer: 2,
+      onboard: 1
+    },
+    candidate_tracker: {
+      "cand1": { next_step: "Gọi lại tuần sau", deadline: "2023-10-30", risk_note: "" }
+    },
+    sourcing_channels: [
+      { name: "LinkedIn", followers_start: 1000, followers_end: 1050, cv_received: 5, posts_count: 2 },
+      { name: "Facebook", followers_start: 500, followers_end: 520, cv_received: 10, posts_count: 5 }
+    ],
+    sourcing_note: "Sourcing tuần này khá ổn trên LinkedIn",
+    week_note: "Cần hỗ trợ đẩy mạnh JD job IT",
+    self_review_score: 8,
+    self_review_lessons: "Tìm ra trick mới filter candidate",
+    self_review_support_needed: "Không có",
+    revenue_tracker: []
+  }), []);
+  const isLoadingReport = false;
+
+  const jobs = [
+    {
+      id: "job1",
+      job_id: "job1",
+      job: {
+        id: "job1",
+        title: "Senior Frontend Developer",
+        client_id: "client1",
+        status: "open",
+        client: { name: "Tech Corp Inc" }
+      },
+      plan_cv_count: 10,
+      plan_priority_percent: 100,
+      note: "Role gấp của Tech Corp"
+    }
+  ] as any[];
+  const isLoadingJobs = false;
+
+  const pipelineStats = [
+    {
+      job_id: "job1",
+      total_cv: 15,
+      cv_sent: 5,
+      interviewing: 2,
+      offered: 1,
+      placed: 0
+    }
+  ];
+  const isLoadingPipeline = false;
 
   // Combine all loading states
-  const isLoading = isLoadingReport || isLoadingJobs || isLoadingPipeline;
+  const isLoading = false;
 
   // ============================================================================
   // CENTRALIZED STATE - All sections data

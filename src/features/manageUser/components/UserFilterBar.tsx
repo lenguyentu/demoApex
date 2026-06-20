@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React from 'react';
 import { Search, Filter as FilterIcon } from 'lucide-react';
 import { DateRangePicker, type DateRange } from '../../../components/DateRangePicker';

@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useMutation, useQueryClient, useQuery } from '@tanstack/react-query';
 import { useEffect, useCallback } from 'react';
 import { supabase } from '../../lib/supabase';

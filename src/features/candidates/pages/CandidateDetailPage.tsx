@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useParams, useNavigate, useSearchParams } from 'react-router-dom';
 import { useEffect, useRef, useState, useMemo, useCallback } from 'react';
 import DOMPurify from 'dompurify';

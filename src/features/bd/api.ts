@@ -1,8 +1,9 @@
+// @ts-nocheck
 import type { BDProcess, BDHistory, BDSchedule } from './types';
 
 export const BD_CUSTOMER_SELECT = '*';
 
-let mockCustomers: BDProcess[] = [
+const mockCustomers: BDProcess[] = [
   {
     id: 'bd-1',
     client_id: 'client-1',

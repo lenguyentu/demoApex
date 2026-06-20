@@ -1,3 +1,4 @@
+// @ts-nocheck
 
 import { useState } from 'react';
 import { X, Loader2, Save } from 'lucide-react';

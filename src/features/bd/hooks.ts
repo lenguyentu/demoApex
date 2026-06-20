@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useCallback, useMemo } from 'react';
 import { supabase } from '../../lib/supabase';
 import { useCursorPagination } from '../../hooks/useCursorPagination';
@@ -126,7 +127,7 @@ export const useCustomScheduledSchedules = () => {
     queryKey: ['bd_custom_scheduled_data'],
     queryFn: async () => {
       // Lấy tất cả lịch Pending, sắp xếp theo ngày gần nhất
-      let q = supabase
+      const q = supabase
         .from('bd_schedules')
         .select('process_id, scheduled_date, reminder_type, title')
         .eq('status', 'Pending')

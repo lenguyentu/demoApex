@@ -1,5 +1,6 @@
 import type { RouteObject } from 'react-router-dom';
 
-export interface FeatureRoute extends RouteObject {
+export type FeatureRoute = RouteObject & {
   requiredPermission?: string;
-}
+  permission?: string;
+};

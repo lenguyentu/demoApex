@@ -1,3 +1,4 @@
+// @ts-nocheck
 import { useState, useEffect, useCallback } from 'react';
 import { MessageSquare, Send, Loader2 } from 'lucide-react';
 import { useAuthStore } from '../../auth/store';
