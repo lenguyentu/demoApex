@@ -28,7 +28,7 @@ export const supabase = {
       createSignedUrl: (_path: string, _expiresIn: number) => Promise.resolve({ data: { signedUrl: 'https://mock.url' }, error: null }),
     })
   },
-  rpc: (funcName: string, params?: any) => {
+  rpc: (funcName: string, _params?: any) => {
     if (funcName === 'get_freelancer_performance') {
       return Promise.resolve({
         data: [

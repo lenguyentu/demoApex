@@ -230,7 +230,7 @@ export async function countJobsByFilters(params: GetJobsParams): Promise<number>
   });
 
   if (error) throw error;
-  return data as number;
+  return data as unknown as number;
 }
 
 /**
