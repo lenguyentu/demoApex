@@ -12,7 +12,7 @@ import {
   startOfWeek,
   endOfWeek,
 } from 'date-fns';
-import { vi } from 'date-fns/locale';
+import { enUS } from 'date-fns/locale';
 import type { ScheduleItem } from '../types';
 
 interface CalendarModalProps {
@@ -64,8 +64,8 @@ export function CalendarModal({ isOpen, onClose, schedules }: CalendarModalProps
                 <CalendarIcon className="h-5 w-5 text-brand-600" />
               </div>
               <div>
-                <h2 className="text-xl font-bold text-gray-900">Lịch nhắc nhở tổng quan</h2>
-                <p className="text-sm text-gray-500">Xem tất cả lịch nhắc nhở theo tháng</p>
+                <h2 className="text-xl font-bold text-gray-900">General Reminder Calendar</h2>
+                <p className="text-sm text-gray-500">View all reminders by month</p>
               </div>
             </div>
             <button
@@ -87,13 +87,13 @@ export function CalendarModal({ isOpen, onClose, schedules }: CalendarModalProps
             
             <div className="flex items-center gap-3">
               <h3 className="text-lg font-semibold text-gray-900 first-letter:uppercase">
-                {format(currentMonth, 'MMMM yyyy', { locale: vi })}
+                {format(currentMonth, 'MMMM yyyy', { locale: enUS })}
               </h3>
               <button
                 onClick={handleToday}
                 className="px-3 py-1.5 text-sm border border-gray-200 bg-white hover:bg-gray-50 rounded-md transition"
               >
-                Hôm nay
+                Today
               </button>
             </div>
 
@@ -109,7 +109,7 @@ export function CalendarModal({ isOpen, onClose, schedules }: CalendarModalProps
           <div className="flex-1 overflow-auto p-6 bg-white custom-scrollbar">
             {/* Weekday Headers */}
             <div className="grid grid-cols-7 gap-2 mb-2 w-max mx-auto">
-              {['T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'CN'].map((day) => (
+              {['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'].map((day) => (
                 <div key={day} className="w-[140px] text-center text-sm font-semibold text-gray-600 py-2">
                   {day}
                 </div>
@@ -179,7 +179,7 @@ export function CalendarModal({ isOpen, onClose, schedules }: CalendarModalProps
                       </div>
                       {s.length > 2 && (
                         <div className="text-[9px] text-gray-400 font-bold italic mt-1 px-1">
-                          + {s.length - 2} khách khác...
+                          + {s.length - 2} others...
                         </div>
                       )}
                     </div>
@@ -193,15 +193,15 @@ export function CalendarModal({ isOpen, onClose, schedules }: CalendarModalProps
           <div className="flex items-center gap-6 px-6 py-4 border-t bg-gray-50 shrink-0">
             <div className="flex items-center gap-2">
               <div className="w-4 h-4 rounded bg-brand-50 border-2 border-brand-300"></div>
-              <span className="text-xs text-gray-600">Hôm nay</span>
+              <span className="text-xs text-gray-600">Today</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-4 h-4 rounded bg-yellow-50 border border-yellow-200"></div>
-              <span className="text-xs text-gray-600">Có lịch nhắc</span>
+              <span className="text-xs text-gray-600">Has reminder</span>
             </div>
             <div className="flex items-center gap-2">
               <div className="w-4 h-4 rounded bg-red-50 border border-red-200"></div>
-              <span className="text-xs text-gray-600">Quá hạn</span>
+              <span className="text-xs text-gray-600">Overdue</span>
             </div>
           </div>
         </div>
@@ -217,8 +217,8 @@ export function CalendarModal({ isOpen, onClose, schedules }: CalendarModalProps
           <div className="bg-white rounded-2xl shadow-2xl w-full max-w-md overflow-hidden animate-in zoom-in-95 duration-200 z-10 border border-gray-100">
             <div className="flex items-center justify-between p-4 bg-gray-50 border-b">
               <div>
-                <h3 className="font-bold text-gray-900">Chi tiết ngày {format(selectedDay, 'dd/MM/yyyy')}</h3>
-                <p className="text-xs text-gray-500">Tìm thấy {daySchedules.length} lịch nhắc nhở</p>
+                <h3 className="font-bold text-gray-900">Details for {format(selectedDay, 'dd/MM/yyyy')}</h3>
+                <p className="text-xs text-gray-500">Found {daySchedules.length} reminders</p>
               </div>
               <button 
                 onClick={() => setSelectedDay(null)}
@@ -250,12 +250,12 @@ export function CalendarModal({ isOpen, onClose, schedules }: CalendarModalProps
                     </div>
                     <div className="flex items-center gap-2 text-xs text-gray-600">
                       <Bell size={13} className="text-gray-400" />
-                      <span>Loại: <span className="font-semibold text-purple-600">{schedule.reminderType}</span></span>
+                      <span>Type: <span className="font-semibold text-purple-600">{schedule.reminderType}</span></span>
                     </div>
                     {(schedule.overdueDays || 0) > 0 && (
                       <div className="flex items-center gap-2 text-xs text-red-600 font-bold pt-1">
                         <Clock size={13} />
-                        Quá hạn {schedule.overdueDays} ngày
+                        Overdue {schedule.overdueDays} days
                       </div>
                     )}
                   </div>
@@ -268,7 +268,7 @@ export function CalendarModal({ isOpen, onClose, schedules }: CalendarModalProps
                 onClick={() => setSelectedDay(null)}
                 className="px-4 py-2 bg-white border border-gray-200 rounded-lg text-sm font-bold text-gray-700 hover:bg-gray-100 transition-colors shadow-sm"
               >
-                Đóng
+                Close
               </button>
             </div>
           </div>

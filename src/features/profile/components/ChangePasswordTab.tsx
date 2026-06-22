@@ -19,12 +19,12 @@ export const ChangePasswordTab = () => {
         e.preventDefault();
 
         if (newPassword !== confirmPassword) {
-            toast.error("Mật khẩu xác nhận không khớp");
+            toast.error("Confirmation password does not match");
             return;
         }
 
         if (newPassword.length < 6) {
-             toast.error("Mật khẩu mới phải có ít nhất 6 ký tự");
+             toast.error("New password must have at least 6 characters");
             return;
         }
 
@@ -34,14 +34,14 @@ export const ChangePasswordTab = () => {
             // Now calling with BOTH old and new password
             await changePassword(oldPassword, newPassword);
 
-            toast.success("Đổi mật khẩu thành công");
+            toast.success("Password changed successfully");
             
             setOldPassword('');
             setNewPassword('');
             setConfirmPassword('');
 
         } catch (error: any) {
-            toast.error(error.message || "Mật khẩu hiện tại không chính xác");
+            toast.error(error.message || "Current password is not correct");
         } finally {
             setIsLoading(false);
         }
@@ -56,8 +56,8 @@ export const ChangePasswordTab = () => {
                             <Lock className="w-5 h-5 text-blue-600" />
                         </div>
                         <div>
-                             <h3 className="font-semibold text-gray-900">Đổi mật khẩu</h3>
-                             <p className="text-sm text-gray-500">Cập nhật mật khẩu mới cho tài khoản của bạn</p>
+                             <h3 className="font-semibold text-gray-900">Change password</h3>
+                             <p className="text-sm text-gray-500">Update a new password for your account</p>
                         </div>
                     </div>
                 </div>
@@ -65,25 +65,25 @@ export const ChangePasswordTab = () => {
                 <form onSubmit={handleSubmit} className="p-6 space-y-6">
                     <div className="space-y-4">
                         <div className="space-y-2">
-                            <label className="text-sm font-medium text-gray-700">Mật khẩu hiện tại</label>
+                            <label className="text-sm font-medium text-gray-700">Current password</label>
                             <input 
                                 type="password"
                                 value={oldPassword}
                                 onChange={(e) => setOldPassword(e.target.value)}
-                                placeholder="Nhập mật khẩu đang dùng"
+                                placeholder="Enter current password"
                                 required
                                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-brand-500"
                             />
                         </div>
 
                         <div className="space-y-2">
-                            <label className="text-sm font-medium text-gray-700">Mật khẩu mới</label>
+                            <label className="text-sm font-medium text-gray-700">New password</label>
                             <div className="relative">
                                 <input 
                                     type={showPassword ? "text" : "password"}
                                     value={newPassword}
                                     onChange={(e) => setNewPassword(e.target.value)}
-                                    placeholder="Nhập mật khẩu mới"
+                                    placeholder="Enter new password"
                                     required
                                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-brand-500 pr-10"
                                 />
@@ -98,13 +98,13 @@ export const ChangePasswordTab = () => {
                         </div>
 
                          <div className="space-y-2">
-                            <label className="text-sm font-medium text-gray-700">Xác nhận mật khẩu mới</label>
+                            <label className="text-sm font-medium text-gray-700">Confirm new password</label>
                              <div className="relative">
                                 <input 
                                     type={showPassword ? "text" : "password"}
                                     value={confirmPassword}
                                     onChange={(e) => setConfirmPassword(e.target.value)}
-                                    placeholder="Nhập lại mật khẩu mới"
+                                    placeholder="Re-enter new password"
                                     required
                                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-brand-500 pr-10"
                                 />
@@ -121,10 +121,10 @@ export const ChangePasswordTab = () => {
                             {isLoading ? (
                                 <>
                                     <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-                                    Đang xử lý
+                                    Processing
                                 </>
                             ) : (
-                                'Lưu thay đổi'
+                                'Save Changes'
                             )}
                         </button>
                     </div>

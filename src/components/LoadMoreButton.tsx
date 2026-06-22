@@ -31,15 +31,15 @@ export function LoadMoreButton({
         {loading ? (
           <>
             <Loader2 size={16} className="animate-spin" />
-            <span>Đang tải...</span>
+            <span>Loading...</span>
           </>
         ) : (
-          <span>Tải thêm</span>
+          <span>Load more</span>
         )}
       </button>
       {/* {loadedCount != null && totalCount != null && (
         <span className="text-xs text-gray-400">
-          Đang hiển thị {loadedCount} / {totalCount}
+          Showing {loadedCount} / {totalCount}
         </span>
       )} */}
     </div>

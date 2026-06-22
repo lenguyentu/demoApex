@@ -8,42 +8,42 @@ export const MOCK_JOBS = [
     interview_rounds: 3,
     min_monthly_salary: "$ 2500",
     max_monthly_salary: "4000",
-    work_location: "Quận 1, TP. Hồ Chí Minh",
+    work_location: "District 1, Ho Chi Minh City",
     warranty_period_days: 60,
     created_at: new Date(Date.now() - 86400000).toISOString(),
     is_urgent: true,
     status: "Open",
     job_summary: `
-      <p>Chúng tôi đang tìm kiếm một <strong>Senior Fullstack Engineer</strong> đam mê công nghệ để gia nhập đội ngũ phát triển sản phẩm cốt lõi. Bạn sẽ đóng vai trò quan trọng trong việc thiết kế và xây dựng hệ thống quy mô lớn, phục vụ hàng triệu người dùng.</p>
-      <p><strong>Trách nhiệm chính:</strong></p>
+      <p>We are looking for a passionate <strong>Senior Fullstack Engineer</strong> to join our core product development team. You will play a crucial role in designing and building large-scale systems serving millions of users.</p>
+      <p><strong>Key Responsibilities:</strong></p>
       <ul style="list-style-type: disc; padding-left: 20px; line-height: 1.6;">
-        <li>Thiết kế, phát triển và bảo trì các tính năng frontend sử dụng <strong>React.js</strong> và backend sử dụng <strong>Node.js</strong>.</li>
-        <li>Phân tích yêu cầu hệ thống, đề xuất các giải pháp kiến trúc phần mềm tối ưu và scalable.</li>
-        <li>Review code, hướng dẫn và định hướng kỹ thuật cho các thành viên Junior/Mid-level trong team.</li>
-        <li>Làm việc chặt chẽ với Product Manager và QA để đảm bảo chất lượng sản phẩm tốt nhất trước khi release.</li>
+        <li>Design, develop and maintain frontend features using <strong>React.js</strong> and backend using <strong>Node.js</strong>.</li>
+        <li>Analyze system requirements, propose optimal and scalable software architecture solutions.</li>
+        <li>Review code, guide and provide technical direction for Junior/Mid-level members in the team.</li>
+        <li>Work closely with Product Manager and QA to ensure the best product quality before release.</li>
       </ul>
     `,
     requirements: `
-      <p>Để thành công ở vị trí này, bạn cần có:</p>
+      <p>To succeed in this position, you need to have:</p>
       <ul style="list-style-type: disc; padding-left: 20px; line-height: 1.6;">
-        <li>Ít nhất <strong>4 năm kinh nghiệm</strong> làm việc ở vị trí Fullstack Developer.</li>
-        <li>Thành thạo Javascript/Typescript, React.js, Node.js (Express/NestJS).</li>
-        <li>Có kinh nghiệm làm việc với cơ sở dữ liệu quan hệ (PostgreSQL, MySQL) và NoSQL (MongoDB, Redis).</li>
-        <li>Hiểu biết sâu sắc về RESTful API, GraphQL và kiến trúc Microservices.</li>
-        <li>Có kinh nghiệm triển khai ứng dụng trên nền tảng Cloud (AWS/GCP), sử dụng Docker/Kubernetes là một lợi thế cực lớn.</li>
-        <li>Kỹ năng giải quyết vấn đề xuất sắc, khả năng giao tiếp và làm việc nhóm tốt.</li>
+        <li>At least <strong>4 years of experience</strong> working as a Fullstack Developer.</li>
+        <li>Proficient in Javascript/Typescript, React.js, Node.js (Express/NestJS).</li>
+        <li>Experience working with relational databases (PostgreSQL, MySQL) and NoSQL (MongoDB, Redis).</li>
+        <li>Deep understanding of RESTful API, GraphQL and Microservices architecture.</li>
+        <li>Experience deploying applications on Cloud platforms (AWS/GCP), using Docker/Kubernetes is a huge advantage.</li>
+        <li>Excellent problem solving skills, good communication and teamwork abilities.</li>
       </ul>
     `,
     jd_clear: `
-      <p><strong>Chính sách đãi ngộ:</strong></p>
+      <p><strong>Benefits Policy:</strong></p>
       <ul style="list-style-type: disc; padding-left: 20px; line-height: 1.6;">
-        <li>Mức lương hấp dẫn từ <strong>$2500 - $4000</strong>, thỏa thuận theo năng lực.</li>
-        <li>Lương tháng 13 + Thưởng hiệu suất dự án hàng quý (lên đến 2 tháng lương/năm).</li>
-        <li>Review tăng lương 2 lần/năm dựa trên năng lực và đóng góp.</li>
-        <li>Gói bảo hiểm sức khỏe toàn diện (Bảo Việt Healthcare) cho nhân viên và người thân.</li>
-        <li>Cấp sẵn Macbook Pro M2/M3 mới nhất và màn hình rời để làm việc.</li>
-        <li>Môi trường làm việc linh hoạt (Hybrid làm việc ở nhà 2 ngày/tuần), không yêu cầu trang phục khắt khe.</li>
-        <li>Du lịch công ty hàng năm tại resort 5 sao, các hoạt động teambuilding sôi nổi hàng tháng.</li>
+        <li>Attractive salary from <strong>$2500 - $4000</strong>, negotiable based on ability.</li>
+        <li>13th month salary + Quarterly project performance bonus (up to 2 months salary/year).</li>
+        <li>Salary review twice a year based on ability and contribution.</li>
+        <li>Comprehensive health insurance package (Bao Viet Healthcare) for employees and relatives.</li>
+        <li>Provided with the latest Macbook Pro M2/M3 and external monitor for work.</li>
+        <li>Flexible working environment (Hybrid working at home 2 days/week), no strict dress code required.</li>
+        <li>Annual company trip at a 5-star resort, exciting monthly teambuilding activities.</li>
       </ul>
     `
   },
@@ -56,39 +56,39 @@ export const MOCK_JOBS = [
     interview_rounds: 2,
     min_monthly_salary: "40M",
     max_monthly_salary: "60M",
-    work_location: "Cầu Giấy, Hà Nội",
+    work_location: "Cau Giay, Hanoi",
     warranty_period_days: 60,
     created_at: new Date(Date.now() - 86400000 * 3).toISOString(),
     is_urgent: false,
     status: "Open",
     job_summary: `
-      <p>FinTech Asia đang tìm kiếm một <strong>Product Marketing Manager</strong> tài năng để dẫn dắt chiến lược ra mắt sản phẩm và định vị thương hiệu trên thị trường Đông Nam Á.</p>
-      <p><strong>Mô tả chi tiết:</strong></p>
+      <p>FinTech Asia is looking for a talented <strong>Product Marketing Manager</strong> to lead the product launch strategy and brand positioning in the Southeast Asian market.</p>
+      <p><strong>Detailed Description:</strong></p>
       <ul style="list-style-type: disc; padding-left: 20px; line-height: 1.6;">
-        <li>Nghiên cứu thị trường, phân tích đối thủ cạnh tranh để xác định lợi thế bán hàng độc nhất (USP) của sản phẩm.</li>
-        <li>Lập kế hoạch và thực thi chiến lược GTM (Go-To-Market) cho các tính năng và sản phẩm mới.</li>
-        <li>Xây dựng thông điệp truyền thông, tài liệu bán hàng (sales kit, pitch deck, case studies) phối hợp cùng team Design và Content.</li>
-        <li>Phối hợp chặt chẽ với team Product, Sales và Customer Success để đảm bảo thông điệp sản phẩm nhất quán trên mọi điểm chạm.</li>
+        <li>Market research, competitor analysis to identify the product's unique selling proposition (USP).</li>
+        <li>Plan and execute the GTM (Go-To-Market) strategy for new features and products.</li>
+        <li>Build communication messages, sales materials (sales kit, pitch deck, case studies) in coordination with the Design and Content team.</li>
+        <li>Work closely with the Product, Sales and Customer Success teams to ensure consistent product messaging across all touchpoints.</li>
       </ul>
     `,
     requirements: `
-      <p><strong>Yêu cầu ứng viên:</strong></p>
+      <p><strong>Candidate Requirements:</strong></p>
       <ul style="list-style-type: disc; padding-left: 20px; line-height: 1.6;">
-        <li>Từ 3-5 năm kinh nghiệm trong lĩnh vực Marketing, trong đó có ít nhất 2 năm làm Product Marketing cho các công ty B2B/SaaS hoặc FinTech.</li>
-        <li>Kỹ năng kể chuyện (storytelling) và tư duy phân tích dữ liệu xuất sắc.</li>
-        <li>Thành thạo tiếng Anh (IELTS 6.5 trở lên), có khả năng viết và giao tiếp lưu loát với đối tác quốc tế.</li>
-        <li>Nhạy bén với thị trường tài chính và công nghệ, luôn cập nhật các xu hướng mới.</li>
-        <li>Có tư duy làm việc độc lập và chịu được áp lực cao trong môi trường startup nhịp độ nhanh.</li>
+        <li>3-5 years of experience in Marketing, including at least 2 years doing Product Marketing for B2B/SaaS or FinTech companies.</li>
+        <li>Excellent storytelling skills and data analysis thinking.</li>
+        <li>Proficient in English (IELTS 6.5 or above), able to write and communicate fluently with international partners.</li>
+        <li>Keen on the financial and technology markets, always updating new trends.</li>
+        <li>Independent working mindset and ability to withstand high pressure in a fast-paced startup environment.</li>
       </ul>
     `,
     jd_clear: `
-      <p><strong>Phúc lợi dành cho bạn:</strong></p>
+      <p><strong>Benefits for you:</strong></p>
       <ul style="list-style-type: disc; padding-left: 20px; line-height: 1.6;">
-        <li>Thu nhập cạnh tranh từ <strong>40,000,000 - 60,000,000 VNĐ/tháng</strong> + Thưởng kinh doanh.</li>
-        <li>Được cung cấp ngân sách dồi dào để thực thi các chiến dịch marketing đột phá.</li>
-        <li>Tham gia các khóa đào tạo nâng cao chuyên môn do công ty tài trợ.</li>
-        <li>Bảo hiểm sức khỏe cao cấp, khám sức khỏe định kỳ hàng năm.</li>
-        <li>Thời gian làm việc linh hoạt, tập trung vào hiệu quả và kết quả thay vì số giờ chấm công.</li>
+        <li>Competitive income from <strong>40,000,000 - 60,000,000 VND/month</strong> + Business bonus.</li>
+        <li>Provided with an abundant budget to execute breakthrough marketing campaigns.</li>
+        <li>Participate in professional advanced training courses sponsored by the company.</li>
+        <li>Premium health insurance, annual periodic health check-ups.</li>
+        <li>Flexible working hours, focusing on efficiency and results rather than timekeeping hours.</li>
       </ul>
     `
   },
@@ -101,40 +101,40 @@ export const MOCK_JOBS = [
     interview_rounds: 3,
     min_monthly_salary: "$ 2000",
     max_monthly_salary: "3500",
-    work_location: "Đà Nẵng",
+    work_location: "Da Nang",
     warranty_period_days: 60,
     created_at: new Date(Date.now() - 86400000 * 5).toISOString(),
     is_urgent: true,
     status: "Open",
     job_summary: `
-      <p>Trở thành thành viên chủ chốt của đội ngũ Data Data Engineer tại tập đoàn thương mại điện tử hàng đầu, xử lý hàng Terabyte dữ liệu mỗi ngày.</p>
-      <p><strong>Công việc của bạn:</strong></p>
+      <p>Become a key member of the Data Engineer team at a leading e-commerce corporation, processing Terabytes of data every day.</p>
+      <p><strong>Your job:</strong></p>
       <ul style="list-style-type: disc; padding-left: 20px; line-height: 1.6;">
-        <li>Thiết kế, xây dựng và tối ưu hóa các Data Pipelines (ETL/ELT) sử dụng Python, Spark, và Airflow.</li>
-        <li>Quản lý và phát triển Data Warehouse hiện đại trên nền tảng <strong>Snowflake</strong> và <strong>AWS (S3, Redshift, Glue)</strong>.</li>
-        <li>Hợp tác với Data Scientists và Data Analysts để chuẩn bị dữ liệu phục vụ cho các mô hình Machine Learning và Dashboard báo cáo.</li>
-        <li>Đảm bảo tính bảo mật, toàn vẹn và chất lượng dữ liệu trong toàn bộ hệ thống.</li>
+        <li>Design, build and optimize Data Pipelines (ETL/ELT) using Python, Spark, and Airflow.</li>
+        <li>Manage and develop a modern Data Warehouse on the <strong>Snowflake</strong> and <strong>AWS (S3, Redshift, Glue)</strong> platform.</li>
+        <li>Collaborate with Data Scientists and Data Analysts to prepare data for Machine Learning models and reporting Dashboards.</li>
+        <li>Ensure data security, integrity and quality throughout the system.</li>
       </ul>
     `,
     requirements: `
-      <p><strong>Bạn cần đáp ứng:</strong></p>
+      <p><strong>You need to meet:</strong></p>
       <ul style="list-style-type: disc; padding-left: 20px; line-height: 1.6;">
-        <li>Tốt nghiệp Đại học khối ngành CNTT, Toán tin hoặc liên quan.</li>
-        <li>Tối thiểu 3 năm kinh nghiệm thực chiến ở vị trí Data Engineer.</li>
-        <li>Thành thạo lập trình <strong>Python</strong> và <strong>Advanced SQL</strong>.</li>
-        <li>Kinh nghiệm chuyên sâu với ít nhất một hệ sinh thái Cloud (ưu tiên AWS) và các công cụ quản lý workflow (Airflow/Luigi).</li>
-        <li>Có kinh nghiệm thực tế với Snowflake hoặc Databricks là một điểm cộng lớn.</li>
-        <li>Kỹ năng giao tiếp tiếng Anh tốt để làm việc trực tiếp với đội ngũ kỹ sư tại Châu Âu và Mỹ.</li>
+        <li>Graduated from University with a degree in IT, Mathematics or related.</li>
+        <li>Minimum 3 years of practical experience in the position of Data Engineer.</li>
+        <li>Proficient in <strong>Python</strong> and <strong>Advanced SQL</strong> programming.</li>
+        <li>In-depth experience with at least one Cloud ecosystem (preferably AWS) and workflow management tools (Airflow/Luigi).</li>
+        <li>Practical experience with Snowflake or Databricks is a big plus.</li>
+        <li>Good English communication skills to work directly with engineering teams in Europe and the US.</li>
       </ul>
     `,
     jd_clear: `
-      <p><strong>Lợi ích khi gia nhập:</strong></p>
+      <p><strong>Benefits upon joining:</strong></p>
       <ul style="list-style-type: disc; padding-left: 20px; line-height: 1.6;">
-        <li>Mức lương từ <strong>$2000 - $3500</strong> tùy theo năng lực đánh giá qua bài test.</li>
-        <li>Thưởng signing bonus (1 tháng lương) cho ứng viên nhận việc trong tháng này.</li>
-        <li>Gói trợ cấp chuyển vùng (Relocation package) 20 triệu VNĐ cho ứng viên từ tỉnh thành khác đến Đà Nẵng làm việc.</li>
-        <li>Môi trường quốc tế 100%, cơ hội giao lưu học hỏi với các chuyên gia dữ liệu hàng đầu.</li>
-        <li>Bảo hiểm cao cấp cho bản thân và gia đình, ngày phép 15 ngày/năm.</li>
+        <li>Salary from <strong>$2000 - $3500</strong> depending on ability evaluated through the test.</li>
+        <li>Signing bonus (1 month salary) for candidates who accept the job this month.</li>
+        <li>Relocation package of 20 million VND for candidates moving from other provinces to work in Da Nang.</li>
+        <li>100% international environment, opportunities to exchange and learn with top data experts.</li>
+        <li>Premium insurance for yourself and your family, 15 days of annual leave/year.</li>
       </ul>
     `
   },
@@ -147,40 +147,40 @@ export const MOCK_JOBS = [
     interview_rounds: 4,
     min_monthly_salary: "60M",
     max_monthly_salary: "100M",
-    work_location: "Quận 3, TP. Hồ Chí Minh",
+    work_location: "District 3, Ho Chi Minh City",
     warranty_period_days: 90,
     created_at: new Date(Date.now() - 86400000 * 7).toISOString(),
     is_urgent: false,
     status: "Open",
     job_summary: `
-      <p>Chúng tôi cần tìm một nhà lãnh đạo chiến lược để định hình tương lai của đội ngũ nhân sự tại NextGen Logistics, giúp công ty mở rộng quy mô từ 500 lên 1000 nhân sự trong năm tới.</p>
-      <p><strong>Nhiệm vụ chính:</strong></p>
+      <p>We need to find a strategic leader to shape the future of the HR team at NextGen Logistics, helping the company scale from 500 to 1000 employees in the coming year.</p>
+      <p><strong>Main Tasks:</strong></p>
       <ul style="list-style-type: disc; padding-left: 20px; line-height: 1.6;">
-        <li>Xây dựng và thực thi chiến lược Tuyển dụng tổng thể, định vị thương hiệu nhà tuyển dụng (Employer Branding) mạnh mẽ trên thị trường.</li>
-        <li>Quản lý, đào tạo và phát triển đội ngũ TA (khoảng 10-15 người) hiệu suất cao.</li>
-        <li>Tối ưu hóa phễu tuyển dụng, cải tiến quy trình ứng tuyển để nâng cao trải nghiệm ứng viên (Candidate Experience).</li>
-        <li>Xây dựng network mạnh lưới với các trường Đại học, đối tác tuyển dụng và cộng đồng chuyên môn.</li>
-        <li>Báo cáo trực tiếp cho CHRO và tham mưu chiến lược nhân sự dài hạn cho Ban Giám đốc.</li>
+        <li>Build and execute the overall Recruitment strategy, positioning a strong Employer Branding in the market.</li>
+        <li>Manage, train and develop a high-performance TA team (about 10-15 people).</li>
+        <li>Optimize the recruitment funnel, improve the application process to enhance Candidate Experience.</li>
+        <li>Build a strong network with Universities, recruitment partners and professional communities.</li>
+        <li>Report directly to the CHRO and advise the Board of Directors on long-term HR strategy.</li>
       </ul>
     `,
     requirements: `
-      <p><strong>Yêu cầu công việc:</strong></p>
+      <p><strong>Job Requirements:</strong></p>
       <ul style="list-style-type: disc; padding-left: 20px; line-height: 1.6;">
-        <li>Có tối thiểu 7 năm kinh nghiệm trong lĩnh vực Tuyển dụng, trong đó ít nhất 3 năm ở vị trí quản lý cấp cao (TA Manager / Head of TA).</li>
-        <li>Có track record chứng minh khả năng mở rộng quy mô tổ chức (scale up) thành công ở các công ty quy mô lớn hoặc startup công nghệ.</li>
-        <li>Tư duy dữ liệu (Data-driven mindset), nhạy bén trong việc sử dụng hệ thống ATS và phân tích các chỉ số tuyển dụng.</li>
-        <li>Kỹ năng lãnh đạo, truyền cảm hứng và quản trị sự thay đổi xuất sắc.</li>
-        <li>Tiếng Anh lưu loát, phong thái chuyên nghiệp và giao tiếp thuyết phục.</li>
+        <li>At least 7 years of experience in Recruitment, including at least 3 years in a senior management position (TA Manager / Head of TA).</li>
+        <li>Track record proving successful organization scale-up at large-scale companies or tech startups.</li>
+        <li>Data-driven mindset, keen on using ATS systems and analyzing recruitment metrics.</li>
+        <li>Excellent leadership, inspiring and change management skills.</li>
+        <li>Fluent English, professional demeanor and persuasive communication.</li>
       </ul>
     `,
     jd_clear: `
-      <p><strong>Gói đãi ngộ siêu hấp dẫn:</strong></p>
+      <p><strong>Super Attractive Benefits Package:</strong></p>
       <ul style="list-style-type: disc; padding-left: 20px; line-height: 1.6;">
-        <li>Thu nhập cạnh tranh: Lương cứng <strong>60 - 100 triệu/tháng</strong> + Thưởng KPIs + Cổ phiếu thưởng (ESOP) hàng năm.</li>
-        <li>Trợ cấp xe ô tô đi lại và công tác phí.</li>
-        <li>Tham gia các khóa đào tạo lãnh đạo cấp cao trong và ngoài nước.</li>
-        <li>Thời gian làm việc linh hoạt, tôn trọng không gian cá nhân.</li>
-        <li>Chế độ chăm sóc sức khỏe Premium VIP dành riêng cho cấp quản lý.</li>
+        <li>Competitive income: Base salary <strong>60 - 100 million/month</strong> + KPIs bonus + Annual Employee Stock Ownership Plan (ESOP).</li>
+        <li>Car allowance for commuting and business travel expenses.</li>
+        <li>Participate in senior leadership training courses domestically and internationally.</li>
+        <li>Flexible working hours, respecting personal space.</li>
+        <li>Premium VIP healthcare policy exclusively for management level.</li>
       </ul>
     `
   }

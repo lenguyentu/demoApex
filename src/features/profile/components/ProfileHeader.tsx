@@ -34,7 +34,7 @@ export const ProfileHeader = ({ profile }: ProfileHeaderProps) => {
       <div className="pt-14 pb-6 px-8">
         <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">{profile.full_name || 'Chưa cập nhật tên'}</h1>
+            <h1 className="text-2xl font-bold text-gray-900">{profile.full_name || 'Name not updated'}</h1>
             <p className="text-gray-500 font-medium">{profile.role || 'User'}</p>
             
             <div className="flex flex-wrap gap-4 mt-3 text-sm text-gray-600">
@@ -58,7 +58,7 @@ export const ProfileHeader = ({ profile }: ProfileHeaderProps) => {
               )}
               <div className="flex items-center gap-1.5">
                 <Calendar size={16} />
-                <span>Tham gia {new Date(profile.created_at || Date.now()).toLocaleDateString('vi-VN')}</span>
+                <span>Joined {new Date(profile.created_at || Date.now()).toLocaleDateString('en-US')}</span>
               </div>
             </div>
           </div>

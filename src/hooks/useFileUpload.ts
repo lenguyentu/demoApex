@@ -52,7 +52,7 @@ export function useFileUpload(options: UseFileUploadOptions = {}): UseFileUpload
 
       // Validate file type
       if (!allowedTypes.includes(selectedFile.type)) {
-        setError('Định dạng file không được hỗ trợ. Vui lòng chọn file PDF, DOC hoặc DOCX.');
+        setError('Unsupported file format. Please choose PDF, DOC, or DOCX.');
         setFile(null);
         return;
       }
@@ -69,7 +69,7 @@ export function useFileUpload(options: UseFileUploadOptions = {}): UseFileUpload
       if (validateFileName) {
         const invalidChars = /[^\w\s.-]/;
         if (invalidChars.test(selectedFile.name)) {
-          setError('Tên file chứa ký tự đặc biệt. Vui lòng đổi tên file.');
+          setError('File name contains special characters. Please rename the file.');
           setFile(null);
           return;
         }

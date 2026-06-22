@@ -14,11 +14,11 @@ const ProfilePage = () => {
   // --- MOCK DATA ---
   const profile = {
     id: user?.id || 'user1',
-    full_name: 'Người dùng Test',
+    full_name: 'Test User',
     email: user?.email || 'test@example.com',
     phone: '0123456789',
-    role: 'Quản trị viên',
-    status: 'Hoạt động',
+    role: 'Admin',
+    status: 'Active',
     created_at: '2023-01-01T00:00:00Z',
   };
   const isLoading = false;
@@ -31,7 +31,7 @@ const ProfilePage = () => {
       <div className="flex items-center justify-center min-h-[500px]">
         <div className="flex flex-col items-center gap-4">
           <Loader2 className="w-10 h-10 text-brand-500 animate-spin" />
-          <p className="text-gray-500">Đang tải thông tin hồ sơ...</p>
+          <p className="text-gray-500">Loading profile information...</p>
         </div>
       </div>
     );
@@ -41,7 +41,7 @@ const ProfilePage = () => {
     return (
       <div className="min-h-[500px] flex items-center justify-center">
         <div className="text-center p-8 bg-red-50 rounded-xl text-red-600">
-            <h3 className="font-bold text-lg mb-2">Không thể tải hồ sơ</h3>
+            <h3 className="font-bold text-lg mb-2">Failed to load profile</h3>
             <p>{(error as Error).message}</p>
         </div>
       </div>
@@ -60,7 +60,7 @@ const ProfilePage = () => {
                 : 'text-gray-500 hover:text-gray-700'
             }`}
           >
-            Hồ sơ cá nhân
+            Personal Profile
           </button>
           <button
             onClick={() => setActiveTab('referral')}
@@ -70,7 +70,7 @@ const ProfilePage = () => {
                 : 'text-gray-500 hover:text-gray-700'
             }`}
           >
-            Quản lý giới thiệu
+            Referral Management
           </button>
            <button
             onClick={() => setActiveTab('security')}
@@ -80,7 +80,7 @@ const ProfilePage = () => {
                 : 'text-gray-500 hover:text-gray-700'
             }`}
           >
-            Bảo mật
+            Security
           </button>
        </div>
 

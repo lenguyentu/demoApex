@@ -89,7 +89,7 @@ const MENU_ITEMS: NavItem[] = [
     subItems: [
       { name: "Dashboard", path: "/research/dashboard", icon: <BarChart /> },
       { name: "Queue",     path: "/research/queue",     icon: <ListChecks /> },
-      { name: "Quản lý Daily Plan", path: "/manage-daily-plans", icon: <CalendarOff />, permission: PERMISSIONS.MANAGE_USERS },
+      { name: "Daily Plan Management", path: "/manage-daily-plans", icon: <CalendarOff />, permission: PERMISSIONS.MANAGE_USERS },
     ],
   },
   { name: "Users", path: "/users", icon: <Users />, permission: PERMISSIONS.MANAGE_USERS },
@@ -110,10 +110,10 @@ const MENU_ITEMS: NavItem[] = [
     icon: <CircleDollarSign />,
     permission: PERMISSIONS.VIEW_ALL_SALES,
     subItems: [
-      { name: "Dữ liệu chung", path: "/sales/data" },
-      { name: "Công nợ", path: "/sales/debt" },
-      { name: "Dashboard doanh thu", path: "/sales/dashboard" },
-      { name: "Hoa hồng", path: "/sales/commission" },
+      { name: "General Data", path: "/sales/data" },
+      { name: "Debt", path: "/sales/debt" },
+      { name: "Revenue Dashboard", path: "/sales/dashboard" },
+      { name: "Commission", path: "/sales/commission" },
     ]
   }
 ];
@@ -301,11 +301,11 @@ export const Sidebar = ({ isExpanded, onToggle }: SidebarProps) => {
             <>
               <div className="mt-4">
                 <div className={`text-xs font-medium text-gray-400 mb-2 px-3 uppercase tracking-wider transition-opacity duration-200 ${showExpanded ? 'opacity-100' : 'opacity-0 hidden'}`}>
-                  Quản lý Team
+                  Team Management
                 </div>
                 <ul className="flex flex-col gap-1">
                   {[
-                    { path: '/manager/team',  label: 'Report tháng', icon: <Users size={20} /> },
+                    { path: '/manager/team',  label: 'Monthly Report', icon: <Users size={20} /> },
                   ].map(item => (
                     <li key={item.path}>
                       <Link to={item.path}
@@ -330,7 +330,7 @@ export const Sidebar = ({ isExpanded, onToggle }: SidebarProps) => {
             <>
               <div className="mt-4">
                 <div className={`text-xs font-medium text-gray-400 mb-2 px-3 uppercase tracking-wider transition-opacity duration-200 ${showExpanded ? 'opacity-100' : 'opacity-0 hidden'}`}>
-                  Công việc
+                  Work
                 </div>
                 <ul className="flex flex-col gap-1">
                   {[
@@ -364,7 +364,7 @@ export const Sidebar = ({ isExpanded, onToggle }: SidebarProps) => {
               </div>
               <ul className="flex flex-col gap-1">
                 {[
-                  { path: '/manager/team',    label: 'Report tháng', icon: <Users size={20} /> },
+                  { path: '/manager/team',    label: 'Monthly Report', icon: <Users size={20} /> },
                   { path: '/hh/jobs',         label: 'Job Focus',      icon: <Briefcase size={20} /> },
                   { path: '/hh/kpi',          label: 'KPI Tracker',    icon: <BarChart2 size={20} /> },
                   { path: '/hh/report',       label: 'Weekly Report',  icon: <FileText size={20} /> },
@@ -422,9 +422,9 @@ export const Sidebar = ({ isExpanded, onToggle }: SidebarProps) => {
       {showExpanded && (
         <div className="mt-auto p-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl whitespace-nowrap overflow-hidden animate-fade-in">
           <h4 className="text-sm font-medium text-gray-600 dark:text-gray-400">TD Consulting</h4>
-          <p className="text-xs text-gray-400 mt-1">Đối tác tuyển dụng tin cậy của bạn.</p>
+          <p className="text-xs text-gray-400 mt-1">Your trusted recruitment partner.</p>
           <button onClick={() => window.open("https://tdconsulting.vn", "_blank")} className="mt-3 w-full bg-brand-500 text-white text-xs font-medium py-2 rounded-lg hover:bg-brand-600 transition shadow-sm">
-            Ghé thăm Website
+            Visit Website
           </button>
         </div>
       )}

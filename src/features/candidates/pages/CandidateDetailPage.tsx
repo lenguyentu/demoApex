@@ -163,9 +163,9 @@ export function CandidateDetailPage() {
       await toast.promise(
         deleteMutation.mutateAsync(candidate.id),
         {
-          loading: 'Đang xóa ứng viên...',
-          success: 'Xóa ứng viên thành công',
-          error: 'Có lỗi xảy ra khi xóa ứng viên',
+          loading: 'Deleting candidate...',
+          success: 'Candidate deleted successfully',
+          error: 'An error occurred while deleting the candidate',
         }
       );
       setIsDeleteModalOpen(false);
@@ -180,7 +180,7 @@ export function CandidateDetailPage() {
 
     const validation = validateForm();
     if (!validation.isValid) {
-      toast.error(validation.error || 'Vui lòng kiểm tra lại thông tin');
+      toast.error(validation.error || 'Please double check the information');
       return;
     }
 
@@ -231,9 +231,9 @@ export function CandidateDetailPage() {
       await toast.promise(
         updateMutation.mutateAsync({ id: candidate.id, payload }),
         {
-          loading: 'Đang cập nhật...',
-          success: 'Cập nhật thành công',
-          error: 'Có lỗi xảy ra khi cập nhật',
+          loading: 'Updating...',
+          success: 'Update successful',
+          error: 'An error occurred while updating',
         }
       );
       setIsEditing(false);
@@ -280,9 +280,9 @@ export function CandidateDetailPage() {
           payload: { is_potential: isPotential } 
         }),
         {
-          loading: isPotential ? 'Đang đánh dấu Hot Profile...' : 'Đang bỏ đánh dấu...',
-          success: isPotential ? 'Đã đánh dấu Hot Profile!' : 'Đã bỏ đánh dấu',
-          error: 'Có lỗi xảy ra',
+          loading: isPotential ? 'Marking as Hot Profile...' : 'Unmarking...',
+          success: isPotential ? 'Marked as Hot Profile!' : 'Unmarked successfully',
+          error: 'An error occurred',
         }
       );
     } catch (err) {
@@ -305,17 +305,17 @@ export function CandidateDetailPage() {
 
     const summary = stripHtml(candidate.professional_summary || '');
     const message = `
-Hồ sơ tiềm năng từ TD Consulting
-Mã ứng viên: ${candidate.cdd_code || 'Chưa có'}
-Vị trí: ${candidate.applied_position || 'Chưa cập nhật'}
-Địa điểm: ${candidate.address || 'Chưa cập nhật'}
+Potential profile from TD Consulting
+Candidate Code: ${candidate.cdd_code || 'N/A'}
+Position: ${candidate.applied_position || 'Not updated'}
+Location: ${candidate.address || 'Not updated'}
 
-Tổng quan
+Summary
 ${summary}
 
-Mức lương mong muốn: ${candidate.expected_monthly_salary || 'Thỏa thuận'}
+Expected Salary: ${candidate.expected_monthly_salary || 'Negotiable'}
 
-Vui lòng liên hệ TD Consulting nếu muốn kết nối có phí (headhunting) với chúng tôi qua zalo số: 0336828903
+Please contact TD Consulting if you want to connect for a fee (headhunting) with us via Zalo number: 0336828903
 `.trim();
 
     setPreviewMessage(message);
@@ -340,7 +340,7 @@ Vui lòng liên hệ TD Consulting nếu muốn kết nối có phí (headhuntin
         previewMessage // Pass the edited message here
       );
       
-      toast.success('Đã gửi thông báo Zalo!');
+      toast.success('Zalo notification sent!');
       setIsPreviewModalOpen(false);
     } catch (err) {
       console.error(err);
@@ -353,7 +353,7 @@ Vui lòng liên hệ TD Consulting nếu muốn kết nối có phí (headhuntin
       <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
           <Loader2 className="h-12 w-12 animate-spin text-pink-600 mx-auto mb-4" />
-          <p className="text-gray-600">Đang tải thông tin ứng viên...</p>
+          <p className="text-gray-600">Loading candidate information...</p>
         </div>
       </div>
     );
@@ -368,11 +368,11 @@ Vui lòng liên hệ TD Consulting nếu muốn kết nối có phí (headhuntin
           className="flex items-center gap-2 text-gray-600 hover:text-pink-600 transition-colors"
         >
           <ArrowLeft className="h-5 w-5" />
-          <span>Quay lại danh sách</span>
+          <span>Back to list</span>
         </button>
         <div className="bg-red-50 border border-red-200 rounded-lg p-6 text-center">
           <p className="text-red-600">
-            {error ? 'Đã có lỗi xảy ra' : 'Không tìm thấy thông tin ứng viên'}
+            {error ? 'An error occurred' : 'Candidate information not found'}
           </p>
         </div>
       </div>
@@ -387,7 +387,7 @@ Vui lòng liên hệ TD Consulting nếu muốn kết nối có phí (headhuntin
         className="flex items-center gap-2 text-gray-600 hover:text-pink-600 transition-colors"
       >
         <ArrowLeft className="h-5 w-5" />
-        <span>Quay lại danh sách</span>
+        <span>Back to list</span>
       </button>
 
       <div className="space-y-6">
@@ -473,7 +473,7 @@ Vui lòng liên hệ TD Consulting nếu muốn kết nối có phí (headhuntin
               
               {isEditing ? (
                 <div className="space-y-2">
-                    <label className="text-sm font-medium text-gray-700">Nội dung Brief</label>
+                    <label className="text-sm font-medium text-gray-700">Brief Content</label>
                     <RichTextEditor
                         value={formData.professionalSummary}
                         onChange={(val) => handleInputChange({ target: { name: 'professionalSummary', value: val } } as any)}
@@ -545,10 +545,10 @@ Vui lòng liên hệ TD Consulting nếu muốn kết nối có phí (headhuntin
         open={isDeleteModalOpen} 
         onClose={() => setIsDeleteModalOpen(false)} 
         onConfirm={handleDelete} 
-        title="Xóa ứng viên" 
-        message={`Bạn có chắc chắn muốn xóa ứng viên "${candidate?.name}"? Hành động này không thể hoàn tác.`} 
-        confirmText="Xóa" 
-        cancelText="Hủy" 
+        title="Delete Candidate" 
+        message={`Are you sure you want to delete candidate "${candidate?.name}"? This action cannot be undone.`} 
+        confirmText="Delete" 
+        cancelText="Cancel" 
         variant="danger" 
         isLoading={deleteMutation.isPending} 
       />
@@ -560,7 +560,7 @@ Vui lòng liên hệ TD Consulting nếu muốn kết nối có phí (headhuntin
             <div className="bg-linear-to-r from-brand-500 to-brand-600 px-6 py-4 flex items-center justify-between">
               <div className="flex items-center gap-2 text-white">
                 <Star className="h-5 w-5 fill-white" />
-                <h3 className="text-lg font-semibold">Xem trước tin nhắn Zalo</h3>
+                <h3 className="text-lg font-semibold">Preview Zalo Message</h3>
               </div>
               <button
                 onClick={() => setIsPreviewModalOpen(false)}
@@ -574,25 +574,25 @@ Vui lòng liên hệ TD Consulting nếu muốn kết nối có phí (headhuntin
             <div className="p-6 overflow-y-auto max-h-[calc(80vh-180px)]">
               <div className="bg-gray-50 rounded-lg p-3 border border-gray-200">
                 <div className="flex items-center justify-between mb-2">
-                  <p className="text-xs text-gray-500 font-medium">Nội dung tin nhắn (Có thể sửa trực tiếp):</p>
-                  {/* <span className="text-[10px] text-gray-400 bg-gray-100 px-1.5 py-0.5 rounded">Nhóm: Share CV TDC</span> */}
+                  <p className="text-xs text-gray-500 font-medium">Message content (Can edit directly):</p>
+                  {/* <span className="text-[10px] text-gray-400 bg-gray-100 px-1.5 py-0.5 rounded">Group: Share CV TDC</span> */}
                 </div>
                 <textarea
                   value={previewMessage}
                   onChange={(e) => setPreviewMessage(e.target.value)}
                   rows={12}
                   className="w-full bg-transparent text-sm text-gray-800 font-sans leading-relaxed border-0 focus:ring-0 p-2 resize-none min-h-[300px]"
-                  placeholder="Nhập nội dung tin nhắn..."
+                  placeholder="Enter message content..."
                 />
               </div>
-              <p className="mt-3 text-[11px] text-gray-400 italic">* Lưu ý: Nội dung này sẽ được gửi trực tiếp lên nhóm Zalo qua bot.</p>
+              <p className="mt-3 text-[11px] text-gray-400 italic">* Note: This content will be sent directly to the Zalo group via bot.</p>
             </div>
             <div className="px-6 py-4 bg-gray-50 border-t border-gray-200 flex items-center justify-end gap-3">
               <button
                 onClick={() => setIsPreviewModalOpen(false)}
                 className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition"
               >
-                Hủy
+                Cancel
               </button>
               <button
                 onClick={handleConfirmSendZalo}
@@ -604,7 +604,7 @@ Vui lòng liên hệ TD Consulting nếu muốn kết nối có phí (headhuntin
                 ) : (
                   <Send className="h-4 w-4" />
                 )}
-                Gửi Zalo
+                Send Zalo
               </button>
             </div>
           </div>

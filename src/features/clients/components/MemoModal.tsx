@@ -85,7 +85,7 @@ export const MemoModal = ({
         <div className="flex justify-between items-center px-6 py-4 border-b bg-gray-50">
           <h3 className="text-lg font-medium text-gray-900 flex items-center gap-2">
             <Edit size={20} className="text-brand-600" />
-            Cập nhật trạng thái & Ghi chú
+            Update Status & Notes
           </h3>
           <button
             onClick={onClose}
@@ -99,7 +99,7 @@ export const MemoModal = ({
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Giai đoạn (Phase)
+                Phase
               </label>
               <select
                 value={phase}
@@ -113,7 +113,7 @@ export const MemoModal = ({
             </div>
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Trạng thái (Status)
+                Status
               </label>
               <select
                 value={status}
@@ -133,12 +133,12 @@ export const MemoModal = ({
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Ghi chú (Memo)
+              Notes (Memo)
             </label>
             <RichTextEditor
               value={memo}
               onChange={setMemo}
-              placeholder="Nhập ghi chú chi tiết..."
+              placeholder="Enter detailed notes..."
             />
           </div>
 
@@ -149,7 +149,7 @@ export const MemoModal = ({
               disabled={loading}
               className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-200 disabled:opacity-50"
             >
-              Hủy
+              Cancel
             </button>
             <button
               type="submit"
@@ -159,12 +159,12 @@ export const MemoModal = ({
               {loading ? (
                 <>
                   <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                  Đang lưu...
+                  Saving...
                 </>
               ) : (
                 <>
                   <Save size={16} />
-                  Lưu thay đổi
+                  Save Changes
                 </>
               )}
             </button>

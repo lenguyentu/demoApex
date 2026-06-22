@@ -68,10 +68,10 @@ export const useUpdateBDStatus = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['bd_processes'] });
       queryClient.invalidateQueries({ queryKey: ['bd_schedules'] });
-      toast.success('Cập nhật trạng thái thành công');
+      toast.success('Status updated successfully');
     },
     onError: (error: any) => {
-      toast.error('Lỗi cập nhật trạng thái: ' + error.message);
+      toast.error('Error updating status: ' + error.message);
     }
   });
 };
@@ -85,10 +85,10 @@ export const useUpdateBDPriority = () => {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['bd_processes'] });
       queryClient.invalidateQueries({ queryKey: ['bd_schedules'] });
-      toast.success('Cập nhật mức độ ưu tiên thành công');
+      toast.success('Priority updated successfully');
     },
     onError: (error: any) => {
-      toast.error('Lỗi cập nhật mức độ ưu tiên: ' + error.message);
+      toast.error('Error updating priority: ' + error.message);
     }
   });
 };
@@ -113,10 +113,10 @@ export const useCreateBDSchedule = () => {
       queryClient.invalidateQueries({ queryKey: ['bd_schedules'] });
       queryClient.invalidateQueries({ queryKey: ['bd_schedule_stats'] });
       queryClient.invalidateQueries({ queryKey: ['bd_custom_scheduled_data'] });
-      toast.success('Đã tạo lịch nhắc mới');
+      toast.success('New reminder created');
     },
     onError: (error: any) => {
-      toast.error('Lỗi tạo lịch nhắc: ' + error.message);
+      toast.error('Error creating reminder: ' + error.message);
     }
   });
 };
@@ -286,11 +286,11 @@ export const useBDStatistics = ({ filters }: UseBDStatisticsProps = {}) => {
       total_processes: 120,
       report: {
         coldLead: { count: 45, clients: ['Cty A', 'Cty B'] },
-        formerClientApproaches: { count: 12, clients: ['Tập đoàn C'] },
+        formerClientApproaches: { count: 12, clients: ['Group C'] },
         newClientApproaches: { count: 28, clients: ['StartUp D'] },
         clientMeeting: { count: 15, clients: ['Cty Tech X'] },
-        newContract: { count: 8, clients: ['Ngân hàng Y'] },
-        newJD: { count: 12, clients: ['Công ty Z'] }
+        newContract: { count: 8, clients: ['Bank Y'] },
+        newJD: { count: 12, clients: ['Company Z'] }
       },
       status_counts: {
         'Research': 20,
@@ -310,8 +310,8 @@ export const useBDStatistics = ({ filters }: UseBDStatisticsProps = {}) => {
         { source: 'Referral', count: 40 }
       ],
       loyal_customers: [
-        { client_name: 'Khách hàng Công nghệ A', sector: 'IT', won_deals: 5 },
-        { client_name: 'Tập đoàn B', sector: 'Finance', won_deals: 3 }
+        { client_name: 'Tech Client A', sector: 'IT', won_deals: 5 },
+        { client_name: 'Group B', sector: 'Finance', won_deals: 3 }
       ],
       sales_cycle_avg_days: 14.5,
       sales_cycle_distribution: [

@@ -29,7 +29,7 @@ const STATUS_PHASES = [
   }
 ];
 
-const ALL_PRIORITIES = ['Bình thường', 'Ưu tiên'];
+const ALL_PRIORITIES = ['Normal', 'High Priority'];
 
 const ROLLING_STAGES = ['Research', 'Addfriend/Connect', 'Approach'];
 const CUSTOM_STAGES = ['Follow up', 'Consulting', 'Demo contract', 'Signing', 'Meeting Clear JD'];
@@ -176,7 +176,7 @@ export const CustomerTable = ({ data, onOpenHistory }: CustomerTableProps) => {
                 <th className="px-2 py-3 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider min-w-[160px] text-left">Company Name</th>
                 <th className="px-2 py-3 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider whitespace-nowrap min-w-[120px] text-left">Industry</th>
                 <th className="px-2 py-3 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider min-w-[160px] text-left">Job</th>
-                <th className="px-2 py-3 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider whitespace-nowrap w-20 text-left">Nguồn</th>
+                <th className="px-2 py-3 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider whitespace-nowrap w-20 text-left">Source</th>
                 <th className="px-2 py-3 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider whitespace-nowrap w-28 text-center">Priority</th>
                 <th className="px-2 py-3 text-xs font-semibold text-gray-500 dark:text-gray-400 uppercase tracking-wider whitespace-nowrap w-[140px] text-center sticky right-0 bg-gray-50 dark:bg-gray-700/50 shadow-[-4px_0_8px_-4px_rgba(0,0,0,0.1)] z-10">Actions</th>
               </tr>
@@ -227,10 +227,10 @@ export const CustomerTable = ({ data, onOpenHistory }: CustomerTableProps) => {
                                    'bg-green-100 text-green-700'
                                }`}>
                                    {reminder.daysLeft < 0 
-                                       ? `${Math.abs(reminder.daysLeft)} ngày` 
+                                       ? `${Math.abs(reminder.daysLeft)} days` 
                                        : reminder.daysLeft === 0 
-                                           ? 'Hôm nay' 
-                                           : `${reminder.daysLeft} ngày`}
+                                           ? 'Today' 
+                                           : `${reminder.daysLeft} days`}
                                </span>
                           </div>
                      ) : CUSTOM_STAGES.includes(customer.status) ? (
@@ -265,17 +265,17 @@ export const CustomerTable = ({ data, onOpenHistory }: CustomerTableProps) => {
                                       'bg-green-100 text-green-700'
                                   }`}>
                                       {diffDays < 0 
-                                          ? `Quá ${Math.abs(diffDays)} ngày` 
+                                          ? `Overdue ${Math.abs(diffDays)} days` 
                                           : diffDays === 0 
-                                              ? 'Hôm nay' 
-                                              : diffDays === 1 ? 'Ngày mai' : `${diffDays} ngày`}
+                                              ? 'Today' 
+                                              : diffDays === 1 ? 'Tomorrow' : `${diffDays} days`}
                                   </span>
                                 </div>
                               );
                             }
                             return (
                               <span className="px-2 py-0.5 rounded-full text-[10px] font-semibold bg-orange-50 text-orange-600 border border-orange-200 animate-pulse">
-                                ⚠️ Chưa đặt
+                                ⚠️ Not set
                               </span>
                             );
                           })()
@@ -361,7 +361,7 @@ export const CustomerTable = ({ data, onOpenHistory }: CustomerTableProps) => {
                                         <button 
                                             onClick={() => window.open(finalLink, '_blank')}
                                             className="text-blue-500 hover:text-blue-700 transition-colors p-0.5 hover:bg-blue-50 rounded flex-shrink-0"
-                                            title="Mở link Job"
+                                            title="Open Job link"
                                         >
                                             <ExternalLink size={12} strokeWidth={2.5} />
                                         </button>
@@ -377,7 +377,7 @@ export const CustomerTable = ({ data, onOpenHistory }: CustomerTableProps) => {
                                     className="flex items-center gap-1.5 text-blue-600 hover:text-blue-800 font-medium transition-colors group/link p-1 -ml-1 hover:bg-blue-50 rounded-md"
                                 >
                                     <ExternalLink size={12} strokeWidth={2.5} />
-                                    <span className="text-[10px] group-hover/link:underline">Link Job</span>
+                                    <span className="text-[10px] group-hover/link:underline">Job Link</span>
                                 </button>
                             );
                         }
@@ -399,7 +399,7 @@ export const CustomerTable = ({ data, onOpenHistory }: CustomerTableProps) => {
                        <button
                            onClick={() => !isPriorityUpdating && setOpenDropdownId(isPriorityDropdownOpen ? null : `priority-${customer.id}`)}
                            disabled={isPriorityUpdating}
-                           className={`inline-flex items-center justify-center px-2 py-0.5 rounded-full text-[10px] font-medium border border-gray-100 transition-all ${customer.priority === 'Ưu tiên' ? 'bg-yellow-50 text-yellow-700 border-yellow-200' : 'bg-gray-50 text-gray-500'} ${isPriorityUpdating ? 'opacity-50' : 'hover:brightness-95 active:scale-95'}`}
+                           className={`inline-flex items-center justify-center px-2 py-0.5 rounded-full text-[10px] font-medium border border-gray-100 transition-all ${customer.priority === 'High Priority' ? 'bg-yellow-50 text-yellow-700 border-yellow-200' : 'bg-gray-50 text-gray-500'} ${isPriorityUpdating ? 'opacity-50' : 'hover:brightness-95 active:scale-95'}`}
                        >
                            {customer.priority}
                            {isPriorityUpdating ? <Loader2 size={10} className="ml-1 animate-spin" /> : <ChevronDown size={10} className="ml-1 opacity-40" />}
@@ -429,28 +429,28 @@ export const CustomerTable = ({ data, onOpenHistory }: CustomerTableProps) => {
                         <button
                             onClick={() => window.open(`/tables/clients/new/${customer.client_id}`, '_blank')}
                             className="p-1.5 text-blue-600 bg-blue-50 hover:bg-blue-100 rounded-lg transition-colors"
-                            title="Xem chi tiết (Trang)"
+                            title="View details (Page)"
                         >
                             <Eye size={16} />
                         </button>
                         <button
                             onClick={() => onOpenHistory(customer.id, clientName, customer.status)}
                             className="p-1.5 rounded-lg transition-colors text-pink-600 bg-pink-50 hover:bg-pink-100"
-                            title={hasMemo ? "Xem ghi chú" : "Thêm ghi chú"}
+                            title={hasMemo ? "View notes" : "Add note"}
                         >
                             <FileText size={16} />
                         </button>
                         <button
                             onClick={() => onOpenHistory(customer.id, clientName)}
                             className="p-1.5 text-purple-600 bg-purple-50 hover:bg-purple-100 rounded-lg transition-colors"
-                            title="Lịch sử chăm sóc"
+                            title="Care history"
                         >
                             <History size={16} />
                         </button>
                         <button
                             onClick={() => handleOpenReminderModal(customer)}
                             className="p-1.5 text-orange-600 bg-orange-50 hover:bg-orange-100 rounded-lg transition-colors"
-                            title="Cập nhật trạng thái / Ghi chú"
+                            title="Update status / Note"
                         >
                             <Pencil size={16} />
                         </button>

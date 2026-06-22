@@ -15,8 +15,8 @@ export const ReferralTab = ({}: { userId?: string }) => {
     const loadingReferrals = false;
 
     const stats = {
-        full_name: 'Người dùng Test',
-        role: 'Quản trị viên',
+        full_name: 'Test User',
+        role: 'Admin',
         referral_code: 'REF-APEX-2023',
         referred_count: 2,
         status: 'approved',
@@ -25,7 +25,7 @@ export const ReferralTab = ({}: { userId?: string }) => {
 
     const copyToClipboard = (text: string, label: string) => {
         navigator.clipboard.writeText(text);
-        toast.success(`Đã sao chép ${label}`);
+        toast.success(`Copied ${label}`);
     };
 
     const referralLink = stats?.referral_code
@@ -37,7 +37,7 @@ export const ReferralTab = ({}: { userId?: string }) => {
             {/* Header Section */}
             <div className="flex items-center gap-2 mb-4">
                 <Share2 className="text-brand-600" />
-                <h2 className="text-xl font-bold text-gray-900">Quản Lý Giới Thiệu</h2>
+                <h2 className="text-xl font-bold text-gray-900">Referral Management</h2>
             </div>
 
             {/* User Info Bar */}
@@ -47,7 +47,7 @@ export const ReferralTab = ({}: { userId?: string }) => {
                         <Users size={16} className="text-gray-500" />
                     </div>
                     <div>
-                        <span className="font-semibold text-gray-900">{stats.full_name || 'Người dùng'}</span>
+                        <span className="font-semibold text-gray-900">{stats.full_name || 'User'}</span>
                         <span className="ml-2 px-2 py-0.5 bg-blue-100 text-blue-700 text-xs rounded-full font-medium">{stats.role}</span>
                     </div>
                 </div>
@@ -57,33 +57,33 @@ export const ReferralTab = ({}: { userId?: string }) => {
             <div className="bg-blue-50 border border-blue-100 rounded-xl p-6">
                 <div className="flex flex-col md:flex-row gap-6 md:items-end justify-between">
                     <div className="space-y-2">
-                        <p className="text-blue-600 font-medium text-sm">Mã giới thiệu của bạn:</p>
+                        <p className="text-blue-600 font-medium text-sm">Your referral code:</p>
                         <div className="text-2xl font-bold text-gray-900 tracking-wider">
                             {stats?.referral_code || '---'}
                         </div>
                     </div>
                     <button
-                        onClick={() => stats?.referral_code && copyToClipboard(stats.referral_code, 'mã giới thiệu')}
+                        onClick={() => stats?.referral_code && copyToClipboard(stats.referral_code, 'referral code')}
                         className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition shadow-sm font-medium"
                     >
-                        <Copy size={16} /> Sao chép mã
+                        <Copy size={16} /> Copy code
                     </button>
                 </div>
             </div>
 
             <div className="bg-green-50 border border-green-100 rounded-xl p-6">
                 <div className="space-y-2 mb-3">
-                    <p className="text-green-700 font-medium text-sm">Liên kết giới thiệu đầy đủ:</p>
+                    <p className="text-green-700 font-medium text-sm">Full referral link:</p>
                     <div className="bg-white border border-green-200 rounded px-3 py-2 text-gray-600 text-sm font-mono truncate">
                         {referralLink}
                     </div>
                 </div>
                 <div className="flex justify-end">
                     <button
-                        onClick={() => copyToClipboard(referralLink, 'liên kết')}
+                        onClick={() => copyToClipboard(referralLink, 'link')}
                         className="flex items-center gap-2 bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition shadow-sm font-medium"
                     >
-                        <Share2 size={16} /> Sao chép liên kết
+                        <Share2 size={16} /> Copy link
                     </button>
                 </div>
             </div>
@@ -91,17 +91,17 @@ export const ReferralTab = ({}: { userId?: string }) => {
             {/* Stats Cards */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                 <div className="bg-purple-50 border border-purple-100 rounded-xl p-6 flex flex-col items-center justify-center text-center">
-                    <span className="text-purple-600 font-medium text-sm mb-1">Số người đã giới thiệu</span>
+                    <span className="text-purple-600 font-medium text-sm mb-1">Number of referred people</span>
                     <span className="text-3xl font-bold text-purple-700">{stats?.referred_count || 0}</span>
                 </div>
                 <div className="bg-orange-50 border border-orange-100 rounded-xl p-6 flex flex-col items-center justify-center text-center">
-                    <span className="text-orange-600 font-medium text-sm mb-1">Trạng thái</span>
+                    <span className="text-orange-600 font-medium text-sm mb-1">Status</span>
                     <span className="text-xl font-bold text-orange-700">
-                        {stats?.status === 'approved' ? 'Hoạt động' : (stats?.status || '---')}
+                        {stats?.status === 'approved' ? 'Active' : (stats?.status || '---')}
                     </span>
                 </div>
                 <div className="bg-indigo-50 border border-indigo-100 rounded-xl p-6 flex flex-col items-center justify-center text-center">
-                    <span className="text-indigo-600 font-medium text-sm mb-1">Quyền hạn</span>
+                    <span className="text-indigo-600 font-medium text-sm mb-1">Role</span>
                     <span className="text-xl font-bold text-indigo-700">{stats?.role || 'User'}</span>
                 </div>
             </div>
@@ -111,7 +111,7 @@ export const ReferralTab = ({}: { userId?: string }) => {
                 <div className="px-6 py-4 border-b border-gray-100 flex items-center justify-between bg-gray-50">
                     <h3 className="font-semibold text-gray-900 flex items-center gap-2">
                         <Users className="text-green-600" size={20} />
-                        Danh sách người đã giới thiệu ({referrals?.length || 0})
+                        List of referred people ({referrals?.length || 0})
                     </h3>
                     {/* <button 
                 onClick={() => refetch()}
@@ -123,9 +123,9 @@ export const ReferralTab = ({}: { userId?: string }) => {
 
                 <div className="divide-y divide-gray-100">
                     {loadingReferrals ? (
-                        <div className="p-8 text-center text-gray-500">Đang tải...</div>
+                        <div className="p-8 text-center text-gray-500">Loading...</div>
                     ) : referrals?.length === 0 ? (
-                        <div className="p-8 text-center text-gray-500 italic">Chưa có người giới thiệu nào.</div>
+                        <div className="p-8 text-center text-gray-500 italic">No referrals yet.</div>
                     ) : (
                         referrals?.map((user) => (
                             <div key={user.id} className="p-4 hover:bg-gray-50 transition flex items-center justify-between group">
@@ -143,7 +143,7 @@ export const ReferralTab = ({}: { userId?: string }) => {
                                         {user.role}
                                     </span>
                                     <span className="text-xs text-gray-400">
-                                        {new Date(user.created_at).toLocaleDateString('vi-VN')}
+                                        {new Date(user.created_at).toLocaleDateString('en-US')}
                                     </span>
                                 </div>
                             </div>

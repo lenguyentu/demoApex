@@ -167,7 +167,7 @@ export default function RevenueDashboardPage() {
         }
       }
     } catch (error) {
-      toast.error('Không thể tải dữ liệu doanh thu');
+      toast.error('Unable to load revenue data');
     } finally {
       setLoading(false);
     }
@@ -175,7 +175,7 @@ export default function RevenueDashboardPage() {
 
   const handleSetKpi = async () => {
     if (!user || kpiInput <= 0) {
-      toast.error('Vui lòng nhập số tiền KPI hợp lệ');
+      toast.error('Please enter a valid KPI amount');
       return;
     }
 
@@ -191,9 +191,9 @@ export default function RevenueDashboardPage() {
       });
       
       setMonthlyKpi(kpiInput);
-      toast.success(`Đã đặt KPI: ${kpiInput.toLocaleString()} đ/tháng`);
+      toast.success(`KPI set: ${kpiInput.toLocaleString()} VND/month`);
     } catch (error) {
-      toast.error('Không thể lưu KPI');
+      toast.error('Unable to save KPI');
     } finally {
       setSavingKpi(false);
     }
@@ -210,17 +210,17 @@ export default function RevenueDashboardPage() {
   const handleApplyPolicy = async () => {
     const roles = KPI_POLICY_ROLES.filter((role) => selectedRoles[role]);
     if (!roles.length) {
-      toast.error('Vui lòng chọn ít nhất một role');
+      toast.error('Please select at least one role');
       return;
     }
 
     if (!effectiveFrom) {
-      toast.error('Vui lòng chọn ngày hiệu lực');
+      toast.error('Please select an effective date');
       return;
     }
 
     if (monthMultiplierInput <= 0 || quarterMultiplierInput <= 0) {
-      toast.error('Hệ số KPI phải lớn hơn 0');
+      toast.error('KPI multiplier must be greater than 0');
       return;
     }
 
@@ -236,9 +236,9 @@ export default function RevenueDashboardPage() {
 
       const policies = await getActiveKPIPolicies();
       setActivePolicies(policies);
-      toast.success('Đã cập nhật KPI policy thành công');
+      toast.success('KPI policy updated successfully');
     } catch {
-      toast.error('Không thể cập nhật KPI policy');
+      toast.error('Unable to update KPI policy');
     } finally {
       setSavingPolicy(false);
     }
@@ -251,9 +251,9 @@ export default function RevenueDashboardPage() {
     setRebuildingSnapshots(true);
     try {
       await rebuildKPISnapshots(fromDate, toDate, true);
-      toast.success(`Đã backfill KPI snapshots cho năm ${selectedYear}`);
+      toast.success(`Backfilled KPI snapshots for year ${selectedYear}`);
     } catch {
-      toast.error('Không thể backfill KPI snapshots');
+      toast.error('Unable to backfill KPI snapshots');
     } finally {
       setRebuildingSnapshots(false);
     }
@@ -264,12 +264,12 @@ export default function RevenueDashboardPage() {
     const effectiveDate = salaryEffectiveDates[userId];
 
     if (salary <= 0) {
-      toast.error('Lương phải lớn hơn 0');
+      toast.error('Salary must be greater than 0');
       return;
     }
 
     if (!effectiveDate) {
-      toast.error('Vui lòng chọn ngày hiệu lực lương');
+      toast.error('Please select salary effective date');
       return;
     }
 
@@ -297,9 +297,9 @@ export default function RevenueDashboardPage() {
         // non-critical
       }
 
-      toast.success('Đã cập nhật lương và rebuild KPI snapshots');
+      toast.success('Updated salary and rebuilt KPI snapshots');
     } catch {
-      toast.error('Không thể cập nhật lương');
+      toast.error('Unable to update salary');
     } finally {
       setSavingSalaryUserId(null);
     }
@@ -316,7 +316,7 @@ export default function RevenueDashboardPage() {
       setSalaryHistoryData(salaryHistory);
       setKpiSnapshotHistoryData(kpiSnapshots);
     } catch {
-      toast.error('Không thể tải lịch sử lương');
+      toast.error('Unable to load salary history');
     } finally {
       setLoadingHistory(false);
     }
@@ -382,7 +382,7 @@ export default function RevenueDashboardPage() {
         const noVat = (sale.offered_monthly_salary || 0) * (sale.rate || 1);
         const amount = sale.finance?.contract_type === 'Công ty' ? noVat * 1.08 : noVat;
 
-        if (sale.finance?.invoice_status === 'Đã xuất') {
+        if (sale.finance?.invoice_status === 'Issued') {
           periodData[periodIdx].invoiced += amount;
         } else {
           periodData[periodIdx].notInvoiced += amount;
@@ -434,7 +434,7 @@ export default function RevenueDashboardPage() {
         if (!personMap.has(id)) {
           personMap.set(id, {
             id,
-            name: snapshot.user?.full_name || 'Chưa rõ tên',
+            name: snapshot.user?.full_name || 'Unknown Name',
             invoiced: 0,
             notInvoiced: 0,
             total: 0,
@@ -475,12 +475,12 @@ export default function RevenueDashboardPage() {
 
       if (activeTab === 'bd') {
         targetPersonId = sale.job_owner?.id || `bd_${sale.job_owner?.full_name || 'unknown'}`;
-        targetPersonName = sale.job_owner?.full_name || 'Chưa gán BD';
+        targetPersonName = sale.job_owner?.full_name || 'Unassigned BD';
         const bdRate = sale.finance?.rate_bd || 0;
         amount = baseAmount * (bdRate / 100);
       } else {
         targetPersonId = sale.candidate_owner?.id || `hh_${sale.candidate_owner?.full_name || 'unknown'}`;
-        targetPersonName = sale.candidate_owner?.full_name || 'Chưa gán HH';
+        targetPersonName = sale.candidate_owner?.full_name || 'Unassigned HH';
         const hhRate = sale.finance?.rate_internal || 0;
         amount = baseAmount * (hhRate / 100);
       }
@@ -519,7 +519,7 @@ export default function RevenueDashboardPage() {
 
       const person = personMap.get(targetPersonId)!;
       if (amount > 0) {
-        if (sale.finance?.invoice_status === 'Đã xuất') {
+        if (sale.finance?.invoice_status === 'Issued') {
           person.invoiced += amount;
         } else {
           person.notInvoiced += amount;
@@ -567,7 +567,7 @@ export default function RevenueDashboardPage() {
     return (
       <div className="p-20 flex flex-col items-center gap-4">
         <div className="w-8 h-8 border-3 border-brand-500 border-t-transparent rounded-full animate-spin"></div>
-        <p className="text-sm text-gray-500">Đang tải dashboard...</p>
+        <p className="text-sm text-gray-500">Loading dashboard...</p>
       </div>
     );
   }
@@ -578,8 +578,8 @@ export default function RevenueDashboardPage() {
     <div id="revenue-dashboard-content">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900 tracking-tight">Dashboard doanh thu</h1>
-          <p className="text-sm text-gray-500 mt-0.5">Theo dõi doanh thu và KPI chi tiết theo thời gian thực</p>
+          <h1 className="text-2xl font-bold text-gray-900 tracking-tight">Revenue Dashboard</h1>
+          <p className="text-sm text-gray-500 mt-0.5">Track real-time revenue and detailed KPI</p>
         </div>
         
         <div className="flex items-center gap-4">
@@ -589,7 +589,7 @@ export default function RevenueDashboardPage() {
             </span>
             <div className="flex items-center gap-2 text-brand-600 font-black">
               <Target size={16} />
-              <span className="text-lg">{totalKPI.toLocaleString()} đ</span>
+              <span className="text-lg">{totalKPI.toLocaleString()} VND</span>
             </div>
           </div>
           
@@ -617,8 +617,8 @@ export default function RevenueDashboardPage() {
               }}
               className="text-sm font-bold bg-transparent outline-none cursor-pointer"
             >
-              <option value="month">Theo tháng</option>
-              <option value="quarter">Theo quý</option>
+              <option value="month">By month</option>
+              <option value="quarter">By quarter</option>
             </select>
           </div>
 
@@ -651,27 +651,27 @@ export default function RevenueDashboardPage() {
                   rate: (d.kpi || 0) > 0 ? `${((d.total / (d.kpi || 0)) * 100).toFixed(0)}%` : '0%',
                 }));
                 exportToExcel(rows, [
-                  { key: 'name', label: activeTab === 'overview' ? 'Tháng' : 'Tên nhân sự' },
+                  { key: 'name', label: activeTab === 'overview' ? 'Month' : 'Personnel Name' },
                   { key: 'kpi', label: 'KPI' },
-                  { key: 'total', label: 'Doanh thu' },
-                  { key: 'invoiced', label: 'Đã xuất HĐ' },
-                  { key: 'notInvoiced', label: 'Chưa xuất HĐ' },
+                  { key: 'total', label: 'Revenue' },
+                  { key: 'invoiced', label: 'Invoiced' },
+                  { key: 'notInvoiced', label: 'Not Invoiced' },
                   { key: 'rate', label: '% KPI' },
-                ], `DoanhThu_${activeTab}_${selectedYear}`);
+                ], `Revenue_${activeTab}_${selectedYear}`);
               }}
               className="flex items-center gap-1.5 px-3 py-2 border border-gray-100 rounded-xl text-sm font-medium bg-white hover:bg-gray-50 shadow-sm"
             >
               <Download size={14} /> Excel
             </button>
             <button 
-              onClick={() => exportToImage('revenue-dashboard-content', `DoanhThu_${selectedYear}`, setExporting, `Dashboard doanh thu — ${selectedYear}`)}
+              onClick={() => exportToImage('revenue-dashboard-content', `Revenue_${selectedYear}`, setExporting, `Revenue Dashboard — ${selectedYear}`)}
               disabled={exporting}
               className="flex items-center gap-1.5 px-3 py-2 border border-gray-100 rounded-xl text-sm font-medium bg-white hover:bg-gray-50 shadow-sm disabled:opacity-50"
             >
-              {exporting ? <Loader2 size={14} className="animate-spin" /> : <Image size={14} />} Ảnh
+              {exporting ? <Loader2 size={14} className="animate-spin" /> : <Image size={14} />} Image
             </button>
             <button 
-              onClick={() => exportToPDF('revenue-dashboard-content', `DoanhThu_${selectedYear}`, setExporting, `Dashboard doanh thu — ${selectedYear}`)}
+              onClick={() => exportToPDF('revenue-dashboard-content', `Revenue_${selectedYear}`, setExporting, `Revenue Dashboard — ${selectedYear}`)}
               disabled={exporting}
               className="flex items-center gap-1.5 px-3 py-2 border border-gray-100 rounded-xl text-sm font-medium bg-white hover:bg-gray-50 shadow-sm disabled:opacity-50"
             >
@@ -713,7 +713,7 @@ export default function RevenueDashboardPage() {
                   KPI Policy Setup
                 </h3>
                 <p className="text-sm text-gray-500 mt-1">
-                  Thiết lập công thức KPI theo role nghiệp vụ (BD/Headhunter) và ngày hiệu lực.
+                  Set up KPI formula by business role (BD/Headhunter) and effective date.
                 </p>
               </div>
               <button
@@ -798,7 +798,7 @@ export default function RevenueDashboardPage() {
                 className="flex items-center gap-2 px-5 py-2.5 bg-brand-600 text-white rounded-xl hover:bg-brand-700 transition-all font-bold text-sm shadow-lg shadow-brand-200 disabled:opacity-50"
               >
                 {savingPolicy ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} />}
-                Áp dụng policy
+                Apply policy
               </button>
             </div>
 
@@ -823,19 +823,19 @@ export default function RevenueDashboardPage() {
           <div className="bg-white border border-gray-100 rounded-2xl p-6 shadow-sm">
             <h3 className="text-base font-black text-gray-900">Salary Setup (Internal Users)</h3>
             <p className="text-sm text-gray-500 mt-1 mb-4">
-              Nhập lương nền cho từng nhân sự nội bộ để hệ thống tính KPI snapshot theo policy.
+              Enter base salary for each internal personnel so the system can calculate KPI snapshots according to the policy.
             </p>
 
             <div className="overflow-x-auto">
               <table className="w-full text-sm text-left">
                 <thead>
                   <tr className="bg-gray-50/50">
-                    <th className="px-4 py-3 font-black text-gray-400 uppercase tracking-widest text-[10px]">Nhân sự</th>
-                    <th className="px-4 py-3 font-black text-gray-400 uppercase tracking-widest text-[10px]">Role hệ thống</th>
+                    <th className="px-4 py-3 font-black text-gray-400 uppercase tracking-widest text-[10px]">Personnel</th>
+                    <th className="px-4 py-3 font-black text-gray-400 uppercase tracking-widest text-[10px]">System Role</th>
                     <th className="px-4 py-3 font-black text-gray-400 uppercase tracking-widest text-[10px]">KPI role</th>
-                    <th className="px-4 py-3 font-black text-gray-400 uppercase tracking-widest text-[10px] text-right">Lương hiện tại</th>
-                    <th className="px-4 py-3 font-black text-gray-400 uppercase tracking-widest text-[10px]">Lương mới</th>
-                    <th className="px-4 py-3 font-black text-gray-400 uppercase tracking-widest text-[10px]">Ngày hiệu lực</th>
+                    <th className="px-4 py-3 font-black text-gray-400 uppercase tracking-widest text-[10px] text-right">Current Salary</th>
+                    <th className="px-4 py-3 font-black text-gray-400 uppercase tracking-widest text-[10px]">New Salary</th>
+                    <th className="px-4 py-3 font-black text-gray-400 uppercase tracking-widest text-[10px]">Effective Date</th>
                     <th className="px-4 py-3 font-black text-gray-400 uppercase tracking-widest text-[10px]"></th>
                   </tr>
                 </thead>
@@ -854,7 +854,7 @@ export default function RevenueDashboardPage() {
                         <td className="px-4 py-3 font-semibold text-gray-600">{internalUser.role}</td>
                         <td className="px-4 py-3 font-semibold text-gray-600">{internalUser.kpi_role ?? '-'}</td>
                         <td className="px-4 py-3 text-right font-bold text-gray-900">
-                          {currentSalary ? `${new Intl.NumberFormat('vi-VN').format(currentSalary.base_salary)} đ` : '-'}
+                          {currentSalary ? `${new Intl.NumberFormat('vi-VN').format(currentSalary.base_salary)} VND` : '-'}
                         </td>
                         <td className="px-4 py-3">
                           <div className="w-[170px]">
@@ -879,10 +879,10 @@ export default function RevenueDashboardPage() {
                             />
                             {hasInvalidEffectiveDate && (
                               <p className="text-[10px] font-medium text-red-500">
-                                Ngày hiệu lực phải từ {currentSalary?.effective_from} trở đi.
+                                Effective date must be from {currentSalary?.effective_from} onwards.
                               </p>
                             )}
-                            <p className="text-[10px] text-gray-400">Có thể nhập ngày quá khứ để backfill</p>
+                            <p className="text-[10px] text-gray-400">Can enter a past date for backfill</p>
                           </div>
                         </td>
                         <td className="px-4 py-3 text-right">
@@ -890,7 +890,7 @@ export default function RevenueDashboardPage() {
                             <button
                               onClick={() => handleViewSalaryHistory(internalUser)}
                               className="inline-flex items-center gap-1.5 px-3 py-2 rounded-xl border border-gray-200 text-xs font-bold hover:bg-gray-50 text-gray-600"
-                              title="Xem lịch sử lương & KPI"
+                              title="View salary & KPI history"
                             >
                               <History size={14} />
                             </button>
@@ -900,7 +900,7 @@ export default function RevenueDashboardPage() {
                               className="inline-flex items-center gap-2 px-3 py-2 rounded-xl bg-brand-600 text-white text-xs font-bold hover:bg-brand-700 disabled:opacity-50"
                             >
                               {isSaving ? <Loader2 size={14} className="animate-spin" /> : <Save size={14} />}
-                              Lưu
+                              Save
                             </button>
                           </div>
                         </td>
@@ -924,8 +924,8 @@ export default function RevenueDashboardPage() {
               <Target size={24} className="text-brand-600" />
             </div>
             <div>
-              <h3 className="font-bold text-gray-900">Chưa có KPI cho tháng này</h3>
-              <p className="text-sm text-gray-500">Bạn muốn đặt mục tiêu doanh thu bao nhiêu mỗi tháng?</p>
+              <h3 className="font-bold text-gray-900">No KPI set for this month</h3>
+              <p className="text-sm text-gray-500">What is your monthly revenue target?</p>
             </div>
           </div>
           <div className="flex items-center gap-3">
@@ -935,9 +935,9 @@ export default function RevenueDashboardPage() {
                 value={kpiInput}
                 onChange={(e) => setKpiInput(Number(e.target.value))}
                 className="w-[200px] pl-4 pr-12 py-2.5 border border-brand-200 rounded-xl text-sm font-bold outline-none focus:ring-2 focus:ring-brand-500 bg-white"
-                placeholder="Nhập số tiền..."
+                placeholder="Enter amount..."
               />
-              <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-400 font-medium">đ</span>
+              <span className="absolute right-3 top-1/2 -translate-y-1/2 text-xs text-gray-400 font-medium">VND</span>
             </div>
             <button
               onClick={handleSetKpi}
@@ -945,7 +945,7 @@ export default function RevenueDashboardPage() {
               className="flex items-center gap-2 px-5 py-2.5 bg-brand-600 text-white rounded-xl hover:bg-brand-700 transition-all font-bold text-sm shadow-lg shadow-brand-200 disabled:opacity-50"
             >
               <Save size={16} />
-              {savingKpi ? 'Đang lưu...' : 'Đặt KPI'}
+              {savingKpi ? 'Saving...' : 'Set KPI'}
             </button>
           </div>
         </div>
@@ -955,9 +955,9 @@ export default function RevenueDashboardPage() {
       <div className="flex items-center justify-between">
         <div className="flex items-center p-1 bg-gray-100/80 rounded-xl w-fit">
           {[
-            { id: 'overview', name: 'Tổng quan Công ty', icon: LayoutGrid },
-            { id: 'bd', name: 'Bộ phận BD', icon: TrendingUp },
-            { id: 'hh', name: 'Bộ phận HH', icon: Users }
+            { id: 'overview', name: 'Company Overview', icon: LayoutGrid },
+            { id: 'bd', name: 'BD Department', icon: TrendingUp },
+            { id: 'hh', name: 'HH Department', icon: Users }
           ].map((tab) => (
             <button
               key={tab.id}
@@ -983,14 +983,14 @@ export default function RevenueDashboardPage() {
           >
             {periodType === 'month' ? (
               <>
-                <option value="all">Tất cả tháng</option>
+                <option value="all">All months</option>
                 {MONTHS.map((month, idx) => (
                   <option key={idx} value={idx}>{month}</option>
                 ))}
               </>
             ) : (
               <>
-                <option value="all">Tất cả quý</option>
+                <option value="all">All quarters</option>
                 {QUARTERS.map((quarter, idx) => (
                   <option key={idx} value={idx}>{quarter}</option>
                 ))}
@@ -1011,9 +1011,9 @@ export default function RevenueDashboardPage() {
              </span>
           </div>
           <p className="text-xs font-black text-gray-400 uppercase tracking-widest mb-1">
-            Tổng doanh thu — {periodType === 'month' ? MONTHS[selectedPeriodIndex] : QUARTERS[selectedPeriodIndex]} {selectedYear}
+            Total Revenue — {periodType === 'month' ? MONTHS[selectedPeriodIndex] : QUARTERS[selectedPeriodIndex]} {selectedYear}
           </p>
-          <h2 className="text-3xl font-black text-gray-900 tabular-nums">{totalRevenue.toLocaleString()} <span className="text-sm font-normal text-gray-400">đ</span></h2>
+          <h2 className="text-3xl font-black text-gray-900 tabular-nums">{totalRevenue.toLocaleString()} <span className="text-sm font-normal text-gray-400">VND</span></h2>
         </div>
 
         <div className="bg-linear-to-br from-white to-green-50/30 p-6 rounded-2xl border border-green-100 shadow-sm relative overflow-hidden group">
@@ -1021,8 +1021,8 @@ export default function RevenueDashboardPage() {
           <div className="flex justify-between items-start mb-4">
              <div className="p-2.5 bg-green-500/10 text-green-600 rounded-xl"><Check size={24} /></div>
           </div>
-          <p className="text-xs font-black text-gray-400 uppercase tracking-widest mb-1">Đã xuất hóa đơn</p>
-          <h2 className="text-3xl font-black text-green-600 tabular-nums">{totalInvoiced.toLocaleString()} <span className="text-sm font-normal text-gray-400">đ</span></h2>
+          <p className="text-xs font-black text-gray-400 uppercase tracking-widest mb-1">Invoiced</p>
+          <h2 className="text-3xl font-black text-green-600 tabular-nums">{totalInvoiced.toLocaleString()} <span className="text-sm font-normal text-gray-400">VND</span></h2>
         </div>
 
         <div className="bg-linear-to-br from-white to-amber-50/30 p-6 rounded-2xl border border-amber-100 shadow-sm relative overflow-hidden group">
@@ -1030,8 +1030,8 @@ export default function RevenueDashboardPage() {
           <div className="flex justify-between items-start mb-4">
              <div className="p-2.5 bg-amber-500/10 text-amber-600 rounded-xl"><AlertCircle size={24} /></div>
           </div>
-          <p className="text-xs font-black text-gray-400 uppercase tracking-widest mb-1">Chưa xuất hóa đơn</p>
-          <h2 className="text-3xl font-black text-amber-600 tabular-nums">{totalNotInvoiced.toLocaleString()} <span className="text-sm font-normal text-gray-400">đ</span></h2>
+          <p className="text-xs font-black text-gray-400 uppercase tracking-widest mb-1">Not Invoiced</p>
+          <h2 className="text-3xl font-black text-amber-600 tabular-nums">{totalNotInvoiced.toLocaleString()} <span className="text-sm font-normal text-gray-400">VND</span></h2>
         </div>
       </div>
 
@@ -1039,25 +1039,25 @@ export default function RevenueDashboardPage() {
       <div className="bg-white p-8 rounded-2xl border border-gray-100 shadow-sm">
         <div className="flex items-center justify-between mb-8">
           <h3 className="text-lg font-black text-gray-900 inline-flex items-center gap-3">
-             Biểu đồ doanh thu theo {periodType === 'month' ? 'tháng' : 'quý'}
+             Revenue chart by {periodType === 'month' ? 'month' : 'quarter'}
              <span className="h-4 w-px bg-gray-200"></span>
-             <small className="text-gray-400 font-bold uppercase tracking-widest text-[10px]">Năm {selectedYear}</small>
+             <small className="text-gray-400 font-bold uppercase tracking-widest text-[10px]">Year {selectedYear}</small>
              <span className="px-2 py-0.5 bg-brand-100 text-brand-700 rounded-full text-[10px] font-black">
                {activeTab === 'overview' ? (
                  // Overview tab: show selectedPeriodIndex
-                 <>{periodType === 'month' ? MONTHS[selectedPeriodIndex] : QUARTERS[selectedPeriodIndex]} đang chọn</>
+                 <>{periodType === 'month' ? MONTHS[selectedPeriodIndex] : QUARTERS[selectedPeriodIndex]} selected</>
                ) : (
                  // BD/HH tabs: show selectedMonthForBreakdown or "Tất cả"
                  selectedMonthForBreakdown !== null 
-                   ? <>{periodType === 'month' ? MONTHS[selectedMonthForBreakdown] : QUARTERS[selectedMonthForBreakdown]} đang chọn</>
-                   : <>Tất cả {periodType === 'month' ? 'tháng' : 'quý'}</>
+                   ? <>{periodType === 'month' ? MONTHS[selectedMonthForBreakdown] : QUARTERS[selectedMonthForBreakdown]} selected</>
+                   : <>All {periodType === 'month' ? 'months' : 'quarters'}</>
                )}
              </span>
           </h3>
           <div className="flex items-center gap-6 text-xs font-bold">
-            <div className="flex items-center gap-2"><span className="size-3 rounded-full bg-green-500"></span> Đã xuất HĐ</div>
-            <div className="flex items-center gap-2"><span className="size-3 rounded-full bg-amber-500"></span> Chưa xuất HĐ</div>
-            <div className="flex items-center gap-2"><span className="size-3 rounded-full bg-gray-200"></span> KPI (Mục tiêu)</div>
+            <div className="flex items-center gap-2"><span className="size-3 rounded-full bg-green-500"></span> Invoiced</div>
+            <div className="flex items-center gap-2"><span className="size-3 rounded-full bg-amber-500"></span> Not Invoiced</div>
+            <div className="flex items-center gap-2"><span className="size-3 rounded-full bg-gray-200"></span> KPI (Target)</div>
           </div>
         </div>
         
@@ -1081,7 +1081,7 @@ export default function RevenueDashboardPage() {
               <Tooltip 
                 cursor={{fill: '#f9fafb'}}
                 contentStyle={{ borderRadius: '12px', border: 'none', boxShadow: '0 10px 15px -3px rgb(0 0 0 / 0.1)', fontSize: '12px' }}
-                formatter={(value: any) => [new Intl.NumberFormat('vi-VN').format(value) + ' đ']}
+                formatter={(value: any) => [new Intl.NumberFormat('vi-VN').format(value) + ' VND']}
               />
               <Bar dataKey="invoiced" stackId="a" fill="#22c55e" radius={[0, 0, 0, 0]} maxBarSize={60} />
               <Bar dataKey="notInvoiced" stackId="a" fill="#f59e0b" radius={[4, 4, 0, 0]} maxBarSize={60} />
@@ -1095,7 +1095,7 @@ export default function RevenueDashboardPage() {
       <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden mb-12">
         <div className="p-6 border-b border-gray-50 flex items-center justify-between">
            <h3 className="font-black text-gray-900 uppercase tracking-widest text-xs">
-             Phân tích số liệu chi tiết
+             Detailed data analysis
              {activeTab !== 'overview' && (
                <span className="ml-2 px-2 py-0.5 bg-brand-100 text-brand-700 rounded-full normal-case font-bold text-[10px]">
                  {periodType === 'month' ? MONTHS[selectedPeriodIndex] : QUARTERS[selectedPeriodIndex]} {selectedYear}
@@ -1108,21 +1108,21 @@ export default function RevenueDashboardPage() {
             <thead>
               <tr className="bg-gray-50/50">
                 <th className="px-6 py-4 font-black text-gray-400 uppercase tracking-widest text-[10px] min-w-[200px]">
-                  {activeTab === 'overview' ? 'Chỉ số' : `Nhân viên ${activeTab.toUpperCase()}`}
+                  {activeTab === 'overview' ? 'Metrics' : `${activeTab.toUpperCase()} Personnel`}
                 </th>
                 {activeTab === 'overview' ? (
                   <>
                     {periodLabels.map(m => (
                       <th key={m} className="px-4 py-4 font-black text-gray-400 text-center text-[10px]">{m}</th>
                     ))}
-                    <th className="px-6 py-4 font-black text-brand-600 text-center text-[10px] bg-brand-50/50">Tổng cộng</th>
+                    <th className="px-6 py-4 font-black text-brand-600 text-center text-[10px] bg-brand-50/50">Total</th>
                   </>
                 ) : (
                   <>
-                    <th className="px-6 py-4 font-black text-gray-400 uppercase tracking-widest text-[10px] text-right">KPI mục tiêu</th>
-                    <th className="px-6 py-4 font-black text-gray-400 uppercase tracking-widest text-[10px] text-right">Doanh thu</th>
-                    <th className="px-6 py-4 font-black text-green-600 uppercase tracking-widest text-[10px] text-right">Đã xuất HĐ</th>
-                    <th className="px-6 py-4 font-black text-amber-600 uppercase tracking-widest text-[10px] text-right">Chưa xuất HĐ</th>
+                    <th className="px-6 py-4 font-black text-gray-400 uppercase tracking-widest text-[10px] text-right">Target KPI</th>
+                    <th className="px-6 py-4 font-black text-gray-400 uppercase tracking-widest text-[10px] text-right">Revenue</th>
+                    <th className="px-6 py-4 font-black text-green-600 uppercase tracking-widest text-[10px] text-right">Invoiced</th>
+                    <th className="px-6 py-4 font-black text-amber-600 uppercase tracking-widest text-[10px] text-right">Not Invoiced</th>
                     <th className="px-6 py-4 font-black text-brand-600 uppercase tracking-widest text-[10px] text-center bg-brand-50/50">% KPI</th>
                   </>
                 )}
@@ -1133,7 +1133,7 @@ export default function RevenueDashboardPage() {
                 <>
                   {/* KPI Row */}
                   <tr>
-                    <td className="px-6 py-4 font-bold text-gray-900 bg-gray-50/30">KPI Mục tiêu</td>
+                    <td className="px-6 py-4 font-bold text-gray-900 bg-gray-50/30">Target KPI</td>
                     {dashboardData.map((_d, i) => (
                       <td key={i} className={`px-4 py-4 text-center font-mono text-xs text-gray-400 italic ${i === selectedPeriodIndex ? 'bg-brand-50/40' : ''}`}>
                         {((_d.kpi || 0) / 1000000).toFixed(0)}M
@@ -1143,7 +1143,7 @@ export default function RevenueDashboardPage() {
                   </tr>
                   {/* Revenue Row */}
                   <tr>
-                    <td className="px-6 py-4 font-bold text-gray-900">Doanh thu thực tế</td>
+                    <td className="px-6 py-4 font-bold text-gray-900">Actual Revenue</td>
                     {dashboardData.map((d, i) => (
                       <td key={i} className={`px-4 py-4 text-center font-black text-xs ${i === selectedPeriodIndex ? 'bg-brand-50/40' : ''} ${d.total >= (d.kpi || 0) && (d.kpi || 0) > 0 ? 'text-green-600' : d.total > 0 ? 'text-orange-600' : 'text-gray-300'}`}>
                         {d.total > 0 ? `${(d.total / 1000000).toFixed(1)}M` : '-'}
@@ -1153,7 +1153,7 @@ export default function RevenueDashboardPage() {
                   </tr>
                   {/* % KPI Row */}
                   <tr>
-                    <td className="px-6 py-4 font-bold text-gray-900 bg-gray-50/30">% Hoàn thành KPI</td>
+                    <td className="px-6 py-4 font-bold text-gray-900 bg-gray-50/30">% KPI Completion</td>
                     {dashboardData.map((d, i) => {
                       const rate = d.kpi > 0 ? (d.total / d.kpi) * 100 : 0;
                       return (
@@ -1180,16 +1180,16 @@ export default function RevenueDashboardPage() {
                           </div>
                         </td>
                         <td className="px-6 py-4 text-right font-mono text-xs text-gray-400 italic tabular-nums whitespace-nowrap">
-                          {person.kpi > 0 ? `${new Intl.NumberFormat('vi-VN').format(person.kpi)} đ` : '-'}
+                          {person.kpi > 0 ? `${new Intl.NumberFormat('vi-VN').format(person.kpi)} VND` : '-'}
                         </td>
                         <td className="px-6 py-4 font-black text-gray-900 text-right tabular-nums whitespace-nowrap">
-                          {person.total > 0 ? `${new Intl.NumberFormat('vi-VN').format(person.total)} đ` : '-'}
+                          {person.total > 0 ? `${new Intl.NumberFormat('vi-VN').format(person.total)} VND` : '-'}
                         </td>
                         <td className="px-6 py-4 font-semibold text-green-600 text-right tabular-nums whitespace-nowrap">
-                          {person.invoiced > 0 ? `${new Intl.NumberFormat('vi-VN').format(person.invoiced)} đ` : '-'}
+                          {person.invoiced > 0 ? `${new Intl.NumberFormat('vi-VN').format(person.invoiced)} VND` : '-'}
                         </td>
                         <td className="px-6 py-4 font-semibold text-amber-600 text-right tabular-nums whitespace-nowrap">
-                          {person.notInvoiced > 0 ? `${new Intl.NumberFormat('vi-VN').format(person.notInvoiced)} đ` : '-'}
+                          {person.notInvoiced > 0 ? `${new Intl.NumberFormat('vi-VN').format(person.notInvoiced)} VND` : '-'}
                         </td>
                         <td className="px-6 py-4 text-center bg-brand-50/30">
                           <span className={`px-2.5 py-1 rounded-full text-xs font-black ${
@@ -1205,18 +1205,18 @@ export default function RevenueDashboardPage() {
                     );
                   })}
                   <tr className="bg-gray-50/50 font-black">
-                    <td className="px-6 py-4 text-gray-900">Tổng cộng</td>
+                    <td className="px-6 py-4 text-gray-900">Total</td>
                     <td className="px-6 py-4 text-right text-gray-400 font-mono text-xs tabular-nums whitespace-nowrap">
-                      {totalKPI > 0 ? `${new Intl.NumberFormat('vi-VN').format(totalKPI)} đ` : '-'}
+                      {totalKPI > 0 ? `${new Intl.NumberFormat('vi-VN').format(totalKPI)} VND` : '-'}
                     </td>
                     <td className="px-6 py-4 text-brand-600 text-right tabular-nums whitespace-nowrap">
-                      {new Intl.NumberFormat('vi-VN').format(totalRevenue)} đ
+                      {new Intl.NumberFormat('vi-VN').format(totalRevenue)} VND
                     </td>
                     <td className="px-6 py-4 text-green-600 text-right tabular-nums whitespace-nowrap">
-                      {new Intl.NumberFormat('vi-VN').format(totalInvoiced)} đ
+                      {new Intl.NumberFormat('vi-VN').format(totalInvoiced)} VND
                     </td>
                     <td className="px-6 py-4 text-amber-600 text-right tabular-nums whitespace-nowrap">
-                      {new Intl.NumberFormat('vi-VN').format(totalNotInvoiced)} đ
+                      {new Intl.NumberFormat('vi-VN').format(totalNotInvoiced)} VND
                     </td>
                     <td className="px-6 py-4 text-center bg-brand-50/30">
                       <span className={`px-2.5 py-1 rounded-full text-xs font-black ${
@@ -1249,7 +1249,7 @@ export default function RevenueDashboardPage() {
             <div>
               <h3 className="font-black text-base">{salaryHistoryUser.full_name}</h3>
               <p className="text-xs text-gray-400 mt-0.5">
-                {salaryHistoryUser.kpi_role ?? salaryHistoryUser.role} · Lịch sử lương & KPI
+                {salaryHistoryUser.kpi_role ?? salaryHistoryUser.role} · Salary & KPI History
               </p>
             </div>
             <button
@@ -1264,17 +1264,17 @@ export default function RevenueDashboardPage() {
             {loadingHistory ? (
               <div className="flex items-center justify-center py-12 gap-3 text-gray-400">
                 <Loader2 size={20} className="animate-spin" />
-                <span className="text-sm">Đang tải...</span>
+                <span className="text-sm">Loading...</span>
               </div>
             ) : (
               <>
                 {/* Salary timeline */}
                 <div>
                   <h4 className="text-xs font-black text-gray-400 uppercase tracking-widest mb-3">
-                    Lịch sử lương ({salaryHistoryData.length} lần thay đổi)
+                    Salary History ({salaryHistoryData.length} changes)
                   </h4>
                   {salaryHistoryData.length === 0 ? (
-                    <p className="text-sm text-gray-400 italic">Chưa có dữ liệu lương.</p>
+                    <p className="text-sm text-gray-400 italic">No salary data.</p>
                   ) : (() => {
                     // Sort ASC để tính diff dễ: cũ nhất ở idx=0
                     const sortedAsc = [...salaryHistoryData].sort((a, b) =>
@@ -1300,23 +1300,23 @@ export default function RevenueDashboardPage() {
                                 <div className="flex items-center justify-between gap-2 flex-wrap">
                                   <div className="flex items-center gap-2 flex-wrap">
                                     <span className="text-sm font-black text-gray-900">
-                                      {new Intl.NumberFormat('vi-VN').format(row.base_salary)} đ
+                                      {new Intl.NumberFormat('vi-VN').format(row.base_salary)} VND
                                     </span>
                                     {row.diff !== null && row.diff !== 0 && (
                                       <span className={`text-xs font-bold inline-flex items-center gap-0.5 px-1.5 py-0.5 rounded-full ${
                                         row.diff > 0 ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-600'
                                       }`}>
                                         {row.diff > 0 ? <TrendingUp size={10} /> : <TrendingDown size={10} />}
-                                        {row.diff > 0 ? '+' : ''}{new Intl.NumberFormat('vi-VN').format(row.diff)} đ lần sau
+                                        {row.diff > 0 ? '+' : ''}{new Intl.NumberFormat('vi-VN').format(row.diff)} VND next time
                                       </span>
                                     )}
                                   </div>
                                   {row.is_current && (
-                                    <span className="px-2 py-0.5 bg-brand-500 text-white text-[10px] font-black rounded-full">Hiện tại</span>
+                                      <span className="px-2 py-0.5 bg-brand-500 text-white text-[10px] font-black rounded-full">Current</span>
                                   )}
                                 </div>
                                 <div className="text-xs text-gray-400 mt-1">
-                                  {row.effective_from}{row.effective_to ? ` → ${row.effective_to}` : ' → nay'}
+                                  {row.effective_from}{row.effective_to ? ` → ${row.effective_to}` : ' → now'}
                                 </div>
                               </div>
                             </div>
@@ -1330,10 +1330,10 @@ export default function RevenueDashboardPage() {
                 {/* KPI snapshots grouped by year */}
                 <div>
                   <h4 className="text-xs font-black text-gray-400 uppercase tracking-widest mb-3">
-                    KPI theo kỳ ({kpiSnapshotHistoryData.length} snapshots)
+                    KPI by period ({kpiSnapshotHistoryData.length} snapshots)
                   </h4>
                   {kpiSnapshotHistoryData.length === 0 ? (
-                    <p className="text-sm text-gray-400 italic">Chưa có KPI snapshot. Hãy rebuild snapshots.</p>
+                    <p className="text-sm text-gray-400 italic">No KPI snapshot. Please rebuild snapshots.</p>
                   ) : (() => {
                     const byYear = new Map<number, KPITargetSnapshot[]>();
                     kpiSnapshotHistoryData.forEach(s => {
@@ -1359,7 +1359,7 @@ export default function RevenueDashboardPage() {
 
                             {monthSnaps.length > 0 && (
                               <div className="mb-4">
-                                <div className="text-[10px] text-gray-400 font-black uppercase tracking-widest mb-2">Theo tháng</div>
+                                <div className="text-[10px] text-gray-400 font-black uppercase tracking-widest mb-2">By month</div>
                                 <div className="grid grid-cols-4 sm:grid-cols-6 gap-2">
                                   {monthSnaps.map(s => {
                                     const month = new Date(s.period_start).getMonth() + 1;
@@ -1383,7 +1383,7 @@ export default function RevenueDashboardPage() {
 
                             {quarterSnaps.length > 0 && (
                               <div>
-                                <div className="text-[10px] text-gray-400 font-black uppercase tracking-widest mb-2">Theo quý</div>
+                                <div className="text-[10px] text-gray-400 font-black uppercase tracking-widest mb-2">By quarter</div>
                                 <div className="grid grid-cols-2 sm:grid-cols-4 gap-2">
                                   {quarterSnaps.map(s => {
                                     const q = Math.floor(new Date(s.period_start).getMonth() / 3) + 1;
@@ -1418,7 +1418,7 @@ export default function RevenueDashboardPage() {
               onClick={() => setSalaryHistoryUser(null)}
               className="px-5 py-2 text-sm font-bold text-gray-600 border border-gray-200 rounded-xl hover:bg-gray-100"
             >
-              Đóng
+              Close
             </button>
           </div>
         </div>

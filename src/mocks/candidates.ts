@@ -10,7 +10,7 @@ export const MOCK_CANDIDATES = [
     current_title: "Senior Frontend Engineer",
     applied_position: "Senior Frontend Engineer",
     experience_years: 5,
-    address: "Hà Nội",
+    address: "Hanoi",
     created_at: new Date().toISOString(),
     owner_id: "mock-user-123", // My candidate
     cv_link: "https://example.com/cv1.pdf",
@@ -27,7 +27,7 @@ export const MOCK_CANDIDATES = [
     current_title: "Product Manager",
     applied_position: "Product Manager",
     experience_years: 3,
-    address: "TP. Hồ Chí Minh",
+    address: "Ho Chi Minh City",
     created_at: new Date(Date.now() - 86400000 * 3).toISOString(),
     owner_id: "mock-user-123", // My candidate
     cv_link: "https://example.com/cv2.pdf"
@@ -43,7 +43,7 @@ export const MOCK_CANDIDATES = [
     current_title: "Backend Developer",
     applied_position: "Backend Developer",
     experience_years: 7,
-    address: "Đà Nẵng",
+    address: "Da Nang",
     created_at: new Date(Date.now() - 86400000 * 15).toISOString(),
     owner_id: "other-user", // Database candidate
     is_potential: true
@@ -59,7 +59,7 @@ export const MOCK_CANDIDATES = [
     current_title: "DevOps Engineer",
     applied_position: "DevOps Engineer",
     experience_years: 4,
-    address: "Hà Nội",
+    address: "Hanoi",
     created_at: new Date(Date.now() - 86400000 * 5).toISOString(),
     owner_id: "other-user", // Database candidate
   },
@@ -74,7 +74,7 @@ export const MOCK_CANDIDATES = [
     current_title: "UX/UI Designer",
     applied_position: "Senior UX Designer",
     experience_years: 6,
-    address: "Hải Phòng",
+    address: "Hai Phong",
     created_at: new Date(Date.now() - 86400000 * 2).toISOString(),
     owner_id: "mock-user-123", // My candidate
     is_potential: true,

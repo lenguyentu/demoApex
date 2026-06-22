@@ -20,7 +20,7 @@ export const SearchableSelect = ({
   options,
   value,
   onChange,
-  placeholder = 'Chọn...',
+  placeholder = 'Select...',
   className = '',
   icon,
   onSearch,
@@ -172,7 +172,7 @@ export const SearchableSelect = ({
             ))
           ) : (
             <div className="px-3 py-4 text-sm text-gray-500 text-center">
-              {searchTerm ? `Không tìm thấy "${searchTerm}"` : 'Không có dữ liệu'}
+              {searchTerm ? `No results found for "${searchTerm}"` : 'No data'}
             </div>
           )}
         </div>

@@ -118,7 +118,7 @@ export function ProcessPage() {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={16} />
             <input
               type="text"
-              placeholder="Tìm tên/email..."
+              placeholder="Search name/email..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-9 pr-3 py-1.5 border border-gray-200 rounded-md focus:outline-none focus:ring-1 focus:ring-brand-500 text-sm"
@@ -130,7 +130,7 @@ export function ProcessPage() {
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
           >
-            <option value="">Tất cả Status</option>
+            <option value="">All Statuses</option>
             {Object.entries(STATUS_CONFIG).map(([key, config]) => (
               <option key={key} value={key}>{config.displayName}</option>
             ))}

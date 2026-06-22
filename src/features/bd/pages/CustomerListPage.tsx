@@ -27,10 +27,10 @@ export const CustomerListPage = () => {
 
   const [filters, setFilters] = useState({
     search: '',
-    status: 'Tất cả Status',
-    priority: 'Tất cả',
-    domain: 'Tất cả Domain',
-    source: 'Tất cả nguồn',
+    status: 'All Statuses',
+    priority: 'All',
+    domain: 'All Domains',
+    source: 'All sources',
     owner_id: user?.id || '' // Default to current user
   });
 
@@ -93,7 +93,7 @@ export const CustomerListPage = () => {
 
       {viewMode === 'table' && (
           <div className="mb-4 text-sm text-gray-500 dark:text-gray-400">
-              Hiển thị <span className="font-bold text-gray-900 dark:text-white">{customers.length}</span> / {totalCount ?? '...'} khách hàng
+              Showing <span className="font-bold text-gray-900 dark:text-white">{customers.length}</span> / {totalCount ?? '...'} customers
           </div>
       )}
 
@@ -121,10 +121,10 @@ export const CustomerListPage = () => {
                       </div>
                       <div>
                         <h3 className="text-lg font-semibold text-yellow-900 mb-1">
-                          Vui lòng chọn người phụ trách
+                          Please select an assignee
                         </h3>
                         <p className="text-sm text-yellow-700">
-                          Kanban view yêu cầu chọn một BD cụ thể để đảm bảo hiệu suất tốt nhất.
+                          Kanban view requires selecting a specific BD to ensure best performance.
                         </p>
                       </div>
                     </div>

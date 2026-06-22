@@ -25,32 +25,32 @@ export function CandidateEducation({
     <div>
       <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
         <GraduationCap className="h-4 w-4 text-pink-600" />
-        Học vấn
+        Education
       </h2>
       <div className="space-y-4">
         <EditableField 
-          label="Trình độ học vấn cao nhất" 
+          label="Highest degree" 
           name="degree" 
           value={isEditing ? formData.degree : candidate.highest_education} 
           isEditing={isEditing} 
           onChange={handleInputChange} 
         />
         <EditableField 
-          label="Tên trường" 
+          label="School name" 
           name="university" 
           value={isEditing ? formData.university : candidate.school_name} 
           isEditing={isEditing} 
           onChange={handleInputChange} 
         />
         <EditableField 
-          label="Chuyên ngành" 
+          label="Major" 
           name="major" 
           value={isEditing ? formData.major : candidate.major} 
           isEditing={isEditing} 
           onChange={handleInputChange} 
         />
         <EditableField 
-          label="Thời gian học" 
+          label="Education period" 
           name="educationPeriod" 
           value={isEditing ? formData.educationPeriod : candidate.education_period} 
           isEditing={isEditing} 
@@ -65,7 +65,7 @@ export function CandidateEducation({
         />
         {!isEditing && (
           <EditableField 
-            label="Chi tiết học vấn" 
+            label="Education details" 
             name="education_details" 
             value={candidate.education_details} 
             isEditing={false} 

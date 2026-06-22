@@ -44,7 +44,7 @@ export const ClientAttachmentsTable: React.FC<ClientAttachmentsTableProps> = ({
 
   const handleViewFile = async (attachment: ClientAttachment) => {
     setLoadingFileId(attachment.id);
-    const loadingToast = toast.loading('Đang tải tài liệu...');
+    const loadingToast = toast.loading('Loading document...');
     try {
       // Check if file_path is a valid URL (starts with http)
       if (attachment.file_path && attachment.file_path.startsWith('http')) {
@@ -60,7 +60,7 @@ export const ClientAttachmentsTable: React.FC<ClientAttachmentsTableProps> = ({
         if (error) throw error;
 
         if (!data?.file_data) {
-          toast.error('Không tìm thấy dữ liệu file');
+          toast.error('File data not found');
           return;
         }
 
@@ -87,7 +87,7 @@ export const ClientAttachmentsTable: React.FC<ClientAttachmentsTableProps> = ({
       toast.dismiss(loadingToast);
     } catch (error: any) {
       console.error('Error viewing file:', error);
-      toast.error(error.message || 'Lỗi khi mở file', { id: loadingToast });
+      toast.error(error.message || 'Error opening file', { id: loadingToast });
     } finally {
       setLoadingFileId(null);
       toast.dismiss(loadingToast);
@@ -96,7 +96,7 @@ export const ClientAttachmentsTable: React.FC<ClientAttachmentsTableProps> = ({
 
   const handleDownloadFile = async (attachment: ClientAttachment) => {
     setLoadingFileId(attachment.id);
-    const loadingToast = toast.loading('Đang chuẩn bị file tải xuống...');
+    const loadingToast = toast.loading('Preparing file for download...');
     try {
       let blob: Blob;
 
@@ -115,7 +115,7 @@ export const ClientAttachmentsTable: React.FC<ClientAttachmentsTableProps> = ({
          if (error) throw error;
  
          if (!data?.file_data) {
-           toast.error('Không tìm thấy dữ liệu file', { id: loadingToast });
+           toast.error('File data not found', { id: loadingToast });
            return;
          }
  
@@ -142,17 +142,17 @@ export const ClientAttachmentsTable: React.FC<ClientAttachmentsTableProps> = ({
       document.body.removeChild(link);
       URL.revokeObjectURL(blobUrl);
 
-      toast.success('Đã tải file thành công', { id: loadingToast });
+      toast.success('File downloaded successfully', { id: loadingToast });
     } catch (error: any) {
       console.error('Error downloading file:', error);
-      toast.error(error.message || 'Lỗi khi tải file', { id: loadingToast });
+      toast.error(error.message || 'Error downloading file', { id: loadingToast });
     } finally {
       setLoadingFileId(null);
     }
   };
 
   const handleDeleteFile = async (attachment: ClientAttachment) => {
-    if (!confirm('Bạn có chắc muốn xóa file này?')) return;
+    if (!confirm('Are you sure you want to delete this file?')) return;
 
     setDeletingFileId(attachment.id);
     try {
@@ -181,11 +181,11 @@ export const ClientAttachmentsTable: React.FC<ClientAttachmentsTableProps> = ({
 
       if (dbError) throw dbError;
 
-      toast.success('Đã xóa file thành công');
+      toast.success('File deleted successfully');
       onRefresh();
     } catch (error: any) {
       console.error('Error deleting file:', error);
-      toast.error(error.message || 'Lỗi khi xóa file');
+      toast.error(error.message || 'Error deleting file');
     } finally {
       setDeletingFileId(null);
     }
@@ -202,7 +202,7 @@ export const ClientAttachmentsTable: React.FC<ClientAttachmentsTableProps> = ({
             className="inline-flex items-center gap-2 px-4 py-2 bg-brand-600 text-white rounded-lg text-sm font-medium hover:bg-brand-700 transition shadow-sm"
           >
             <Plus className="w-4 h-4" />
-            Thêm file
+            Add File
           </button>
         </div>
       )}
@@ -210,7 +210,7 @@ export const ClientAttachmentsTable: React.FC<ClientAttachmentsTableProps> = ({
       {/* Table */}
       {attachments.length === 0 ? (
         <div className="text-center py-8 text-gray-500 bg-gray-50 rounded-lg border border-dashed border-gray-300">
-          {isViewMode ? 'Chưa có file đính kèm' : 'Chưa có file đính kèm. Nhấn "Thêm file" để upload.'}
+          {isViewMode ? 'No attachments' : 'No attachments. Click "Add File" to upload.'}
         </div>
       ) : (
         <div className="overflow-x-auto">
@@ -218,19 +218,19 @@ export const ClientAttachmentsTable: React.FC<ClientAttachmentsTableProps> = ({
             <thead className="bg-gray-50/50 border-b border-gray-100">
               <tr>
                 <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                  Tên file
+                  File Name
                 </th>
                 <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                  Mô tả
+                  Description
                 </th>
                 <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                  Kích thước
+                  Size
                 </th>
                 <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                  Ngày tạo
+                  Created At
                 </th>
                 <th className="px-4 py-3 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">
-                  Thao tác
+                  Actions
                 </th>
               </tr>
             </thead>
@@ -261,7 +261,7 @@ export const ClientAttachmentsTable: React.FC<ClientAttachmentsTableProps> = ({
                         onClick={() => handleViewFile(attachment)}
                         disabled={loadingFileId === attachment.id}
                         className="p-1.5 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded transition-all disabled:opacity-50"
-                        title="Xem file"
+                        title="View File"
                       >
                         {loadingFileId === attachment.id ? (
                           <Loader2 className="w-4 h-4 animate-spin" />
@@ -274,7 +274,7 @@ export const ClientAttachmentsTable: React.FC<ClientAttachmentsTableProps> = ({
                         onClick={() => handleDownloadFile(attachment)}
                         disabled={loadingFileId === attachment.id}
                         className="p-1.5 text-gray-500 hover:text-green-600 hover:bg-green-50 rounded transition-all disabled:opacity-50"
-                        title="Tải xuống"
+                        title="Download"
                       >
                         <Download className="w-4 h-4" />
                       </button>
@@ -284,7 +284,7 @@ export const ClientAttachmentsTable: React.FC<ClientAttachmentsTableProps> = ({
                           onClick={() => handleDeleteFile(attachment)}
                           disabled={deletingFileId === attachment.id}
                           className="p-1.5 text-gray-500 hover:text-red-600 hover:bg-red-50 rounded transition-all disabled:opacity-50"
-                          title="Xóa"
+                          title="Delete"
                         >
                           {deletingFileId === attachment.id ? (
                             <Loader2 className="w-4 h-4 animate-spin" />

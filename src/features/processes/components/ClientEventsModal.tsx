@@ -98,12 +98,12 @@ export function ClientEventsModal({
         level: editForm.level
       });
 
-      toast.success('Đã cập nhật lịch phỏng vấn');
+      toast.success('Interview schedule updated');
       setEditingEventId(null);
       fetchEvents();
     } catch (error) {
       console.error('Failed to update event', error);
-      toast.error('Lỗi khi cập nhật lịch');
+      toast.error('Error updating schedule');
     } finally {
       setIsUpdating(false);
     }
@@ -158,12 +158,12 @@ export function ClientEventsModal({
           {loading ? (
             <div className="text-center py-12 text-gray-400">
               <div className="animate-spin rounded-full h-10 w-10 border-b-2 border-purple-600 mx-auto mb-3"></div>
-              <p className="text-sm">Đang tải lịch...</p>
+              <p className="text-sm">Loading schedule...</p>
             </div>
           ) : events.length === 0 ? (
             <div className="text-center py-16 text-gray-400">
               <Calendar size={48} className="mx-auto mb-4 opacity-20" />
-              <p className="text-base font-medium">Chưa có lịch phỏng vấn nào</p>
+              <p className="text-base font-medium">No interview schedule yet</p>
               <p className="text-xs mt-1">Lịch sẽ xuất hiện khi bạn cập nhật trạng thái phỏng vấn.</p>
             </div>
           ) : (
@@ -295,7 +295,7 @@ export function ClientEventsModal({
                         <button 
                           onClick={() => handleStartEdit(event)}
                           className="p-1.5 text-gray-400 hover:text-purple-600 hover:bg-purple-50 rounded-lg opacity-0 group-hover/event:opacity-100 transition-all shrink-0 border border-transparent hover:border-purple-100"
-                          title="Chỉnh sửa lịch"
+                          title="Edit schedule"
                         >
                           <Edit2 size={14} />
                         </button>

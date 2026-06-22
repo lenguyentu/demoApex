@@ -228,7 +228,7 @@ export const updateInterviewEvent = async (id: string, updates: {
   }
   
   if (!data || data.length === 0) {
-    throw new Error('Không tìm thấy lịch phỏng vấn hoặc bạn không có quyền chỉnh sửa.');
+    throw new Error('Interview schedule not found or you do not have permission to edit.');
   }
   
   return data[0];

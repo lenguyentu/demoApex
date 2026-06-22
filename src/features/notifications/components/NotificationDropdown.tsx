@@ -69,7 +69,7 @@ export function NotificationDropdown({ isOpen, onClose, unreadCount }: Notificat
           <div className="flex items-center gap-2">
             <Bell size={20} className="text-brand-500" />
             <h3 className="font-semibold text-gray-900 dark:text-white">
-              Thông báo
+              Notifications
             </h3>
             {unreadCount > 0 && (
               <span className="px-2 py-0.5 text-xs font-bold text-white bg-red-500 rounded-full">
@@ -90,12 +90,12 @@ export function NotificationDropdown({ isOpen, onClose, unreadCount }: Notificat
           {isLoading ? (
             <div className="p-8 text-center text-gray-500">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand-500 mx-auto"></div>
-              <p className="mt-2 text-sm">Đang tải...</p>
+              <p className="mt-2 text-sm">Loading...</p>
             </div>
           ) : notifications.length === 0 ? (
             <div className="p-8 text-center text-gray-500">
               <Bell size={48} className="mx-auto mb-2 opacity-20" />
-              <p className="text-sm">Chưa có thông báo</p>
+              <p className="text-sm">No notifications yet</p>
             </div>
           ) : (
             <div className="divide-y divide-gray-100 dark:divide-gray-700">
@@ -139,7 +139,7 @@ export function NotificationDropdown({ isOpen, onClose, unreadCount }: Notificat
             onClick={onClose}
             className="block w-full text-center py-2 text-sm font-medium text-brand-600 hover:text-brand-700 dark:text-brand-400 dark:hover:text-brand-300 transition"
           >
-            Xem tất cả thông báo
+            View all notifications
           </Link>
         </div>
       </div>

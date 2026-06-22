@@ -71,7 +71,7 @@ export function DocumentViewerModal({
   useEffect(() => {
     if (!isOpen || !fileUrl) {
        if (isOpen) {
-           setError('Không có tài liệu.');
+           setError('No document available.');
            setViewerMode(null);
            setIsLoading(false);
            setResolvedFullUrl(null);
@@ -89,7 +89,7 @@ export function DocumentViewerModal({
       } else if (activeTab === 'cv') {
         const { data, error } = await supabase.storage.from('cv').createSignedUrl(fileUrl, 3600);
         if (error || !data) {
-          setError('Không có quyền truy cập CV này (Lỗi RLS).');
+          setError('No access to this CV (RLS Error).');
           setIsLoading(false);
           return;
         }
@@ -151,7 +151,7 @@ export function DocumentViewerModal({
 
       // Kiểm tra định dạng file DOC/DOCX
       if (fileExtension !== 'docx' && fileExtension !== 'doc') {
-        setError('Chỉ hỗ trợ file PDF, DOC và DOCX. Vui lòng tải về để xem.');
+        setError('Only PDF, DOC, and DOCX files are supported. Please download to view.');
         setIsLoading(false);
         setViewerMode(null);
         return;
@@ -204,7 +204,7 @@ export function DocumentViewerModal({
         {/* Header */}
         <div className="flex items-center justify-between p-4 border-b border-gray-200">
            <div className="flex items-center gap-4">
-              <h3 className="text-lg font-semibold text-gray-900 border-r border-gray-300 pr-4">Xem tài liệu</h3>
+              <h3 className="text-lg font-semibold text-gray-900 border-r border-gray-300 pr-4">View Document</h3>
               
               <div className="flex bg-gray-100 p-1 rounded-lg">
                 <button
@@ -227,7 +227,7 @@ export function DocumentViewerModal({
                     } ${!evaluationUrl ? 'opacity-50 cursor-not-allowed' : ''}`}
                     disabled={!evaluationUrl}
                 >
-                    Đánh giá
+                    Evaluation
                 </button>
               </div>
            </div>
@@ -300,7 +300,7 @@ export function DocumentViewerModal({
             <div className="absolute inset-0 flex items-center justify-center bg-white bg-opacity-90 z-10">
               <div className="flex items-center">
                 <Loader2 className="h-8 w-8 animate-spin text-pink-600" />
-                <span className="ml-3 text-gray-600">Đang tải tài liệu...</span>
+                <span className="ml-3 text-gray-600">Loading document...</span>
               </div>
             </div>
           )}
@@ -318,7 +318,7 @@ export function DocumentViewerModal({
                   className="inline-flex items-center gap-2 px-4 py-2 bg-pink-600 text-white rounded-lg hover:bg-pink-700 transition-colors"
                 >
                   <FileText className="h-4 w-4" />
-                  Tải về
+                  Download
                 </a>
               </div>
             </div>
@@ -331,7 +331,7 @@ export function DocumentViewerModal({
             onClick={onClose}
             className="px-4 py-2 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors"
           >
-            Đóng
+            Close
           </button>
         </div>
       </div>

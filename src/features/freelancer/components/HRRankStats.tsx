@@ -27,8 +27,8 @@ export const HRRankStats = ({ dateRange }: HRRankStatsProps) => {
             <Trophy className="w-5 h-5 text-amber-600" />
           </div>
           <div>
-            <h3 className="text-lg font-bold text-gray-900">Xếp hạng Nhân viên (Theo số lượng Ref)</h3>
-            <p className="text-sm text-gray-500 mt-0.5">Dựa trên số lượng user có assigned_hr_id tương ứng</p>
+            <h3 className="text-lg font-bold text-gray-900">Staff Ranking (By Ref Count)</h3>
+            <p className="text-sm text-gray-500 mt-0.5">Based on the number of users with corresponding assigned_hr_id</p>
           </div>
         </div>
         
@@ -36,7 +36,7 @@ export const HRRankStats = ({ dateRange }: HRRankStatsProps) => {
           onClick={toggleLimit}
           className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-full hover:bg-gray-50 shadow-sm active:scale-95 transition-all"
         >
-          {limit === 5 ? 'Xem thêm' : 'Thu gọn'}
+          {limit === 5 ? 'View more' : 'View less'}
           {limit === 5 ? <ChevronDown className="w-4 h-4 text-gray-400" /> : <ChevronUp className="w-4 h-4 text-gray-400" />}
         </button>
       </div>
@@ -79,7 +79,7 @@ export const HRRankStats = ({ dateRange }: HRRankStatsProps) => {
                             <button 
                                 onClick={() => setSelectedHR({ id: item.hr_id, name: item.hr_name })}
                                 className="p-2 text-gray-400 hover:text-amber-600 hover:bg-amber-100/50 rounded-lg transition-all"
-                                title="Xem chi tiết"
+                                title="View details"
                             >
                                 <ExternalLink className="w-4 h-4" />
                             </button>
@@ -88,7 +88,7 @@ export const HRRankStats = ({ dateRange }: HRRankStatsProps) => {
                 ))
             ) : (
                 <div className="col-span-full py-12 text-center text-gray-400 italic">
-                    Chưa có dữ liệu xếp hạng trong khoảng thời gian này.
+                    No ranking data available for this period.
                 </div>
             )}
         </div>

@@ -28,7 +28,7 @@ interface OwnerSelectProps {
 export function OwnerSelect({
   value,
   onChange,
-  placeholder = 'Chọn owner...',
+  placeholder = 'Select owner...',
   className = '',
   disabled = false,
 }: OwnerSelectProps) {
@@ -56,7 +56,7 @@ export function OwnerSelect({
       options={ownerOptions}
       value={value}
       onChange={onChange}
-      placeholder={isLoading ? 'Đang tải...' : placeholder}
+      placeholder={isLoading ? 'Loading...' : placeholder}
       icon={<User size={16} />}
       className={className}
     />

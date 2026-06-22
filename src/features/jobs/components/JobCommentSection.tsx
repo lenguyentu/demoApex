@@ -20,10 +20,10 @@ const formatRelativeTime = (dateString: string): string => {
   const diffHours = Math.floor(diffMs / 3600000);
   const diffDays = Math.floor(diffMs / 86400000);
 
-  if (diffMins < 1) return 'Vừa xong';
-  if (diffMins < 60) return `${diffMins} phút trước`;
-  if (diffHours < 24) return `${diffHours} giờ trước`;
-  if (diffDays < 7) return `${diffDays} ngày trước`;
+  if (diffMins < 1) return 'Just now';
+  if (diffMins < 60) return `${diffMins} minutes ago`;
+  if (diffHours < 24) return `${diffHours} hours ago`;
+  if (diffDays < 7) return `${diffDays} days ago`;
   
   return date.toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit', year: 'numeric' });
 };
@@ -95,7 +95,7 @@ const CommentItem = ({
           <div className="flex items-center gap-2 mt-1 px-1 text-xs">
             <span className="text-gray-500 dark:text-gray-400">
               {formatRelativeTime(comment.created_at)}
-              {comment.is_edited && ' (đã sửa)'}
+              {comment.is_edited && ' (edited)'}
             </span>
             <span className="text-gray-300 dark:text-gray-600">•</span>
             {!isReply && (
@@ -103,7 +103,7 @@ const CommentItem = ({
                 onClick={() => setShowReplyInput(!showReplyInput)}
                 className="text-brand-600 hover:text-brand-700 dark:text-brand-400 font-medium"
               >
-                Trả lời
+                Reply
               </button>
             )}
             {isOwner && (
@@ -112,13 +112,13 @@ const CommentItem = ({
                   onClick={() => onEdit(comment)}
                   className="text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-300"
                 >
-                  Sửa
+                  Edit
                 </button>
                 <button
                   onClick={() => onDelete(comment.id)}
                   className="text-red-500 hover:text-red-600"
                 >
-                  Xóa
+                  Delete
                 </button>
               </>
             )}
@@ -143,7 +143,7 @@ const CommentItem = ({
                       handleSubmitReply();
                     }
                   }}
-                  placeholder="Viết trả lời..."
+                  placeholder="Write a reply..."
                   maxLength={2000}
                   autoFocus
                   className="w-full px-3 py-1.5 text-sm border border-gray-200 dark:border-gray-600 rounded-full bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500"
@@ -153,7 +153,7 @@ const CommentItem = ({
                     onClick={() => { setShowReplyInput(false); setReplyContent(''); }}
                     className="text-xs text-gray-500 hover:text-gray-700 dark:text-gray-400"
                   >
-                    Hủy
+                    Cancel
                   </button>
                   <button
                     onClick={handleSubmitReply}
@@ -161,7 +161,7 @@ const CommentItem = ({
                     className="text-xs text-brand-600 hover:text-brand-700 dark:text-brand-400 font-medium disabled:opacity-50 flex items-center gap-1"
                   >
                     {isSubmittingReply ? <Loader2 size={10} className="animate-spin" /> : <Send size={10} />}
-                    Gửi
+                    Send
                   </button>
                 </div>
               </div>
@@ -229,10 +229,10 @@ export const JobCommentSection = ({ jobId }: JobCommentSectionProps) => {
       await createJobComment(jobId, newComment);
       setNewComment('');
       await loadComments();
-      toast.success('Đã thêm bình luận');
+      toast.success('Comment added');
     } catch (error) {
       console.error('Error creating comment:', error);
-      toast.error('Không thể thêm bình luận');
+      toast.error('Cannot add comment');
     } finally {
       setSubmitting(false);
     }
@@ -243,10 +243,10 @@ export const JobCommentSection = ({ jobId }: JobCommentSectionProps) => {
     try {
       await createJobComment(jobId, content, parentId);
       await loadComments();
-      toast.success('Đã trả lời bình luận');
+      toast.success('Replied to comment');
     } catch (error) {
       console.error('Error creating reply:', error);
-      toast.error('Không thể trả lời');
+      toast.error('Cannot reply');
     }
   };
 
@@ -260,10 +260,10 @@ export const JobCommentSection = ({ jobId }: JobCommentSectionProps) => {
       await updateJobComment(editingComment.id, editingComment.content);
       setEditingComment(null);
       await loadComments();
-      toast.success('Đã cập nhật bình luận');
+      toast.success('Comment updated');
     } catch (error) {
       console.error('Error updating comment:', error);
-      toast.error('Không thể cập nhật');
+      toast.error('Cannot update');
     } finally {
       setSubmitting(false);
     }
@@ -271,15 +271,15 @@ export const JobCommentSection = ({ jobId }: JobCommentSectionProps) => {
 
   // Handle delete
   const handleDelete = async (commentId: string) => {
-    if (!confirm('Bạn có chắc muốn xóa bình luận này?')) return;
+    if (!confirm('Are you sure you want to delete this comment?')) return;
 
     try {
       await deleteJobComment(commentId);
       await loadComments();
-      toast.success('Đã xóa bình luận');
+      toast.success('Comment deleted');
     } catch (error) {
       console.error('Error deleting comment:', error);
-      toast.error('Không thể xóa');
+      toast.error('Cannot delete');
     }
   };
 
@@ -289,7 +289,7 @@ export const JobCommentSection = ({ jobId }: JobCommentSectionProps) => {
       <div className="flex items-center gap-2 mb-4 pb-3 border-b border-gray-200 dark:border-gray-700">
         <MessageSquare className="text-brand-500" size={20} />
         <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
-          Bình luận ({comments.length})
+          Comments ({comments.length})
         </h3>
       </div>
 
@@ -305,7 +305,7 @@ export const JobCommentSection = ({ jobId }: JobCommentSectionProps) => {
             <textarea
               value={newComment}
               onChange={(e) => setNewComment(e.target.value)}
-              placeholder="Viết bình luận..."
+              placeholder="Write a comment..."
               rows={2}
               maxLength={2000}
               className="w-full px-3 py-2 border border-gray-200 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500 resize-none text-sm"
@@ -318,7 +318,7 @@ export const JobCommentSection = ({ jobId }: JobCommentSectionProps) => {
                 className="inline-flex items-center gap-2 px-4 py-1.5 bg-brand-500 text-white rounded-lg hover:bg-brand-600 disabled:opacity-50 disabled:cursor-not-allowed text-sm font-medium transition-colors"
               >
                 {submitting ? <Loader2 size={14} className="animate-spin" /> : <Send size={14} />}
-                Gửi
+                Send
               </button>
             </div>
           </div>
@@ -333,7 +333,7 @@ export const JobCommentSection = ({ jobId }: JobCommentSectionProps) => {
       ) : comments.length === 0 ? (
         <div className="text-center py-8 text-gray-500 dark:text-gray-400">
           <MessageSquare size={32} className="mx-auto mb-2 opacity-50" />
-          <p>Chưa có bình luận nào</p>
+          <p>No comments yet</p>
         </div>
       ) : (
         <div className="space-y-4">
@@ -355,7 +355,7 @@ export const JobCommentSection = ({ jobId }: JobCommentSectionProps) => {
       {editingComment && (
         <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
           <div className="bg-white dark:bg-gray-800 rounded-xl p-4 w-full max-w-md mx-4">
-            <h4 className="font-medium text-gray-900 dark:text-white mb-3">Sửa bình luận</h4>
+            <h4 className="font-medium text-gray-900 dark:text-white mb-3">Edit comment</h4>
             <form onSubmit={handleEditSubmit}>
               <textarea
                 value={editingComment.content}
@@ -371,14 +371,14 @@ export const JobCommentSection = ({ jobId }: JobCommentSectionProps) => {
                   onClick={() => setEditingComment(null)}
                   className="px-4 py-1.5 text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 rounded-lg text-sm"
                 >
-                  Hủy
+                  Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={!editingComment.content.trim() || submitting}
                   className="px-4 py-1.5 bg-brand-500 text-white rounded-lg hover:bg-brand-600 disabled:opacity-50 text-sm font-medium"
                 >
-                  Lưu
+                  Save
                 </button>
               </div>
             </form>

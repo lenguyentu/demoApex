@@ -145,7 +145,7 @@ export const JobsPage = ({ mode }: JobsPageProps) => {
     const { job, newOwnerId } = pendingBDChange;
     
     if (!job.client_id) {
-      toast.error('Job không có client');
+      toast.error('Job does not have a client');
       setPendingBDChange(null);
       return;
     }
@@ -153,12 +153,12 @@ export const JobsPage = ({ mode }: JobsPageProps) => {
     try {
       setUpdatingBD(job.id);
       await updateClientOwner(job.client_id, newOwnerId);
-      toast.success('Đã cập nhật BD thành công');
+      toast.success('BD updated successfully');
       setPendingBDChange(null);
       refresh();
     } catch (error) {
       console.error('Error updating BD:', error);
-      toast.error('Không thể cập nhật BD');
+      toast.error('Could not update BD');
     } finally {
       setUpdatingBD(null);
     }
@@ -207,21 +207,21 @@ export const JobsPage = ({ mode }: JobsPageProps) => {
     const COL_WIDTH_RICH = 80; // fixed width for JD & Requirements
 
     const dataToExport = toExport.map((job) => ({
-      'Mã Job': job.job_id || '',
-      'Vị trí': job.position_title || '',
-      'Khách hàng': (job as any).clients?.client_name || '',
-      'Trạng thái': job.phase || '',
-      'Số lượng': job.number_of_employees || '',
-      'Loại': job.assignment_type || '',
-      'Ngành': job.td_job_category || '',
-      'Lương tối thiểu': job.min_monthly_salary || '',
-      'Lương tối đa': job.max_monthly_salary || '',
-      'Địa điểm': job.work_location || '',
+      'Job Code': job.job_id || '',
+      'Position': job.position_title || '',
+      'Client': (job as any).clients?.client_name || '',
+      'Status': job.phase || '',
+      'Quantity': job.number_of_employees || '',
+      'Type': job.assignment_type || '',
+      'Domain': job.td_job_category || '',
+      'Min Salary': job.min_monthly_salary || '',
+      'Max Salary': job.max_monthly_salary || '',
+      'Location': job.work_location || '',
       'JD': htmlToText(job.jd_clear),
-      'Mô tả': htmlToText(job.job_summary),
-      'Tạo bởi': (job as any).created_by_details?.full_name || '',
-      'Ngày tạo': job.created_at ? new Date(job.created_at).toLocaleDateString('vi-VN') : '',
-      'Cập nhật': job.updated_at ? new Date(job.updated_at).toLocaleDateString('vi-VN') : '',
+      'Description': htmlToText(job.job_summary),
+      'Created By': (job as any).created_by_details?.full_name || '',
+      'Created At': job.created_at ? new Date(job.created_at).toLocaleDateString('en-US') : '',
+      'Updated At': job.updated_at ? new Date(job.updated_at).toLocaleDateString('en-US') : '',
     }));
 
     const worksheet = XLSX.utils.json_to_sheet(dataToExport);
@@ -229,7 +229,7 @@ export const JobsPage = ({ mode }: JobsPageProps) => {
     // Set column widths
     const colKeys = Object.keys(dataToExport[0] || {});
     worksheet['!cols'] = colKeys.map((key) =>
-      key === 'JD' || key === 'Yêu cầu'
+      key === 'JD' || key === 'Requirement'
         ? { wch: COL_WIDTH_RICH }
         : { wch: COL_WIDTH_NORMAL }
     );
@@ -244,8 +244,8 @@ export const JobsPage = ({ mode }: JobsPageProps) => {
   const pageTitle = mode === 'open' ? 'Open Jobs' : 'Admin Jobs';
   const pageDescription =
     mode === 'open'
-      ? 'Các công việc đang tuyển dụng'
-      : 'Quản lý tất cả công việc';
+      ? 'Available open jobs'
+      : 'Manage all jobs';
 
   return (
     <div className="p-6">
@@ -257,7 +257,7 @@ export const JobsPage = ({ mode }: JobsPageProps) => {
           </h1>
           <p className="text-gray-500 dark:text-gray-400 mt-1">
             {pageDescription}
-            {totalCount !== undefined && ` • ${totalCount} công việc`}
+            {totalCount !== undefined && ` • ${totalCount} jobs`}
           </p>
         </div>
         <div className="flex items-center gap-2 ml-auto">
@@ -294,7 +294,7 @@ export const JobsPage = ({ mode }: JobsPageProps) => {
               className="inline-flex items-center gap-1.5 px-3 py-2 text-sm font-medium rounded-lg border border-gray-300 bg-white text-gray-600 hover:bg-gray-100 hover:border-gray-400 transition-all duration-150 shadow-sm"
             >
               <X size={14} strokeWidth={2} />
-              <span>Bỏ chọn ({selectedJobIds.size})</span>
+              <span>Deselect ({selectedJobIds.size})</span>
             </button>
           )}
           <button
@@ -305,8 +305,8 @@ export const JobsPage = ({ mode }: JobsPageProps) => {
             <Download size={15} strokeWidth={2} />
             <span className="font-medium">
               {selectedJobIds.size > 0
-                ? `Xuất ${selectedJobIds.size} job`
-                : 'Xuất Excel'}
+                ? `Export ${selectedJobIds.size} jobs`
+                : 'Export Excel'}
             </span>
           </button>
           {can(PERMISSIONS.CREATE_JOB) && (
@@ -317,7 +317,7 @@ export const JobsPage = ({ mode }: JobsPageProps) => {
                 className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium bg-brand-500 text-white rounded-lg hover:bg-brand-600 transition-colors shadow-sm"
               >
                 <Plus size={15} strokeWidth={2} />
-                <span>Thêm Job</span>
+                <span>Add Job</span>
               </Link>
             </>
           )}
@@ -338,7 +338,7 @@ export const JobsPage = ({ mode }: JobsPageProps) => {
               type="text"
               value={search}
               onChange={(e) => handleSearchChange(e.target.value)}
-              placeholder="Tìm theo tên vị trí, mã job..."
+              placeholder="Search by position name, job code..."
               className="w-full h-[38px] pl-10 pr-4 border border-gray-200 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-brand-500"
             />
           </div>
@@ -353,7 +353,7 @@ export const JobsPage = ({ mode }: JobsPageProps) => {
                   onChange={(e) => setSelectedJobRank(e.target.value)}
                   className="w-full h-[38px] px-3 border border-gray-200 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
                 >
-                  <option value="">Tất cả Rank</option>
+                  <option value="">All Ranks</option>
                   <option value="S">Rank S</option>
                   <option value="A">Rank A</option>
                   <option value="B">Rank B</option>
@@ -369,7 +369,7 @@ export const JobsPage = ({ mode }: JobsPageProps) => {
                   onChange={(e) => setSelectedJobLevel(e.target.value)}
                   className="w-full h-[38px] px-3 border border-gray-200 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
                 >
-                  <option value="">Tất cả Level</option>
+                  <option value="">All Levels</option>
                   <option value="Intern">Intern</option>
                   <option value="Fresher">Fresher</option>
                   <option value="Junior">Junior</option>
@@ -388,7 +388,7 @@ export const JobsPage = ({ mode }: JobsPageProps) => {
                   onChange={(e) => setSelectedDomain(e.target.value)}
                   className="w-full h-[38px] px-3 border border-gray-200 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
                 >
-                  <option value="">Tất cả Domain</option>
+                  <option value="">All Domains</option>
                   <option value="IT">IT</option>
                   <option value="Non-IT">Non-IT</option>
                   <option value="App/Games">App/Games</option>
@@ -402,7 +402,7 @@ export const JobsPage = ({ mode }: JobsPageProps) => {
                   onChange={(e) => setSelectedBD(e.target.value)}
                   className="w-full h-[38px] px-3 border border-gray-200 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
                 >
-                  <option value="">Tất cả BD</option>
+                  <option value="">All BDs</option>
                   {ownerOptions.map((owner) => (
                     <option key={owner.id} value={owner.id}>
                       {owner.full_name}
@@ -415,7 +415,7 @@ export const JobsPage = ({ mode }: JobsPageProps) => {
                 <ClientSelect
                   value={selectedClient}
                   onChange={setSelectedClient}
-                  placeholder="Chọn khách hàng..."
+                  placeholder="Select client..."
                 />
               </div>
             </>
@@ -430,7 +430,7 @@ export const JobsPage = ({ mode }: JobsPageProps) => {
                   onChange={(e) => setSelectedAssignment(e.target.value)}
                   className="w-full h-[38px] px-3 border border-gray-200 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
                 >
-                  <option value="">Tất cả loại</option>
+                  <option value="">All types</option>
                   <option value="Headhunter">Headhunter</option>
                   <option value="CTV">CTV</option>
                   <option value="Freelancer">Freelancer</option>
@@ -443,9 +443,9 @@ export const JobsPage = ({ mode }: JobsPageProps) => {
                   onChange={(e) => setSelectedUrgent(e.target.value)}
                   className="w-full h-[38px] px-3 border border-gray-200 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
                 >
-                  <option value="">Tất cả (Gấp/Thường)</option>
-                  <option value="true">Chỉ hiện Gấp</option>
-                  <option value="false">Chỉ hiện Thường</option>
+                  <option value="">All (Urgent/Normal)</option>
+                  <option value="true">Urgent Only</option>
+                  <option value="false">Normal Only</option>
                 </select>
               </div>
 
@@ -453,7 +453,7 @@ export const JobsPage = ({ mode }: JobsPageProps) => {
                 <ClientSelect
                   value={selectedClient}
                   onChange={setSelectedClient}
-                  placeholder="Chọn khách hàng..."
+                  placeholder="Select client..."
                 />
               </div>
 
@@ -463,7 +463,7 @@ export const JobsPage = ({ mode }: JobsPageProps) => {
                   onChange={(e) => setSelectedPhase(e.target.value)}
                   className="w-full h-[38px] px-3 border border-gray-200 dark:border-gray-600 rounded-lg bg-gray-50 dark:bg-gray-700 text-gray-900 dark:text-white text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
                 >
-                  <option value="">Tất cả phase</option>
+                  <option value="">All phases</option>
                   {JOB_PHASE_OPTIONS.map((phase) => (
                     <option key={phase.value} value={phase.value}>
                       {phase.label}
@@ -598,7 +598,7 @@ export const JobsPage = ({ mode }: JobsPageProps) => {
                               className="text-sm font-medium text-gray-900 dark:text-white hover:text-brand-600 hover:underline line-clamp-2"
                               title={job.position_title || ''}
                             >
-                              {job.position_title || 'Chưa có tiêu đề'}
+                              {job.position_title || 'No title'}
                             </Link>
                           </div>
                         </td>
@@ -657,7 +657,7 @@ export const JobsPage = ({ mode }: JobsPageProps) => {
                             disabled={updatingBD === job.id}
                             className="text-xs border-gray-200 dark:border-gray-600 rounded px-2 py-1.5 w-full focus:ring-1 focus:ring-brand-500 focus:border-brand-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white disabled:opacity-50 disabled:cursor-not-allowed"
                           >
-                            <option value="">Chưa có</option>
+                            <option value="">None</option>
                             {ownerOptions.map((owner) => (
                               <option key={owner.id} value={owner.id}>
                                 {owner.full_name}
@@ -672,7 +672,7 @@ export const JobsPage = ({ mode }: JobsPageProps) => {
                               target="_blank"
                               rel="noopener noreferrer"
                               className="inline-flex items-center justify-center p-1.5 text-gray-400 hover:text-brand-600 hover:bg-brand-50 rounded-lg transition-colors"
-                              title="Xem JD gốc từ client"
+                              title="View original JD from client"
                             >
                               <ExternalLink size={14} />
                             </a>
@@ -733,31 +733,31 @@ export const JobsPage = ({ mode }: JobsPageProps) => {
                     />
                   </th>
                   <th className="px-3 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider whitespace-nowrap">
-                    Mã Job
+                    Job Code
                   </th>
                   <th className="px-3 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider w-[350px]">
-                    Vị trí
+                    Position
                   </th>
                   <th className="px-3 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider w-[300px]">
-                    Khách hàng
+                    Client
                   </th>
                   <th className="px-3 py-3 text-center text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider whitespace-nowrap">
-                    Trạng thái
+                    Status
                   </th>
                   <th className="px-3 py-3 text-center text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider whitespace-nowrap">
                     SL
                   </th>
                   <th className="px-3 py-3 text-center text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider whitespace-nowrap">
-                    Loại
+                    Type
                   </th>
                   <th className="px-3 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider min-w-[80px]">
                     BD
                   </th>
                   <th className="px-3 py-3 text-left text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider whitespace-nowrap">
-                    Ngày
+                    Date
                   </th>
                   <th className="px-4 py-3 text-right text-xs font-semibold text-gray-600 dark:text-gray-300 uppercase tracking-wider whitespace-nowrap sticky right-0 bg-gray-50 dark:bg-gray-700 shadow-[-4px_0_8px_-4px_rgba(0,0,0,0.1)]">
-                    Thao tác
+                    Actions
                   </th>
                 </tr>
               </thead>
@@ -802,13 +802,13 @@ export const JobsPage = ({ mode }: JobsPageProps) => {
                           className="text-sm font-medium text-gray-900 dark:text-white hover:text-brand-600 hover:underline line-clamp-2"
                           title={job.position_title || ''}
                         >
-                          {job.position_title || 'Chưa có tiêu đề'}
+                          {job.position_title || 'No title'}
                         </Link>
                         <div className="flex items-center gap-2 text-xs text-gray-500 dark:text-gray-400 mt-1 flex-wrap">
                           {job.is_urgent && (
-                            <span className="flex items-center gap-1 px-1.5 py-0.5 rounded border bg-red-50 border-red-200 text-red-600" title="Job Gấp">
+                            <span className="flex items-center gap-1 px-1.5 py-0.5 rounded border bg-red-50 border-red-200 text-red-600" title="Urgent Job">
                               <Flame size={12} className="fill-red-600" />
-                              <span className="text-[10px] font-bold uppercase">Gấp</span>
+                              <span className="text-[10px] font-bold uppercase">Urgent</span>
                             </span>
                           )}
                           {job.td_job_category && <span>{job.td_job_category}</span>}
@@ -853,7 +853,7 @@ export const JobsPage = ({ mode }: JobsPageProps) => {
                           disabled={updatingBD === job.id}
                           className="text-xs border-gray-200 dark:border-gray-600 rounded px-2 py-1.5 w-full focus:ring-1 focus:ring-brand-500 focus:border-brand-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                          <option value="">Chưa có</option>
+                          <option value="">None</option>
                           {ownerOptions.map((owner) => (
                             <option key={owner.id} value={owner.id}>
                               {owner.full_name}
@@ -872,7 +872,7 @@ export const JobsPage = ({ mode }: JobsPageProps) => {
                           <button
                             onClick={() => setPhaseHistoryJobId(job.id)}
                             className="p-1 text-gray-500 hover:text-purple-500 hover:bg-purple-50 dark:hover:bg-purple-900/20 rounded transition-colors"
-                            title="Lịch sử Phase"
+                            title="Phase History"
                           >
                             <Clock size={15} />
                           </button>
@@ -881,7 +881,7 @@ export const JobsPage = ({ mode }: JobsPageProps) => {
                             to={`/jobs/${job.id}`}
                             state={{ from: location.pathname }}
                             className="p-1 text-gray-500 hover:text-brand-500 hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-colors"
-                            title="Xem chi tiết"
+                            title="View details"
                           >
                             <Eye size={15} />
                           </Link>
@@ -889,7 +889,7 @@ export const JobsPage = ({ mode }: JobsPageProps) => {
                             target="_blank"
                             to={`/jobs/${job.id}/edit`}
                             className="p-1 text-gray-500 hover:text-blue-500 hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-colors"
-                            title="Chỉnh sửa"
+                            title="Edit"
                           >
                             <Edit size={15} />
                           </Link>
@@ -899,7 +899,7 @@ export const JobsPage = ({ mode }: JobsPageProps) => {
                               setDeleteModalOpen(true);
                             }}
                             className="p-1 text-gray-500 hover:text-red-500 hover:bg-gray-100 dark:hover:bg-gray-700 rounded transition-colors"
-                            title="Xóa"
+                            title="Delete"
                           >
                             <Trash2 size={15} />
                           </button> */}
@@ -923,7 +923,7 @@ export const JobsPage = ({ mode }: JobsPageProps) => {
 
       {!loading && jobs.length === 0 && (
         <div className="flex flex-col items-center justify-center py-12 text-gray-500">
-          <p>Không tìm thấy công việc nào</p>
+          <p>No jobs found</p>
         </div>
       )}
 
@@ -943,9 +943,9 @@ export const JobsPage = ({ mode }: JobsPageProps) => {
           setJobToDelete(null);
         }}
         onConfirm={handleDelete}
-        title="Xóa công việc"
-        message={`Bạn có chắc chắn muốn xóa job "${jobToDelete?.position_title || jobToDelete?.job_code}"? Hành động này không thể hoàn tác.`}
-        confirmText="Xóa"
+        title="Delete Job"
+        message={`Are you sure you want to delete the job "${jobToDelete?.position_title || jobToDelete?.job_code}"? This action cannot be undone.`}
+        confirmText="Delete"
         variant="danger"
         isLoading={deleteMutation.isPending}
       />
@@ -955,9 +955,9 @@ export const JobsPage = ({ mode }: JobsPageProps) => {
         open={!!pendingBDChange}
         onClose={() => setPendingBDChange(null)}
         onConfirm={handleConfirmBDChange}
-        title="Xác nhận thay đổi BD"
-        message={`Bạn có chắc muốn thay đổi BD cho client "${(pendingBDChange?.job as any)?.clients?.client_name}"? Tất cả jobs của client này sẽ có BD mới.`}
-        confirmText="Xác nhận"
+        title="Confirm BD Change"
+        message={`Are you sure you want to change the BD for client "${(pendingBDChange?.job as any)?.clients?.client_name}"? All jobs of this client will be assigned to the new BD.`}
+        confirmText="Confirm"
         variant="warning"
         isLoading={!!updatingBD}
       />

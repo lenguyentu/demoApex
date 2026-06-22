@@ -102,7 +102,7 @@ export const STATUS_CONFIG: Record<ProcessStatus, {
 };
 
 export const ROLE_OPTIONS = [
-  { value: '', label: 'Tất cả Role' },
+  { value: '', label: 'All Roles' },
   { value: 'Admin', label: 'Admin' },
   { value: 'BD', label: 'BD' },
   { value: 'Headhunter', label: 'Headhunter' },

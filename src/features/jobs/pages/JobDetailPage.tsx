@@ -83,7 +83,7 @@ const formatSalary = (job: Job): string => {
   if (job.min_annual_salary && job.max_annual_salary) {
     return `${job.min_annual_salary} - ${job.max_annual_salary}/year`;
   }
-  return 'Thương lượng';
+  return 'Negotiable';
 };
 
 const formatDate = (dateString: string | null | undefined): string => {
@@ -149,7 +149,7 @@ export const JobDetailPage = () => {
   useEffect(() => {
     const fetchJob = async () => {
       if (!id) {
-        setError('Job ID không hợp lệ');
+        setError('Invalid Job ID');
         setLoading(false);
         return;
       }
@@ -162,11 +162,11 @@ export const JobDetailPage = () => {
         if (found) {
           setJob(found as any);
         } else {
-          setError('Không tìm thấy công việc');
+          setError('Job not found');
         }
       } catch (err) {
         console.error('Error fetching job:', err);
-        setError('Không thể tải thông tin công việc');
+        setError('Cannot load job information');
       } finally {
         setLoading(false);
       }
@@ -256,11 +256,11 @@ export const JobDetailPage = () => {
 
       if (deleteError) throw deleteError;
 
-      toast.success('Đã xóa công việc thành công');
+      toast.success('Job deleted successfully');
       navigate('/jobs');
     } catch (err) {
       console.error('Error deleting job:', err);
-      toast.error('Không thể xóa công việc');
+      toast.error('Cannot delete job');
     } finally {
       setIsDeleting(false);
       setDeleteModalOpen(false);
@@ -275,17 +275,17 @@ export const JobDetailPage = () => {
       <div className="min-h-[50vh] flex flex-col items-center justify-center text-center px-4">
         <AlertCircle className="w-16 h-16 text-red-400 mb-4" />
         <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">
-          {error || 'Không tìm thấy công việc'}
+          {error || 'Job not found'}
         </h2>
         <p className="text-gray-500 dark:text-gray-400 mb-6">
-          Công việc này có thể đã bị xóa hoặc không tồn tại.
+          This job may have been deleted or does not exist.
         </p>
         <Link
           to="/jobs"
           className="inline-flex items-center gap-2 px-4 py-2 bg-brand-500 text-white rounded-lg hover:bg-brand-600 transition-colors"
         >
           <ArrowLeft size={18} />
-          Quay lại danh sách
+          Back to list
         </Link>
       </div>
     );
@@ -391,7 +391,7 @@ export const JobDetailPage = () => {
                     <span className="hidden sm:block text-gray-300 dark:text-gray-600">•</span>
                     <div className="flex items-center gap-1.5 text-gray-500 dark:text-gray-400">
                       <Clock size={16} />
-                      <span>{job.interview_rounds} vòng</span>
+                      <span>{job.interview_rounds} rounds</span>
                     </div>
                   </>
                 )}
@@ -406,7 +406,7 @@ export const JobDetailPage = () => {
                 <Link
                   to={`/jobs/${id}/edit`}
                   className="p-2 text-gray-400 hover:text-brand-600 hover:bg-brand-50 dark:hover:bg-brand-900/10 rounded-lg transition-colors"
-                  title="Chỉnh sửa công việc"
+                  title="Edit job"
                 >
                   <Edit size={20} />
                 </Link>
@@ -416,7 +416,7 @@ export const JobDetailPage = () => {
                 <button
                   onClick={() => setDeleteModalOpen(true)}
                   className="p-2 text-gray-400 hover:text-red-600 hover:bg-red-50 dark:hover:bg-red-900/10 rounded-lg transition-colors"
-                  title="Xóa công việc"
+                  title="Delete job"
                 >
                   <Trash2 size={20} />
                 </button>
@@ -436,7 +436,7 @@ export const JobDetailPage = () => {
               <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between">
                 <h2 className="text-lg font-semibold text-gray-900 dark:text-white flex items-center gap-2">
                   <FileText size={20} className="text-brand-500" />
-                  Mô tả công việc
+                  Job Description
                 </h2>
                 <div className="flex items-center gap-2">
                   <button
@@ -468,7 +468,7 @@ export const JobDetailPage = () => {
                     ) : (
                       <Download size={16} />
                     )}
-                    {isGeneratingPDF ? 'Đang tải...' : 'Tải xuống'}
+                    {isGeneratingPDF ? 'Loading...' : 'Download'}
                   </button>
 
                   <button
@@ -478,7 +478,7 @@ export const JobDetailPage = () => {
                         const landingUrl = `https://${userLandingPage.subdomain_slug}.tdconsulting.vn/jobs/${jobCodeOrId}`;
                         try {
                           await navigator.clipboard.writeText(landingUrl);
-                          toast.success('Đã sao chép link JD');
+                          toast.success('Copied JD link');
                         } catch (clipboardError) {
                           console.error('Clipboard copy failed:', clipboardError);
                           toast.success(`Link JD: ${landingUrl}`);
@@ -491,7 +491,7 @@ export const JobDetailPage = () => {
 
                       try {
                         await navigator.clipboard.writeText(publicUrl);
-                        toast.success('Hãy tạo landing page riêng để tránh miss CV nhé', { duration: 5000 });
+                        toast.success('Please create a separate landing page to avoid missing CVs', { duration: 5000 });
                       } catch (clipboardError) {
                         console.error('Clipboard copy failed:', clipboardError);
                         toast.success(`Link JD: ${publicUrl}`);
@@ -505,7 +505,7 @@ export const JobDetailPage = () => {
                     ) : (
                       <ExternalLink size={16} />
                     )}
-                    {isGeneratingPDF ? 'Đang tạo link...' : 'Sao chép link'}
+                    {isGeneratingPDF ? 'Generating link...' : 'Copy link'}
                   </button>
                 </div>
 
@@ -518,7 +518,7 @@ export const JobDetailPage = () => {
                   />
                 ) : (
                   <p className="text-gray-500 dark:text-gray-400 italic">
-                    Chưa có mô tả công việc.
+                    No job description yet.
                   </p>
                 )}
               </div>
@@ -530,7 +530,7 @@ export const JobDetailPage = () => {
                 <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                   <h2 className="text-lg font-semibold text-gray-900 dark:text-white flex items-center gap-2">
                     <CheckCircle size={20} className="text-green-500" />
-                    Yêu cầu ứng viên
+                    Candidate Requirements
                   </h2>
                 </div>
                 <div className="px-6 py-5">
@@ -547,7 +547,7 @@ export const JobDetailPage = () => {
                 <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700">
                   <h2 className="text-lg font-semibold text-gray-900 dark:text-white flex items-center gap-2">
                     <FileText size={20} className="text-blue-500" />
-                    JD chi tiết
+                    Detailed JD
                   </h2>
                 </div>
                 <div className="px-6 py-5">
@@ -565,7 +565,7 @@ export const JobDetailPage = () => {
               <div className="px-6 py-4 border-b border-gray-200 dark:border-gray-700 flex items-center justify-between bg-gray-50 dark:bg-gray-800/50">
                 <h2 className="text-lg font-semibold text-gray-900 dark:text-white flex items-center gap-2">
                   <Users size={20} className="text-brand-500" />
-                  Ứng viên đã apply
+                  Applied Candidates
                   <span className="ml-2 px-2.5 py-0.5 bg-brand-100 dark:bg-brand-900/30 text-brand-700 dark:text-brand-400 text-sm rounded-full">
                     {appliedCandidates.length}
                   </span>
@@ -629,14 +629,14 @@ export const JobDetailPage = () => {
                                     }
                                   } catch (err) {
                                     console.error('Error signing CV URL:', err);
-                                    toast.error('Không có quyền xem CV hoặc file không tồn tại');
+                                    toast.error('No permission to view CV or file does not exist');
                                   } finally {
                                     setSigningCvId(null);
                                   }
                                 }}
                                 disabled={signingCvId === process.id}
                                 className="p-1.5 text-gray-400 hover:text-brand-500 transition-colors disabled:opacity-50"
-                                title="Mở CV trong tab mới"
+                                title="Open CV in new tab"
                               >
                                 {signingCvId === process.id ? (
                                   <Loader2 size={16} className="animate-spin" />
@@ -650,7 +650,7 @@ export const JobDetailPage = () => {
                         {process.owner_details?.full_name && (
                           <div className="mt-2 text-xs text-gray-500 dark:text-gray-400 flex items-center gap-1">
                             <User size={12} />
-                            Giới thiệu bởi: {process.owner_details.full_name}
+                            Introduced by: {process.owner_details.full_name}
                           </div>
                         )}
                       </div>
@@ -664,17 +664,17 @@ export const JobDetailPage = () => {
                           disabled={currentPage === 1}
                           className="text-sm text-gray-600 dark:text-gray-400 hover:text-brand-600 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                          Trước
+                          Previous
                         </button>
                         <span className="text-sm text-gray-500 dark:text-gray-400">
-                          Trang {currentPage} / {totalPages}
+                          Page {currentPage} / {totalPages}
                         </span>
                         <button
                           onClick={() => setCurrentPage(p => Math.min(totalPages, p + 1))}
                           disabled={currentPage === totalPages}
                           className="text-sm text-gray-600 dark:text-gray-400 hover:text-brand-600 disabled:opacity-50 disabled:cursor-not-allowed"
                         >
-                          Sau
+                          Next
                         </button>
                       </div>
                     )}
@@ -685,7 +685,7 @@ export const JobDetailPage = () => {
                       <Users size={24} className="text-gray-400" />
                     </div>
                     <p className="text-gray-500 dark:text-gray-400">
-                      Chưa có ứng viên nào apply cho công việc này.
+                      No candidates have applied for this job yet.
                     </p>
                   </div>
                 )}
@@ -704,13 +704,13 @@ export const JobDetailPage = () => {
                   onClick={() => setIntroduceModalOpen(true)}
                   className="w-full py-2.5 bg-brand-500 text-white font-semibold rounded-lg hover:bg-brand-600 transition-colors shadow-sm mb-3"
                 >
-                  Giới thiệu ứng viên
+                  Introduce Candidate
                 </button>
                 <button
                   onClick={() => setMatchingModalOpen(true)}
                   className="w-full py-2.5 bg-emerald-500 text-white font-semibold rounded-lg hover:bg-emerald-600 transition-colors shadow-sm"
                 >
-                  Ứng viên phù hợp
+                  Matching Candidates
                 </button>
               </div>
 
@@ -718,7 +718,7 @@ export const JobDetailPage = () => {
               <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden shadow-sm">
                 <div className="px-5 py-4 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50">
                   <h3 className="font-semibold text-gray-900 dark:text-white">
-                    Thông tin nhanh
+                    Quick Info
                   </h3>
                 </div>
                 <div className="p-5 space-y-4">
@@ -727,7 +727,7 @@ export const JobDetailPage = () => {
                       <DollarSign size={16} className="text-green-600 dark:text-green-400" />
                     </div>
                     <div>
-                      <p className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide font-medium">Mức lương</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide font-medium">Salary</p>
                       <p className="font-medium text-gray-900 dark:text-white mt-0.5">
                         {formatSalary(job)}
                       </p>
@@ -740,7 +740,7 @@ export const JobDetailPage = () => {
                         <MapPin size={16} className="text-blue-600 dark:text-blue-400" />
                       </div>
                       <div>
-                        <p className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide font-medium">Địa điểm</p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide font-medium">Location</p>
                         <p className="font-medium text-gray-900 dark:text-white mt-0.5">
                           {job.work_location}
                         </p>
@@ -796,9 +796,9 @@ export const JobDetailPage = () => {
                         <Clock size={16} className="text-orange-600 dark:text-orange-400" />
                       </div>
                       <div>
-                        <p className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide font-medium">Vòng phỏng vấn</p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide font-medium">Interview Rounds</p>
                         <p className="font-medium text-gray-900 dark:text-white mt-0.5">
-                          {job.interview_rounds} vòng
+                          {job.interview_rounds} rounds
                         </p>
                       </div>
                     </div>
@@ -810,7 +810,7 @@ export const JobDetailPage = () => {
                         <Clock size={16} className="text-amber-600 dark:text-amber-400" />
                       </div>
                       <div>
-                        <p className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide font-medium">Giờ làm việc</p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide font-medium">Working Hours</p>
                         <p className="font-medium text-gray-900 dark:text-white mt-0.5">
                           {job.working_hours}
                         </p>
@@ -824,9 +824,9 @@ export const JobDetailPage = () => {
                         <Calendar size={16} className="text-pink-600 dark:text-pink-400" />
                       </div>
                       <div>
-                        <p className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide font-medium">Bảo hành</p>
+                        <p className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wide font-medium">Warranty</p>
                         <p className="font-medium text-gray-900 dark:text-white mt-0.5">
-                          {job.warranty_period_days} ngày
+                          {job.warranty_period_days} days
                         </p>
                       </div>
                     </div>
@@ -839,7 +839,7 @@ export const JobDetailPage = () => {
                 <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 overflow-hidden shadow-sm">
                   <div className="px-5 py-4 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50">
                     <h3 className="font-semibold text-gray-900 dark:text-white">
-                      Phí dịch vụ
+                      Service Fee
                     </h3>
                   </div>
                   <div className="p-5 space-y-3">
@@ -873,17 +873,17 @@ export const JobDetailPage = () => {
                   <div className="px-5 py-4 border-b border-amber-200 dark:border-amber-800 bg-amber-100 dark:bg-amber-900/20">
                     <h3 className="font-semibold text-amber-900 dark:text-amber-200 flex items-center gap-2">
                       <FileText size={18} className="text-amber-600 dark:text-amber-400" />
-                      Thông tin nội bộ
+                      Internal Information
                     </h3>
                     <p className="text-xs text-amber-700 dark:text-amber-400 mt-1">
-                      Chỉ internal staff được xem
+                      Only visible to internal staff
                     </p>
                   </div>
                   <div className="p-5 space-y-4">
                     {internalData.original_jd_url && (
                       <div>
                         <p className="text-xs text-amber-700 dark:text-amber-400 uppercase tracking-wide font-medium mb-2">
-                          Link JD gốc từ client
+                          Original JD link from client
                         </p>
                         <a
                           href={internalData.original_jd_url}
@@ -899,7 +899,7 @@ export const JobDetailPage = () => {
                     {internalData.internal_notes && (
                       <div>
                         <p className="text-xs text-amber-700 dark:text-amber-400 uppercase tracking-wide font-medium mb-2">
-                          Ghi chú nội bộ
+                          Internal Notes
                         </p>
                         <div className="text-sm text-amber-900 dark:text-amber-200 whitespace-pre-wrap bg-white dark:bg-amber-950/30 p-3 rounded-lg border border-amber-200 dark:border-amber-800">
                           {internalData.internal_notes}
@@ -912,14 +912,14 @@ export const JobDetailPage = () => {
 
               {/* Timestamps */}
               <div className="bg-white dark:bg-gray-800 rounded-xl border border-gray-200 dark:border-gray-700 p-5 shadow-sm">
-                <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">Lịch sử</h3>
+                <h3 className="text-xs font-semibold text-gray-400 uppercase tracking-wider mb-4">History</h3>
                 <div className="relative pl-3 space-y-6">
                   
                   {/* Created At Item */}
                   <div className="flex items-start gap-4 relative">
                     <div className="relative z-10 w-2.5 h-2.5 rounded-full bg-gray-400 dark:bg-gray-600 ring-4 ring-white dark:ring-gray-800 shrink-0 mt-1.5 ml-px"></div>
                     <div>
-                      <p className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider font-semibold">Ngày tạo</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider font-semibold">Created At</p>
                       <p className="font-medium text-gray-900 dark:text-white">
                         {formatDate(job.created_at)}
                       </p>
@@ -930,7 +930,7 @@ export const JobDetailPage = () => {
                   <div className="flex items-start gap-4 relative">
                      <div className="relative z-10 w-2.5 h-2.5 rounded-full bg-brand-500 dark:bg-brand-400 ring-4 ring-white dark:ring-gray-800 shrink-0 mt-1.5 ml-px"></div>
                     <div>
-                      <p className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider font-semibold">Cập nhật lần cuối</p>
+                      <p className="text-xs text-gray-500 dark:text-gray-400 uppercase tracking-wider font-semibold">Last Updated</p>
                       <p className="font-medium text-gray-900 dark:text-white">
                         {formatDate(job.updated_at)}
                       </p>
@@ -956,9 +956,9 @@ export const JobDetailPage = () => {
         open={deleteModalOpen}
         onClose={() => setDeleteModalOpen(false)}
         onConfirm={handleDelete}
-        title="Xóa công việc"
-        message={`Bạn có chắc chắn muốn xóa "${job.position_title}"? Hành động này không thể hoàn tác.`}
-        confirmText="Xóa"
+        title="Delete Job"
+        message={`Are you sure you want to delete "${job.position_title}"? This action cannot be undone.`}
+        confirmText="Delete"
         variant="danger"
         isLoading={isDeleting}
       />

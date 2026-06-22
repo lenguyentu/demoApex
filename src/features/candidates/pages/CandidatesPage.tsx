@@ -103,8 +103,8 @@ export function CandidatesPage({ mode }: CandidatesPageProps) {
   // Title based on mode
   const pageTitle = mode === 'my' ? 'My Candidates' : 'Database Candidates';
   const pageDescription = mode === 'my'
-    ? 'Quản lý ứng viên của bạn'
-    : 'Danh sách tất cả ứng viên trong hệ thống';
+    ? 'Manage your candidates'
+    : 'List of all candidates in the system';
 
   return (
     <div className="p-6 space-y-6">
@@ -144,7 +144,7 @@ export function CandidatesPage({ mode }: CandidatesPageProps) {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
             <input
               type="text"
-              placeholder="Tìm theo tên, email, SĐT..."
+              placeholder="Search by name, email, phone..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent text-sm"
@@ -155,7 +155,7 @@ export function CandidatesPage({ mode }: CandidatesPageProps) {
             <Briefcase className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
             <input
               type="text"
-              placeholder="Lọc theo vị trí ứng tuyển..."
+              placeholder="Filter by applied position..."
               value={positionFilter}
               onChange={(e) => setPositionFilter(e.target.value)}
               className="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent text-sm"
@@ -167,7 +167,7 @@ export function CandidatesPage({ mode }: CandidatesPageProps) {
             <FileText className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
             <input
               type="text"
-              placeholder="Lọc theo mã ứng viên..."
+              placeholder="Filter by candidate code..."
               value={cddCodeFilter}
               onChange={(e) => setCddCodeFilter(e.target.value)}
               className="w-full pl-10 pr-4 py-2.5 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent text-sm"
@@ -192,7 +192,7 @@ export function CandidatesPage({ mode }: CandidatesPageProps) {
           <div className="text-sm text-gray-500">
             {totalCount !== null && (
               <>
-                Tổng: <span className="font-semibold text-gray-700">{totalCount}</span> ứng viên
+                Total: <span className="font-semibold text-gray-700">{totalCount}</span> candidates
               </>
             )}
           </div>
@@ -212,7 +212,7 @@ export function CandidatesPage({ mode }: CandidatesPageProps) {
                 className="flex items-center gap-2 px-4 py-2 bg-brand-500 text-white rounded-lg hover:bg-brand-600 transition font-medium shadow-sm"
               >
                 <Plus size={18} />
-                Thêm ứng viên
+                Add Candidate
               </button>
             </>
           )}
@@ -226,28 +226,28 @@ export function CandidatesPage({ mode }: CandidatesPageProps) {
             <thead>
               <tr className="bg-gray-50 border-b border-gray-200">
                 <th className="text-left px-3 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider w-[80px]">
-                  Mã
+                  Code
                 </th>
                 <th className="text-left px-3 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider w-[140px]">
-                  Tên
+                  Name
                 </th>
                 <th className="text-left px-3 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider w-[180px]">
                   Email
                 </th>
                 <th className="text-left px-3 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider w-[110px]">
-                  Điện thoại
+                  Phone
                 </th>
                 <th className="text-left px-3 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider w-[100px]">
-                  Địa chỉ
+                  Address
                 </th>
                 <th className="text-left px-3 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider w-[160px]">
-                  Vị trí ứng tuyển
+                  Applied Position
                 </th>
                 <th className="text-left px-3 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider w-[100px]">
-                  Ngày tạo
+                  Created At
                 </th>
                 <th className="text-center px-3 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wider w-[100px]">
-                  Thao tác
+                  Action
                 </th>
               </tr>
             </thead>
@@ -256,15 +256,15 @@ export function CandidatesPage({ mode }: CandidatesPageProps) {
                 <tr>
                   <td colSpan={8} className="px-6 py-12 text-center">
                     <Loader2 className="w-8 h-8 animate-spin mx-auto text-brand-500" />
-                    <p className="mt-2 text-sm text-gray-500">Đang tải dữ liệu...</p>
+                    <p className="mt-2 text-sm text-gray-500">Loading data...</p>
                   </td>
                 </tr>
               ) : currentData.length === 0 ? (
                 <tr>
                   <td colSpan={8} className="px-6 py-12 text-center text-gray-500">
                     {debouncedSearch || debouncedPosition
-                      ? 'Không tìm thấy ứng viên phù hợp'
-                      : 'Không có ứng viên nào'}
+                      ? 'No matching candidates found'
+                      : 'No candidates'}
                   </td>
                 </tr>
               ) : (
@@ -312,7 +312,7 @@ export function CandidatesPage({ mode }: CandidatesPageProps) {
                               setIsDocumentModalOpen(true);
                             }}
                             className="p-1.5 text-gray-400 hover:text-green-600 hover:bg-green-50 rounded-lg transition"
-                            title="Xem CV"
+                            title="View CV"
                           >
                             <FileText size={15} />
                           </button>
@@ -321,7 +321,7 @@ export function CandidatesPage({ mode }: CandidatesPageProps) {
                           target="_blank"
                           to={`/candidates/${candidate.id}?type=${mode}`}
                           className="p-1.5 text-gray-400 hover:text-brand-500 hover:bg-brand-50 rounded-lg transition"
-                          title="Xem chi tiết"
+                          title="View details"
                         >
                           <Eye size={15} />
                         </Link>
@@ -329,7 +329,7 @@ export function CandidatesPage({ mode }: CandidatesPageProps) {
                           <Link
                             to={`/candidates/${candidate.id}?type=${mode}&edit=true`}
                             className="p-1.5 text-gray-400 hover:text-blue-500 hover:bg-blue-50 rounded-lg transition"
-                            title="Chỉnh sửa"
+                            title="Edit"
                           >
                             <Edit size={15} />
                           </Link>
@@ -338,7 +338,7 @@ export function CandidatesPage({ mode }: CandidatesPageProps) {
                           <button
                             onClick={() => setCandidateToDelete({ id: candidate.id, name: candidate.name })}
                             className="p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition"
-                            title="Xóa"
+                            title="Delete"
                             disabled={deleteMutation.isPending}
                           >
                             <Trash2 size={15} />
@@ -368,7 +368,7 @@ export function CandidatesPage({ mode }: CandidatesPageProps) {
         {/* End of list indicator */}
         {!hasMore && currentData.length > 0 && (
           <div className="text-center px-6 py-3 border-t border-gray-200 bg-gray-50 text-sm text-gray-400">
-            Đã hiển thị tất cả {currentData.length} ứng viên
+            Showing all {currentData.length} candidates
           </div>
         )}
       </div>
@@ -392,10 +392,10 @@ export function CandidatesPage({ mode }: CandidatesPageProps) {
         open={!!candidateToDelete}
         onClose={() => setCandidateToDelete(null)}
         onConfirm={handleDelete}
-        title="Xóa ứng viên"
-        message={`Bạn có chắc chắn muốn xóa ứng viên "${candidateToDelete?.name}"? Hành động này không thể hoàn tác.`}
-        confirmText="Xóa"
-        cancelText="Hủy"
+        title="Delete Candidate"
+        message={`Are you sure you want to delete candidate "${candidateToDelete?.name}"? This action cannot be undone.`}
+        confirmText="Delete"
+        cancelText="Cancel"
         variant="danger"
         isLoading={deleteMutation.isPending}
       />

@@ -12,7 +12,7 @@ interface BDKanbanBoardProps {
   onItemClick?: (processId: string) => void;
 }
 
-// Định nghĩa cấu hình cột và mapping status
+// Define column config and status mapping
 const COLUMNS_DEF = [
   { 
     id: 'Research', 
@@ -148,7 +148,7 @@ export const BDKanbanBoard = ({ customers, onOpenHistory, onItemClick }: BDKanba
     scrollContainerRef.current.scrollLeft = scrollLeft - walk;
   };
 
-  // 1. Phân loại Customers vào các cột
+  // 1. Categorize Customers into columns
   const columnsData = useMemo(() => {
     // Pre-calculate today ONCE for all customers
     const today = new Date();
@@ -202,7 +202,7 @@ export const BDKanbanBoard = ({ customers, onOpenHistory, onItemClick }: BDKanba
             
             // Add Last Contact Date
             if (cust.last_contact_date) {
-                const formattedDate = new Date(cust.last_contact_date).toLocaleDateString('vi-VN');
+                const formattedDate = new Date(cust.last_contact_date).toLocaleDateString('en-GB');
                 metadata.push({ label: 'Update', value: formattedDate });
             }
 

@@ -109,15 +109,15 @@ export const ManageUserTab = () => {
     setIsApproving(true);
     try {
       await userApi.activateUser(userToApprove.id);
-      toast.success(`Đã duyệt tài khoản ${userToApprove.full_name || userToApprove.email} thành công!`);
+      toast.success(`Successfully approved account ${userToApprove.full_name || userToApprove.email}!`);
 
       if (userToApprove.email) {
         try {
           await userApi.sendApprovalEmail(userToApprove.email, userToApprove.full_name || userToApprove.email);
-          toast.success('Đã gửi email thông báo cho người dùng');
+          toast.success('Sent notification email to user');
         } catch (emailErr) {
-          console.error('Lỗi gửi email:', emailErr);
-          toast.error('Duyệt thành công nhưng lỗi gửi email');
+          console.error('Email sending error:', emailErr);
+          toast.error('Approved successfully but failed to send email');
         }
       }
 
@@ -125,7 +125,7 @@ export const ManageUserTab = () => {
       queryClient.invalidateQueries({ queryKey: ['users', 'pending-count'] });
     } catch (err: any) {
       console.error('Error approving user:', err);
-      toast.error(err.message || 'Có lỗi xảy ra khi duyệt tài khoản.');
+      toast.error(err.message || 'An error occurred while approving the account.');
     } finally {
       setIsApproving(false);
       setUserToApprove(null);
@@ -137,12 +137,12 @@ export const ManageUserTab = () => {
     setIsRejecting(true);
     try {
       await userApi.rejectUser(userToReject.id);
-      toast.success(`Đã từ chối tài khoản ${userToReject.full_name || userToReject.email} thành công!`);
+      toast.success(`Successfully rejected account ${userToReject.full_name || userToReject.email}!`);
       refresh();
       queryClient.invalidateQueries({ queryKey: ['users', 'pending-count'] });
     } catch (err: any) {
       console.error('Error rejecting user:', err);
-      toast.error(err.message || 'Có lỗi xảy ra khi từ chối tài khoản.');
+      toast.error(err.message || 'An error occurred while rejecting the account.');
     } finally {
       setIsRejecting(false);
       setUserToReject(null);
@@ -154,11 +154,11 @@ export const ManageUserTab = () => {
     setIsDeactivating(true);
     try {
       await userApi.deactivateUser(userToDeactivate.id);
-      toast.success(`Đã vô hiệu hóa tài khoản ${userToDeactivate.full_name || userToDeactivate.email} thành công!`);
+      toast.success(`Successfully deactivated account ${userToDeactivate.full_name || userToDeactivate.email}!`);
       refresh();
     } catch (err: any) {
       console.error('Error deactivating user:', err);
-      toast.error(err.message || 'Có lỗi xảy ra khi vô hiệu hóa tài khoản.');
+      toast.error(err.message || 'An error occurred while deactivating the account.');
     } finally {
       setIsDeactivating(false);
       setUserToDeactivate(null);
@@ -170,11 +170,11 @@ export const ManageUserTab = () => {
     setIsReactivating(true);
     try {
       await userApi.reactivateUser(userToReactivate.id);
-      toast.success(`Đã kích hoạt lại tài khoản ${userToReactivate.full_name || userToReactivate.email} thành công!`);
+      toast.success(`Successfully reactivated account ${userToReactivate.full_name || userToReactivate.email}!`);
       refresh();
     } catch (err: any) {
       console.error('Error reactivating user:', err);
-      toast.error(err.message || 'Có lỗi xảy ra khi kích hoạt lại tài khoản.');
+      toast.error(err.message || 'An error occurred while reactivating the account.');
     } finally {
       setIsReactivating(false);
       setUserToReactivate(null);
@@ -208,7 +208,7 @@ export const ManageUserTab = () => {
       setTeamCandidates(allHeadhuntersRes.data || []);
       setSelectedTeamMemberIds((currentTeamRes.data || []).map((u) => u.id));
     } catch (err: any) {
-      toast.error(err.message || 'Không thể tải dữ liệu gán team');
+      toast.error(err.message || 'Unable to load team assignment data');
       setTeamLeadForAssign(null);
     } finally {
       setIsLoadingTeamData(false);
@@ -248,11 +248,11 @@ export const ManageUserTab = () => {
         if (assignRes.error) throw assignRes.error;
       }
 
-      toast.success(`Đã cập nhật team cho ${teamLeadForAssign.full_name || teamLeadForAssign.email}`);
+      toast.success(`Updated team for ${teamLeadForAssign.full_name || teamLeadForAssign.email}`);
       refresh();
       handleCloseTeamAssign();
     } catch (err: any) {
-      toast.error(err.message || 'Lỗi khi lưu gán team');
+      toast.error(err.message || 'Error saving team assignment');
     } finally {
       setIsSavingTeam(false);
     }
@@ -295,34 +295,34 @@ export const ManageUserTab = () => {
         {isLoading && users.length === 0 ? (
           <div className="p-12 text-center">
             <div className="animate-spin w-8 h-8 border-4 border-brand-500 border-t-transparent rounded-full mx-auto mb-4"></div>
-            <p className="text-gray-500">Đang tải danh sách người dùng...</p>
+            <p className="text-gray-500">Loading user list...</p>
           </div>
         ) : error ? (
           <div className="p-12 text-center text-red-500">
-            Đã có lỗi xảy ra khi tải dữ liệu. Vui lòng thử lại sau.
+            An error occurred while loading data. Please try again later.
           </div>
         ) : users.length === 0 ? (
           <div className="p-12 text-center text-gray-500">
             <div className="w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <User size={32} className="text-gray-400" />
             </div>
-            <p>Không tìm thấy người dùng nào phù hợp</p>
+            <p>No matching users found</p>
           </div>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full text-left border-collapse">
               <thead>
                 <tr className="bg-gray-50 border-b border-gray-100 text-xs uppercase text-gray-500 font-medium tracking-wider">
-                  <th className="px-4 py-4 min-w-[280px]">Người dùng</th>
-                  <th className="px-4 py-4">Vai trò</th>
+                  <th className="px-4 py-4 min-w-[280px]">User</th>
+                  <th className="px-4 py-4">Role</th>
                   {selectedRole === 'Client' && (
-                    <th className="px-4 py-4 hidden md:table-cell">Khách hàng</th>
+                    <th className="px-4 py-4 hidden md:table-cell">Client</th>
                   )}
-                  <th className="px-4 py-4 hidden lg:table-cell">Người tuyển</th>
+                  <th className="px-4 py-4 hidden lg:table-cell">Recruiter</th>
                   <th className="px-4 py-4 hidden xl:table-cell">Exp</th>
-                  <th className="px-4 py-4 hidden sm:table-cell">Trạng thái</th>
-                  <th className="px-4 py-4 hidden md:table-cell">Ngày đăng ký</th>
-                  <th className="px-4 py-4 text-right sticky right-0 bg-gray-50 shadow-[-4px_0_8px_-2px_rgba(0,0,0,0.06)] z-10">Thao tác</th>
+                  <th className="px-4 py-4 hidden sm:table-cell">Status</th>
+                  <th className="px-4 py-4 hidden md:table-cell">Reg Date</th>
+                  <th className="px-4 py-4 text-right sticky right-0 bg-gray-50 shadow-[-4px_0_8px_-2px_rgba(0,0,0,0.06)] z-10">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
@@ -382,7 +382,7 @@ export const ManageUserTab = () => {
                             >
                               <Briefcase size={12} />
                               <span className="font-semibold">{validPositions.length}</span>
-                              <span className="text-emerald-600">vị trí</span>
+                              <span className="text-emerald-600">positions</span>
                             </button>
                           ) : (
                             !experienceInfo && <span className="text-gray-400 text-xs">---</span>
@@ -405,14 +405,14 @@ export const ManageUserTab = () => {
                               <button
                                 onClick={() => setUserToApprove(user)}
                                 className="p-1.5 text-green-600 hover:bg-green-50 rounded-lg transition-colors"
-                                title="Duyệt tài khoản"
+                                title="Approve account"
                               >
                                 <Check size={16} />
                               </button>
                               <button
                                 onClick={() => setUserToReject(user)}
                                 className="p-1.5 text-red-600 hover:bg-red-50 rounded-lg transition-colors"
-                                title="Từ chối tài khoản"
+                                title="Reject account"
                               >
                                 <XCircle size={16} />
                               </button>
@@ -422,7 +422,7 @@ export const ManageUserTab = () => {
                             <button
                               onClick={() => setUserToDeactivate(user)}
                               className="p-1.5 text-orange-600 hover:bg-orange-50 rounded-lg transition-colors"
-                              title="Vô hiệu hóa tài khoản (chỉ Admin)"
+                              title="Deactivate account (Admin only)"
                             >
                               <Ban size={16} />
                             </button>
@@ -431,7 +431,7 @@ export const ManageUserTab = () => {
                             <button
                               onClick={() => setUserToReactivate(user)}
                               className="p-1.5 text-green-600 hover:bg-green-50 rounded-lg transition-colors"
-                              title="Kích hoạt lại tài khoản (chỉ Admin)"
+                              title="Reactivate account (Admin only)"
                             >
                               <CheckCircle size={16} />
                             </button>
@@ -442,7 +442,7 @@ export const ManageUserTab = () => {
                               setDetailMode('view');
                             }}
                             className="p-1.5 text-blue-600 hover:bg-blue-50 rounded-lg transition-colors"
-                            title="Xem chi tiết"
+                            title="View details"
                           >
                             <Eye size={16} />
                           </button>
@@ -452,7 +452,7 @@ export const ManageUserTab = () => {
                               setDetailMode('edit');
                             }}
                             className="p-1.5 text-brand-600 hover:bg-brand-50 rounded-lg transition-colors"
-                            title="Chỉnh sửa"
+                            title="Edit"
                           >
                             <Pencil size={16} />
                           </button>
@@ -460,7 +460,7 @@ export const ManageUserTab = () => {
                             <button
                               onClick={() => handleOpenTeamAssign(user)}
                               className="p-1.5 text-indigo-600 hover:bg-indigo-50 rounded-lg transition-colors"
-                              title="Gán team cho Lead"
+                              title="Assign team for Lead"
                             >
                               <Users size={16} />
                             </button>
@@ -488,10 +488,10 @@ export const ManageUserTab = () => {
         open={!!userToApprove}
         onClose={() => setUserToApprove(null)}
         onConfirm={handleApproveUser}
-        title="Duyệt tài khoản"
-        message={`Bạn có chắc chắn muốn duyệt tài khoản "${userToApprove?.full_name || userToApprove?.email}"? Tài khoản sẽ được kích hoạt và có thể đăng nhập vào hệ thống.`}
-        confirmText="Duyệt"
-        cancelText="Hủy"
+        title="Approve Account"
+        message={`Are you sure you want to approve the account "${userToApprove?.full_name || userToApprove?.email}"? The account will be activated and can log into the system.`}
+        confirmText="Approve"
+        cancelText="Cancel"
         variant="success"
         isLoading={isApproving}
       />
@@ -500,10 +500,10 @@ export const ManageUserTab = () => {
         open={!!userToReject}
         onClose={() => setUserToReject(null)}
         onConfirm={handleRejectUser}
-        title="Từ chối tài khoản"
-        message={`Bạn có chắc chắn muốn từ chối tài khoản "${userToReject?.full_name || userToReject?.email}"? Tài khoản này sẽ không được kích hoạt.`}
-        confirmText="Từ chối"
-        cancelText="Hủy"
+        title="Reject Account"
+        message={`Are you sure you want to reject the account "${userToReject?.full_name || userToReject?.email}"? This account will not be activated.`}
+        confirmText="Reject"
+        cancelText="Cancel"
         variant="danger"
         isLoading={isRejecting}
       />
@@ -512,10 +512,10 @@ export const ManageUserTab = () => {
         open={!!userToDeactivate}
         onClose={() => setUserToDeactivate(null)}
         onConfirm={handleDeactivateUser}
-        title="Vô hiệu hóa tài khoản"
-        message={`Bạn có chắc chắn muốn vô hiệu hóa tài khoản "${userToDeactivate?.full_name || userToDeactivate?.email}"? Người dùng này sẽ không thể đăng nhập vào hệ thống. Chỉ Admin mới có quyền thực hiện thao tác này.`}
-        confirmText="Vô hiệu hóa"
-        cancelText="Hủy"
+        title="Deactivate Account"
+        message={`Are you sure you want to deactivate the account "${userToDeactivate?.full_name || userToDeactivate?.email}"? This user will not be able to log into the system. Only Admin has the right to perform this action.`}
+        confirmText="Deactivate"
+        cancelText="Cancel"
         variant="danger"
         isLoading={isDeactivating}
       />
@@ -524,10 +524,10 @@ export const ManageUserTab = () => {
         open={!!userToReactivate}
         onClose={() => setUserToReactivate(null)}
         onConfirm={handleReactivateUser}
-        title="Kích hoạt lại tài khoản"
-        message={`Bạn có chắc chắn muốn kích hoạt lại tài khoản "${userToReactivate?.full_name || userToReactivate?.email}"? Người dùng này sẽ có thể đăng nhập vào hệ thống trở lại.`}
-        confirmText="Kích hoạt lại"
-        cancelText="Hủy"
+        title="Reactivate Account"
+        message={`Are you sure you want to reactivate the account "${userToReactivate?.full_name || userToReactivate?.email}"? This user will be able to log into the system again.`}
+        confirmText="Reactivate"
+        cancelText="Cancel"
         variant="success"
         isLoading={isReactivating}
       />
@@ -552,7 +552,7 @@ export const ManageUserTab = () => {
             <div className="flex items-center justify-between p-4 border-b border-gray-100">
               <div className="flex items-center gap-2">
                 <Briefcase className="text-emerald-600" size={20} />
-                <h3 className="font-semibold text-gray-900">Kinh nghiệm & Vị trí</h3>
+                <h3 className="font-semibold text-gray-900">Experience & Positions</h3>
               </div>
               <button
                 onClick={() => setExpModalData(null)}
@@ -570,7 +570,7 @@ export const ManageUserTab = () => {
                   <div className="p-3 bg-amber-50 border border-amber-200 rounded-xl">
                     <p className="text-[10px] uppercase tracking-wider font-bold text-amber-600 mb-1 flex items-center gap-1">
                       <Clock size={12} />
-                      Mức kinh nghiệm
+                      Experience Level
                     </p>
                     <p className="text-sm font-bold text-amber-900">
                       {expModalData.experience.replace('Kinh nghiệm: ', '').replace('Kinh nghiệm:', '')}
@@ -582,7 +582,7 @@ export const ManageUserTab = () => {
                   <div>
                     <p className="text-[10px] uppercase tracking-wider font-bold text-emerald-600 mb-2 flex items-center gap-1">
                       <Briefcase size={12} />
-                      Vị trí chuyên môn ({expModalData.positions.length})
+                      Professional Positions ({expModalData.positions.length})
                     </p>
                     <div className="flex flex-wrap gap-2">
                       {expModalData.positions.map((pos, idx) => (
@@ -603,7 +603,7 @@ export const ManageUserTab = () => {
                 onClick={() => setExpModalData(null)}
                 className="px-4 py-2 text-sm font-medium text-gray-700 bg-gray-100 rounded-lg hover:bg-gray-200 transition-colors"
               >
-                Đóng
+                Close
               </button>
             </div>
           </div>
@@ -616,7 +616,7 @@ export const ManageUserTab = () => {
           <div className="bg-white rounded-xl shadow-2xl w-full max-w-2xl overflow-hidden">
             <div className="flex items-center justify-between p-4 border-b border-gray-100">
               <div>
-                <h3 className="font-semibold text-gray-900">Gán team cho Lead</h3>
+                <h3 className="font-semibold text-gray-900">Assign team for Lead</h3>
                 <p className="text-sm text-gray-500 mt-0.5">
                   {teamLeadForAssign.full_name || teamLeadForAssign.email}
                 </p>
@@ -634,15 +634,15 @@ export const ManageUserTab = () => {
                 type="text"
                 value={teamSearch}
                 onChange={(e) => setTeamSearch(e.target.value)}
-                placeholder={teamLeadForAssign.role === 'BD Lead' ? 'Tìm BD theo tên/email...' : 'Tìm Headhunter theo tên/email...'}
+                placeholder={teamLeadForAssign.role === 'BD Lead' ? 'Search BD by name/email...' : 'Search Headhunter by name/email...'}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
               />
 
               <div className="border border-gray-200 rounded-lg max-h-80 overflow-y-auto">
                 {isLoadingTeamData ? (
-                  <div className="p-4 text-center text-sm text-gray-500">Đang tải danh sách...</div>
+                  <div className="p-4 text-center text-sm text-gray-500">Loading list...</div>
                 ) : filteredTeamCandidates.length === 0 ? (
-                  <div className="p-4 text-center text-sm text-gray-500">Không có thành viên phù hợp</div>
+                  <div className="p-4 text-center text-sm text-gray-500">No suitable members</div>
                 ) : (
                   <div className="divide-y divide-gray-100">
                     {filteredTeamCandidates.map((member) => (
@@ -662,7 +662,7 @@ export const ManageUserTab = () => {
                   </div>
                 )}
               </div>
-              <p className="text-xs text-gray-500">Đã chọn {selectedTeamMemberIds.length} thành viên.</p>
+              <p className="text-xs text-gray-500">Selected {selectedTeamMemberIds.length} members.</p>
             </div>
 
             <div className="flex items-center gap-3 p-4 border-t border-gray-100">
@@ -670,14 +670,14 @@ export const ManageUserTab = () => {
                 onClick={handleCloseTeamAssign}
                 className="flex-1 px-4 py-2 border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50"
               >
-                Hủy
+                Cancel
               </button>
               <button
                 onClick={handleSaveTeamAssign}
                 disabled={isSavingTeam}
                 className="flex-1 px-4 py-2 bg-brand-500 text-white rounded-lg text-sm font-medium hover:bg-brand-600 disabled:opacity-50"
               >
-                {isSavingTeam ? 'Đang lưu...' : 'Lưu team'}
+                {isSavingTeam ? 'Saving...' : 'Save team'}
               </button>
             </div>
           </div>

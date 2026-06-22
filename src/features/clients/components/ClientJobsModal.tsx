@@ -35,7 +35,7 @@ export const ClientJobsModal = ({ isOpen, onClose, jobs, clientName, loading }: 
         <div className="flex justify-between items-center px-6 py-4 border-b bg-gray-50">
           <h3 className="text-lg font-medium text-gray-900 flex items-center gap-2">
             <Briefcase size={20} className="text-brand-600" />
-            Jobs tại {clientName}
+            Jobs at {clientName}
           </h3>
           <button
             onClick={onClose}
@@ -49,12 +49,12 @@ export const ClientJobsModal = ({ isOpen, onClose, jobs, clientName, loading }: 
           {loading ? (
              <div className="py-12 text-center text-gray-500 flex flex-col items-center gap-2">
                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand-500"></div>
-                 <span className="text-sm">Đang tải danh sách jobs...</span>
+                 <span className="text-sm">Loading jobs...</span>
              </div>
           ) : jobs.length === 0 ? (
             <div className="py-12 text-center text-gray-500 italic flex flex-col items-center gap-2">
               <Briefcase className="w-12 h-12 text-gray-300" />
-              Khách hàng này chưa có Job nào.
+              This client has no Jobs.
             </div>
           ) : (
             <div className="space-y-3">
@@ -79,7 +79,7 @@ export const ClientJobsModal = ({ isOpen, onClose, jobs, clientName, loading }: 
                       to={`/jobs/${job.id}`}
                       className="text-sm text-brand-600 hover:text-brand-700 font-medium flex items-center gap-1"
                     >
-                      Xem chi tiết <ArrowRight size={14} />
+                      View details <ArrowRight size={14} />
                     </Link>
                   </div>
                 </div>
@@ -93,7 +93,7 @@ export const ClientJobsModal = ({ isOpen, onClose, jobs, clientName, loading }: 
             onClick={onClose}
             className="px-5 py-2 bg-white border border-gray-300 rounded-lg text-sm font-medium text-gray-700 hover:bg-gray-50 transition-colors"
           >
-            Đóng
+            Close
           </button>
         </div>
       </div>

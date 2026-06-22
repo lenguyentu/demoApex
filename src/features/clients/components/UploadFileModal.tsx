@@ -32,7 +32,7 @@ export const UploadFileModal: React.FC<UploadFileModalProps> = ({
     e.preventDefault();
 
     if (!selectedFile) {
-      toast.error('Vui lòng chọn file');
+      toast.error('Please select a file');
       return;
     }
 
@@ -72,12 +72,12 @@ export const UploadFileModal: React.FC<UploadFileModalProps> = ({
 
       if (dbError) throw dbError;
 
-      toast.success('Upload file thành công');
+      toast.success('File uploaded successfully');
       onSuccess();
       handleClose();
     } catch (error: any) {
       console.error('Error uploading file:', error);
-      toast.error(error.message || 'Lỗi khi upload file');
+      toast.error(error.message || 'Error uploading file');
     } finally {
       setUploading(false);
     }
@@ -114,7 +114,7 @@ export const UploadFileModal: React.FC<UploadFileModalProps> = ({
               <div className="p-2 bg-brand-50 rounded-lg">
                 <Upload className="w-5 h-5 text-brand-600" />
               </div>
-              <h2 className="text-lg font-semibold text-gray-900">Upload file đính kèm</h2>
+              <h2 className="text-lg font-semibold text-gray-900">Upload Attachment</h2>
             </div>
             <button
               onClick={handleClose}
@@ -129,7 +129,7 @@ export const UploadFileModal: React.FC<UploadFileModalProps> = ({
             {/* File Input */}
             <div className="space-y-2">
               <label className="block text-sm font-medium text-gray-700">
-                Chọn file <span className="text-red-500">*</span>
+                Select file <span className="text-red-500">*</span>
               </label>
               <div className="relative">
                 <input
@@ -154,8 +154,8 @@ export const UploadFileModal: React.FC<UploadFileModalProps> = ({
                   ) : (
                     <div className="text-center">
                       <Upload className="w-8 h-8 text-gray-400 mx-auto mb-2" />
-                      <p className="text-sm text-gray-600">Nhấn để chọn file</p>
-                      <p className="text-xs text-gray-500 mt-1">Tối đa 50MB</p>
+                      <p className="text-sm text-gray-600">Click to select file</p>
+                      <p className="text-xs text-gray-500 mt-1">Max 50MB</p>
                     </div>
                   )}
                 </label>
@@ -165,14 +165,14 @@ export const UploadFileModal: React.FC<UploadFileModalProps> = ({
             {/* Description */}
             <div className="space-y-2">
               <label className="block text-sm font-medium text-gray-700">
-                Mô tả
+                Description
               </label>
               <textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 rows={3}
                 className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-brand-500 transition-all resize-none"
-                placeholder="Nhập mô tả về file này..."
+                placeholder="Enter a description for this file..."
                 disabled={uploading}
               />
             </div>
@@ -185,7 +185,7 @@ export const UploadFileModal: React.FC<UploadFileModalProps> = ({
                 disabled={uploading}
                 className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors disabled:opacity-50"
               >
-                Hủy
+                Cancel
               </button>
               <button
                 type="button"
@@ -196,7 +196,7 @@ export const UploadFileModal: React.FC<UploadFileModalProps> = ({
                 {uploading ? (
                   <>
                     <Loader2 className="w-4 h-4 animate-spin" />
-                    Đang upload...
+                    Uploading...
                   </>
                 ) : (
                   <>

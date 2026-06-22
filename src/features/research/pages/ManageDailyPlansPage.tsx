@@ -77,8 +77,8 @@ const ManageDailyPlansPage = () => {
        <div className="w-full">
          <div className="flex justify-between items-center mb-8">
            <div>
-             <h1 className="text-2xl font-bold text-gray-800">Quản lý Daily Plan</h1>
-             <p className="text-gray-500 mt-1">Theo dõi tình trạng nộp kế hoạch và cấp quyền ngoại lệ đi muộn.</p>
+             <h1 className="text-2xl font-bold text-gray-800">Daily Plan Management</h1>
+             <p className="text-gray-500 mt-1">Track plan submission status and grant late arrival exceptions.</p>
            </div>
            <div className="flex items-center gap-4">
              <input 
@@ -90,7 +90,7 @@ const ManageDailyPlansPage = () => {
              <button 
                onClick={fetchData} 
                disabled={loading}
-               title="Làm mới dữ liệu"
+               title="Refresh data"
                className="flex items-center justify-center p-2.5 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-colors shadow-sm text-gray-600 hover:text-gray-900"
              >
                <RefreshCw size={20} className={loading ? "animate-spin" : ""} /> 
@@ -103,9 +103,9 @@ const ManageDailyPlansPage = () => {
              <thead>
                <tr className="bg-gray-50 border-b border-gray-200 text-sm uppercase tracking-wider">
                  <th className="p-4 font-semibold text-gray-600">Headhunter</th>
-                 <th className="p-4 font-semibold text-gray-600">Kế hoạch Sáng (Tới 09:00)</th>
-                 <th className="p-4 font-semibold text-gray-600">Kế hoạch Chiều (Tới 13:20)</th>
-                 <th className="p-4 font-semibold text-gray-600 text-center">Quyền Ngoại Lệ (Đi muộn)</th>
+                 <th className="p-4 font-semibold text-gray-600">Morning Plan (By 09:00)</th>
+                 <th className="p-4 font-semibold text-gray-600">Afternoon Plan (By 13:20)</th>
+                 <th className="p-4 font-semibold text-gray-600 text-center">Exception (Late Arrival)</th>
                </tr>
              </thead>
              <tbody>
@@ -114,13 +114,13 @@ const ManageDailyPlansPage = () => {
                    <td className="p-4 font-medium text-gray-800">{h.full_name}</td>
                    <td className="p-4">
                      {h.has_morning 
-                       ? <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">Đã nộp</span> 
-                       : <span className="px-3 py-1 bg-gray-100 text-gray-500 rounded-full text-sm font-medium">Chưa có</span>}
+                       ? <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">Submitted</span> 
+                       : <span className="px-3 py-1 bg-gray-100 text-gray-500 rounded-full text-sm font-medium">Missing</span>}
                    </td>
                    <td className="p-4">
                      {h.has_afternoon 
-                       ? <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">Đã nộp</span> 
-                       : <span className="px-3 py-1 bg-gray-100 text-gray-500 rounded-full text-sm font-medium">Chưa có</span>}
+                       ? <span className="px-3 py-1 bg-green-100 text-green-700 rounded-full text-sm font-medium">Submitted</span> 
+                       : <span className="px-3 py-1 bg-gray-100 text-gray-500 rounded-full text-sm font-medium">Missing</span>}
                    </td>
                    <td className="p-4 text-center">
                      {h.has_exception ? (
@@ -144,7 +144,7 @@ const ManageDailyPlansPage = () => {
                {hhStatusList.length === 0 && (
                  <tr>
                    <td colSpan={4} className="p-8 text-center text-gray-500">
-                     {loading ? 'Đang tải dữ liệu...' : 'Không có Headhunter nào'}
+                     {loading ? 'Loading data...' : 'No Headhunters found'}
                    </td>
                  </tr>
                )}

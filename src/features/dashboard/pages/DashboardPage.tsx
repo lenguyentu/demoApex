@@ -128,7 +128,7 @@ export const DashboardPage = ({ userRole = 'admin' }: DashboardTemplateProps) =>
                         _setCustomDateRange([range.from.toISOString().split('T')[0], range.to.toISOString().split('T')[0]]);
                     }
                 }}
-                placeholder="Chọn khoảng thời gian"
+                placeholder="Select date range"
               />
             </div>
           )}
@@ -163,8 +163,8 @@ export const DashboardPage = ({ userRole = 'admin' }: DashboardTemplateProps) =>
               <div className="flex items-center">
                 <TriangleAlert className="text-yellow-600 mr-3 text-xl w-6 h-6" />
                 <div>
-                  <h3 className="text-yellow-800 font-semibold">Có {pendingUsersCount} tài khoản đang chờ duyệt</h3>
-                  <p className="text-yellow-700 text-sm">Vui lòng kiểm tra và duyệt các tài khoản mới đăng ký</p>
+                  <h3 className="text-yellow-800 font-semibold">There are {pendingUsersCount} accounts pending approval</h3>
+                  <p className="text-yellow-700 text-sm">Please check and approve newly registered accounts</p>
                 </div>
               </div>
               <a
@@ -172,7 +172,7 @@ export const DashboardPage = ({ userRole = 'admin' }: DashboardTemplateProps) =>
                 className="bg-yellow-600 hover:bg-yellow-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-150 flex items-center"
               >
                 <Users className="mr-2 w-4 h-4" />
-                Xem danh sách
+                View list
               </a>
             </div>
           )}

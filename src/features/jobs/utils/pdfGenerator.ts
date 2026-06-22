@@ -31,10 +31,10 @@ const generateStyledHTML = (job: Job): string => {
   
   const salary = (job.min_monthly_salary && job.max_monthly_salary) 
     ? `${job.min_monthly_salary} - ${job.max_monthly_salary}` 
-    : job.max_monthly_salary || "Thỏa thuận";
+    : job.max_monthly_salary || "Negotiable";
   
   // --- XỬ LÝ HTML (Logic tối ưu: Replace LI bằng DIV Flex) ---
-  const rawHtml = job.job_summary || "<p>Chưa có mô tả.</p>";
+  const rawHtml = job.job_summary || "<p>No description available.</p>";
   
   // 1. Xử lý thẻ p thừa trong li
   let cleanHtml = rawHtml
@@ -153,7 +153,7 @@ const generateStyledHTML = (job: Job): string => {
         <div class="job-title-section">
           <h1 class="job-title">${job.position_title}</h1>
           <div class="job-meta">
-            ${salary} • ${job.work_location || "Hà Nội"}
+            ${salary} • ${job.work_location || "Hanoi"}
           </div>
         </div>
 
@@ -184,7 +184,7 @@ export const generatePDF = async (
   setIsGeneratingPDF: (isGenerating: boolean) => void
 ): Promise<string | null> => {
   if (!job) {
-    toast.error('Không có dữ liệu công việc để tạo PDF.');
+    toast.error('No job data to generate PDF.');
     return null;
   }
   setIsGeneratingPDF(true);
@@ -200,7 +200,7 @@ export const generatePDF = async (
     try {
       const headResponse = await fetch(existingPublicUrl, { method: 'HEAD' });
       if (headResponse.ok) {
-        toast.success('Đã sao chép link JD có sẵn');
+        toast.success('Copied existing JD link');
         return existingPublicUrl;
       }
     } catch {
@@ -303,16 +303,16 @@ export const generatePDF = async (
     const { data } = supabase.storage.from(JD_PDF_BUCKET).getPublicUrl(stableFilePath);
     const publicUrl = data.publicUrl;
 
-    toast.success('Đã tạo link JD thành công!');
+    toast.success('Generated JD link successfully!');
     return publicUrl;
 
   } catch (error) {
     console.error('Error generating PDF:', error);
     const message = error instanceof Error ? error.message : String(error);
     if (message.toLowerCase().includes('row-level security')) {
-      toast.error('Bạn không có quyền tạo link JD (chỉ role nội bộ được upload).');
+      toast.error('You do not have permission to generate JD link (only internal roles can upload).');
     } else {
-      toast.error('Có lỗi xảy ra khi tạo link JD.');
+      toast.error('An error occurred while generating JD link.');
     }
     return null;
   } finally {

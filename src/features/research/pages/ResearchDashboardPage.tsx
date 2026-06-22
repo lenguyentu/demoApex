@@ -93,7 +93,7 @@ type RankingMetric = 'cv_to_db' | 'approved' | 'interview' | 'offer' | 'onboard'
 
 const RANKING_METRICS: { key: RankingMetric; label: string; color: string }[] = [
   { key: 'cv_to_db',  label: 'CV to DB',   color: 'text-blue-600' },
-  { key: 'approved',  label: 'CV duyệt',   color: 'text-indigo-600' },
+  { key: 'approved',  label: 'Approved CV',   color: 'text-indigo-600' },
   { key: 'interview', label: 'Interview',  color: 'text-purple-600' },
   { key: 'offer',     label: 'Offer',      color: 'text-orange-600' },
   { key: 'onboard',   label: 'Onboard',    color: 'text-green-600' },
@@ -135,10 +135,10 @@ function ResearcherRankingSection({ rows, loading }: { rows: ResearcherRankingRo
       <div className="flex items-center justify-between mb-4 flex-wrap gap-3">
         <h2 className="text-base font-semibold text-gray-800 flex items-center gap-2">
           <Trophy size={18} className="text-yellow-500" />
-          Xếp hạng Researcher (active)
+          Researcher Ranking (active)
         </h2>
         <div className="flex items-center gap-2 text-sm">
-          <span className="text-gray-500">Sắp xếp theo:</span>
+          <span className="text-gray-500">Sort by:</span>
           <select
             value={sortBy}
             onChange={e => setSortBy(e.target.value as RankingMetric)}
@@ -156,7 +156,7 @@ function ResearcherRankingSection({ rows, loading }: { rows: ResearcherRankingRo
           <Loader2 size={22} className="animate-spin text-gray-400" />
         </div>
       ) : sorted.length === 0 ? (
-        <p className="text-sm text-gray-400 py-6 text-center">Chưa có dữ liệu</p>
+        <p className="text-sm text-gray-400 py-6 text-center">No data</p>
       ) : (
         <div className="overflow-x-auto">
           <table className="w-full text-sm">
@@ -213,7 +213,7 @@ function ResearcherRankingSection({ rows, loading }: { rows: ResearcherRankingRo
         </div>
       )}
       <p className="text-xs text-gray-400 mt-3">
-        🏆 Top mỗi chỉ số highlight xanh — Bottom highlight đỏ • Click cột để sort
+        🏆 Top metrics highlighted green — Bottom highlighted red • Click column to sort
       </p>
     </div>
   );
@@ -340,8 +340,8 @@ function JobBreakdownSection({ rows, loading }: { rows: any[]; loading: boolean 
       <div className="flex items-center justify-between mb-4 flex-wrap gap-3">
         <h2 className="text-base font-semibold text-gray-800 flex items-center gap-2">
           <Briefcase size={18} className="text-blue-500" />
-          Chi tiết theo Job
-          <span className="text-xs font-normal text-gray-500">({filteredGroups.length} job)</span>
+          Job Breakdown
+          <span className="text-xs font-normal text-gray-500">({filteredGroups.length} jobs)</span>
         </h2>
         <div className="flex items-center gap-2">
           <button
@@ -349,13 +349,13 @@ function JobBreakdownSection({ rows, loading }: { rows: any[]; loading: boolean 
             disabled={filteredGroups.length === 0}
             className="text-xs px-2.5 py-1.5 rounded-lg border border-gray-200 hover:bg-gray-50 text-gray-600 disabled:opacity-50"
           >
-            {allExpanded ? 'Đóng tất cả' : 'Mở tất cả'}
+            {allExpanded ? 'Collapse All' : 'Expand All'}
           </button>
           <div className="relative">
             <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
             <input
               type="text"
-              placeholder="Tìm vị trí, client, mã job, Researcher, HH..."
+              placeholder="Search position, client, job code, Researcher, HH..."
               value={searchQuery}
               onChange={e => setSearchQuery(e.target.value)}
               className="pl-8 pr-3 py-1.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 w-72"
@@ -370,7 +370,7 @@ function JobBreakdownSection({ rows, loading }: { rows: any[]; loading: boolean 
         </div>
       ) : filteredGroups.length === 0 ? (
         <p className="text-sm text-gray-400 py-6 text-center">
-          {searchQuery ? 'Không tìm thấy job phù hợp' : 'Chưa có dữ liệu'}
+          {searchQuery ? 'No matching jobs found' : 'No data'}
         </p>
       ) : (
         <div className="overflow-x-auto">
@@ -378,12 +378,12 @@ function JobBreakdownSection({ rows, loading }: { rows: any[]; loading: boolean 
             <thead>
               <tr className="text-left text-gray-500 border-b border-gray-100 bg-gray-50/50">
                 <th className="pb-3 pt-3 pl-3 font-medium w-8"></th>
-                <th className="pb-3 pt-3 font-medium">Vị trí</th>
+                <th className="pb-3 pt-3 font-medium">Position</th>
                 <th className="pb-3 pt-3 font-medium">Client</th>
                 <th className="pb-3 pt-3 font-medium">Researcher</th>
-                <th className="pb-3 pt-3 font-medium">HH phụ trách</th>
-                <th className="pb-3 pt-3 font-medium text-center">CV gửi</th>
-                <th className="pb-3 pt-3 font-medium text-center">Đã duyệt</th>
+                <th className="pb-3 pt-3 font-medium">HH in charge</th>
+                <th className="pb-3 pt-3 font-medium text-center">Sent CVs</th>
+                <th className="pb-3 pt-3 font-medium text-center">Approved</th>
                 <th className="pb-3 pt-3 font-medium text-center">Interview</th>
                 <th className="pb-3 pt-3 font-medium text-center">Offer</th>
                 <th className="pb-3 pt-3 font-medium text-center pr-3">Onboard</th>
@@ -408,7 +408,7 @@ function JobBreakdownSection({ rows, loading }: { rows: any[]; loading: boolean 
         </div>
       )}
       <p className="text-xs text-gray-400 mt-3">
-        Dòng tổng = 1 job. Click ▶ để xem chi tiết theo Researcher × HH • Đếm dựa trên history "đã từng đạt"
+        Summary row = 1 job. Click ▶ to view details by Researcher × HH • Counts are based on history "ever achieved"
       </p>
     </div>
   );
@@ -442,7 +442,7 @@ function FragmentRows({
                 rel="noopener noreferrer"
                 onClick={e => e.stopPropagation()}
                 className="text-xs font-mono text-brand-600 hover:underline w-fit"
-                title="Mở chi tiết job"
+                title="Open job details"
               >
                 {group.job_code}
               </a>
@@ -465,7 +465,7 @@ function FragmentRows({
         {/* Researcher / HH cell — show summary on parent row */}
         <td className="py-3 text-gray-500 text-xs">
           {isMulti ? (
-            <span className="italic">{group.rows.length} người</span>
+            <span className="italic">{group.rows.length} people</span>
           ) : (
             group.rows[0]?.researcher_name || '—'
           )}
@@ -488,7 +488,7 @@ function FragmentRows({
       {open && isMulti && group.rows.map(r => (
         <tr key={`${r.job_id}-${r.researcher_id}-${r.owner_id}`} className="bg-gray-50/40 hover:bg-gray-100/40">
           <td className="py-2.5 pl-3 text-gray-300">└</td>
-          <td className="py-2.5 pl-6 text-gray-500 text-xs italic">↳ chi tiết</td>
+          <td className="py-2.5 pl-6 text-gray-500 text-xs italic">↳ details</td>
           <td className="py-2.5"></td>
           <td className="py-2.5 text-gray-700 text-xs">{r.researcher_name || '—'}</td>
           <td className="py-2.5 text-gray-700 text-xs">{r.owner_name || '—'}</td>
@@ -624,8 +624,8 @@ export function ResearchDashboardPage() {
 
   const STAT_CARDS = [
     { id: 'cv_to_db',  count: s.cv_to_db,  label: 'CV to DB',   color: 'blue' },
-    { id: 'pending',   count: s.pending,   label: 'Chờ duyệt',  color: 'yellow' },
-    { id: 'approved',  count: s.approved,  label: 'Đã duyệt',   color: 'indigo' },
+    { id: 'pending',   count: s.pending,   label: 'Pending',  color: 'yellow' },
+    { id: 'approved',  count: s.approved,  label: 'Approved',   color: 'indigo' },
     { id: 'interview', count: s.interview, label: 'Interview',  color: 'purple' },
     { id: 'offer',     count: s.offer,     label: 'Offer',      color: 'orange' },
     { id: 'onboard',   count: s.onboard,   label: 'Onboard',    color: 'green' },
@@ -633,7 +633,7 @@ export function ResearchDashboardPage() {
 
   const FUNNEL = [
     { label: 'CV to DB',  count: s.cv_to_db,  pct: 100,                                    color: '#3b82f6' },
-    { label: 'Đã duyệt', count: s.approved,  pct: +((s.approved  / base) * 100).toFixed(1), color: '#6366f1' },
+    { label: 'Approved', count: s.approved,  pct: +((s.approved  / base) * 100).toFixed(1), color: '#6366f1' },
     { label: 'Interview', count: s.interview, pct: +((s.interview / base) * 100).toFixed(1), color: '#a855f7' },
     { label: 'Offer',     count: s.offer,     pct: +((s.offer     / base) * 100).toFixed(1), color: '#f97316' },
     { label: 'Onboard',   count: s.onboard,   pct: +((s.onboard   / base) * 100).toFixed(1), color: '#22c55e' },
@@ -646,7 +646,7 @@ export function ResearchDashboardPage() {
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Research Dashboard</h1>
           <p className="text-sm text-gray-500 mt-1">
-            {isResearcher ? 'Thống kê của bạn' : 'Thống kê tỉ lệ chuyển đổi'}
+            {isResearcher ? 'Your Statistics' : 'Conversion Rate Statistics'}
           </p>
         </div>
         <div className="flex items-center gap-2 flex-wrap">
@@ -654,7 +654,7 @@ export function ResearchDashboardPage() {
           <DateRangePicker
             value={dateRange}
             onChange={setDateRange}
-            placeholder="Toàn bộ thời gian"
+            placeholder="All time"
           />
           {/* Admin: filter theo Researcher */}
           {isAdmin && (
@@ -663,7 +663,7 @@ export function ResearchDashboardPage() {
               onChange={e => setSelectedResearcherId(e.target.value)}
               className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-400 bg-white"
             >
-              <option value="all">Tất cả Researcher</option>
+              <option value="all">All Researchers</option>
               {researcherList.map((r: any) => (
                 <option key={r.id} value={r.id}>{r.full_name}</option>
               ))}
@@ -690,7 +690,7 @@ export function ResearchDashboardPage() {
             <FunnelBar key={f.label} {...f} />
           ))}
         </div>
-        <p className="text-xs text-gray-400 mt-4">Tỉ lệ tính trên tổng CV to DB</p>
+        <p className="text-xs text-gray-400 mt-4">Calculated percentage based on total CV to DB</p>
       </div>
 
       {/* Researcher Ranking — ai cũng thấy */}
@@ -713,17 +713,17 @@ export function ResearchDashboardPage() {
               <tr className="text-left text-gray-500 border-b border-gray-100">
                 <th className="pb-3 font-medium">Headhunter</th>
                 <th className="pb-3 font-medium text-center">Role</th>
-                <th className="pb-3 font-medium text-center">Tuần này</th>
-                <th className="pb-3 font-medium text-center">Tổng nhận</th>
+                <th className="pb-3 font-medium text-center">This Week</th>
+                <th className="pb-3 font-medium text-center">Total Received</th>
                 <th className="pb-3 font-medium text-center">Offset</th>
                 <th className="pb-3 font-medium text-center">Effective</th>
-                {isAdmin && <th className="pb-3 font-medium text-center">Gia nhập</th>}
+                {isAdmin && <th className="pb-3 font-medium text-center">Joined</th>}
                 {isAdmin && <th className="pb-3 font-medium text-center">Pool</th>}
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-50">
               {workload.length === 0 ? (
-                <tr><td colSpan={isAdmin ? 8 : 6} className="py-8 text-center text-gray-400 text-sm">Chưa có dữ liệu</td></tr>
+                <tr><td colSpan={isAdmin ? 8 : 6} className="py-8 text-center text-gray-400 text-sm">No data</td></tr>
               ) : workload.map((row, i) => (
                 <tr key={row.hh_id}
                   className={`transition ${
@@ -738,12 +738,12 @@ export function ResearchDashboardPage() {
                     {row.hh_name}
                     {row.excluded && (
                       <span className="px-1.5 py-0.5 rounded text-xs font-medium bg-gray-200 text-gray-500">
-                        Tạm loại
+                        Temporarily excluded
                       </span>
                     )}
                     {isAdmin && !row.excluded && row.is_next && (
                       <span className="ml-1 px-1.5 py-0.5 rounded text-xs font-semibold bg-green-500 text-white">
-                        Tiếp theo ↓
+                        Next ↓
                       </span>
                     )}
                   </td>
@@ -766,9 +766,9 @@ export function ResearchDashboardPage() {
                             ? 'bg-gray-100 text-gray-600 hover:bg-green-100 hover:text-green-700'
                             : 'bg-green-100 text-green-700 hover:bg-red-100 hover:text-red-600'
                         }`}
-                        title={row.excluded ? 'Thêm vào pool' : 'Loại khỏi pool'}
+                        title={row.excluded ? 'Add to pool' : 'Exclude from pool'}
                       >
-                        {row.excluded ? '+ Thêm' : '✓ Active'}
+                        {row.excluded ? '+ Add' : '✓ Active'}
                       </button>
                     </td>
                   )}
@@ -777,7 +777,7 @@ export function ResearchDashboardPage() {
             </tbody>
           </table>
         </div>
-        <p className="text-xs text-gray-400 mt-3">Người có effective_score thấp nhất sẽ nhận CV tiếp theo</p>
+        <p className="text-xs text-gray-400 mt-3">The person with the lowest effective_score will receive the next CV</p>
       </div>
       )}
     </div>

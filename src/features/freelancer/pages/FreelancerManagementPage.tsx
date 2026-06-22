@@ -50,9 +50,9 @@ export const FreelancerManagementPage = () => {
         if (!freelancerData || freelancerData.length === 0) return;
 
         const dataToExport = freelancerData.map((f, index) => ({
-            'STT': index + 1,
-            'Tên Freelancer': f.name || '',
-            'SĐT': f.phone || '',
+            'No.': index + 1,
+            'Freelancer Name': f.name || '',
+            'Phone': f.phone || '',
             'Email': f.email || '',
             'CV to TDC': f.cvToTDC || 0,
             'CV to Client': f.cvToClient || 0,
@@ -64,11 +64,11 @@ export const FreelancerManagementPage = () => {
 
         const worksheet = XLSX.utils.json_to_sheet(dataToExport);
         
-        // Căn chỉnh độ rộng cột
+        // Align column widths
         const colWidths = [
-            { wch: 5 },  // STT
-            { wch: 25 }, // Tên
-            { wch: 15 }, // SĐT
+            { wch: 5 },  // No.
+            { wch: 25 }, // Name
+            { wch: 15 }, // Phone
             { wch: 30 }, // Email
             { wch: 12 }, // CV to TDC
             { wch: 15 }, // CV to Client
@@ -83,7 +83,7 @@ export const FreelancerManagementPage = () => {
         XLSX.utils.book_append_sheet(workbook, worksheet, 'Freelancers');
         
         const dateStr = new Date().toISOString().split('T')[0];
-        XLSX.writeFile(workbook, `Danh_sach_Freelancer_${dateStr}.xlsx`);
+        XLSX.writeFile(workbook, `Freelancer_List_${dateStr}.xlsx`);
     };
 
     if (error) {
@@ -101,7 +101,7 @@ export const FreelancerManagementPage = () => {
                 <div>
                     <h1 className="text-2xl font-bold text-gray-900">Freelancer Management</h1>
                     <p className="text-sm text-gray-500 mt-1">
-                        Theo dõi hiệu suất & tỷ lệ chuyển đổi của freelancer
+                        Track freelancer performance & conversion rate
                     </p>
                 </div>
                 <div className="flex items-center gap-3 pr-15">
@@ -130,28 +130,28 @@ export const FreelancerManagementPage = () => {
                             <div className="absolute right-0 top-0 p-3 opacity-20 group-hover:opacity-30 transition-opacity">
                                 <Users className="w-10 h-10 text-blue-600" />
                             </div>
-                            <p className="text-sm font-medium text-gray-500">Tổng Freelancer</p>
+                            <p className="text-sm font-medium text-gray-500">Total Freelancers</p>
                             <p className="text-3xl font-bold text-blue-600 mt-2">{totalFreelancersCount}</p>
                         </div>
                         <div className="bg-white rounded-xl p-5 shadow-sm border border-emerald-100 relative overflow-hidden group hover:shadow-md transition-all">
                                 <div className="absolute right-0 top-0 p-3 opacity-20 group-hover:opacity-30 transition-opacity">
                                     <FileText className="w-10 h-10 text-emerald-600" />
                             </div>
-                            <p className="text-sm font-medium text-gray-500">Tổng CV đã gửi</p>
+                            <p className="text-sm font-medium text-gray-500">Total CVs Sent</p>
                             <p className="text-3xl font-bold text-emerald-600 mt-2">{totalCVToTDC}</p>
                         </div>
                         <div className="bg-white rounded-xl p-5 shadow-sm border border-purple-100 relative overflow-hidden group hover:shadow-md transition-all">
                                 <div className="absolute right-0 top-0 p-3 opacity-20 group-hover:opacity-30 transition-opacity">
                                     <Award className="w-10 h-10 text-purple-600" />
                             </div>
-                            <p className="text-sm font-medium text-gray-500">Tổng Onboarding</p>
+                            <p className="text-sm font-medium text-gray-500">Total Onboarding</p>
                             <p className="text-3xl font-bold text-purple-600 mt-2">{totalOnboarding}</p>
                         </div>
                         <div className="bg-white rounded-xl p-5 shadow-sm border border-orange-100 relative overflow-hidden group hover:shadow-md transition-all">
                                 <div className="absolute right-0 top-0 p-3 opacity-20 group-hover:opacity-30 transition-opacity">
                                     <Activity className="w-10 h-10 text-orange-600" />
                             </div>
-                            <p className="text-sm font-medium text-gray-500">Tỷ lệ thành công</p>
+                            <p className="text-sm font-medium text-gray-500">Conversion Rate</p>
                             <p className="text-3xl font-bold text-orange-600 mt-2">{overallConversionRate}%</p>
                         </div>
                     </>
@@ -163,9 +163,9 @@ export const FreelancerManagementPage = () => {
                 <div className="p-6 border-b border-gray-100">
                      <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
                         <div>
-                             <h3 className="text-lg font-bold text-gray-900">Danh sách Freelancer</h3>
+                             <h3 className="text-lg font-bold text-gray-900">Freelancer List</h3>
                              <p className="text-sm text-gray-500 mt-1">
-                                Hiệu suất focus job của freelancer (Sắp xếp theo số lượng CV đã gửi từ cao → thấp)
+                                Freelancer focus job performance (Sorted by CV sent descending)
                             </p>
                         </div>
                         <div className="flex flex-col md:flex-row items-center gap-3 w-full lg:w-auto">
@@ -174,7 +174,7 @@ export const FreelancerManagementPage = () => {
                                 <input 
                                     type="text" 
                                     className="flex h-10 w-full rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 pl-10 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#ED0A63] focus:bg-white transition-all" 
-                                    placeholder="Tìm theo tên, SĐT, email..." 
+                                    placeholder="Search by name, phone, email..." 
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
                                 />
@@ -201,8 +201,8 @@ export const FreelancerManagementPage = () => {
                     <table className="w-full text-sm text-left">
                         <thead className="bg-gray-50/50 text-xs uppercase text-gray-500 font-medium">
                             <tr>
-                                <th className="px-6 py-4 text-center w-16">STT</th>
-                                <th className="px-6 py-4">Tên Freelancer</th>
+                                <th className="px-6 py-4 text-center w-16">No.</th>
+                                <th className="px-6 py-4">Freelancer Name</th>
                                 <th className="px-6 py-4 text-center text-blue-600">CV to TDC</th>
                                 <th className="px-6 py-4 text-center">CV to Client</th>
                                 <th className="px-6 py-4 text-center">Interview</th>
@@ -232,7 +232,7 @@ export const FreelancerManagementPage = () => {
                             ) : freelancerData.length === 0 ? (
                                 <tr>
                                     <td colSpan={8} className="px-6 py-8 text-center text-gray-500">
-                                        Chưa có dữ liệu nào phù hợp.
+                                        No matching records found.
                                     </td>
                                 </tr>
                             ) : freelancerData.map((f, idx) => (
@@ -300,8 +300,8 @@ export const FreelancerManagementPage = () => {
              {/* Chart Section */}
              <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
                 <div className="mb-6">
-                     <h3 className="text-lg font-bold text-gray-900">Tỷ lệ chuyển đổi (Onboarding/CV gửi)</h3>
-                     <p className="text-sm text-gray-500 mt-1">Tỷ lệ thành công của top 5 freelancer</p>
+                     <h3 className="text-lg font-bold text-gray-900">Conversion Rate (Onboarding / CV sent)</h3>
+                     <p className="text-sm text-gray-500 mt-1">Success rate of top 5 freelancers</p>
                 </div>
                  <div className="h-[300px] w-full">
                     {loading && freelancerData.length === 0 ? (

@@ -15,10 +15,10 @@ interface ConfirmReminderModalProps {
 
 const REMINDER_TYPES = [
   { value: 'Follow up', label: 'Follow up', icon: <MessageCircle className="w-4 h-4" />, color: 'text-blue-600 bg-blue-50' },
-  { value: 'Calling', label: 'Gọi điện', icon: <Phone className="w-4 h-4" />, color: 'text-green-600 bg-green-50' },
-  { value: 'Emailing', label: 'Gửi Email', icon: <Mail className="w-4 h-4" />, color: 'text-purple-600 bg-purple-50' },
-  { value: 'Meeting', label: 'Hẹn gặp', icon: <Users className="w-4 h-4" />, color: 'text-orange-600 bg-orange-50' },
-  { value: 'Contract', label: 'Hợp đồng', icon: <ClipboardList className="w-4 h-4" />, color: 'text-pink-600 bg-pink-50' },
+  { value: 'Calling', label: 'Call', icon: <Phone className="w-4 h-4" />, color: 'text-green-600 bg-green-50' },
+  { value: 'Emailing', label: 'Email', icon: <Mail className="w-4 h-4" />, color: 'text-purple-600 bg-purple-50' },
+  { value: 'Meeting', label: 'Meeting', icon: <Users className="w-4 h-4" />, color: 'text-orange-600 bg-orange-50' },
+  { value: 'Contract', label: 'Contract', icon: <ClipboardList className="w-4 h-4" />, color: 'text-pink-600 bg-pink-50' },
 ];
 
 const STATUS_PHASES = [
@@ -139,7 +139,7 @@ export function ConfirmReminderModal({
     // If creating a custom schedule, append it to the note automatically
     if (showCustomSchedule && scheduledDate) {
       const formattedDate = format(new Date(scheduledDate), 'dd/MM/yyyy HH:mm');
-      const scheduleInfo = `[📅 Lịch hẹn: ${customTitle || `Nhắc nhở ${clientName}`} lúc ${formattedDate}]`;
+      const scheduleInfo = `[📅 Appointment: ${customTitle || `Reminder ${clientName}`} at ${formattedDate}]`;
       enhancedNote = note ? `${note}\n${scheduleInfo}` : scheduleInfo;
     }
 
@@ -152,7 +152,7 @@ export function ConfirmReminderModal({
         await createScheduleMutation.mutateAsync({
           process_id: processId,
           owner_id: user.id,
-          title: customTitle || `Nhắc nhở: ${clientName}`,
+          title: customTitle || `Reminder: ${clientName}`,
           scheduled_date: new Date(scheduledDate).toISOString(),
           reminder_type: reminderType,
           description: enhancedNote // Use enhanced note here too
@@ -172,7 +172,7 @@ export function ConfirmReminderModal({
       <div className="relative bg-white rounded-xl shadow-2xl w-full max-w-xl mx-4 z-50 animate-in fade-in zoom-in-95 duration-200 flex flex-col max-h-[90vh]">
         <div className="flex items-center justify-between p-5 border-b shrink-0">
           <div>
-            <h2 className="text-lg font-bold text-gray-900">Xác nhận Remind & Cập nhật</h2>
+            <h2 className="text-lg font-bold text-gray-900">Confirm Reminder & Update</h2>
             <p className="text-sm text-gray-500 mt-0.5">{clientName}</p>
           </div>
           <button onClick={onClose} className="p-2 hover:bg-gray-100 rounded-lg transition text-gray-400 hover:text-gray-600">
@@ -228,7 +228,7 @@ export function ConfirmReminderModal({
                 </div>
                 {isCustomStage(status) && (
                   <p className="text-[10px] text-brand-600 mt-1 ml-1 font-medium">
-                    ℹ️ Stage này dùng lịch tùy chỉnh thay vì rolling 7/15/30 ngày
+                    ℹ️ This stage uses a custom schedule instead of 7/15/30 rolling days
                   </p>
                 )}
               </div>
@@ -242,8 +242,8 @@ export function ConfirmReminderModal({
                       onChange={(e) => setShowCustomSchedule(e.target.checked)}
                     />
                     <div className="flex flex-col">
-                        <span className="text-sm font-bold text-gray-700">Tạo lịch nhắc tùy chỉnh</span>
-                        <span className="text-[10px] text-gray-500">Đặt lịch hẹn cụ thể cho lần sau</span>
+                        <span className="text-sm font-bold text-gray-700">Create custom reminder</span>
+                        <span className="text-[10px] text-gray-500">Set specific appointment for next time</span>
                     </div>
                  </label>
               </div>
@@ -253,7 +253,7 @@ export function ConfirmReminderModal({
             <div className="space-y-4 p-4 rounded-xl bg-brand-50/50 border border-brand-100 animate-in slide-in-from-top-2 duration-300">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label className="block text-xs font-semibold text-gray-500 uppercase mb-2 ml-1">Ngày & Giờ hẹn</label>
+                        <label className="block text-xs font-semibold text-gray-500 uppercase mb-2 ml-1">Date & Time</label>
                         <div className="relative">
                             <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
                             <input 
@@ -265,7 +265,7 @@ export function ConfirmReminderModal({
                         </div>
                     </div>
                     <div>
-                        <label className="block text-xs font-semibold text-gray-500 uppercase mb-2 ml-1">Loại nhắc nhở</label>
+                        <label className="block text-xs font-semibold text-gray-500 uppercase mb-2 ml-1">Reminder Type</label>
                         <select
                             value={reminderType}
                             onChange={(e) => setReminderType(e.target.value)}
@@ -278,10 +278,10 @@ export function ConfirmReminderModal({
                     </div>
                 </div>
                 <div>
-                    <label className="block text-xs font-semibold text-gray-500 uppercase mb-2 ml-1">Tiêu đề lịch hẹn</label>
+                    <label className="block text-xs font-semibold text-gray-500 uppercase mb-2 ml-1">Appointment Title</label>
                     <input 
                         type="text"
-                        placeholder="Ví dụ: Gọi lại chốt lịch gặp..."
+                        placeholder="Example: Call back to schedule a meeting..."
                         value={customTitle}
                         onChange={(e) => setCustomTitle(e.target.value)}
                         className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 bg-white text-sm font-medium"
@@ -291,12 +291,12 @@ export function ConfirmReminderModal({
           )}
 
           <div>
-            <label className="block text-xs font-semibold text-gray-500 uppercase mb-2 ml-1">Ghi chú tương tác <span className="text-red-500">*</span></label>
+            <label className="block text-xs font-semibold text-gray-500 uppercase mb-2 ml-1">Interaction Note <span className="text-red-500">*</span></label>
             <textarea
               value={note}
               onChange={(e) => setNote(e.target.value)}
               rows={3}
-              placeholder="Nội dung đã trao đổi, lý do đặt lịch hẹn mới..."
+              placeholder="Discussed content, reason for new appointment..."
               className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 resize-none text-sm"
               autoFocus
             />
@@ -304,13 +304,13 @@ export function ConfirmReminderModal({
         </div>
 
         <div className="flex items-center justify-end gap-3 p-5 border-t bg-gray-50 rounded-b-xl shrink-0">
-          <button onClick={onClose} className="px-5 py-2 text-sm border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-100 transition font-bold">Hủy</button>
+          <button onClick={onClose} className="px-5 py-2 text-sm border border-gray-300 text-gray-700 rounded-lg hover:bg-gray-100 transition font-bold">Cancel</button>
           <button
             onClick={handleConfirm}
             disabled={!note.trim() || (showCustomSchedule && !scheduledDate)}
             className="px-6 py-2 text-sm bg-brand-600 text-white rounded-lg hover:bg-brand-700 transition font-bold disabled:opacity-50 disabled:cursor-not-allowed shadow-md shadow-brand-100"
           >
-            Lưu & Hoàn tất
+            Save & Complete
           </button>
         </div>
       </div>

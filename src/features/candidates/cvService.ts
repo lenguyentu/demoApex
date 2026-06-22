@@ -43,7 +43,7 @@ export async function uploadCV(file: File, userId: string): Promise<string> {
 
   if (uploadError) {
     console.error('Upload error:', uploadError);
-    throw new Error(`Không thể upload CV: ${uploadError.message}`);
+    throw new Error(`Cannot upload CV: ${uploadError.message}`);
   }
 
   // Trả về đường dẫn tương đối (relative path) để lưu vào DB
@@ -64,7 +64,7 @@ export async function analyzeCV(cvPath: string): Promise<CVAnalysisData> {
 
   if (signError || !signedData) {
     console.error('Signed URL error:', signError);
-    throw new Error('Không thể tạo link truy cập CV. Vui lòng thử lại.');
+    throw new Error('Cannot create access link to CV. Please try again.');
   }
 
   const { data, error } = await supabase.functions.invoke('analyze-cv', {
@@ -73,11 +73,11 @@ export async function analyzeCV(cvPath: string): Promise<CVAnalysisData> {
 
   if (error) {
     console.error('Analyze CV error:', error);
-    throw new Error(`Không thể phân tích CV: ${error.message}`);
+    throw new Error(`Cannot analyze CV: ${error.message}`);
   }
 
   if (!data?.success) {
-    throw new Error(data?.error || 'Phân tích CV thất bại');
+    throw new Error(data?.error || 'Failed to analyze CV');
   }
 
   return data.data as CVAnalysisData;

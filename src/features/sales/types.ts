@@ -2,7 +2,7 @@
 export type ContractType = 'Cá nhân' | 'Công ty';
 export type CandidateType = 'Nội bộ' | 'CTV' | 'Intern' | 'Freelancer';
 export type CTVPaymentStatus = 'Pending' | 'Doing' | 'Done' | 'Reject';
-export type InvoiceStatus = 'Đã xuất' | 'Chưa xuất';
+export type InvoiceStatus = 'Issued' | 'Not Issued';
 export type OverallAccountingStatus = 'Doing' | 'Done' | 'Reject';
 export type GuaranteePeriod = '30_Days' | '60_Days' | '90_Days' | 'None' | 'Other';
 

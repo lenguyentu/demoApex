@@ -44,21 +44,21 @@ const CandidateItem = ({
       <div className="flex-1">
         <p className="font-medium text-gray-900">{candidate.name}</p>
         <p className="text-sm text-gray-600">
-          {candidate.applied_position || 'Chưa có vị trí'}
+          {candidate.applied_position || 'No position'}
         </p>
         <p className="text-xs text-gray-500">{candidate.email}</p>
         {candidate.cv_link ? (
           <div className="flex items-center gap-2 mt-1">
             <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
               <FileText className="w-3 h-3 mr-1" />
-              Có CV
+              Has CV
             </span>
           </div>
         ) : (
           <div className="flex items-center gap-2 mt-1">
             <span className="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
               <AlertCircle className="w-3 h-3 mr-1" />
-              Không có CV
+              No CV
             </span>
           </div>
         )}
@@ -162,12 +162,12 @@ export const IntroduceCandidateModal = ({
 
   const handleSubmitIntroduction = async () => {
     if (!selectedCandidate || !job) {
-      toast.error('Vui lòng chọn ứng viên và công việc.');
+      toast.error('Please select candidate and job.');
       return;
     }
 
     if (!reason.trim()) {
-      setReasonError('Vui lòng nhập lý do giới thiệu.');
+      setReasonError('Please enter introduction reason.');
       return;
     }
     setReasonError('');
@@ -178,13 +178,13 @@ export const IntroduceCandidateModal = ({
       // MOCK SUBMIT
       await new Promise(r => setTimeout(r, 500));
       toast.success(
-        `Đã giới thiệu ứng viên "${selectedCandidate.name}" cho công việc "${job.position_title}"`
+        `Introduced candidate "${selectedCandidate.name}" for job "${job.position_title}"`
       );
       onSuccess?.();
       onClose();
     } catch (error) {
       console.error('Error applying candidate:', error);
-      toast.error('Lỗi khi giới thiệu ứng viên');
+      toast.error('Error introducing candidate');
     } finally {
       setIsSubmitting(false);
     }
@@ -204,16 +204,16 @@ export const IntroduceCandidateModal = ({
         {/* Header */}
         <div className="relative flex flex-col gap-2 text-center sm:text-left shrink-0">
           <h2 className="text-2xl bg-pink-600 py-6 px-4 rounded-t-lg font-bold text-white tracking-wide">
-            Giới thiệu Ứng viên
+            Introduce Candidate
           </h2>
           <div className="px-4 pt-2 pb-2">
             <div className="bg-blue-50 p-3 rounded-lg border border-blue-200">
               <p className="text-sm font-medium text-blue-900">
-                Công việc:{' '}
+                Job:{' '}
                 <span className="font-semibold">{job.position_title}</span>
               </p>
               <p className="text-sm text-blue-700">
-                Công ty: {job.clients?.client_name ?? 'Không rõ'}
+                Company: {job.clients?.client_name ?? 'Unknown'}
               </p>
             </div>
           </div>
@@ -232,10 +232,10 @@ export const IntroduceCandidateModal = ({
             // VIEW 2: Confirm and enter reason
             <div>
               <h3 className="text-lg font-semibold text-gray-900 mb-3">
-                Xác nhận giới thiệu
+                Confirm Introduction
               </h3>
               <div className="bg-gray-100 p-4 rounded-lg mb-4">
-                <p className="text-sm text-gray-600">Bạn đang giới thiệu:</p>
+                <p className="text-sm text-gray-600">You are introducing:</p>
                 <p className="font-semibold text-lg text-gray-900">
                   {selectedCandidate.name}
                 </p>
@@ -248,7 +248,7 @@ export const IntroduceCandidateModal = ({
                   htmlFor="reason"
                   className="block text-sm font-medium text-gray-700 mb-2"
                 >
-                  Lý do giới thiệu <span className="text-red-500">*</span>
+                  Introduction Reason <span className="text-red-500">*</span>
                 </label>
                 <textarea
                   id="reason"
@@ -259,7 +259,7 @@ export const IntroduceCandidateModal = ({
                       ? 'border-red-500 focus:border-red-500'
                       : 'border-gray-300'
                   }`}
-                  placeholder={`Tại sao ${selectedCandidate.name} phù hợp với vị trí này?`}
+                  placeholder={`Why is ${selectedCandidate.name} suitable for this position?`}
                   value={reason}
                   onChange={(e) => {
                     setReason(e.target.value);
@@ -269,7 +269,7 @@ export const IntroduceCandidateModal = ({
                   }}
                   onBlur={() => {
                     if (!reason.trim()) {
-                      setReasonError('Vui lòng nhập lý do giới thiệu.');
+                      setReasonError('Please enter introduction reason.');
                     }
                   }}
                   disabled={isSubmitting}
@@ -291,7 +291,7 @@ export const IntroduceCandidateModal = ({
                   className="flex-1 h-10 px-4 py-2 border rounded-md text-sm font-medium hover:bg-gray-100 disabled:opacity-50"
                   disabled={isSubmitting}
                 >
-                  Quay lại
+                  Back
                 </button>
                 <button
                   onClick={handleSubmitIntroduction}
@@ -301,7 +301,7 @@ export const IntroduceCandidateModal = ({
                   {isSubmitting && (
                     <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                   )}
-                  {isSubmitting ? 'Đang giới thiệu...' : 'Xác nhận'}
+                  {isSubmitting ? 'Introducing...' : 'Confirm'}
                 </button>
               </div>
             </div>
@@ -310,14 +310,14 @@ export const IntroduceCandidateModal = ({
             <>
               <div className="space-y-3">
                 <h3 className="text-lg font-semibold text-gray-900">
-                  Thêm Ứng viên mới
+                  Add New Candidate
                 </h3>
                 <button
                   onClick={() => setIsAddModalOpen(true)}
                   className="inline-flex items-center justify-center gap-2 w-full h-9 px-4 py-2 border rounded-md text-sm font-medium hover:bg-gray-100"
                 >
                   <Plus className="w-4 h-4 mr-2" />
-                  Thêm Ứng viên
+                  Add Candidate
                 </button>
               </div>
 
@@ -326,19 +326,19 @@ export const IntroduceCandidateModal = ({
                   <span className="w-full border-t"></span>
                 </div>
                 <div className="relative flex justify-center text-sm">
-                  <span className="bg-white px-2 text-gray-500">hoặc</span>
+                  <span className="bg-white px-2 text-gray-500">or</span>
                 </div>
               </div>
 
               <div className="space-y-3">
                 <h3 className="text-lg font-semibold text-gray-900">
-                  Chọn từ danh sách có sẵn
+                  Select from existing list
                 </h3>
                 <div className="relative">
                   <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 h-4 w-4" />
                   <input
                     className="h-9 w-full rounded-md border bg-transparent pl-10 pr-3 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-pink-500"
-                    placeholder="Tìm kiếm theo tên hoặc email..."
+                    placeholder="Search by name or email..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
                   />
@@ -359,7 +359,7 @@ export const IntroduceCandidateModal = ({
                     ))
                   ) : (
                     <div className="p-4 text-center text-sm text-gray-500">
-                      Không tìm thấy ứng viên.
+                      Candidate not found.
                     </div>
                   )}
                 </div>

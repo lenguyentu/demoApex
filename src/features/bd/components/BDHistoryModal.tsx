@@ -31,7 +31,7 @@ export const BDHistoryModal = ({ isOpen, onClose, processId, clientName, filterS
     try {
       const data = await getBDProcessHistory(processId);
       
-      // Sort DESC (Mới nhất lên đầu)
+      // Sort DESC (Newest first)
       data.sort((a, b) => new Date(b.change_date).getTime() - new Date(a.change_date).getTime());
 
       if (filterStatus) {
@@ -100,10 +100,10 @@ export const BDHistoryModal = ({ isOpen, onClose, processId, clientName, filterS
             <div>
                 <h3 className="text-lg font-bold text-gray-900 flex items-center gap-2">
                 {filterStatus ? <Edit2 size={20} className="text-pink-600" /> : <Clock size={20} className="text-pink-600" />}
-                {filterStatus ? `Ghi chú: ${filterStatus}` : 'Lịch sử Chăm sóc'}
+                {filterStatus ? `Note: ${filterStatus}` : 'Care History'}
                 </h3>
                 <p className="text-sm text-gray-500 mt-0.5">
-                    Khách hàng: <span className="font-medium text-pink-600">{clientName}</span>
+                    Customer: <span className="font-medium text-pink-600">{clientName}</span>
                 </p>
             </div>
             <button
@@ -118,14 +118,14 @@ export const BDHistoryModal = ({ isOpen, onClose, processId, clientName, filterS
             {loading ? (
               <div className="py-12 text-center text-gray-500 flex flex-col items-center gap-2">
                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-pink-500"></div>
-                 <span className="text-sm font-medium">Đang tải dữ liệu...</span>
+                 <span className="text-sm font-medium">Loading data...</span>
               </div>
             ) : history.length === 0 ? (
               <div className="py-12 text-center text-gray-400 italic flex flex-col items-center gap-3">
                   <div className="p-4 bg-gray-50 rounded-full">
                       <Clock size={32} className="opacity-50" />
                   </div>
-                  Chưa có lịch sử thay đổi nào.
+                  No change history yet.
               </div>
             ) : (
                 <div className="relative border-l-2 border-gray-100 ml-4 space-y-8 pl-8 my-2 pt-2">
@@ -145,7 +145,7 @@ export const BDHistoryModal = ({ isOpen, onClose, processId, clientName, filterS
                         const prevItem = index > 0 ? history[index - 1] : null;
                         
                         // Logic xác định status cũ (của item hiện tại so với item TRƯỚC ĐÓ trong danh sách đã sort ASC)
-                        const oldStatus = prevItem ? (prevItem.status || 'Unknown') : 'Khởi tạo';
+                        const oldStatus = prevItem ? (prevItem.status || 'Unknown') : 'Initialized';
                         const newStatus = item.status || 'Unknown';
                         const isStatusShift = oldStatus !== newStatus;
 
@@ -206,7 +206,7 @@ export const BDHistoryModal = ({ isOpen, onClose, processId, clientName, filterS
                                                         <div className="flex items-center gap-1.5">
                                                            <Calendar size={11} className="text-gray-400" />
                                                            <span className="font-mono text-gray-600">
-                                                               {new Date(item.change_date).toLocaleString('vi-VN', { 
+                                                               {new Date(item.change_date).toLocaleString('en-GB', { 
                                                                  hour: '2-digit', minute: '2-digit',
                                                                  day: '2-digit', month: '2-digit', year: 'numeric'
                                                                })}
@@ -215,7 +215,7 @@ export const BDHistoryModal = ({ isOpen, onClose, processId, clientName, filterS
                                                         <span className="text-gray-300">|</span>
                                                         <div className="flex items-center gap-1.5 font-medium text-gray-700">
                                                            <User size={11} className="text-gray-400" />
-                                                           {item.changed_by_user?.full_name || 'Hệ thống'}
+                                                           {item.changed_by_user?.full_name || 'System'}
                                                         </div>
                                                     </div>
 
@@ -231,7 +231,7 @@ export const BDHistoryModal = ({ isOpen, onClose, processId, clientName, filterS
                                                         ) : (
                                                             <span className="text-sm text-gray-400 italic flex items-center gap-2">
                                                                 <Edit2 size={12} />
-                                                                Không có ghi chú chi tiết
+                                                                No detailed notes
                                                             </span>
                                                         )}
                                                     </div>
@@ -255,7 +255,7 @@ export const BDHistoryModal = ({ isOpen, onClose, processId, clientName, filterS
                         autoFocus
                         value={newNote}
                         onChange={(e) => setNewNote(e.target.value)}
-                        placeholder="Nhập ghi chú mới..."
+                        placeholder="Enter new note..."
                         className="flex-1 px-4 py-2 border border-blue-300 rounded-lg text-sm focus:ring-2 focus:ring-pink-500 focus:border-pink-500 resize-none h-20 bg-white shadow-sm"
                      />
                      <div className="flex flex-col gap-2">
@@ -264,13 +264,13 @@ export const BDHistoryModal = ({ isOpen, onClose, processId, clientName, filterS
                             onClick={handleSaveNote}
                             className="px-4 py-2 bg-pink-600 text-white font-bold rounded-lg text-sm hover:bg-pink-700 disabled:opacity-50"
                          >
-                            {submitting ? 'Lưu...' : 'Lưu'}
+                            {submitting ? 'Saving...' : 'Save'}
                          </button>
                          <button
                             onClick={() => setIsAddingNote(false)}
                             className="px-4 py-2 bg-white border border-gray-300 text-gray-700 font-bold rounded-lg text-sm hover:bg-gray-50"
                          >
-                            Hủy
+                            Cancel
                          </button>
                      </div>
                  </div>
@@ -280,7 +280,7 @@ export const BDHistoryModal = ({ isOpen, onClose, processId, clientName, filterS
                     className="flex items-center gap-2 text-pink-600 font-bold text-sm hover:text-pink-700 transition-colors"
                  >
                     <Edit2 size={16} />
-                    Viết tiếp ghi chú...
+                    Write next note...
                  </button>
              )}
 
@@ -290,7 +290,7 @@ export const BDHistoryModal = ({ isOpen, onClose, processId, clientName, filterS
                     className="px-5 py-2.5 bg-white border border-gray-200 text-gray-700 font-bold rounded-xl shadow-sm hover:bg-gray-50 transition-all text-sm"
                     onClick={onClose}
                   >
-                    Đóng
+                    Close
                   </button>
              )}
           </div>

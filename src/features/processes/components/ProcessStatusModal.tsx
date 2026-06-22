@@ -25,28 +25,28 @@ interface ProcessStatusModalProps {
 
 const getAutoNote = (status: string, candidateName: string, positionTitle: string): string => {
   if (status === 'REVIEW_CV_BY_TDC') {
-    return `<p>Chào bạn</p><p>Cảm ơn bạn đã gửi CV cho vị trí tuyển dụng. Hồ sơ của ứng viên đã được TD Consulting đánh giá và hiện đang trong quá trình liên hệ để phỏng vấn. Vui lòng thông báo cho ứng viên check tin nhắn Zalo hoặc điện thoại liên hệ trong vòng 24h tiếp theo vì admin sẽ gửi lịch phỏng vấn hoặc yêu cầu bổ sung thông tin.Cảm ơn sự hợp tác của bạn với TD Consulting!</p>`;
+    return `<p>Hello,</p><p>Thank you for submitting a CV for this position. The candidate's profile has been evaluated by TD Consulting and we are currently in the process of contacting them for an interview. Please notify the candidate to check their Zalo messages or phone within the next 24 hours as the admin will send an interview schedule or request additional information. Thank you for your cooperation with TD Consulting!</p>`;
   }
   if (status === 'REJECT_BY_ADMIN') {
-    return `<p>Chào bạn,</p><p>TD Consulting đã review CV này.</p><p>Hiện CV này chưa phù hợp với yêu cầu của job vì:<br>   - Lý do: </p><p>Bạn vui lòng tham khảo lại các tiêu chí chính của job dưới đây để các CV tiếp theo đạt tỷ lệ phù hợp cao hơn:<br>   - [Tiêu chí bắt buộc 1]<br>   - [Tiêu chí bắt buộc 2]</p><p>Cảm ơn bạn đã đồng hành cùng TD Consulting, mong tiếp tục nhận được các CV phù hợp từ bạn trong thời gian tới.</p>`;
+    return `<p>Hello,</p><p>TD Consulting has reviewed this CV.</p><p>Currently, this CV is not suitable for the job requirements because:<br>   - Reason: </p><p>Please refer to the main criteria of the job below so that the next CVs can have a higher suitability rate:<br>   - [Mandatory criterion 1]<br>   - [Mandatory criterion 2]</p><p>Thank you for accompanying TD Consulting, hope to continue receiving suitable CVs from you in the future.</p>`;
   }
   if (status === 'REJECTED_BY_CLIENT') {
-    return `<p>Chào bạn,</p><p>Khách hàng đã review hồ sơ bạn gửi. Tuy nhiên, CV này hiện chưa phù hợp với yêu cầu tuyển dụng ở thời điểm này. Lý do:</p><p>Rất mong bạn tiếp tục hỗ trợ gửi thêm các ứng viên khác phù hợp hơn để chúng ta có thể sớm tìm được profile đáp ứng nhu cầu.</p><p>Cảm ơn bạn đã đồng hành và hợp tác cùng TD Consulting. Mong sẽ tiếp tục nhận được nhiều CV chất lượng từ bạn! 👍</p>`;
+    return `<p>Hello,</p><p>The client has reviewed the profile you sent. However, this CV is currently not suitable for the recruitment requirements at this time. Reason:</p><p>We hope you continue to support sending other more suitable candidates so we can soon find a profile that meets the needs.</p><p>Thank you for accompanying and cooperating with TD Consulting. Hope to continue receiving many quality CVs from you! 👍</p>`;
   }
   if (status === 'PROCESS_ON_HOLD') {
-    return `<p>Chào bạn,</p><p>TD Consulting cập nhật: CV ${candidateName} apply vị trí ${positionTitle} hiện sẽ tạm thời pending.</p><p>Do ở thời điểm hiện tại, TD Consulting đang nhận được số lượng CV khá lớn cho vị trí này, trong đó có một số hồ sơ có mức độ phù hợp và tính cạnh tranh cao hơn so với ứng viên của bạn.</p><p>Vì vậy, CV của ${candidateName} sẽ được lưu lại để theo dõi và xem xét trong trường hợp có sự thay đổi từ phía khách hàng.</p><p>Bạn vui lòng tiếp tục theo dõi trạng thái hồ sơ trên hệ thống Apex. Đồng thời, TD Consulting rất mong tiếp tục nhận được thêm các CV cho các job khác đang mở.</p><p>Cảm ơn bạn đã đồng hành cùng TD Consulting.</p>`;
+    return `<p>Hello,</p><p>TD Consulting update: CV of ${candidateName} applying for ${positionTitle} position will be temporarily pending.</p><p>Because currently, TD Consulting is receiving a fairly large number of CVs for this position, including some profiles with higher suitability and competitiveness than your candidate.</p><p>Therefore, the CV of ${candidateName} will be kept for tracking and consideration in case of changes from the client.</p><p>Please continue to monitor the profile status on the Apex system. At the same time, TD Consulting hopes to continue receiving more CVs for other open jobs.</p><p>Thank you for accompanying TD Consulting.</p>`;
   }
   if (status === 'CV_SUBMITTED_TO_CLIENT') {
-    return `<p>Chào bạn,</p><p>TD Consulting đã review CV và đánh giá phù hợp với yêu cầu của job.</p><p>TD Consulting sẽ tiến hành:<br>   - Gửi CV sang phía khách hàng để review<br>   - Cập nhật lại bạn ngay khi có phản hồi tiếp theo (thời gian dự kiến từ 1–3 ngày làm việc)</p><p>Bạn vui lòng theo dõi trạng thái process CV của ứng viên trên hệ thống Apex.</p><p>Cảm ơn bạn đã đồng hành cùng TD Consulting, mong tiếp tục nhận được các CV phù hợp từ bạn trong thời gian tới.</p>`;
+    return `<p>Hello,</p><p>TD Consulting has reviewed the CV and evaluated it as suitable for the job requirements.</p><p>TD Consulting will proceed to:<br>   - Send the CV to the client for review<br>   - Update you as soon as there is the next response (expected time is from 1-3 working days)</p><p>Please track the candidate's CV process status on the Apex system.</p><p>Thank you for accompanying TD Consulting, hope to continue receiving suitable CVs from you in the future.</p>`;
   }
   if (status?.startsWith('INTERVIEW_SCHEDULED_') || status?.startsWith('INTERVIEW_COMPLETED_')) {
-    return `<p>Chào bạn ,</p><p>TD Consulting cập nhật: CV ${candidateName} apply vị trí ${positionTitle} đã được phía khách hàng chọn vào vòng phỏng vấn.</p><p>TD Consulting sẽ trực tiếp:<br>   - Liên hệ & sắp xếp lịch phỏng vấn với ứng viên<br>   - Follow ứng viên trong suốt quá trình phỏng vấn</p><p>TDC sẽ tiếp tục cập nhật trạng thái process của ứng viên trên hệ thống Apex, bạn vui lòng theo dõi hệ thống để nắm được kết quả.</p><p>Cảm ơn bạn đã đồng hành cùng TD Consulting, mong tiếp tục nhận được các CV phù hợp từ bạn trong thời gian tới.</p>`;
+    return `<p>Hello,</p><p>TD Consulting update: CV of ${candidateName} applying for ${positionTitle} position has been selected by the client for the interview round.</p><p>TD Consulting will directly:<br>   - Contact & arrange interview schedule with the candidate<br>   - Follow the candidate throughout the interview process</p><p>TDC will continue to update the candidate's process status on the Apex system, please monitor the system to grasp the results.</p><p>Thank you for accompanying TD Consulting, hope to continue receiving suitable CVs from you in the future.</p>`;
   }
   if (status === 'OFFER_EXTENDED' || status === 'OFFER_ACCEPTED_BY_CANDIDATE') {
-    return `<p>Chào bạn ,</p><p>TD Consulting cập nhật: Ứng viên ${candidateName} cho vị trí ${positionTitle} đã pass phỏng vấn và đang được phía khách hàng tiến hành offer.</p><p>TD Consulting sẽ trực tiếp:<br>   - Làm việc với khách hàng về offer<br>   - Trao đổi, tư vấn và deal offer với ứng viên</p><p>TDC sẽ tiếp tục cập nhật trạng thái process của ứng viên trên hệ thống Apex, bạn vui lòng theo dõi hệ thống để nắm thông tin.</p><p>Cảm ơn bạn đã đồng hành cùng TD Consulting. Mong tiếp tục nhận được thêm nhiều CV chất lượng từ bạn trong thời gian tới để gia tăng cơ hội offer & hoa hồng.</p>`;
+    return `<p>Hello,</p><p>TD Consulting update: Candidate ${candidateName} for the ${positionTitle} position has passed the interview and is being offered by the client.</p><p>TD Consulting will directly:<br>   - Work with the client regarding the offer<br>   - Discuss, consult and negotiate the offer with the candidate</p><p>TDC will continue to update the candidate's process status on the Apex system, please monitor the system to get the information.</p><p>Thank you for accompanying TD Consulting. Hope to continue receiving more quality CVs from you in the near future to increase offer & commission opportunities.</p>`;
   }
   if (status === 'ONBOARDING') {
-    return `<p>Chào bạn ,</p><p>TD Consulting cập nhật: Ứng viên ${candidateName} cho vị trí ${positionTitle} đã nhận offer và dự kiến onboard vào [Thời gian].</p><p>TD Consulting xin ghi nhận và cảm ơn bạn vì đã gửi CV phù hợp, góp phần tạo nên kết quả tuyển dụng này.</p><p>Thông tin hoa hồng cho hồ sơ trên sẽ được cập nhật chi tiết trên hệ thống Apex theo đúng chính sách hợp tác. Đội ngũ TDC sẽ chủ động liên hệ bạn nếu cần thêm thông tin liên quan.</p><p>Hiện tại, TD Consulting đang mở thêm nhiều vị trí tuyển dụng mới. Rất mong tiếp tục nhận được các CV chất lượng từ bạn để cùng nhau tạo thêm nhiều case onboard thành công trong thời gian tới.</p><p>Cảm ơn bạn đã đồng hành cùng TD Consulting 💙</p>`;
+    return `<p>Hello,</p><p>TD Consulting update: Candidate ${candidateName} for the ${positionTitle} position has accepted the offer and is expected to onboard on [Time].</p><p>TD Consulting acknowledges and thanks you for sending a suitable CV, contributing to this recruitment result.</p><p>Commission information for the above profile will be updated in detail on the Apex system according to the cooperation policy. TDC team will proactively contact you if more relevant information is needed.</p><p>Currently, TD Consulting is opening many new recruitment positions. We hope to continue receiving quality CVs from you to jointly create many more successful onboard cases in the near future.</p><p>Thank you for accompanying TD Consulting 💙</p>`;
   }
   return '';
 };
@@ -194,7 +194,7 @@ export function ProcessStatusModal({
               {isFileRequired && (
                 <div className="flex items-start gap-2 mb-3 text-xs text-orange-800 bg-orange-100/50 p-2 rounded">
                   <AlertCircle size={14} className="mt-0.5 flex-shrink-0" />
-                  <p>Client này đã có tài khoản Portal. BẮT BUỘC phải có CV đã che thông tin.</p>
+                  <p>This Client has a Portal account. Masked CV is REQUIRED.</p>
                 </div>
               )}
 
@@ -203,7 +203,7 @@ export function ProcessStatusModal({
                   <div className="bg-white p-3 rounded border border-orange-200 mb-3">
                       <div className="flex items-center justify-between">
                           <div className="flex items-center gap-2 text-sm text-gray-700">
-                              <span className="font-medium text-brand-600">Đã có file CV che thông tin</span>
+                              <span className="font-medium text-brand-600">Masked CV file exists</span>
                           </div>
                           <div className="flex items-center gap-2">
                             <a 
@@ -212,7 +212,7 @@ export function ProcessStatusModal({
                                 rel="noreferrer"
                                 className="text-xs text-blue-600 hover:underline"
                             >
-                                Xem file
+                                View file
                             </a>
                             <span className="text-gray-300">|</span>
                             <button 
@@ -220,7 +220,7 @@ export function ProcessStatusModal({
                                 onClick={handleToggleUpload}
                                 className="text-xs text-red-600 hover:underline"
                             >
-                                Thay đổi
+                                Change
                             </button>
                           </div>
                       </div>
@@ -252,7 +252,7 @@ export function ProcessStatusModal({
                         <>
                           <Upload className="mx-auto h-12 w-12 text-gray-400" />
                           <div className="text-sm text-gray-600">
-                             <span className="font-medium text-brand-600">Click để upload</span>
+                             <span className="font-medium text-brand-600">Click to upload</span>
                           </div>
                           <p className="text-xs text-gray-500 mt-1">
                             DOC, DOCX, PDF (max 10MB)
@@ -266,7 +266,7 @@ export function ProcessStatusModal({
               {showUpload && candidateEvaluationFilePath && (
                    <div className="text-right mt-2">
                        <button type="button" onClick={handleUseExisting} className="text-xs text-brand-600 hover:underline">
-                           Hủy thay đổi (Dùng file cũ)
+                           Cancel change (Use old file)
                        </button>
                    </div>
               )}
@@ -346,15 +346,15 @@ export function ProcessStatusModal({
                     QUAN TRỌNG:
                  </p>
                  <ul className="list-disc pl-4 space-y-1">
-                    <li>Tóm tắt các điểm mạnh đặc biệt, kinh nghiệm và kỹ năng nổi bật của ứng viên.</li>
-                    <li><span className="font-bold underline text-blue-900">BẮT BUỘC NHẬP:</span> Đây là nội dung <span className="font-bold">KHÁCH HÀNG SẼ NHÌN THẤY TRỰC TIẾP</span> trên Portal để đánh giá nhanh ứng viên.</li>
+                    <li>Summarize the candidate's special strengths, experience, and outstanding skills.</li>
+                    <li><span className="font-bold underline text-blue-900">REQUIRED:</span> This content will be <span className="font-bold">SEEN DIRECTLY BY THE CLIENT</span> on the Portal for quick candidate assessment.</li>
                  </ul>
               </div>
               <div className="relative bg-white rounded-lg border border-blue-200 focus-within:ring-2 focus-within:ring-blue-500 overflow-hidden min-h-[180px]">
                 <RichTextEditor
                   value={brief}
                   onChange={setBrief}
-                  placeholder="Nhập tóm tắt chuyên sâu về ứng viên (HTML allowed)..."
+                  placeholder="Enter detailed candidate summary (HTML allowed)..."
                 />
               </div>
             </div>
@@ -369,7 +369,7 @@ export function ProcessStatusModal({
               <RichTextEditor
                 value={note}
                 onChange={setNote}
-                placeholder="Ghi chú chi tiết cho thay đổi trạng thái này (Nội bộ)..."
+                placeholder="Detailed notes for this status change (Internal)..."
               />
             </div>
           </div>

@@ -21,7 +21,7 @@ export const CustomerHeader = ({
         </div>
         <div>
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Customer Management</h1>
-          <p className="text-sm text-gray-500 dark:text-gray-400">Quản lý và theo dõi quan hệ khách hàng cho BD</p>
+          <p className="text-sm text-gray-500 dark:text-gray-400">Manage and track customer relations for BD</p>
         </div>
       </div>
 
@@ -32,7 +32,7 @@ export const CustomerHeader = ({
                  <OwnerSelect 
                     value={selectedOwnerId || ''}
                     onChange={onOwnerChange}
-                    placeholder="Chọn PIC..."
+                    placeholder="Select PIC..."
                     className="w-full shadow-sm border-brand-200 ring-2 ring-transparent focus:ring-brand-500"
                  />
               </div> */}
@@ -49,7 +49,7 @@ export const CustomerHeader = ({
                     : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white'
                 }`}
             >
-                <Table size={16} /> Bảng
+                <Table size={16} /> Table
             </button>
             <button 
                 onClick={() => onViewModeChange('kanban')}
@@ -67,7 +67,7 @@ export const CustomerHeader = ({
           <Upload size={16} /> Import Excel
         </button> */}
          <button className="flex items-center gap-2 px-3 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition-colors text-sm font-medium">
-          <BarChart3 size={16} /> Thống kê
+          <BarChart3 size={16} /> Statistics
         </button>
 
         {viewMode !== 'kanban' && (
@@ -75,7 +75,7 @@ export const CustomerHeader = ({
             onClick={() => navigate('/tables/clients/new')}
             className="flex items-center gap-2 px-4 py-2 bg-brand-600 text-white rounded-lg hover:bg-brand-700 transition-colors shadow-sm text-sm font-medium"
           >
-            <Plus size={16} /> Thêm khách hàng
+            <Plus size={16} /> Add Customer
           </button>
         )}
       </div>

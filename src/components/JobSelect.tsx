@@ -28,7 +28,7 @@ interface JobSelectProps {
 export function JobSelect({
   value,
   onChange,
-  placeholder = 'Chọn job...',
+  placeholder = 'Select job...',
   className = '',
   disabled = false,
 }: JobSelectProps) {
@@ -56,7 +56,7 @@ export function JobSelect({
       options={jobOptions}
       value={value}
       onChange={onChange}
-      placeholder={isLoading ? 'Đang tải...' : placeholder}
+      placeholder={isLoading ? 'Loading...' : placeholder}
       icon={<Briefcase size={16} />}
       className={className}
     />

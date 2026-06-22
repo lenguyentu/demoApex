@@ -22,7 +22,7 @@ const InterviewRoundsCell = ({ rounds }: { rounds: number }) => (
     <div className="w-4 h-4 bg-pink-100 rounded-full flex items-center justify-center shrink-0">
       <div className="w-2 h-2 bg-pink-500 rounded-full" />
     </div>
-    <span className="truncate">{rounds || 0} vòng PV</span>
+    <span className="truncate">{rounds || 0} rounds</span>
   </div>
 );
 
@@ -36,7 +36,7 @@ export const JobCard = ({ job, onIntroduceClick, checkboxSlot }: JobCardProps) =
     if (min && max) return `${min} - ${max}`;
     if (!min && max) return `${max}`;
     if (min && !max) return `${min}`;
-    return 'Thỏa thuận';
+    return 'Negotiable';
   })();
 
   const companyName = job.clients?.client_name ?? 'N/A';
@@ -67,7 +67,7 @@ export const JobCard = ({ job, onIntroduceClick, checkboxSlot }: JobCardProps) =
           <div className="flex items-center gap-1 bg-blue-50 text-blue-700 px-2 py-1 rounded-full text-xs font-medium">
             <Users className="w-3.5 h-3.5" />
             <span>
-              Số lượng tuyển: {job.number_of_employees || 'Chưa cập nhật'}
+              Headcount: {job.number_of_employees || 'Not updated'}
             </span>
           </div>
         )}
@@ -77,7 +77,7 @@ export const JobCard = ({ job, onIntroduceClick, checkboxSlot }: JobCardProps) =
       <div className="flex-1 flex flex-col">
         <Link to={`/jobs/${job.id}`} state={{ from: location.pathname }}>
           <h3 className="ml-1 font-bold text-gray-800 hover:text-pink-600 transition-colors text-lg leading-snug cursor-pointer mb-3 line-clamp-1" title={job.position_title ?? undefined}>
-            {job.position_title ?? 'Không rõ'}
+            {job.position_title ?? 'Unknown'}
           </h3>
         </Link>
 
@@ -96,15 +96,15 @@ export const JobCard = ({ job, onIntroduceClick, checkboxSlot }: JobCardProps) =
           </div>
           <div className="flex items-center gap-2 text-gray-600">
             <MapPin className="w-4 h-4 text-pink-600" />
-            <span className="truncate">{job.work_location ?? 'Không rõ'}</span>
+            <span className="truncate">{job.work_location ?? 'Unknown'}</span>
           </div>
           <div className="flex items-center text-gray-500 text-sm">
             <div className="w-2.5 h-2.5 bg-blue-400 rounded-full mr-2" />
-            <span>Bảo hành: {job.warranty_period_days ?? 'N/A'} ngày</span>
+            <span>Warranty: {job.warranty_period_days ?? 'N/A'} days</span>
           </div>
           <div className="flex items-center text-gray-500 text-sm">
             <Calendar className="w-4 h-4 mr-1.5" />
-            <span>Đăng: {postedDate}</span>
+            <span>Posted: {postedDate}</span>
           </div>
         </div>
 
@@ -114,7 +114,7 @@ export const JobCard = ({ job, onIntroduceClick, checkboxSlot }: JobCardProps) =
             onClick={handleIntroduceClick}
             className="w-full border border-pink-500 text-pink-600 hover:bg-pink-50 transition-all duration-200 font-semibold py-2.5 rounded-lg text-sm"
           >
-            Giới thiệu ứng viên
+            Introduce Candidate
           </button>
           <Link
             to={`/jobs/${job.id}`}
@@ -122,7 +122,7 @@ export const JobCard = ({ job, onIntroduceClick, checkboxSlot }: JobCardProps) =
             className="w-full bg-pink-500 hover:bg-pink-600 text-white transition-all duration-200 font-semibold py-2.5 rounded-lg text-sm text-center flex items-center justify-center gap-1"
           >
             <Eye className="w-4 h-4" />
-            Xem chi tiết
+            View details
           </Link>
         </div>
       </div>

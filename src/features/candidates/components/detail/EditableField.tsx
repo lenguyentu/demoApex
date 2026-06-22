@@ -64,7 +64,7 @@ export function EditableField({
           onChange={onChange}
           className="w-full text-sm border-gray-300 rounded-md shadow-sm focus:ring-pink-500 focus:border-pink-500"
         >
-          <option value="">-- Chọn --</option>
+          <option value="">-- Select --</option>
           {options?.map(opt => (
             <option key={opt.value} value={opt.value}>{opt.label}</option>
           ))}

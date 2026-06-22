@@ -19,10 +19,10 @@ export const UserHeader: React.FC<UserHeaderProps> = ({
       <div>
         <h2 className="text-xl font-bold text-gray-900 flex items-center gap-2">
           <Shield className="text-brand-600" />
-          Quản Lý Tài Khoản Roles
+          Manage Roles
         </h2>
         <p className="text-sm text-gray-500 mt-1">
-          Quản lý danh sách và phân quyền người dùng trong hệ thống
+          Manage user list and permissions in the system
         </p>
       </div>
 
@@ -35,7 +35,7 @@ export const UserHeader: React.FC<UserHeaderProps> = ({
               : 'text-gray-500 hover:text-gray-700'
               }`}
           >
-            Danh sách thành viên
+            Member list
           </button>
           <button
             onClick={() => setActiveTab('pending')}
@@ -44,7 +44,7 @@ export const UserHeader: React.FC<UserHeaderProps> = ({
               : 'text-gray-500 hover:text-gray-700'
               }`}
           >
-            Chờ duyệt
+            Pending
             {pendingCount > 0 && (
               <span className={`px-2 py-0.5 rounded-full text-xs transition-colors ${activeTab === 'pending'
                 ? 'bg-brand-100 text-brand-700'
@@ -61,7 +61,7 @@ export const UserHeader: React.FC<UserHeaderProps> = ({
           className="flex items-center gap-2 px-3 py-1.5 bg-brand-600 text-white rounded-lg hover:bg-brand-700 transition-colors shadow-sm mb-2"
         >
           <Plus size={18} />
-          <span className="font-medium text-sm">Thêm thành viên</span>
+          <span className="font-medium text-sm">Add member</span>
         </button>
       </div>
     </>

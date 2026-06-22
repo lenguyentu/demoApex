@@ -52,8 +52,7 @@ export async function sendPotentialCandidateNotification(
     }
 
   } catch (error) {
-    console.error('Failed to send Discord notification:', error);
-    toast.error('Gửi thông báo Discord thất bại (nhưng ứng viên vẫn được tạo)');
+    toast.error('Failed to send Discord notification (but candidate was still created)');
   }
 }
 
@@ -72,48 +71,48 @@ export function getDiscordPayload(
   const data = {
     fullName: extraData?.fullName || candidate.fullName || 'N/A',
     appliedPosition: extraData?.appliedPosition || candidate.appliedPosition || 'N/A',
-    address: extraData?.address || candidate.address || 'Hà Nội',
+    address: extraData?.address || candidate.address || 'Hanoi',
     cddCode: extraData?.cddCode || cddCode || 'N/A',
-    expectedSalary: extraData?.expectedSalary || candidate.expectedSalary || 'Thỏa thuận',
-    desiredLocation: extraData?.desiredLocation || 'Hà Nội',
-    startDate: extraData?.startDate || 'Có thể bắt đầu ngay',
+    expectedSalary: extraData?.expectedSalary || candidate.expectedSalary || 'Negotiable',
+    desiredLocation: extraData?.desiredLocation || 'Hanoi',
+    startDate: extraData?.startDate || 'Can start immediately',
     reason: extraData?.reason || '',
     professionalSummary: extraData?.professionalSummary || candidate.professionalSummary || 'N/A'
   };
 
   const fields = [
     {
-      name: 'Mã ứng viên',
+      name: 'Candidate Code',
       value: data.cddCode,
       inline: true,
     },
     {
-      name: 'Tên ứng viên',
+      name: 'Candidate Name',
       value: data.fullName,
       inline: true,
     },
     {
-      name: 'Vị trí',
+      name: 'Position',
       value: data.appliedPosition,
       inline: true,
     },
     {
-      name: 'Địa điểm',
+      name: 'Location',
       value: data.address,
       inline: true,
     },
     {
-      name: 'Mức lương kỳ vọng',
+      name: 'Expected Salary',
       value: data.expectedSalary,
       inline: true,
     },
     {
-      name: '📍 Địa điểm mong muốn',
+      name: '📍 Desired Location',
       value: data.desiredLocation,
       inline: true,
     },
     {
-      name: '📌 Thời gian nhận việc',
+      name: '📌 Start Date',
       value: data.startDate,
       inline: false,
     }
@@ -121,7 +120,7 @@ export function getDiscordPayload(
 
   if (data.reason) {
     fields.push({
-      name: '📌 Lý do tìm cơ hội mới',
+      name: '📌 Reason for seeking new opportunities',
       value: data.reason,
       inline: false,
     });
@@ -136,14 +135,14 @@ export function getDiscordPayload(
   if (cvUrl) {
     fields.push({
       name: 'CV Link',
-      value: `[Xem CV](${cvUrl})`,
+      value: `[View CV](${cvUrl})`,
       inline: false, 
     } as any);
   }
 
   if (creatorName) {
     fields.push({
-      name: 'Người phụ trách',
+      name: 'Assigned to',
       value: creatorName,
       inline: false,
     } as any);
@@ -242,16 +241,16 @@ export async function sendHeadhunterAssignmentNotification(
       embeds: [
         {
           title: `🔥 ${candidate.fullName}`,
-          description: `Bạn được phân công ứng viên mới từ **${researcherName || 'Researcher'}**.`,
+          description: `You have been assigned a new candidate from **${researcherName || 'Researcher'}**.`,
           color: 5814783, // Blue color
           fields: [
             {
-              name: '📋 Vị trí',
+              name: '📋 Position',
               value: jobTitle,
               inline: true,
             },
             {
-              name: '👤 Mã ứng viên',
+              name: '👤 Candidate Code',
               value: cddCode || 'N/A',
               inline: true,
             },
@@ -261,23 +260,23 @@ export async function sendHeadhunterAssignmentNotification(
               inline: true,
             },
             {
-              name: '📍 Địa điểm',
+              name: '📍 Location',
               value: candidate.address || 'N/A',
               inline: true,
             },
             {
-              name: '💰 Mức lương kỳ vọng',
-              value: candidate.expectedSalary || 'Thỏa thuận',
+              name: '💰 Expected Salary',
+              value: candidate.expectedSalary || 'Negotiable',
               inline: true,
             },
             {
-              name: '👤 Người xử lý',
+              name: '👤 Assigned to',
               value: nguoiXuLyText,
               inline: true,
             },
             {
               name: '📄 CV Link',
-              value: `>>> **[📋 XEM TRONG QUEUE](${queueUrl})**`,
+              value: `>>> **[📋 VIEW IN QUEUE](${queueUrl})**`,
               inline: false,
             }
           ],
@@ -334,17 +333,17 @@ export async function sendZaloCandidateNotification(
 
     // 2. Soạn nội dung theo form chuẩn
     message = `
-Hồ sơ tiềm năng từ TD Consulting
-Mã ứng viên: ${cddCode || 'Chưa có'}
-Vị trí: ${candidate.appliedPosition || 'Chưa cập nhật'}
-Địa điểm: ${candidate.address || 'Chưa cập nhật'}
+Potential profile from TD Consulting
+Candidate Code: ${cddCode || 'N/A'}
+Position: ${candidate.appliedPosition || 'Not updated'}
+Location: ${candidate.address || 'Not updated'}
 
-Tổng quan
+Overview
 ${summary}
 
-Mức lương mong muốn: ${candidate.expectedSalary || 'Thỏa thuận'}
+Expected salary: ${candidate.expectedSalary || 'Negotiable'}
 
-Vui lòng liên hệ TD Consulting nếu muốn kết nối có phí (headhunting) với chúng tôi qua zalo số: 0336828903
+Please contact TD Consulting if you want a paid connection (headhunting) with us via Zalo: 0336828903
 `.trim();
   }
 

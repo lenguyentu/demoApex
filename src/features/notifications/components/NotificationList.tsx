@@ -52,8 +52,8 @@ export function NotificationList({
     return (
       <div className="flex flex-col items-center justify-center py-16 text-gray-400">
         <Bell size={48} className="mb-4 text-gray-300" />
-        <p className="text-lg font-medium text-gray-500">Không có thông báo nào</p>
-        <p className="text-sm">Bạn sẽ nhận được thông báo khi có hoạt động mới</p>
+        <p className="text-lg font-medium text-gray-500">No notifications</p>
+        <p className="text-sm">You will receive notifications when there is new activity</p>
       </div>
     );
   }

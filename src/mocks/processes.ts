@@ -6,7 +6,7 @@ export const MOCK_PROCESSES = [
     client_id: 'client-1',
     owner_id: 'mock-user-123',
     process_status: 'CV_SUBMITTED_TO_CLIENT',
-    application_reason: 'Phù hợp yêu cầu',
+    application_reason: 'Meets requirements',
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString(),
     candidate: {
@@ -41,7 +41,7 @@ export const MOCK_PROCESSES = [
     client_id: 'client-2',
     owner_id: 'mock-user-123',
     process_status: 'INTERVIEW_SCHEDULED_1ST',
-    application_reason: 'Kinh nghiệm phù hợp',
+    application_reason: 'Relevant experience',
     created_at: new Date(Date.now() - 86400000).toISOString(),
     updated_at: new Date(Date.now() - 86400000).toISOString(),
     candidate: {
@@ -76,7 +76,7 @@ export const MOCK_PROCESSES = [
     client_id: 'client-3',
     owner_id: 'other-user',
     process_status: 'OFFERED',
-    application_reason: 'Rất xuất sắc',
+    application_reason: 'Very excellent',
     created_at: new Date(Date.now() - 86400000 * 2).toISOString(),
     updated_at: new Date(Date.now() - 86400000 * 2).toISOString(),
     candidate: {

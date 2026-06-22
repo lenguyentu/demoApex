@@ -33,7 +33,7 @@ export function DebtTable({ groups, monthKeys, loading, onEditItem, onHistoryIte
   if (groups.length === 0) {
     return (
       <div className="p-20 text-center text-gray-500 bg-white rounded-xl shadow-sm border border-gray-200">
-        Chưa có dữ liệu công nợ nào.
+        No debt data found.
       </div>
     );
   }
@@ -61,28 +61,28 @@ export function DebtTable({ groups, monthKeys, loading, onEditItem, onHistoryIte
           <thead className="bg-brand-50/30">
             <tr>
               <th rowSpan={2} className="px-2 py-3 font-bold text-gray-700 text-center border-b border-r border-[#ffe4e1]" style={{width: 32}}></th>
-              <th rowSpan={2} className="px-2 py-3 font-bold text-gray-700 border-b border-r border-[#ffe4e1]">Tên khách hàng</th>
-              <th rowSpan={2} className="px-2 py-3 font-bold text-gray-700 text-center border-b border-r border-[#ffe4e1]" style={{width: 60}}>Số case</th>
-              <th rowSpan={2} className="px-2 py-3 font-bold text-gray-700 text-center border-b border-r border-[#ffe4e1]" style={{width: 80}}>Ngày đi làm</th>
-              <th rowSpan={2} className="px-2 py-3 font-bold text-gray-700 text-right border-b border-r border-[#ffe4e1]">Nợ phát sinh</th>
-              <th rowSpan={2} className="px-2 py-3 font-bold text-gray-700 text-right border-b border-r border-[#ffe4e1]">Đã TT</th>
-              <th rowSpan={2} className="px-2 py-3 font-bold text-gray-700 text-center border-b border-r border-[#ffe4e1]" style={{width: 120}}>Hoa hồng</th>
+              <th rowSpan={2} className="px-2 py-3 font-bold text-gray-700 border-b border-r border-[#ffe4e1]">Customer Name</th>
+              <th rowSpan={2} className="px-2 py-3 font-bold text-gray-700 text-center border-b border-r border-[#ffe4e1]" style={{width: 60}}>Cases</th>
+              <th rowSpan={2} className="px-2 py-3 font-bold text-gray-700 text-center border-b border-r border-[#ffe4e1]" style={{width: 80}}>Start Date</th>
+              <th rowSpan={2} className="px-2 py-3 font-bold text-gray-700 text-right border-b border-r border-[#ffe4e1]">Incurred Debt</th>
+              <th rowSpan={2} className="px-2 py-3 font-bold text-gray-700 text-right border-b border-r border-[#ffe4e1]">Paid</th>
+              <th rowSpan={2} className="px-2 py-3 font-bold text-gray-700 text-center border-b border-r border-[#ffe4e1]" style={{width: 120}}>Commission</th>
               
               <th colSpan={monthKeys.length * 2} className="px-2 py-2 font-bold text-gray-700 text-center border-b border-r border-[#ffe4e1]">
-                Dự kiến thu công nợ theo tháng
+                Expected Debt Collection by Month
               </th>
               
-              <th rowSpan={2} className="px-2 py-3 font-bold text-gray-700 text-center border-b border-[#ffe4e1]" style={{width: 70}}>Trạng thái</th>
+              <th rowSpan={2} className="px-2 py-3 font-bold text-gray-700 text-center border-b border-[#ffe4e1]" style={{width: 70}}>Status</th>
             </tr>
             <tr>
               {monthKeys.map(mKey => {
                 const [year, month] = mKey.split('-');
                 return (
                   <th key={mKey} colSpan={2} className="px-1 py-2 text-center border-b border-r border-[#ffe4e1]">
-                    <div className="font-bold text-gray-700 text-[11px]">Tháng {parseInt(month)}/{year}</div>
+                    <div className="font-bold text-gray-700 text-[11px]">Month {parseInt(month)}/{year}</div>
                     <div className="flex justify-between w-full mt-0.5 text-[9px] text-gray-400 font-normal">
-                      <span className="w-1/2 text-center text-red-400 font-semibold border-r border-[#ffe4e1]">Số tiền</span>
-                      <span className="w-1/2 text-center">Ngày đến hạn dự kiến</span>
+                      <span className="w-1/2 text-center text-red-400 font-semibold border-r border-[#ffe4e1]">Amount</span>
+                      <span className="w-1/2 text-center">Expected Due Date</span>
                     </div>
                   </th>
                 );
@@ -156,7 +156,7 @@ export function DebtTable({ groups, monthKeys, loading, onEditItem, onHistoryIte
                       return (
                         <td key={`total-${mKey}`} colSpan={2} className="px-2 py-3 text-center border-r border-gray-100 italic bg-brand-50/10">
                           <div className="flex flex-col items-center gap-0.5">
-                            <div className="text-[9px] text-gray-400 font-medium">TỔNG: {proj.expected.toLocaleString()}</div>
+                            <div className="text-[9px] text-gray-400 font-medium">TOTAL: {proj.expected.toLocaleString()}</div>
                             <div className="flex items-center gap-1">
                                <span className="text-green-600 font-bold">{effectivePaid.toLocaleString()}</span>
                                {proj.expected > 0 && (
@@ -227,7 +227,7 @@ export function DebtTable({ groups, monthKeys, loading, onEditItem, onHistoryIte
                             {/* Intern cố định — chỉ khi Intern */}
                             {item.finance.rate_intern > 0 && item.finance.candidate_type === 'Intern' && (
                               <div className="flex justify-between gap-1">
-                                <span className="text-gray-400">Intern cố định</span>
+                                <span className="text-gray-400">Fixed Intern</span>
                                 <span className="font-semibold text-purple-700">{item.finance.rate_intern.toLocaleString()}</span>
                               </div>
                             )}
@@ -241,7 +241,7 @@ export function DebtTable({ groups, monthKeys, loading, onEditItem, onHistoryIte
                             {/* CTV cố định — chỉ khi CTV/Freelancer */}
                             {item.finance.rate_freelancer > 0 && (item.finance.candidate_type === 'CTV' || item.finance.candidate_type === 'Freelancer') && (
                               <div className="flex justify-between gap-1">
-                                <span className="text-gray-400">CTV cố định</span>
+                                <span className="text-gray-400">Fixed CTV</span>
                                 <span className="font-semibold text-blue-700">{item.finance.rate_freelancer.toLocaleString()}</span>
                               </div>
                             )}
@@ -297,14 +297,14 @@ export function DebtTable({ groups, monthKeys, loading, onEditItem, onHistoryIte
                             <button 
                                onClick={(e) => { e.stopPropagation(); onEditItem?.(item); }}
                                className="p-1 hover:bg-brand-50 hover:text-brand-600 rounded text-gray-400 transition-colors"
-                               title="Cập nhật thực thu"
+                               title="Update actual collection"
                             >
                               <PenLine size={13} />
                             </button>
                             <button 
                                onClick={(e) => { e.stopPropagation(); onHistoryItem?.(item); }}
                                className="p-1 hover:bg-brand-50 hover:text-brand-600 rounded text-gray-400 transition-colors"
-                               title="Xem lịch sử"
+                               title="View history"
                             >
                               <History size={13} />
                             </button>
@@ -322,7 +322,7 @@ export function DebtTable({ groups, monthKeys, loading, onEditItem, onHistoryIte
           <tfoot className="bg-brand-50/30">
             <tr>
               <td colSpan={3} className="px-2 py-3 text-center font-bold text-gray-800 uppercase tracking-widest border-r border-[#ffe4e1] text-xs">
-                Tổng
+                Total
               </td>
               <td className="px-2 py-3 border-r border-[#ffe4e1]"></td>
               <td className="px-2 py-3 text-right font-black text-gray-900 border-r border-[#ffe4e1]">
@@ -359,7 +359,7 @@ export function DebtTable({ groups, monthKeys, loading, onEditItem, onHistoryIte
                 return (
                   <td key={`grand-${mKey}`} colSpan={2} className="px-2 py-3 text-center border-r border-[#ffe4e1] min-w-[120px]">
                      <div className="flex flex-col items-center gap-1">
-                        <div className="text-[10px] text-gray-400 font-bold uppercase tracking-tighter">Dự kiến thu: <span className="text-gray-900">{proj.expected.toLocaleString()}</span></div>
+                        <div className="text-[10px] text-gray-400 font-bold uppercase tracking-tighter">Expected collection: <span className="text-gray-900">{proj.expected.toLocaleString()}</span></div>
                         <div className="flex items-center gap-1.5">
                            <div className="text-green-700 font-black text-sm">{proj.paid.toLocaleString()}</div>
                            <div className={`px-1.5 py-0.5 rounded text-[9px] font-black shadow-sm ${

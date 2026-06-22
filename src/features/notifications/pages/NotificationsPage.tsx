@@ -10,7 +10,7 @@ import type { NotificationFilters } from '../types';
 import toast from 'react-hot-toast';
 
 const GROUP_OPTIONS = [
-  { value: '', label: 'Tất cả loại' },
+  { value: '', label: 'All types' },
   { value: 'job_freelancer', label: '📋 Job & Freelancer' },
   { value: 'process', label: '🔄 Process' },
   { value: 'admin', label: '🔧 Admin' },
@@ -20,9 +20,9 @@ const GROUP_OPTIONS = [
 ] as const;
 
 const READ_STATUS_OPTIONS = [
-  { value: 'all', label: 'Tất cả' },
-  { value: 'unread', label: 'Chưa đọc' },
-  { value: 'read', label: 'Đã đọc' },
+  { value: 'all', label: 'All' },
+  { value: 'unread', label: 'Unread' },
+  { value: 'read', label: 'Read' },
 ] as const;
 
 export function NotificationsPage() {
@@ -52,10 +52,10 @@ export function NotificationsPage() {
   const handleMarkAllAsRead = () => {
     markAllAsReadMutation.mutate(undefined, {
       onSuccess: () => {
-        toast.success('Đã đánh dấu tất cả là đã đọc');
+        toast.success('Marked all as read');
         refresh();
       },
-      onError: () => toast.error('Có lỗi xảy ra'),
+      onError: () => toast.error('An error occurred'),
     });
   };
   
@@ -102,10 +102,10 @@ export function NotificationsPage() {
         <div className="flex items-center gap-3">
           <Bell className="w-8 h-8 text-brand-500" />
           <div>
-            <h1 className="text-2xl font-bold text-gray-900">Thông báo</h1>
+            <h1 className="text-2xl font-bold text-gray-900">Notifications</h1>
             <p className="text-sm text-gray-500">
-              {totalCount !== null ? `${totalCount} thông báo` : 'Đang tải...'} 
-              {unreadCount > 0 && ` • ${unreadCount} chưa đọc`}
+              {totalCount !== null ? `${totalCount} notifications` : 'Loading...'} 
+              {unreadCount > 0 && ` • ${unreadCount} unread`}
             </p>
           </div>
         </div>
@@ -116,7 +116,7 @@ export function NotificationsPage() {
           className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-brand-600 bg-brand-50 hover:bg-brand-100 rounded-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <CheckCheck size={18} />
-          Đánh dấu tất cả đã đọc
+          Mark all as read
         </button>
       </div>
       
@@ -131,7 +131,7 @@ export function NotificationsPage() {
             type="text"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            placeholder="Tìm kiếm theo tiêu đề hoặc nội dung..."
+            placeholder="Search by title or content..."
             className="w-full pl-10 pr-4 py-2.5 text-sm border border-gray-200 rounded-lg bg-white focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent"
           />
           {searchTerm && (
@@ -149,7 +149,7 @@ export function NotificationsPage() {
           <Filter size={18} className="text-gray-400" />
         
         <div className="flex items-center gap-2">
-          <label className="text-sm font-medium text-gray-600">Nhóm:</label>
+          <label className="text-sm font-medium text-gray-600">Group:</label>
           <select
             value={filters.typeGroup}
             onChange={(e) => handleFilterChange('typeGroup', e.target.value)}
@@ -164,7 +164,7 @@ export function NotificationsPage() {
         </div>
         
         <div className="flex items-center gap-2">
-          <label className="text-sm font-medium text-gray-600">Trạng thái:</label>
+          <label className="text-sm font-medium text-gray-600">Status:</label>
           <select
             value={filters.readStatus}
             onChange={(e) => handleFilterChange('readStatus', e.target.value)}

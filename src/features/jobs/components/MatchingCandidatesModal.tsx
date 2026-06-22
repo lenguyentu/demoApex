@@ -49,7 +49,7 @@ const SimilarityBadge = ({ score }: { score: number }) => {
   else if (percentage >= 40) colorClass = 'bg-yellow-100 text-yellow-700';
   return (
     <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold ${colorClass}`}>
-      {percentage}% phù hợp
+      {percentage}% match
     </span>
   );
 };
@@ -91,25 +91,25 @@ const CandidateItemSelectable = ({
           <span className="font-medium text-gray-900 truncate">{candidate.name}</span>
           <SimilarityBadge score={candidate.similarity} />
         </div>
-        <p className="text-sm text-gray-600 mt-1 truncate">{candidate.applied_position || 'Chưa có vị trí'}</p>
+        <p className="text-sm text-gray-600 mt-1 truncate">{candidate.applied_position || 'No position'}</p>
         {candidate.address && <p className="text-[11px] text-gray-400 mt-0.5 truncate flex items-center gap-1">📍 {candidate.address}</p>}
         <div className="flex items-center gap-2 mt-2" onClick={e => e.stopPropagation()}>
           {candidate.cv_link ? (
             <button onClick={onViewCV} disabled={isSigning} className="inline-flex items-center gap-1 px-2 py-1 rounded text-xs font-medium bg-green-100 text-green-700 hover:bg-green-200 transition-colors disabled:opacity-50">
               {isSigning ? <Loader2 className="w-3 h-3 animate-spin" /> : <FileText className="w-3 h-3" />}
-              Xem CV
+              View CV
             </button>
           ) : candidate.has_cv ? (
             <a href={`/candidates/${candidate.id}?type=database`} target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1 px-2 py-1 rounded text-xs font-medium bg-blue-100 text-blue-700 hover:bg-blue-200 transition-colors">
-              <FileText className="w-3 h-3" /> Hệ thống
+              <FileText className="w-3 h-3" /> System
             </a>
           ) : (
             <span className="inline-flex items-center gap-1 px-2 py-1 rounded text-xs font-medium bg-gray-100 text-gray-500">
-              <AlertCircle className="w-3 h-3" /> Không CV
+              <AlertCircle className="w-3 h-3" /> No CV
             </span>
           )}
           {candidate.email && <span className="text-xs text-gray-500 truncate ml-auto italic">{candidate.email}</span>}
-          {!candidate.email && <span className="text-xs text-red-400 italic ml-auto truncate">⚠ Thiếu mail</span>}
+          {!candidate.email && <span className="text-xs text-red-400 italic ml-auto truncate">⚠ Missing email</span>}
         </div>
       </div>
     </div>
@@ -189,7 +189,7 @@ export const MatchingCandidatesModal = ({ job, open, onClose }: MatchingCandidat
         setCandidates(result as unknown as MatchingCandidate[]);
         setSelectedIds(new Set()); // Khởi đầu với danh sách chưa chọn ai cả
       } catch (err: any) { 
-        toast.error(err.message || 'Lỗi tải dữ liệu'); 
+        toast.error(err.message || 'Error loading data'); 
       } finally { 
         setLoading(false); 
       }
@@ -199,32 +199,32 @@ export const MatchingCandidatesModal = ({ job, open, onClose }: MatchingCandidat
 
   useEffect(() => {
     if (job && step === 'editor') {
-      const title = job.position_title || 'Tuyển dụng';
+      const title = job.position_title || 'Recruitment';
       const parts = title.split(' ');
       const mid = Math.ceil(parts.length / 2);
 
       if (templateMode === 'tdg') {
         setTitleLine1('2D SPINE');
         setTitleLine2('Animator');
-        if (!subject || subject.startsWith('Cơ Hội')) setSubject(`TD Games - Tuyển Dụng ${title}`);
-        setIntro('TD Games đang tuyển dụng gấp cho dự án game quốc tế mới. Chúng tôi tìm kiếm một <strong style="color:#ffffff;">2D Spine Animator</strong> có đam mê với animation game và mong muốn làm việc trong môi trường sáng tạo, chuyên nghiệp.');
-        setRequirement('Thành thạo Spine 2D (rigging, skinning, animation)\nTối thiểu 1 năm kinh nghiệm game animation\nHiểu motion timing, weight & squash/stretch\nPortfolio game thực tế là lợi thế');
-        setResponsibility('Tạo animation nhân vật & hiệu ứng trong game\nPhối hợp với team Artist & Programmer\nĐảm bảo chất lượng đúng style guide dự án\nReview & cải thiện pipeline animation');
+        if (!subject || subject.startsWith('Opportunities')) setSubject(`TD Games - Recruitment ${title}`);
+        setIntro('TD Games is urgently recruiting for a new international game project. We are looking for a <strong style="color:#ffffff;">2D Spine Animator</strong> who is passionate about game animation and wants to work in a creative, professional environment.');
+        setRequirement('Proficient in Spine 2D (rigging, skinning, animation)\nMinimum 1 year of game animation experience\nUnderstanding of motion timing, weight & squash/stretch\nPractical game portfolio is an advantage');
+        setResponsibility('Create character animations & effects in-game\nCollaborate with Artist & Programmer teams\nEnsure quality follows the project style guide\nReview & improve animation pipeline');
         setCompensation('10,000,000 – 18,000,000 VND');
-        setCareerPath('Thương lượng theo năng lực  ·  Review sau 3 tháng  ·  Thưởng dự án');
+        setCareerPath('Negotiable based on ability  ·  Review after 3 months  ·  Project bonus');
         setWhyJoinUs([
-          { title: 'International Projects', content: 'Tham gia các dự án cho thị trường quốc tế với tiêu chuẩn nghệ thuật cao nhất.' },
-          { title: 'Creative Freedom', content: 'Không gian sáng tạo mở, khuyến khích sự đột phá và phát triển kỹ năng liên tục.' }
+          { title: 'International Projects', content: 'Participate in projects for the international market with the highest artistic standards.' },
+          { title: 'Creative Freedom', content: 'Open creative space, encouraging breakthroughs and continuous skill development.' }
         ]);
       } else {
         setTitleLine1(parts.slice(0, mid).join(' '));
         setTitleLine2(parts.slice(mid).join(' ') || 'Opportunity');
-        if (!subject || subject.startsWith('TD Games')) setSubject(`Cơ Hội Nghề Nghiệp – ${title}`);
-        setCompensation([job.min_monthly_salary, job.max_monthly_salary].filter(Boolean).join(' - ') || 'Thương lượng');
-        setIntro(`Em là <strong>${user?.full_name?.split(' ').pop() || 'Dung'}</strong> từ <strong>TD Consulting</strong>. Hiện bên em đang hỗ trợ tuyển dụng cho đối tác cho vị trí <strong>${title}</strong>. Qua profile ấn tượng, em rất mong được kết nối với Anh/Chị.`);
+        if (!subject || subject.startsWith('TD Games')) setSubject(`Career Opportunity – ${title}`);
+        setCompensation([job.min_monthly_salary, job.max_monthly_salary].filter(Boolean).join(' - ') || 'Negotiable');
+        setIntro(`I am <strong>${user?.full_name?.split(' ').pop() || 'Dung'}</strong> from <strong>TD Consulting</strong>. We are currently supporting our partner in recruiting for the <strong>${title}</strong> position. Given your impressive profile, I would love to connect with you.`);
         setRequirement(job.requirements?.replace(/<[^>]*>/g, '').slice(0, 100) + '...' || '');
-        setResponsibility('Làm việc trực tiếp với PM, phát triển module tính năng chính.');
-        setCareerPath('Lên Team Lead hoặc Technical Owner.');
+        setResponsibility('Work directly with PM, develop main feature modules.');
+        setCareerPath('Promote to Team Lead or Technical Owner.');
       }
     }
   }, [job, step, templateMode, user?.full_name]);
@@ -247,16 +247,16 @@ export const MatchingCandidatesModal = ({ job, open, onClose }: MatchingCandidat
   const handleSendEmail = async (): Promise<void> => {
     const emails = getRecipientEmails();
     if (emails.length === 0) {
-      toast.error('Chọn ít nhất 1 người nhận');
+      toast.error('Select at least 1 recipient');
       return;
     }
     if (!job?.id) {
-      toast.error('Thiếu thông tin Job ID');
+      toast.error('Missing Job ID');
       return;
     }
     const domain = templateMode === 'tdg' ? '@tdgamestudio.com' : '@tdconsulting.vn';
     if (!fromEmail.endsWith(domain)) {
-      toast.error(`Email gửi phải thuộc tên miền ${domain}`);
+      toast.error(`Sending email must belong to domain ${domain}`);
       return;
     }
 
@@ -302,11 +302,11 @@ export const MatchingCandidatesModal = ({ job, open, onClose }: MatchingCandidat
       if (sentCount > 0) {
         toast.success(
           <div className="flex flex-col gap-1">
-            <p className="font-bold">Campaign đã khởi chạy!</p>
+            <p className="font-bold">Campaign started!</p>
             <div className="text-xs opacity-90">
-              <p>✅ Gửi mới: {sentCount} người</p>
-              {skippedCount > 0 && <p>🛡️ Đã có lọc trùng: {skippedCount} người</p>}
-              {failedCount > 0 && <p className="text-red-500">❌ Lỗi API: {failedCount} người</p>}
+              <p>✅ New sends: {sentCount} people</p>
+              {skippedCount > 0 && <p>🛡️ Duplicate filtered: {skippedCount} people</p>}
+              {failedCount > 0 && <p className="text-red-500">❌ API Error: {failedCount} people</p>}
             </div>
           </div>,
           { duration: 5000 }
@@ -314,20 +314,20 @@ export const MatchingCandidatesModal = ({ job, open, onClose }: MatchingCandidat
         setShowConfirm(false);
         onClose();
       } else if (skippedCount > 0) {
-        toast.error(`Toàn bộ (${skippedCount}) ứng viên này đã nhận JD này trước đó. Không gửi trùng!`, { duration: 6000 });
+        toast.error(`All (${skippedCount}) candidates have received this JD before. No duplicates sent!`, { duration: 6000 });
       } else {
-        toast.error('Gửi thất bại, vui lòng kiểm tra lại cấu hình.');
+        toast.error('Send failed, please check configuration.');
       }
     } catch (err: any) {
       console.error('Email Send Error:', err);
-      toast.error(err.message || 'Gửi thất bại'); 
+      toast.error(err.message || 'Send failed'); 
     } finally {
       setSending(false);
     }
   };
 
   const handleExportExcel = () => {
-    const dataToExport = candidates.map(c => ({ 'Tên': c.name, 'Email': c.email || 'N/A', 'Vị trí': c.applied_position || 'N/A', 'Độ phù hợp': Math.round(c.similarity * 100) + '%' }));
+    const dataToExport = candidates.map(c => ({ 'Name': c.name, 'Email': c.email || 'N/A', 'Position': c.applied_position || 'N/A', 'Match': Math.round(c.similarity * 100) + '%' }));
     const ws = XLSX.utils.json_to_sheet(dataToExport);
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Candidates');
@@ -341,7 +341,7 @@ export const MatchingCandidatesModal = ({ job, open, onClose }: MatchingCandidat
       const { data, error: signError } = await supabase.storage.from('cv').createSignedUrl(c.cv_link, 3600);
       if (signError) throw signError;
       if (data?.signedUrl) window.open(data.signedUrl, '_blank');
-    } catch { toast.error('Lỗi mở CV'); } finally { setSigningCvId(null); }
+    } catch { toast.error('Error opening CV'); } finally { setSigningCvId(null); }
   };
 
   const getTDGEmailTemplate = (data: any): string => {
@@ -370,8 +370,8 @@ export const MatchingCandidatesModal = ({ job, open, onClose }: MatchingCandidat
 
     const renderWhyUs = (list?: { title: string; content: string }[]) => {
       const items = list && list.length > 0 ? list : [
-        { title: 'International Projects', content: 'Tham gia các dự án cho thị trường quốc tế với tiêu chuẩn nghệ thuật cao nhất.' },
-        { title: 'Creative Freedom', content: 'Không gian sáng tạo mở, khuyến khích sự đột phá và phát triển kỹ năng liên tục.' }
+        { title: 'International Projects', content: 'Participate in projects for the international market with the highest artistic standards.' },
+        { title: 'Creative Freedom', content: 'Open creative space, encouraging breakthroughs and continuous skill development.' }
       ];
 
       return items.map((item, index) => `
@@ -414,7 +414,7 @@ export const MatchingCandidatesModal = ({ job, open, onClose }: MatchingCandidat
 </head>
 <body style="margin:0; padding:0; background-color:#2A2A2D;">
 <span style="display:none !important; visibility:hidden; mso-hide:all; font-size:1px; color:#2A2A2D; line-height:1px; max-height:0px; max-width:0px; opacity:0; overflow:hidden;">
-  Cơ hội gia nhập TD Games cho vị trí ${data.titleLine1} ${data.titleLine2}. Tham gia phát triển các dự án chuẩn quốc tế cùng đội ngũ chuyên gia ngay hôm nay! &zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;
+  Opportunity to join TD Games for the position ${data.titleLine1} ${data.titleLine2}. Join the development of international standard projects with a team of experts today! &zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;&zwnj;&nbsp;
 </span>
 <center>
 <table cellpadding="0" cellspacing="0" border="0" width="100%" style="padding:24px 0; background-color:#2A2A2D;">
@@ -464,7 +464,7 @@ export const MatchingCandidatesModal = ({ job, open, onClose }: MatchingCandidat
                     <table cellpadding="0" cellspacing="0" border="0" width="100%" style="margin-bottom:18px;">
                       <tr><td style="height:1px; background:linear-gradient(90deg,#F47920,rgba(244,121,32,0.06));"></td></tr>
                     </table>
-                    <p style="font-family:'Be Vietnam Pro',sans-serif; font-size:15px; color:#ffffff; margin:0 0 9px;">Chào <strong>${data.candidateName || 'Anh/Chị'}</strong>,</p>
+                    <p style="font-family:'Be Vietnam Pro',sans-serif; font-size:15px; color:#ffffff; margin:0 0 9px;">Hi <strong>${data.candidateName || 'Candidate'}</strong>,</p>
                     <p style="font-family:'Be Vietnam Pro',sans-serif; font-size:13.5px; color:#cccccc; line-height:1.85; margin:0;">
                       ${data.intro}
                     </p>
@@ -510,7 +510,7 @@ export const MatchingCandidatesModal = ({ job, open, onClose }: MatchingCandidat
                               <td valign="middle">
                                 <p style="font-family:'Be Vietnam Pro',sans-serif; font-size:11px; font-weight:700; color:#F47920; letter-spacing:0.5px; margin:0 0 6px;">Salary &amp; Benefits</p>
                                 <p style="font-family:'Rajdhani',sans-serif; font-size:20px; font-weight:700; color:#ffffff; margin:0 0 4px; letter-spacing:1px;">${data.salaryRange || data.compensation}</p>
-                                <p style="font-family:'Be Vietnam Pro',sans-serif; font-size:11px; color:#888; margin:0; line-height:1.6;">${data.benefitsSummary || 'Thương lượng theo năng lực · Chế độ đãi ngộ hấp dẫn'}</p>
+                                <p style="font-family:'Be Vietnam Pro',sans-serif; font-size:11px; color:#888; margin:0; line-height:1.6;">${data.benefitsSummary || 'Negotiable based on ability · Attractive benefits'}</p>
                               </td>
                               <td align="right" valign="middle" width="32">
                                 <span style="font-size:20px; color:rgba(244,121,32,0.4);">&#9670;</span>
@@ -527,7 +527,7 @@ export const MatchingCandidatesModal = ({ job, open, onClose }: MatchingCandidat
                     <table cellpadding="0" cellspacing="0" border="0" width="100%" style="border-radius:10px; border:1px solid rgba(244,121,32,0.08); background:rgba(244,121,32,0.03);">
                       <tr>
                         <td style="padding:20px 26px 18px;">
-                          <p style="font-family:'Be Vietnam Pro',sans-serif; font-size:13px; font-weight:700; color:#F47920; letter-spacing:0.5px; text-align:center; margin:0 0 16px;">Tại sao TD Games?</p>
+                          <p style="font-family:'Be Vietnam Pro',sans-serif; font-size:13px; font-weight:700; color:#F47920; letter-spacing:0.5px; text-align:center; margin:0 0 16px;">Why TD Games?</p>
                           <table cellpadding="0" cellspacing="0" border="0" width="100%">
                             ${renderWhyUs(data.whyJoinUs)}
                           </table>
@@ -539,7 +539,7 @@ export const MatchingCandidatesModal = ({ job, open, onClose }: MatchingCandidat
                 <tr>
                   <td class="section-pad" style="padding:10px 44px 28px; text-align:center; background:rgba(16,12,6,0.99);">
                     <p style="font-family:'Be Vietnam Pro',sans-serif; font-size:13.5px; color:#dddddd; line-height:1.75; margin:0 auto; max-width:460px;">
-                      Nếu bạn quan tâm và muốn thử sức với dự án, hãy <strong style="color:#ffffff;">Phản hồi (Reply)</strong> lại email này đính kèm <strong style="color:#F47920;">CV / Portfolio</strong> của mình nhé. Rất mong được đồng hành cùng bạn!
+                      If you are interested and want to try out the project, please <strong style="color:#ffffff;">Reply</strong> to this email attaching your <strong style="color:#F47920;">CV / Portfolio</strong>. Looking forward to working with you!
                     </p>
                   </td>
                 </tr>
@@ -600,7 +600,7 @@ export const MatchingCandidatesModal = ({ job, open, onClose }: MatchingCandidat
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="color-scheme" content="light dark">
   <meta name="supported-color-schemes" content="light dark">
-  <title>Cơ Hội Nghề Nghiệp – TD Consulting</title>
+  <title>Career Opportunity – TD Consulting</title>
   <!--[if mso]>
   <style type="text/css">
     body, table, td, p, a { font-family: Arial, Helvetica, sans-serif !important; }
@@ -676,7 +676,7 @@ export const MatchingCandidatesModal = ({ job, open, onClose }: MatchingCandidat
                   </table>
                 </td>
                 <td align="right" valign="middle">
-                  <span style="background:#fff0f6; color:#dd0067; font-size:9px; font-weight:800; padding:6px 12px; border-radius:30px; border:1px solid #ffdeeb; white-space:nowrap;">Cơ hội mới</span>
+                  <span style="background:#fff0f6; color:#dd0067; font-size:9px; font-weight:800; padding:6px 12px; border-radius:30px; border:1px solid #ffdeeb; white-space:nowrap;">New Opportunity</span>
                 </td>
               </tr>
             </table>
@@ -697,7 +697,7 @@ export const MatchingCandidatesModal = ({ job, open, onClose }: MatchingCandidat
         <!-- ===== BODY ===== -->
         <tr>
           <td class="content-padding" style="padding:30px 50px 10px;">
-            <p style="font-size:15px; margin:0 0 10px 0; color:#1a1a2e;">Chào <strong>Anh/Chị</strong>,</p>
+            <p style="font-size:15px; margin:0 0 10px 0; color:#1a1a2e;">Hi <strong>Candidate</strong>,</p>
             <p style="font-size:14px; color:#5a6478; line-height:1.7; margin:0 0 25px 0;">
               ${intro}
             </p>
@@ -707,27 +707,27 @@ export const MatchingCandidatesModal = ({ job, open, onClose }: MatchingCandidat
               <tr>
                 <td class="job-card" style="background-color: #ffffff; border:1px solid #fceef4; border-radius:32px; padding:24px 30px; box-shadow:0 15px 40px rgba(221,0,103,0.04);">
                   <div style="text-align:center; margin-bottom:18px;">
-                    <span style="color:#dd0067; font-size:14px; font-weight:700; text-transform:uppercase; letter-spacing:1px;">Điểm nổi bật của vị trí</span>
+                    <span style="color:#dd0067; font-size:14px; font-weight:700; text-transform:uppercase; letter-spacing:1px;">Position Highlights</span>
                   </div>
                   <table cellpadding="0" cellspacing="0" border="0" width="100%">
                     <tr>
                       <td valign="top" width="18" style="font-size:16px; color:#dd0067; line-height:1.6; padding-bottom:12px;">•</td>
-                      <td valign="top" width="85" style="font-size:14px; font-weight:700; color:#1a1a2e; padding-bottom:12px;">Yêu cầu:</td>
+                      <td valign="top" width="85" style="font-size:14px; font-weight:700; color:#1a1a2e; padding-bottom:12px;">Requirements:</td>
                       <td valign="top" style="font-size:14px; color:#5a6478; line-height:1.6; padding-bottom:12px;">${requirement}</td>
                     </tr>
                     <tr>
                       <td valign="top" width="18" style="font-size:16px; color:#dd0067; line-height:1.6; padding-bottom:12px;">•</td>
-                      <td valign="top" width="85" style="font-size:14px; font-weight:700; color:#1a1a2e; padding-bottom:12px;">Quyền hạn:</td>
+                      <td valign="top" width="85" style="font-size:14px; font-weight:700; color:#1a1a2e; padding-bottom:12px;">Responsibilities:</td>
                       <td valign="top" style="font-size:14px; color:#5a6478; line-height:1.6; padding-bottom:12px;">${responsibility}</td>
                     </tr>
                     <tr>
                       <td valign="top" width="18" style="font-size:16px; color:#dd0067; line-height:1.6; padding-bottom:12px;">•</td>
-                      <td valign="top" width="85" style="font-size:14px; font-weight:700; color:#1a1a2e; padding-bottom:12px;">Lộ trình:</td>
+                      <td valign="top" width="85" style="font-size:14px; font-weight:700; color:#1a1a2e; padding-bottom:12px;">Career Path:</td>
                       <td valign="top" style="font-size:14px; color:#5a6478; line-height:1.6; padding-bottom:12px;">${careerPath}</td>
                     </tr>
                     <tr>
                       <td valign="top" width="18" style="font-size:16px; color:#dd0067; line-height:1.6;">•</td>
-                      <td valign="top" width="85" style="font-size:14px; color:#dd0067; font-weight:800;">Đãi ngộ:</td>
+                      <td valign="top" width="85" style="font-size:14px; color:#dd0067; font-weight:800;">Compensation:</td>
                       <td valign="top" style="font-size:14px; color:#dd0067; font-weight:700; line-height:1.6;">${compensation}</td>
                     </tr>
                   </table>
@@ -736,7 +736,7 @@ export const MatchingCandidatesModal = ({ job, open, onClose }: MatchingCandidat
             </table>
 
             <p style="font-size:14px; color:#5a6478; line-height:1.8; margin:0 0 30px 0;">
-              Không biết Anh/Chị có đang open cho một bước tiến mới không ạ? Nếu tiện em xin phép gửi JD chi tiết để Anh/Chị tham khảo thêm nhé! Cảm ơn anh chị!
+              I wonder if you are open for a new career step? If it is convenient, I would like to send the detailed JD for your reference! Thank you!
             </p>
 
              <table cellpadding="0" cellspacing="0" border="0" width="100%" style="margin-bottom:35px;">
@@ -811,7 +811,7 @@ export const MatchingCandidatesModal = ({ job, open, onClose }: MatchingCandidat
           <div className="flex items-center gap-3">
             {step === 'editor' && <button onClick={() => setStep('list')} className="p-1 hover:bg-white/20 rounded-lg"><ChevronLeft /></button>}
             <Layout className="w-5 h-5" />
-            <h2 className="text-lg font-bold">{step === 'list' ? 'Chọn ứng viên' : 'Thiết kế Email Campaign'}</h2>
+            <h2 className="text-lg font-bold">{step === 'list' ? 'Select candidates' : 'Design Email Campaign'}</h2>
           </div>
           <button onClick={onClose} className="p-1 hover:bg-white/20 rounded-lg"><X /></button>
         </div>
@@ -820,25 +820,25 @@ export const MatchingCandidatesModal = ({ job, open, onClose }: MatchingCandidat
           <>
             <div className="flex-1 overflow-y-auto custom-scrollbar">
               <div className="px-6 py-3 bg-gray-50 border-b flex justify-between items-center sticky top-0 z-10">
-                <p className="text-sm text-gray-600 font-medium">Đã chọn: <span className="text-brand-600 font-bold">{selectedIds.size}</span> ứng viên</p>
+                <p className="text-sm text-gray-600 font-medium">Selected: <span className="text-brand-600 font-bold">{selectedIds.size}</span> candidates</p>
                 <div className="flex gap-2">
-                  <button onClick={() => setSelectedIds(new Set(candidates.filter(c => c.email).map(c => c.id)))} className="text-xs px-2 py-1 text-brand-600 hover:bg-brand-50 rounded font-bold transition-colors">Chọn hết</button>
-                  <button onClick={() => setSelectedIds(new Set())} className="text-xs px-2 py-1 text-red-500 hover:bg-red-50 rounded font-bold transition-colors">Bỏ hết</button>
+                  <button onClick={() => setSelectedIds(new Set(candidates.filter(c => c.email).map(c => c.id)))} className="text-xs px-2 py-1 text-brand-600 hover:bg-brand-50 rounded font-bold transition-colors">Select all</button>
+                  <button onClick={() => setSelectedIds(new Set())} className="text-xs px-2 py-1 text-red-500 hover:bg-red-50 rounded font-bold transition-colors">Clear all</button>
                   <button onClick={handleExportExcel} className="text-xs px-2 py-1 bg-green-600 text-white rounded shadow-sm flex items-center gap-1 font-bold italic"><Download size={12}/> Excel</button>
                 </div>
               </div>
               <div className="p-4 bg-white border-b">
-                <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest block mb-2">Thêm email ngoài</label>
+                <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest block mb-2">Add external emails</label>
                 <div className="flex flex-wrap gap-1.5 p-2 border border-gray-100 rounded-xl bg-gray-50/50 min-h-[42px] focus-within:ring-2 ring-brand-500/10 transition-all">
                   {externalEmails.map((e, i) => <EmailChip key={i} email={e} onRemove={() => setExternalEmails(prev => prev.filter((_, idx) => idx !== i))} />)}
-                  <input value={emailInput} onChange={e => handleEmailInput(e.target.value)} onKeyDown={e => e.key === 'Enter' && (e.preventDefault(), handleEmailInput(emailInput + ','))} placeholder="Nhập mail ngoài..." className="flex-1 min-w-[150px] bg-transparent outline-none text-sm font-medium" />
+                  <input value={emailInput} onChange={e => handleEmailInput(e.target.value)} onKeyDown={e => e.key === 'Enter' && (e.preventDefault(), handleEmailInput(emailInput + ','))} placeholder="Enter external emails..." className="flex-1 min-w-[150px] bg-transparent outline-none text-sm font-medium" />
                 </div>
               </div>
               {loading ? <div className="p-4 space-y-4 shadow-inner">{Array.from({length:6}).map((_,i)=><CandidateSkeleton key={i}/>)}</div> : 
-               candidates.map(c => <CandidateItemSelectable key={c.id} candidate={c} isSelected={selectedIds.has(c.id)} onToggle={() => setSelectedIds(prev => { const n = new Set(prev); n.has(c.id) ? n.delete(c.id) : c.email ? n.add(c.id) : toast.error('Thiếu mail'); return n; })} onViewCV={() => handleViewCV(c)} isSigning={signingCvId === c.id} />)
+               candidates.map(c => <CandidateItemSelectable key={c.id} candidate={c} isSelected={selectedIds.has(c.id)} onToggle={() => setSelectedIds(prev => { const n = new Set(prev); n.has(c.id) ? n.delete(c.id) : c.email ? n.add(c.id) : toast.error('Missing email'); return n; })} onViewCV={() => handleViewCV(c)} isSigning={signingCvId === c.id} />)
               }
             </div>
-            <div className="p-6 bg-gray-50 border-t"><button disabled={totalRecipients === 0} onClick={() => setStep('editor')} className="w-full py-4 bg-brand-600 text-white font-black uppercase tracking-widest text-xs rounded-2xl hover:bg-brand-700 disabled:opacity-50 flex items-center justify-center gap-3 shadow-xl shadow-brand-200">Tiếp tục soạn thảo ({totalRecipients}) <ChevronRight size={18}/></button></div>
+            <div className="p-6 bg-gray-50 border-t"><button disabled={totalRecipients === 0} onClick={() => setStep('editor')} className="w-full py-4 bg-brand-600 text-white font-black uppercase tracking-widest text-xs rounded-2xl hover:bg-brand-700 disabled:opacity-50 flex items-center justify-center gap-3 shadow-xl shadow-brand-200">Continue composing ({totalRecipients}) <ChevronRight size={18}/></button></div>
           </>
         ) : (
           <div className="flex-1 flex overflow-hidden bg-gray-50">
@@ -848,7 +848,7 @@ export const MatchingCandidatesModal = ({ job, open, onClose }: MatchingCandidat
                 <div className="space-y-4">
                   {user?.role === 'Admin' && (
                     <div className="space-y-2">
-                       <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest block">Thương hiệu (Admin Mode)</label>
+                       <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest block">Brand (Admin Mode)</label>
                        <div className="flex bg-gray-100 p-1 rounded-[14px] w-full border border-gray-200/50 shadow-inner">
                          <button onClick={() => setTemplateMode('tdc')} className={`flex-1 p-2.5 rounded-[10px] text-[11px] font-black tracking-wider uppercase transition-all flex items-center justify-center gap-1.5 ${templateMode === 'tdc' ? 'bg-white text-brand-600 shadow-md transform scale-[1.02]' : 'text-gray-400 hover:text-gray-600'}`}><Layout size={12}/> TD Consulting</button>
                          <button onClick={() => setTemplateMode('tdg')} className={`flex-1 p-2.5 rounded-[10px] text-[11px] font-black tracking-wider uppercase transition-all flex items-center justify-center gap-1.5 ${templateMode === 'tdg' ? 'bg-[#0f0f0f] text-[#F47920] shadow-[0_5px_15px_rgba(244,121,32,0.3)] transform scale-[1.02]' : 'text-gray-400 hover:text-gray-600'}`}>🎮 TD Games</button>
@@ -856,12 +856,12 @@ export const MatchingCandidatesModal = ({ job, open, onClose }: MatchingCandidat
                     </div>
                   )}
 
-                  <div className="flex items-center gap-2 text-brand-600"><Info size={14} /><span className="text-[10px] font-black uppercase">Cấu hình Gửi Tin</span></div>
-                  <div><label className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 block">Tên người gửi</label>
+                  <div className="flex items-center gap-2 text-brand-600"><Info size={14} /><span className="text-[10px] font-black uppercase">Send Config</span></div>
+                  <div><label className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 block">Sender Name</label>
                   <div className="relative"><User className="absolute left-3 top-2.5 w-4 h-4 text-gray-300" /><input value={fromName} onChange={e=>setFromName(e.target.value)} className="w-full pl-9 p-2.5 bg-gray-50 border-none rounded-xl text-sm font-bold outline-none"/></div></div>
                   <div>
                     <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 block">
-                      Email gửi {templateMode === 'tdc' ? '(Bắt buộc @tdconsulting.vn)' : '(Bắt buộc @tdgamestudio.com)'}
+                      Sender Email {templateMode === 'tdc' ? '(Required @tdconsulting.vn)' : '(Required @tdgamestudio.com)'}
                     </label>
                     <input 
                       value={fromEmail} 
@@ -869,50 +869,50 @@ export const MatchingCandidatesModal = ({ job, open, onClose }: MatchingCandidat
                       className={`w-full p-2.5 bg-gray-50 border-none rounded-xl text-sm font-medium outline-none transition-all ${!fromEmail.endsWith(templateMode === 'tdc' ? '@tdconsulting.vn' : '@tdgamestudio.com') ? 'ring-2 ring-red-500/20 text-red-600' : ''}`}
                     />
                     {!fromEmail.endsWith(templateMode === 'tdc' ? '@tdconsulting.vn' : '@tdgamestudio.com') && (
-                      <p className="text-[10px] text-red-500 mt-1 font-bold italic">⚠️ Chú ý: Email phải kết thúc bằng {templateMode === 'tdc' ? '@tdconsulting.vn' : '@tdgamestudio.com'}</p>
+                      <p className="text-[10px] text-red-500 mt-1 font-bold italic">⚠️ Note: Email must end with {templateMode === 'tdc' ? '@tdconsulting.vn' : '@tdgamestudio.com'}</p>
                     )}
                   </div>
                   <div><label className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 block">Reply To</label>
                   <div className="relative"><Reply className="absolute left-3 top-2.5 w-4 h-4 text-gray-300" /><input value={replyTo} onChange={e=>setReplyTo(e.target.value)} className="w-full pl-9 p-2.5 bg-gray-50 border-none rounded-xl text-sm font-medium outline-none"/></div></div>
-                  <div><label className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 block">Tiêu đề (Subject)</label><input value={subject} onChange={e=>setSubject(e.target.value)} className="w-full p-2.5 bg-gray-50 border-none rounded-xl text-sm font-bold outline-none text-brand-600"/></div>
+                  <div><label className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 block">Subject</label><input value={subject} onChange={e=>setSubject(e.target.value)} className="w-full p-2.5 bg-gray-50 border-none rounded-xl text-sm font-bold outline-none text-brand-600"/></div>
                 </div>
                 <hr className="border-gray-100" />
                 <div className="space-y-4">
-                  <div className="flex items-center gap-2 text-gray-400"><Layout size={14} /><span className="text-[10px] font-black uppercase">Nội dung Template</span></div>
+                  <div className="flex items-center gap-2 text-gray-400"><Layout size={14} /><span className="text-[10px] font-black uppercase">Template Content</span></div>
                   <div className="grid grid-cols-2 gap-3">
                     <div><label className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 block">Title 1</label><input value={titleLine1} onChange={e=>setTitleLine1(e.target.value)} className="w-full p-2.5 bg-gray-50 border-none rounded-xl text-xs font-medium outline-none"/></div>
                     <div><label className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 block">Title 2</label><input value={titleLine2} onChange={e=>setTitleLine2(e.target.value)} className="w-full p-2.5 bg-gray-50 border-none rounded-xl text-xs font-medium outline-none"/></div>
                   </div>
-                  <div><label className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 block">Giới thiệu (Intro)</label><textarea value={intro} onChange={e=>setIntro(e.target.value)} rows={4} className="w-full p-2.5 bg-gray-50 border-none rounded-xl text-xs font-medium outline-none resize-none leading-relaxed"/></div>
+                  <div><label className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 block">Intro</label><textarea value={intro} onChange={e=>setIntro(e.target.value)} rows={4} className="w-full p-2.5 bg-gray-50 border-none rounded-xl text-xs font-medium outline-none resize-none leading-relaxed"/></div>
                   <div className="grid grid-cols-1 gap-3">
                     <div>
-                      <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 block">Yêu cầu (Mỗi dòng 1 ý)</label>
+                      <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 block">Requirements (1 idea per line)</label>
                       <textarea value={requirement} onChange={e=>setRequirement(e.target.value)} rows={4} className="w-full p-2.5 bg-gray-50 border-none rounded-xl text-xs font-medium outline-none resize-y leading-relaxed custom-scrollbar"/>
                     </div>
                     <div>
-                      <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 block">Trách nhiệm (Mỗi dòng 1 ý)</label>
+                      <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 block">Responsibilities (1 idea per line)</label>
                       <textarea value={responsibility} onChange={e=>setResponsibility(e.target.value)} rows={4} className="w-full p-2.5 bg-gray-50 border-none rounded-xl text-xs font-medium outline-none resize-y leading-relaxed custom-scrollbar"/>
                     </div>
                   </div>
                   <div className="grid grid-cols-2 gap-3">
-                    <div><label className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 block">Lộ trình</label><input value={careerPath} onChange={e=>setCareerPath(e.target.value)} className="w-full p-2.5 bg-gray-50 border-none rounded-xl text-xs font-medium outline-none"/></div>
-                    <div><label className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 block">Đãi ngộ</label><input value={compensation} onChange={e=>setCompensation(e.target.value)} className="w-full p-2.5 bg-gray-50 border-none rounded-xl text-xs font-medium outline-none"/></div>
+                    <div><label className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 block">Career Path</label><input value={careerPath} onChange={e=>setCareerPath(e.target.value)} className="w-full p-2.5 bg-gray-50 border-none rounded-xl text-xs font-medium outline-none"/></div>
+                    <div><label className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 block">Compensation</label><input value={compensation} onChange={e=>setCompensation(e.target.value)} className="w-full p-2.5 bg-gray-50 border-none rounded-xl text-xs font-medium outline-none"/></div>
                   </div>
                   {templateMode === 'tdg' && (
                     <div className="pt-4 border-t border-gray-100 space-y-3">
                       <div className="flex items-center justify-between">
-                        <label className="text-[10px] font-black uppercase tracking-widest block italic text-[#F47920]">Tại sao chọn TD Games?</label>
-                        <button onClick={() => setWhyJoinUs([...whyJoinUs, {title: '', content: ''}])} className="text-[10px] text-[#F47920] font-bold hover:underline">+ Thêm lý do</button>
+                        <label className="text-[10px] font-black uppercase tracking-widest block italic text-[#F47920]">Why TD Games?</label>
+                        <button onClick={() => setWhyJoinUs([...whyJoinUs, {title: '', content: ''}])} className="text-[10px] text-[#F47920] font-bold hover:underline">+ Add reason</button>
                       </div>
                       {whyJoinUs.map((item, idx) => (
                         <div key={idx} className="space-y-2 p-3 bg-gray-50 rounded-xl relative group">
                           <button onClick={() => setWhyJoinUs(whyJoinUs.filter((_, i) => i !== idx))} className="absolute top-2 right-2 text-gray-400 hover:text-red-500 opacity-0 group-hover:opacity-100 transition-opacity">✕</button>
                           <div>
-                            <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 block">Tiêu đề {idx + 1}</label>
+                            <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 block">Title {idx + 1}</label>
                             <input value={item.title} onChange={e => { const updated = [...whyJoinUs]; updated[idx].title = e.target.value; setWhyJoinUs(updated); }} className="w-full p-2 bg-white border border-gray-100 rounded-lg text-xs font-bold outline-none text-[#F47920]"/>
                           </div>
                           <div>
-                            <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 block">Nội dung</label>
+                            <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 block">Content</label>
                             <textarea value={item.content} rows={2} onChange={e => { const updated = [...whyJoinUs]; updated[idx].content = e.target.value; setWhyJoinUs(updated); }} className="w-full p-2 bg-white border border-gray-100 rounded-lg text-xs font-medium outline-none resize-y leading-relaxed"/>
                           </div>
                         </div>
@@ -922,18 +922,18 @@ export const MatchingCandidatesModal = ({ job, open, onClose }: MatchingCandidat
 
                   {templateMode === 'tdc' && (
                     <div className="pt-4 border-t border-gray-100 space-y-4">
-                      <label className="text-[10px] font-black uppercase tracking-widest block italic text-brand-600">Thông tin Recruiter (trong Chữ ký)</label>
+                      <label className="text-[10px] font-black uppercase tracking-widest block italic text-brand-600">Recruiter Info (in Signature)</label>
                       <div>
-                        <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 block">Tên hiển thị</label>
+                        <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 block">Display Name</label>
                         <input value={recruiterName} onChange={e=>setRecruiterName(e.target.value)} className="w-full p-2.5 bg-gray-50 border-none rounded-xl text-sm font-bold outline-none"/>
                       </div>
                       <div className="grid grid-cols-2 gap-3">
                         <div>
-                          <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 block">Email liên hệ</label>
+                          <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 block">Contact Email</label>
                           <input value={recruiterEmail} onChange={e=>setRecruiterEmail(e.target.value)} className="w-full p-2.5 bg-gray-50 border-none rounded-xl text-xs font-medium outline-none"/>
                         </div>
                         <div>
-                          <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 block">SĐT liên hệ</label>
+                          <label className="text-[10px] font-black text-gray-400 uppercase tracking-widest mb-1 block">Contact Phone</label>
                           <input value={recruiterPhone} onChange={e=>setRecruiterPhone(e.target.value)} className="w-full p-2.5 bg-gray-50 border-none rounded-xl text-xs font-medium outline-none"/>
                         </div>
                       </div>
@@ -941,17 +941,17 @@ export const MatchingCandidatesModal = ({ job, open, onClose }: MatchingCandidat
                   )}
                 </div>
               </div>
-              <div className="p-6 bg-white border-t"><button disabled={sending} onClick={() => setShowConfirm(true)} className="w-full py-4 bg-brand-600 text-white font-black uppercase tracking-widest text-xs rounded-2xl hover:bg-brand-700 shadow-xl shadow-brand-200 transition-all flex items-center justify-center gap-2">{sending ? <Loader2 className="animate-spin w-5 h-5"/> : <Send size={16}/>}{sending ? 'Đang gửi...' : `Khởi chạy Campaign (${totalRecipients})`}</button></div>
+              <div className="p-6 bg-white border-t"><button disabled={sending} onClick={() => setShowConfirm(true)} className="w-full py-4 bg-brand-600 text-white font-black uppercase tracking-widest text-xs rounded-2xl hover:bg-brand-700 shadow-xl shadow-brand-200 transition-all flex items-center justify-center gap-2">{sending ? <Loader2 className="animate-spin w-5 h-5"/> : <Send size={16}/>}{sending ? 'Sending...' : `Launch Campaign (${totalRecipients})`}</button></div>
             </div>
 
             <ConfirmModal 
               open={showConfirm} 
               onClose={() => setShowConfirm(false)} 
               onConfirm={handleSendEmail}
-              title="Xác nhận khởi chạy Campaign"
-              message={`Hệ thống sẽ gửi email tuyển dụng tới ${totalRecipients} ứng viên đã chọn. Bạn đã kiểm tra kỹ nội dung và email gửi (${templateMode === 'tdc' ? '@tdconsulting.vn' : '@tdgamestudio.com'}) chưa?`}
-              confirmText="Xác nhận gửi ngay"
-              cancelText="Để mình xem lại"
+              title="Confirm Campaign Launch"
+              message={`The system will send recruitment emails to ${totalRecipients} selected candidates. Have you checked the content and sender email (${templateMode === 'tdc' ? '@tdconsulting.vn' : '@tdgamestudio.com'})?`}
+              confirmText="Confirm Send"
+              cancelText="Let me review"
               variant="success"
               isLoading={sending}
             />
@@ -1030,7 +1030,7 @@ export const MatchingCandidatesModal = ({ job, open, onClose }: MatchingCandidat
 
 const InboxHeader = ({ subject, fromName, fromEmail, replyTo }: any) => (
   <div className="p-6 bg-white border-b border-gray-50 shrink-0 text-left">
-    <h3 className="text-xl font-bold text-[#1a1c1e] mb-4 leading-tight tracking-tight">{subject || '(Thiếu tiêu đề)'}</h3>
+    <h3 className="text-xl font-bold text-[#1a1c1e] mb-4 leading-tight tracking-tight">{subject || '(No subject)'}</h3>
     <div className="flex items-start gap-4">
       <div className="w-10 h-10 rounded-full bg-[#f4f6f8] flex items-center justify-center shrink-0 border border-gray-100 text-[#dd0067] font-bold uppercase text-xs">
         {fromName?.charAt(0) || 'D'}
@@ -1041,12 +1041,12 @@ const InboxHeader = ({ subject, fromName, fromEmail, replyTo }: any) => (
           <span className="text-[11px] text-[#5f6368] truncate">&lt;{fromEmail}&gt;</span>
         </div>
         <div className="flex items-center text-[11px] text-[#5f6368] mt-1.5">
-          <span>tới tôi</span>
+          <span>to me</span>
           <div className="w-0.5 h-0.5 rounded-full bg-gray-300 mx-1.5" />
-          <span className="italic opacity-80">Phản hồi qua: {replyTo}</span>
+          <span className="italic opacity-80">Reply via: {replyTo}</span>
         </div>
       </div>
-      <div className="text-[10px] text-gray-400 font-medium bg-gray-50 px-2 py-1 rounded">Mã hóa TLS</div>
+      <div className="text-[10px] text-gray-400 font-medium bg-gray-50 px-2 py-1 rounded">TLS Encryption</div>
     </div>
   </div>
 );

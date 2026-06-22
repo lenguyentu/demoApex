@@ -78,7 +78,7 @@ export const AddClientPage = () => {
         potential_job_link: '',
         source: '',
         potential_job_title: '',
-        priority: 'Bình Thường',
+        priority: 'Normal',
         memo: ''
     });
 
@@ -139,7 +139,7 @@ export const AddClientPage = () => {
                             potential_job_link: bdProcess.potential_job_link || '',
                             source: bdProcess.source || '',
                             potential_job_title: bdProcess.potential_job_title || '',
-                            priority: bdProcess.priority || 'Bình thường',
+                            priority: bdProcess.priority || 'Normal',
                             memo: bdProcess.memo || ''
                         });
                     }
@@ -154,7 +154,7 @@ export const AddClientPage = () => {
                 }
             } catch (error) {
                 console.error("Error loading data:", error);
-                toast.error("Lỗi khi tải dữ liệu client");
+                toast.error("Error loading client data");
             } finally {
                 setInitialLoading(false);
             }
@@ -175,20 +175,20 @@ export const AddClientPage = () => {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!formData.client_name.trim()) {
-            toast.error("Vui lòng nhập tên Client");
+            toast.error("Please enter Client name");
             return;
         }
 
         // Validate website (bắt buộc)
         if (!formData.website_url?.trim()) {
-            toast.error("Vui lòng nhập Website của Client");
+            toast.error("Please enter Client Website");
             return;
         }
 
         // Validate at least one HR Contact with name (for both create and edit mode)
         const validContacts = hrContacts.filter(c => c.name?.trim());
         if (validContacts.length === 0) {
-            toast.error("Vui lòng thêm ít nhất 1 HR Contact");
+            toast.error("Please add at least 1 HR Contact");
             return;
         }
 
@@ -199,7 +199,7 @@ export const AddClientPage = () => {
         );
 
         if (hasInvalidContact) {
-            toast.error("Vui lòng nhập Tên cho HR Contact");
+            toast.error("Please enter Name for HR Contact");
             return;
         }
 
@@ -268,11 +268,11 @@ export const AddClientPage = () => {
             }
 
             await queryClient.invalidateQueries({ queryKey: ['clients'] });
-            toast.success(isEditMode ? "Cập nhật Client thành công" : "Tạo Client mới thành công");
+            toast.success(isEditMode ? "Client updated successfully" : "Client created successfully");
             if (!isEditMode) navigate('/clients');
         } catch (error: any) {
             console.error("Submit error:", error);
-            toast.error(error.message || "Có lỗi xảy ra khi lưu dữ liệu");
+            toast.error(error.message || "Error saving data");
         } finally {
             setLoading(false);
         }
@@ -288,8 +288,8 @@ export const AddClientPage = () => {
                     <div className="flex items-center gap-4">
                         <button onClick={() => navigate(-1)} className="p-2 hover:bg-gray-100 rounded-full transition-colors text-gray-500"><ArrowLeft size={20} /></button>
                         <div className="flex items-center gap-3">
-                            <h1 className="text-xl font-bold text-gray-900">{isEditMode ? 'Thông tin Client' : 'Thêm Client mới'}</h1>
-                            {isEditMode && <div className="px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-600 border border-gray-200">{isViewMode ? 'Xem' : 'Chỉnh sửa'}</div>}
+                            <h1 className="text-xl font-bold text-gray-900">{isEditMode ? 'Client Information' : 'Add New Client'}</h1>
+                            {isEditMode && <div className="px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-600 border border-gray-200">{isViewMode ? 'View' : 'Edit'}</div>}
                         </div>
                     </div>
                     <div className="flex items-center gap-3">
@@ -307,10 +307,10 @@ export const AddClientPage = () => {
                                                         const { data } = await supabase.from('bd_processes').select('id').eq('client_id', id!).single();
                                                         if (data) setHistoryProcessId(data.id);
                                                         setShowActions(false);
-                                                    }} className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2"><History size={16} /> Lịch sử</button>
-                                                    <button onClick={() => { setProvisioningClient({ id: id!, name: formData.client_name }); setShowActions(false); }} className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2"><UserPlus size={16} /> Cấp tài khoản</button>
+                                                    }} className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2"><History size={16} /> History</button>
+                                                    <button onClick={() => { setProvisioningClient({ id: id!, name: formData.client_name }); setShowActions(false); }} className="w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 flex items-center gap-2"><UserPlus size={16} /> Provision Account</button>
                                                     <div className="border-t border-gray-100 my-1"></div>
-                                                    <button onClick={() => { setDeleteId(id!); setShowActions(false); }} className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center gap-2"><Trash2 size={16} /> Xóa Client</button>
+                                                    <button onClick={() => { setDeleteId(id!); setShowActions(false); }} className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-red-50 flex items-center gap-2"><Trash2 size={16} /> Delete Client</button>
                                                 </div>
                                             </>
                                         )}
@@ -318,7 +318,7 @@ export const AddClientPage = () => {
                                 )}
                             </>
                         )}
-                        {!isViewMode && <button onClick={handleSubmit} disabled={loading} className="inline-flex items-center gap-2 px-4 py-2 bg-brand-600 text-white rounded-lg font-medium hover:bg-brand-700 shadow-sm disabled:opacity-70">{loading ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} />} {isEditMode ? 'Cập nhật' : 'Lưu Client'}</button>}
+                        {!isViewMode && <button onClick={handleSubmit} disabled={loading} className="inline-flex items-center gap-2 px-4 py-2 bg-brand-600 text-white rounded-lg font-medium hover:bg-brand-700 shadow-sm disabled:opacity-70">{loading ? <Loader2 size={16} className="animate-spin" /> : <Save size={16} />} {isEditMode ? 'Update' : 'Save Client'}</button>}
                     </div>
                 </div>
             </div>
@@ -328,15 +328,15 @@ export const AddClientPage = () => {
                     <div className="lg:col-span-8 space-y-4">
                         {/* 1. General Info */}
                         <div className="bg-white rounded-xl shadow-sm border border-gray-200">
-                            <div className="px-6 py-4 border-b border-gray-100 bg-gray-50/50 flex items-center gap-2 rounded-t-xl"><Briefcase className="w-5 h-5 text-brand-600" /><h2 className="font-semibold text-gray-900">Thông tin chung</h2></div>
+                            <div className="px-6 py-4 border-b border-gray-100 bg-gray-50/50 flex items-center gap-2 rounded-t-xl"><Briefcase className="w-5 h-5 text-brand-600" /><h2 className="font-semibold text-gray-900">General Information</h2></div>
                             <div className="p-5 grid grid-cols-1 md:grid-cols-2 gap-5">
-                                <div className="space-y-2 md:col-span-2"><label className="text-sm font-medium text-gray-700">Tên Client <span className="text-red-500">*</span></label><input type="text" value={formData.client_name} onChange={(e) => handleInputChange('client_name', e.target.value)} placeholder="Nhập tên doanh nghiệp..." className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-500 font-medium disabled:bg-gray-50" disabled={isViewMode} /></div>
-                                <div className="space-y-2"><label className="text-sm font-medium text-gray-700">Ngành nghề</label><select className="w-full px-4 py-2.5 border border-gray-300 rounded-lg bg-white disabled:bg-gray-50" value={formData.client_industry || ''} onChange={(e) => handleInputChange('client_industry', e.target.value)} disabled={isViewMode}><option value="">Chọn ngành nghề</option>{industryOptions.map(ind => (<option key={ind.id} value={ind.name}>{ind.name}</option>))}</select></div>
-                                <div className="space-y-2"><label className="text-sm font-medium text-gray-700">Rank</label><select className="w-full px-4 py-2.5 border border-gray-300 rounded-lg bg-white disabled:bg-gray-50" value={formData.client_rank || ''} onChange={(e) => handleInputChange('client_rank', e.target.value || null)} disabled={isViewMode}><option value="">Chọn Rank</option>{CLIENT_RANK_OPTIONS.map(r => (<option key={r} value={r}>Rank {r}</option>))}</select></div>
+                                <div className="space-y-2 md:col-span-2"><label className="text-sm font-medium text-gray-700">Client Name <span className="text-red-500">*</span></label><input type="text" value={formData.client_name} onChange={(e) => handleInputChange('client_name', e.target.value)} placeholder="Enter company name..." className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-500 font-medium disabled:bg-gray-50" disabled={isViewMode} /></div>
+                                <div className="space-y-2"><label className="text-sm font-medium text-gray-700">Industry</label><select className="w-full px-4 py-2.5 border border-gray-300 rounded-lg bg-white disabled:bg-gray-50" value={formData.client_industry || ''} onChange={(e) => handleInputChange('client_industry', e.target.value)} disabled={isViewMode}><option value="">Select industry</option>{industryOptions.map(ind => (<option key={ind.id} value={ind.name}>{ind.name}</option>))}</select></div>
+                                <div className="space-y-2"><label className="text-sm font-medium text-gray-700">Rank</label><select className="w-full px-4 py-2.5 border border-gray-300 rounded-lg bg-white disabled:bg-gray-50" value={formData.client_rank || ''} onChange={(e) => handleInputChange('client_rank', e.target.value || null)} disabled={isViewMode}><option value="">Select Rank</option>{CLIENT_RANK_OPTIONS.map(r => (<option key={r} value={r}>Rank {r}</option>))}</select></div>
                                 
-                                <div className="space-y-2"><label className="text-sm font-medium text-gray-700">Rate hợp đồng</label><input type="number" step="0.1" value={formData.contract_rate || ''} onChange={(e) => handleInputChange('contract_rate', e.target.value ? parseFloat(e.target.value) : null)} placeholder="VD: 2" className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-500 font-medium disabled:bg-gray-50" disabled={isViewMode} /></div>
-                                <div className="space-y-2"><label className="text-sm font-medium text-gray-700">Thời gian bảo hành (ngày)</label><input type="number" value={formData.warranty_period || ''} onChange={(e) => handleInputChange('warranty_period', e.target.value ? parseInt(e.target.value, 10) : null)} placeholder="VD: 60" className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-500 font-medium disabled:bg-gray-50" disabled={isViewMode} /></div>
-                                <div className="space-y-2 md:col-span-2"><label className="text-sm font-medium text-gray-700">Ghi chú chung</label><textarea rows={2} value={formData.notes || ''} onChange={(e) => handleInputChange('notes', e.target.value)} placeholder="Nhập ghi chú chung về client..." className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-500 font-medium disabled:bg-gray-50 resize-none" disabled={isViewMode} /></div>
+                                <div className="space-y-2"><label className="text-sm font-medium text-gray-700">Contract Rate</label><input type="number" step="0.1" value={formData.contract_rate || ''} onChange={(e) => handleInputChange('contract_rate', e.target.value ? parseFloat(e.target.value) : null)} placeholder="E.g.: 2" className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-500 font-medium disabled:bg-gray-50" disabled={isViewMode} /></div>
+                                <div className="space-y-2"><label className="text-sm font-medium text-gray-700">Warranty Period (days)</label><input type="number" value={formData.warranty_period || ''} onChange={(e) => handleInputChange('warranty_period', e.target.value ? parseInt(e.target.value, 10) : null)} placeholder="E.g.: 60" className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-500 font-medium disabled:bg-gray-50" disabled={isViewMode} /></div>
+                                <div className="space-y-2 md:col-span-2"><label className="text-sm font-medium text-gray-700">General Notes</label><textarea rows={2} value={formData.notes || ''} onChange={(e) => handleInputChange('notes', e.target.value)} placeholder="Enter general notes about the client..." className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-500 font-medium disabled:bg-gray-50 resize-none" disabled={isViewMode} /></div>
                             </div>
                         </div>
 
@@ -345,19 +345,19 @@ export const AddClientPage = () => {
 
                         {/* 3. Contact & Location */}
                         <div className="bg-white rounded-xl shadow-sm border border-gray-200">
-                             <div className="px-6 py-4 border-b border-gray-100 bg-gray-50/50 flex items-center gap-2 rounded-t-xl"><MapPinIcon className="w-5 h-5 text-brand-600" /><h2 className="font-semibold text-gray-900">Liên hệ & Địa điểm</h2></div>
+                             <div className="px-6 py-4 border-b border-gray-100 bg-gray-50/50 flex items-center gap-2 rounded-t-xl"><MapPinIcon className="w-5 h-5 text-brand-600" /><h2 className="font-semibold text-gray-900">Contact & Location</h2></div>
                             <div className="p-5 grid grid-cols-1 md:grid-cols-2 gap-5">
                                 <div className="space-y-2">
-                                    <label className="text-sm font-medium text-gray-700">Mã số thuế</label>
+                                     <label className="text-sm font-medium text-gray-700">Tax ID</label>
                                     <input type="text" value={formData.tax_id || ''} onChange={(e) => handleInputChange('tax_id', e.target.value)} className="w-full px-4 py-2 border border-gray-300 rounded-lg disabled:bg-gray-50 font-medium" placeholder="010..." disabled={isViewMode} />
                                 </div>
                                 <div className="space-y-2">
-                                    <label className="text-sm font-medium text-gray-700">Khu vực/Tỉnh thành</label>
-                                    <input type="text" value={formData.location || ''} onChange={(e) => handleInputChange('location', e.target.value)} className="w-full px-4 py-2 border border-gray-300 rounded-lg disabled:bg-gray-50 font-medium" placeholder="Hà Nội, TP.HCM..." disabled={isViewMode} />
+                                     <label className="text-sm font-medium text-gray-700">Region/Province</label>
+                                    <input type="text" value={formData.location || ''} onChange={(e) => handleInputChange('location', e.target.value)} className="w-full px-4 py-2 border border-gray-300 rounded-lg disabled:bg-gray-50 font-medium" placeholder="Hanoi, HCMC..." disabled={isViewMode} />
                                 </div>
                                 <div className="space-y-2 md:col-span-2">
-                                    <label className="text-sm font-medium text-gray-700">Địa chỉ chi tiết</label>
-                                    <input type="text" value={formData.address || ''} onChange={(e) => handleInputChange('address', e.target.value)} className="w-full px-4 py-2 border border-gray-300 rounded-lg disabled:bg-gray-50 font-medium" placeholder="Số nhà, tên đường, phường/xã..." disabled={isViewMode} />
+                                     <label className="text-sm font-medium text-gray-700">Detailed Address</label>
+                                    <input type="text" value={formData.address || ''} onChange={(e) => handleInputChange('address', e.target.value)} className="w-full px-4 py-2 border border-gray-300 rounded-lg disabled:bg-gray-50 font-medium" placeholder="House number, street name, ward/commune..." disabled={isViewMode} />
                                 </div>
                                 <div className="space-y-2 md:col-span-2">
                                     <label className="text-sm font-medium text-gray-700">
@@ -386,7 +386,7 @@ export const AddClientPage = () => {
                             <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
                                 <div className="px-6 py-4 border-b border-gray-100 bg-gray-50/50 flex items-center gap-2">
                                     <User className="w-5 h-5 text-brand-600" />
-                                    <h2 className="font-semibold text-gray-900">Người phụ trách (BD)</h2>
+                                     <h2 className="font-semibold text-gray-900">Owner (BD)</h2>
                                 </div>
                                 <div className="p-5">
                                     <div className="flex items-center gap-3">
@@ -394,7 +394,7 @@ export const AddClientPage = () => {
                                             {ownerInfo.full_name?.charAt(0).toUpperCase() || '?'}
                                         </div>
                                         <div className="overflow-hidden">
-                                            <p className="font-medium text-gray-900 truncate" title={ownerInfo.full_name || ''}>{ownerInfo.full_name || 'Chưa cập nhật'}</p>
+                                             <p className="font-medium text-gray-900 truncate" title={ownerInfo.full_name || ''}>{ownerInfo.full_name || 'Not updated'}</p>
                                             <p className="text-sm text-gray-500 truncate" title={ownerInfo.email || ''}>{ownerInfo.email || 'N/A'}</p>
                                         </div>
                                     </div>
@@ -405,7 +405,7 @@ export const AddClientPage = () => {
                         <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
                             <div className="px-6 py-4 border-b border-gray-100 bg-gray-50/50 flex items-center justify-between">
                                 <div className="flex items-center gap-2"><Phone className="w-5 h-5 text-brand-600" /><h2 className="font-semibold text-gray-900">HR ({hrContacts.length}) <span className="text-red-500">*</span></h2></div>
-                                {!isViewMode && <button type="button" onClick={() => setHrContacts([...hrContacts, {name: '', position_title: '', zip_code: '', address: '', phone_1: '', phone_2: '', email_1: '', email_2: '', division: '', newsletter: [], key_person: false, memo: ''}])} className="text-sm text-brand-600 font-medium flex items-center gap-1"><Plus size={16} /> Thêm</button>}
+                                {!isViewMode && <button type="button" onClick={() => setHrContacts([...hrContacts, {name: '', position_title: '', zip_code: '', address: '', phone_1: '', phone_2: '', email_1: '', email_2: '', division: '', newsletter: [], key_person: false, memo: ''}])} className="text-sm text-brand-600 font-medium flex items-center gap-1"><Plus size={16} /> Add</button>}
                             </div>
                             <div className="p-5 max-h-[600px] overflow-y-auto space-y-1">
                                 {hrContacts.map((hr, idx) => (
@@ -414,12 +414,12 @@ export const AddClientPage = () => {
                             </div>
                         </div>
                     </div>
-                    {isEditMode && <div className="lg:col-span-12 mt-6"><div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden"><div className="px-6 py-4 border-b border-gray-100 bg-gray-50/50 flex items-center justify-between"><div className="flex items-center gap-2"><FileText className="w-5 h-5 text-brand-600" /><h2 className="font-semibold text-gray-900">File đính kèm ({attachments.length})</h2></div></div><div className="p-6"><ClientAttachmentsTable clientId={id!} attachments={attachments} isViewMode={isViewMode} onRefresh={async () => { const { data } = await supabase.from('client_attachments').select('id, client_id, file_name, file_path, file_type, file_size, description, created_at, created_by_id').eq('client_id', id!).order('created_at', { ascending: false }); if (data) setAttachments(data); }} /></div></div></div>}
+                    {isEditMode && <div className="lg:col-span-12 mt-6"><div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden"><div className="px-6 py-4 border-b border-gray-100 bg-gray-50/50 flex items-center justify-between"><div className="flex items-center gap-2"><FileText className="w-5 h-5 text-brand-600" /><h2 className="font-semibold text-gray-900">Attachments ({attachments.length})</h2></div></div><div className="p-6"><ClientAttachmentsTable clientId={id!} attachments={attachments} isViewMode={isViewMode} onRefresh={async () => { const { data } = await supabase.from('client_attachments').select('id, client_id, file_name, file_path, file_type, file_size, description, created_at, created_by_id').eq('client_id', id!).order('created_at', { ascending: false }); if (data) setAttachments(data); }} /></div></div></div>}
                 </form>
 
                 <HistoryModal isOpen={!!historyProcessId} onClose={() => setHistoryProcessId(null)} processId={historyProcessId || ''} />
                 {provisioningClient && <ClientUserProvisioningModal isOpen={!!provisioningClient} onClose={() => setProvisioningClient(null)} clientId={provisioningClient.id} clientName={provisioningClient.name} />}
-                <ConfirmModal open={!!deleteId} onClose={() => setDeleteId(null)} onConfirm={async () => { await deleteClient(deleteId!); toast.success("Xóa Client thành công"); navigate('/clients'); }} title="Xóa Client" message="Bạn có chắc muốn xóa client này?" variant="danger" />
+                <ConfirmModal open={!!deleteId} onClose={() => setDeleteId(null)} onConfirm={async () => { await deleteClient(deleteId!); toast.success("Client deleted successfully"); navigate('/clients'); }} title="Delete Client" message="Are you sure you want to delete this client?" variant="danger" />
             </div>
         </div>
     );

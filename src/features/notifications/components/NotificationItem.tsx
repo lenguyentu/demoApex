@@ -22,10 +22,10 @@ export function NotificationItem({ notification }: NotificationItemProps) {
     const diffHours = Math.floor(diffMs / 3600000);
     const diffDays = Math.floor(diffMs / 86400000);
     
-    if (diffMins < 1) return 'Vừa xong';
-    if (diffMins < 60) return `${diffMins} phút trước`;
-    if (diffHours < 24) return `${diffHours} giờ trước`;
-    if (diffDays < 7) return `${diffDays} ngày trước`;
+    if (diffMins < 1) return 'Just now';
+    if (diffMins < 60) return `${diffMins} mins ago`;
+    if (diffHours < 24) return `${diffHours} hours ago`;
+    if (diffDays < 7) return `${diffDays} days ago`;
     
     return date.toLocaleDateString('vi-VN', { 
       day: '2-digit', 
@@ -79,16 +79,16 @@ export function NotificationItem({ notification }: NotificationItemProps) {
   const handleMarkAsRead = (e: React.MouseEvent) => {
     e.stopPropagation();
     markAsReadMutation.mutate(notification.id, {
-      onSuccess: () => toast.success('Đã đánh dấu đã đọc'),
-      onError: () => toast.error('Có lỗi xảy ra'),
+      onSuccess: () => toast.success('Marked as read'),
+      onError: () => toast.error('An error occurred'),
     });
   };
 
   const handleDelete = (e: React.MouseEvent) => {
     e.stopPropagation();
     deleteMutation.mutate(notification.id, {
-      onSuccess: () => toast.success('Đã xóa thông báo'),
-      onError: () => toast.error('Có lỗi xảy ra'),
+      onSuccess: () => toast.success('Notification deleted'),
+      onError: () => toast.error('An error occurred'),
     });
   };
 
@@ -123,7 +123,7 @@ export function NotificationItem({ notification }: NotificationItemProps) {
           </div>
           
           <h4 className={`text-sm font-medium text-gray-900 mb-0.5 ${!notification.read ? 'font-semibold' : ''}`}>
-            {notification.title || 'Thông báo mới'}
+            {notification.title || 'New notification'}
           </h4>
           
           {notification.message && (
@@ -134,7 +134,7 @@ export function NotificationItem({ notification }: NotificationItemProps) {
           
           {notification.created_by?.full_name && (
             <p className="text-xs text-gray-400 mt-1">
-              Từ: {notification.created_by.full_name}
+              From: {notification.created_by.full_name}
             </p>
           )}
         </div>
@@ -145,7 +145,7 @@ export function NotificationItem({ notification }: NotificationItemProps) {
             <button 
               onClick={handleNavigate}
               className="p-1.5 text-gray-400 hover:text-brand-600 hover:bg-brand-50 rounded-lg transition-colors"
-              title="Xem chi tiết"
+              title="View details"
             >
               <ExternalLink size={16} />
             </button>
@@ -156,7 +156,7 @@ export function NotificationItem({ notification }: NotificationItemProps) {
               onClick={handleMarkAsRead}
               disabled={markAsReadMutation.isPending}
               className="p-1.5 text-gray-400 hover:text-green-600 hover:bg-green-50 rounded-lg transition-colors disabled:opacity-50"
-              title="Đánh dấu đã đọc"
+              title="Mark as read"
             >
               <Check size={16} />
             </button>
@@ -166,7 +166,7 @@ export function NotificationItem({ notification }: NotificationItemProps) {
             onClick={handleDelete}
             disabled={deleteMutation.isPending}
             className="p-1.5 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded-lg transition-colors disabled:opacity-50"
-            title="Xóa"
+            title="Delete"
           >
             <Trash2 size={16} />
           </button>

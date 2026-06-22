@@ -193,10 +193,10 @@ export function ClientsPage() {
     if (!deleteId) return;
     try {
       await deleteClientMutation.mutateAsync(deleteId);
-      toast.success('Đã xóa client thành công');
+      toast.success('Client deleted successfully');
       setDeleteId(null);
     } catch (error: any) {
-      toast.error(error.message || 'Lỗi khi xóa client');
+      toast.error(error.message || 'Error deleting client');
     }
   }, [deleteId, deleteClientMutation]);
 
@@ -212,10 +212,10 @@ export function ClientsPage() {
         clientId: pendingOwnerChange.clientId, 
         ownerId: pendingOwnerChange.ownerId 
       });
-      toast.success('Đã cập nhật owner');
+      toast.success('Owner updated');
       setPendingOwnerChange(null);
     } catch (error: any) {
-      toast.error(error.message || 'Lỗi khi cập nhật owner');
+      toast.error(error.message || 'Error updating owner');
     }
   }, [pendingOwnerChange, updateOwnerMutation]);
 
@@ -245,7 +245,7 @@ export function ClientsPage() {
         memo: bdData.memo || ''
       });
     } else {
-      toast.error('Client chưa có quy trình BD');
+      toast.error('Client does not have a BD process');
     }
   }, [getClientBDData]);
 
@@ -254,7 +254,7 @@ export function ClientsPage() {
     if (bdData) {
       setHistoryProcessId(bdData.id);
     } else {
-      toast.error('Client chưa có lịch sử quy trình BD');
+      toast.error('Client does not have a BD process history');
     }
   }, [getClientBDData]);
 
@@ -262,10 +262,10 @@ export function ClientsPage() {
     if (!memoProcessId) return;
     try {
       await updateBDProcessMutation.mutateAsync({ processId: memoProcessId, payload });
-      toast.success('Đã cập nhật trạng thái thành công');
+      toast.success('Status updated successfully');
       setMemoProcessId(null);
     } catch (error: any) {
-      toast.error(error.message || 'Lỗi khi cập nhật');
+      toast.error(error.message || 'Error updating');
     }
   }, [memoProcessId, updateBDProcessMutation]);
 
@@ -283,12 +283,12 @@ export function ClientsPage() {
     return (
       <div className="min-h-screen bg-gray-50 flex items-center justify-center">
         <div className="bg-white rounded-xl shadow-lg p-8 max-w-md text-center">
-          <p className="text-red-600 mb-4">Lỗi: {(error as Error).message}</p>
+          <p className="text-red-600 mb-4">Error: {(error as Error).message}</p>
           <button 
             onClick={() => window.location.reload()}
             className="px-6 py-2.5 bg-brand-500 text-white rounded-lg hover:bg-brand-600"
           >
-            Thử lại
+            Retry
           </button>
         </div>
       </div>
@@ -307,7 +307,7 @@ export function ClientsPage() {
               </div>
               <div>
                 <h1 className="text-xl font-bold text-gray-900">Clients & Companies</h1>
-                <p className="text-sm text-gray-500">Quản lý thông tin khách hàng</p>
+                <p className="text-sm text-gray-500">Manage client information</p>
               </div>
             </div>
             {can(PERMISSIONS.MANAGE_CLIENTS) && (
@@ -316,7 +316,7 @@ export function ClientsPage() {
                 className="inline-flex items-center gap-2 px-4 py-2 bg-brand-600 text-white rounded-lg text-sm font-medium hover:bg-brand-700 transition shadow-sm"
               >
                 <Plus className="w-4 h-4" />
-                Thêm Client
+                Add Client
               </button>
             )}
           </div>
@@ -328,17 +328,17 @@ export function ClientsPage() {
         {/* Filters */}
         <div className="bg-white rounded-lg shadow-sm border border-gray-100 p-5 mb-6">
           <div className="flex items-center justify-between mb-4">
-             <h2 className="text-sm font-semibold text-gray-900 uppercase tracking-wider">Bộ lọc tìm kiếm</h2>
+             <h2 className="text-sm font-semibold text-gray-900 uppercase tracking-wider">Search Filters</h2>
           </div>
           
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
             {/* Search */}
             <div>
-              <label className="block text-xs font-medium text-gray-700 mb-1.5">Tên Client</label>
+              <label className="block text-xs font-medium text-gray-700 mb-1.5">Client Name</label>
               <ClientSelect
                 value={filters.id || ''}
                 onChange={(id) => setFilters(prev => ({ ...prev, id: id || undefined }))}
-                placeholder="Chọn client..."
+                placeholder="Select client..."
                 className="w-full text-sm"
               />
             </div>
@@ -351,7 +351,7 @@ export function ClientsPage() {
                 onChange={(e) => handleFilterChange('client_rank', e.target.value)}
                 className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:bg-white focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all text-sm outline-none"
               >
-                <option value="">Tất cả</option>
+                <option value="">All</option>
                 {RANK_OPTIONS.map((rank) => (
                   <option key={rank} value={rank}>Rank {rank}</option>
                 ))}
@@ -366,7 +366,7 @@ export function ClientsPage() {
                 onChange={(e) => handleFilterChange('phase', e.target.value)}
                  className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:bg-white focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all text-sm outline-none"
               >
-                <option value="">Tất cả</option>
+                <option value="">All</option>
                 <optgroup label="Phase 1: Connect">
                   <option value="Research">Research</option>
                   <option value="Addfriend/Connect">Addfriend/Connect</option>
@@ -398,7 +398,7 @@ export function ClientsPage() {
                   onChange={(e) => handleFilterChange('owner_id', e.target.value)}
                   className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:bg-white focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all text-sm outline-none"
                 >
-                  <option value="">Tất cả</option>
+                  <option value="">All</option>
                   {ownerOptions.map((owner) => (
                     <option key={owner.id} value={owner.id}>{owner.full_name}</option>
                   ))}
@@ -416,7 +416,7 @@ export function ClientsPage() {
                 type="text"
                 value={locationInput}
                 onChange={(e) => setLocationInput(e.target.value)}
-                placeholder="Nhập địa điểm..."
+                placeholder="Enter location..."
                 className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:bg-white focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all text-sm"
               />
             </div>
@@ -429,7 +429,7 @@ export function ClientsPage() {
                 onChange={(e) => handleFilterChange('client_industry', e.target.value)}
                 className="w-full px-3 py-2 bg-gray-50 border border-gray-200 rounded-lg focus:bg-white focus:ring-2 focus:ring-brand-500/20 focus:border-brand-500 transition-all text-sm outline-none"
               >
-                <option value="">Tất cả</option>
+                <option value="">All</option>
                 {industries.map((ind) => (
                   <option key={ind.id} value={ind.name}>{ind.name}</option>
                 ))}
@@ -465,7 +465,7 @@ export function ClientsPage() {
         {/* Results Count */}
         <div className="flex items-center justify-between mb-4 px-1">
           <p className="text-sm text-gray-500">
-            Hiển thị <span className="font-semibold text-gray-900">{clients.length}</span> / <span className="font-semibold text-gray-900">{totalCount}</span> kết quả
+            Showing <span className="font-semibold text-gray-900">{clients.length}</span> / <span className="font-semibold text-gray-900">{totalCount}</span> results
           </p>
         </div>
 
@@ -480,12 +480,12 @@ export function ClientsPage() {
           {isLoading && clients.length === 0 ? (
              <div className="min-h-[400px] flex flex-col items-center justify-center">
                <Loader2 className="w-10 h-10 animate-spin text-brand-500 mb-4" />
-               <p className="text-gray-500">Đang tải danh sách...</p>
+               <p className="text-gray-500">Loading list...</p>
              </div>
           ) : clients.length === 0 ? (
             <div className="min-h-[400px] flex flex-col items-center justify-center">
               <FileText className="w-16 h-16 text-gray-200 mb-4" />
-              <p className="text-gray-500">Không tìm thấy dữ liệu phù hợp</p>
+              <p className="text-gray-500">No matching data found</p>
             </div>
           ) : (
             <>
@@ -503,7 +503,7 @@ export function ClientsPage() {
                         <th className="px-6 py-4 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider min-w-[200px]">Owner</th>
                       )}
                       {can(PERMISSIONS.VIEW_CLIENTS) && (
-                        <th className="px-6 py-4 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">Thao tác</th>
+                        <th className="px-6 py-4 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider">Actions</th>
                       )}
                     </tr>
                   </thead>
@@ -542,7 +542,7 @@ export function ClientsPage() {
                                 onChange={(e) => handleOwnerChange(client.id, e.target.value || null)}
                                 className="text-xs border-gray-200 rounded px-2 py-1.5 w-full focus:ring-1 focus:ring-brand-500 focus:border-brand-500"
                               >
-                                <option value="">Chưa có</option>
+                                <option value="">None</option>
                                 {ownerOptions.map((owner) => (
                                   <option key={owner.id} value={owner.id}>{owner.full_name}</option>
                                 ))}
@@ -555,7 +555,7 @@ export function ClientsPage() {
                                 <button
                                   onClick={() => navigate(`/tables/clients/new/${client.id}`)}
                                   className="p-1.5 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded transition-all"
-                                  title="Xem chi tiết"
+                                  title="View Details"
                                 >
                                   <Eye className="w-4 h-4" />
                                 </button>
@@ -563,7 +563,7 @@ export function ClientsPage() {
                                   <button
                                     onClick={() => navigate(`/jobs/new?client_id=${client.id}`)}
                                     className="p-1.5 text-gray-500 hover:text-indigo-600 hover:bg-indigo-50 rounded transition-all"
-                                    title="Tạo Job"
+                                    title="Create Job"
                                   >
                                     <Briefcase className="w-4 h-4" />
                                   </button>
@@ -573,21 +573,21 @@ export function ClientsPage() {
                                     <button
                                       onClick={() => handleHistoryClick(client)}
                                       className="p-1.5 text-gray-500 hover:text-purple-600 hover:bg-purple-50 rounded transition-all"
-                                      title="Lịch sử"
+                                      title="History"
                                     >
                                       <History className="w-4 h-4" />
                                     </button>
                                     <button
                                       onClick={() => handleProvisioningSort(client)}
                                       className="p-1.5 text-gray-500 hover:text-emerald-600 hover:bg-emerald-50 rounded transition-all"
-                                      title="Cấp tài khoản"
+                                      title="Provision Account"
                                     >
                                       <UserPlus className="w-4 h-4" />
                                     </button>
                                     <button
                                       onClick={() => navigate(`/tables/clients/new/${client.id}`, { state: { isEdit: true } })}
                                       className="p-1.5 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded transition-all"
-                                      title="Chỉnh sửa"
+                                      title="Edit"
                                     >
                                       <Edit className="w-4 h-4" />
                                     </button>
@@ -690,10 +690,10 @@ export function ClientsPage() {
         open={!!deleteId}
         onClose={() => setDeleteId(null)}
         onConfirm={handleConfirmDelete}
-        title="Xóa Client"
-        message="Bạn có chắc muốn xóa client này? Hành động này không thể hoàn tác."
-        confirmText="Xóa"
-        cancelText="Hủy"
+        title="Delete Client"
+        message="Are you sure you want to delete this client? This action cannot be undone."
+        confirmText="Delete"
+        cancelText="Cancel"
         variant="danger"
         isLoading={deleteClientMutation.isPending}
       />
@@ -702,10 +702,10 @@ export function ClientsPage() {
         open={!!pendingOwnerChange}
         onClose={() => setPendingOwnerChange(null)}
         onConfirm={handleConfirmOwnerChange}
-        title="Xác nhận thay đổi Owner"
-        message="Bạn có chắc muốn thay đổi người phụ trách (Owner) cho client này?"
-        confirmText="Cập nhật"
-        cancelText="Hủy"
+        title="Confirm Owner Change"
+        message="Are you sure you want to change the owner for this client?"
+        confirmText="Update"
+        cancelText="Cancel"
         variant="info"
         isLoading={updateOwnerMutation.isPending}
       />

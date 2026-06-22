@@ -26,38 +26,38 @@ function DetailModal({ item, onClose }: { item: ResearchQueueItem; onClose: () =
     APPROVED: 'bg-green-100 text-green-800',
     REJECTED: 'bg-red-100 text-red-800',
   }[status];
-  const badgeLabel = { PENDING_REVIEW: 'Chờ duyệt', APPROVED: 'Đã duyệt', REJECTED: 'Từ chối' }[status];
+  const badgeLabel = { PENDING_REVIEW: 'Pending', APPROVED: 'Approved', REJECTED: 'Rejected' }[status];
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4" onClick={onClose}>
       <div className="bg-white rounded-xl shadow-xl w-full max-w-lg max-h-[90vh] overflow-y-auto" onClick={e => e.stopPropagation()}>
         <div className="flex items-center justify-between p-5 border-b">
-          <h3 className="text-lg font-semibold text-gray-900">Chi tiết CV</h3>
+          <h3 className="text-lg font-semibold text-gray-900">CV Details</h3>
           <button onClick={onClose} className="text-gray-400 hover:text-gray-600"><XCircle size={20} /></button>
         </div>
         <div className="p-5 space-y-4">
           <div className="flex items-center justify-between">
-            <span className="text-sm text-gray-500">Trạng thái</span>
+            <span className="text-sm text-gray-500">Status</span>
             <span className={`px-2.5 py-0.5 rounded-full text-xs font-semibold ${badgeCls}`}>{badgeLabel}</span>
           </div>
           <div className="bg-blue-50 rounded-lg p-4 space-y-1">
-            <p className="text-xs font-semibold text-blue-600 uppercase tracking-wide">Ứng viên</p>
+            <p className="text-xs font-semibold text-blue-600 uppercase tracking-wide">Candidate</p>
             <p className="font-semibold text-gray-900">{item.candidate_name}</p>
             {item.candidate_email && <p className="text-sm text-gray-600">{item.candidate_email}</p>}
             {item.candidate_phone && <p className="text-sm text-gray-600">{item.candidate_phone}</p>}
             {item.candidate_cv_link ? (
               <a href={item.candidate_cv_link} target="_blank" rel="noopener noreferrer"
                 className="inline-flex items-center gap-1 text-sm text-blue-600 hover:underline mt-1">
-                <FileText size={14} /> Xem CV
+                <FileText size={14} /> View CV
               </a>
             ) : (
               <span className="inline-flex items-center gap-1 text-sm text-yellow-600 mt-1">
-                <AlertCircle size={14} /> Chưa có CV
+                <AlertCircle size={14} /> No CV
               </span>
             )}
           </div>
           <div className="bg-gray-50 rounded-lg p-4 space-y-1">
-            <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Vị trí</p>
+            <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Position</p>
             <div className="flex items-center gap-2 flex-wrap">
               {item.job_code && (
                 <span className="text-xs font-mono font-semibold text-brand-600">[{item.job_code}]</span>
@@ -75,14 +75,14 @@ function DetailModal({ item, onClose }: { item: ResearchQueueItem; onClose: () =
           </div>
           {item.application_reason && (
             <div>
-              <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Lý do giới thiệu</p>
+              <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1">Reason for referral</p>
               <p className="text-sm text-gray-700 bg-gray-50 p-3 rounded-lg leading-relaxed">{item.application_reason}</p>
             </div>
           )}
           <div className="grid grid-cols-2 gap-3 text-sm">
             <div><p className="text-xs text-gray-400">Researcher</p><p className="font-medium text-gray-800">{item.created_by_name}</p></div>
             <div><p className="text-xs text-pink-400">Assigned to</p><p className="font-medium text-gray-800">{item.owner_name}</p><p className="text-xs text-gray-500">{item.owner_role}</p></div>
-            <div><p className="text-xs text-gray-400">Ngày gửi</p><p className="font-medium text-gray-800">{new Date(item.created_at).toLocaleDateString('vi-VN')}</p></div>
+            <div><p className="text-xs text-gray-400">Date Sent</p><p className="font-medium text-gray-800">{new Date(item.created_at).toLocaleDateString()}</p></div>
           </div>
         </div>
       </div>
@@ -119,7 +119,7 @@ export function ResearchQueuePage() {
       setData(result);
     } catch (err) {
       console.error(err);
-      toast.error('Không thể tải dữ liệu');
+      toast.error('Cannot load data');
     } finally {
       setLoading(false);
     }
@@ -133,7 +133,7 @@ export function ResearchQueuePage() {
     if (!cand || data.length === 0) return;
     const hit = data.find(i => i.candidate_id === cand);
     if (!hit) {
-      toast.error('Không tìm thấy CV trong queue (đã xử lý hoặc không thuộc danh sách của bạn).');
+      toast.error('CV not found in queue (already processed or not in your list).');
       setSearchParams({}, { replace: true });
       return;
     }
@@ -201,10 +201,10 @@ export function ResearchQueuePage() {
     try {
       await approveQueueItem(approveTarget.id, { note: data.note, brief: data.brief } as any);
       setApproveTarget(null);
-      toast.success('CV đã được duyệt và gửi cho client!');
+      toast.success('CV approved and sent to client!');
       loadData();
     } catch {
-      toast.error('Không thể duyệt CV');
+      toast.error('Cannot approve CV');
     }
   };
 
@@ -213,19 +213,19 @@ export function ResearchQueuePage() {
     try {
       await rejectQueueItem(rejectModalTarget.id, { note: data.note, brief: data.brief } as any);
       setRejectModalTarget(null);
-      toast.success('CV đã bị từ chối.');
+      toast.success('CV rejected.');
       loadData();
     } catch {
-      toast.error('Không thể từ chối CV');
+      toast.error('Cannot reject CV');
     }
   };
 
   // ── Helpers ────────────────────────────────────────────────────────────────
   const formatTime = (dateString: string) => {
     const diffMins = Math.floor((Date.now() - new Date(dateString).getTime()) / 60000);
-    if (diffMins < 60) return `${diffMins} phút trước`;
-    if (diffMins < 1440) return `${Math.floor(diffMins / 60)} giờ trước`;
-    return new Date(dateString).toLocaleDateString('vi-VN');
+    if (diffMins < 60) return `${diffMins} mins ago`;
+    if (diffMins < 1440) return `${Math.floor(diffMins / 60)} hours ago`;
+    return new Date(dateString).toLocaleDateString();
   };
 
   const getStatusBadge = (processStatus: string) => {
@@ -233,10 +233,10 @@ export function ResearchQueuePage() {
 
     // Chờ duyệt / Từ chối → badge đơn giản
     if (q === 'PENDING_REVIEW') {
-      return <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800"><Clock size={12} className="mr-1" />Chờ duyệt</span>;
+      return <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800"><Clock size={12} className="mr-1" />Pending</span>;
     }
     if (q === 'REJECTED') {
-      return <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800"><XCircle size={12} className="mr-1" />Từ chối</span>;
+      return <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-red-100 text-red-800"><XCircle size={12} className="mr-1" />Rejected</span>;
     }
 
     // Đã duyệt → hiển thị status thực tế từ STATUS_CONFIG
@@ -251,16 +251,16 @@ export function ResearchQueuePage() {
       );
     }
     // Fallback
-    return <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800"><CheckCircle size={12} className="mr-1" />Đã duyệt</span>;
+    return <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800"><CheckCircle size={12} className="mr-1" />Approved</span>;
   };
 
   const canApproveReject = effectiveRole === 'Headhunter' || effectiveRole === 'HH Lead' || effectiveRole === 'Admin';
 
   const TAB_CONFIG: { key: ResearchQueueStatus | 'ALL'; label: string; activeClass: string }[] = [
-    { key: 'PENDING_REVIEW', label: 'Chờ duyệt', activeClass: 'bg-yellow-500 text-white' },
-    { key: 'APPROVED',       label: 'Đã duyệt',  activeClass: 'bg-green-500 text-white' },
-    { key: 'REJECTED',       label: 'Từ chối',   activeClass: 'bg-red-500 text-white' },
-    { key: 'ALL',            label: 'Tất cả',    activeClass: 'bg-blue-500 text-white' },
+    { key: 'PENDING_REVIEW', label: 'Pending', activeClass: 'bg-yellow-500 text-white' },
+    { key: 'APPROVED',       label: 'Approved',  activeClass: 'bg-green-500 text-white' },
+    { key: 'REJECTED',       label: 'Rejected',   activeClass: 'bg-red-500 text-white' },
+    { key: 'ALL',            label: 'All',    activeClass: 'bg-blue-500 text-white' },
   ];
 
   return (
@@ -303,17 +303,17 @@ export function ResearchQueuePage() {
         <div>
           <h1 className="text-2xl font-bold text-gray-900">Research Queue</h1>
           <p className="text-sm text-gray-500 mt-1">
-            {effectiveRole === 'Researcher' ? 'CV bạn đã gửi và trạng thái duyệt'
-              : effectiveRole === 'Headhunter' || effectiveRole === 'HH Lead' ? 'CV từ Researcher được gán cho bạn'
-              : 'Tất cả CV từ Researcher'}
+            {effectiveRole === 'Researcher' ? 'Your submitted CVs and approval status'
+              : effectiveRole === 'Headhunter' || effectiveRole === 'HH Lead' ? 'CVs from Researchers assigned to you'
+              : 'All CVs from Researchers'}
           </p>
         </div>
         <div className="flex items-center gap-3 flex-wrap">
           {/* Stats */}
           <div className="hidden md:flex items-center gap-2 text-sm">
-            <span className="px-3 py-1 bg-yellow-50 text-yellow-700 rounded-full font-medium">{counts.PENDING_REVIEW} chờ duyệt</span>
-            <span className="px-3 py-1 bg-green-50 text-green-700 rounded-full font-medium">{counts.APPROVED} đã duyệt</span>
-            <span className="px-3 py-1 bg-red-50 text-red-700 rounded-full font-medium">{counts.REJECTED} từ chối</span>
+            <span className="px-3 py-1 bg-yellow-50 text-yellow-700 rounded-full font-medium">{counts.PENDING_REVIEW} pending</span>
+            <span className="px-3 py-1 bg-green-50 text-green-700 rounded-full font-medium">{counts.APPROVED} approved</span>
+            <span className="px-3 py-1 bg-red-50 text-red-700 rounded-full font-medium">{counts.REJECTED} rejected</span>
           </div>
         </div>
       </div>
@@ -337,7 +337,7 @@ export function ResearchQueuePage() {
           <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" />
           <input
             type="text"
-            placeholder="Tìm ứng viên, job, client, HH..."
+            placeholder="Search candidates, jobs, clients, HH..."
             value={searchQuery}
             onChange={e => setSearchQuery(e.target.value)}
             className="w-full pl-9 pr-3 py-1.5 border border-gray-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-blue-400"
@@ -353,7 +353,7 @@ export function ResearchQueuePage() {
           </div>
         ) : filtered.length === 0 ? (
           <div className="bg-white rounded-lg border border-gray-200 p-12 text-center">
-            <p className="text-gray-400 text-sm">Không có CV nào phù hợp</p>
+            <p className="text-gray-400 text-sm">No matching CVs found</p>
           </div>
         ) : (
           filtered.map(item => {
@@ -388,7 +388,7 @@ export function ResearchQueuePage() {
                           </h3>
                           {!item.candidate_cv_link && (
                             <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs bg-yellow-100 text-yellow-700">
-                              <AlertCircle size={11} /> Chưa có CV
+                              <AlertCircle size={11} /> No CV
                             </span>
                           )}
                         </div>
@@ -456,21 +456,21 @@ export function ResearchQueuePage() {
                                 .from('cv')
                                 .createSignedUrl(path.replace(/^cv\//, ''), 60 * 60);
                               if (error || !data?.signedUrl) {
-                                toast.error('Không thể mở CV');
+                                toast.error('Cannot open CV');
                                 return;
                               }
                               window.open(data.signedUrl, '_blank');
                             } catch {
-                              toast.error('Không thể mở CV');
+                              toast.error('Cannot open CV');
                             }
                           }}
                           className="p-2 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-lg transition"
-                          title="Xem CV"
+                          title="View CV"
                         >
                           <FileText size={17} />
                         </button>
                       ) : (
-                        <span className="p-2 text-gray-300 cursor-not-allowed" title="Chưa có CV">
+                        <span className="p-2 text-gray-300 cursor-not-allowed" title="No CV">
                           <FileText size={17} />
                         </span>
                       )}
@@ -478,18 +478,18 @@ export function ResearchQueuePage() {
                       <button
                         onClick={() => setHistoryProcessId(item.id)}
                         className="p-2 text-gray-500 hover:text-purple-600 hover:bg-purple-50 rounded-lg transition"
-                        title="Xem lịch sử process"
+                        title="View process history"
                       >
                         <Eye size={17} />
                       </button>
                       {canApproveReject && qStatus === 'PENDING_REVIEW' && (
                         <>
                           <button onClick={() => setApproveTarget(item)}
-                            className="p-2 text-green-600 hover:text-green-700 hover:bg-green-50 rounded-lg transition" title="Duyệt CV">
+                            className="p-2 text-green-600 hover:text-green-700 hover:bg-green-50 rounded-lg transition" title="Approve CV">
                             <CheckCircle size={17} />
                           </button>
                           <button onClick={() => setRejectModalTarget(item)}
-                            className="p-2 text-red-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition" title="Từ chối">
+                            className="p-2 text-red-500 hover:text-red-600 hover:bg-red-50 rounded-lg transition" title="Reject CV">
                             <XCircle size={17} />
                           </button>
                         </>

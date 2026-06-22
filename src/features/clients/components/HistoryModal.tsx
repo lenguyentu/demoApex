@@ -40,7 +40,7 @@ export const HistoryModal = ({ isOpen, onClose, processId }: HistoryModalProps) 
         <div className="flex justify-between items-center px-6 py-4 border-b bg-gray-50 shrink-0">
           <h3 className="text-lg font-medium text-gray-900 flex items-center gap-2">
             <Activity size={20} className="text-brand-600" />
-            Lịch sử BD Process
+            BD Process History
           </h3>
           <button
             onClick={onClose}
@@ -54,12 +54,12 @@ export const HistoryModal = ({ isOpen, onClose, processId }: HistoryModalProps) 
           {isLoading ? (
             <div className="py-12 text-center text-gray-500 flex flex-col items-center gap-3">
               <Loader2 className="w-8 h-8 animate-spin text-brand-500" />
-              <span className="text-sm font-medium">Đang tải lịch sử...</span>
+              <span className="text-sm font-medium">Loading history...</span>
             </div>
           ) : history.length === 0 ? (
             <div className="py-12 text-center text-gray-500 italic flex flex-col items-center justify-center h-full">
               <FileText className="w-12 h-12 text-gray-300 mb-2" />
-              Chưa có lịch sử thay đổi nào.
+              No history found.
             </div>
           ) : (
             <div className="relative border-l-2 border-gray-200 ml-4 space-y-8 pl-6 my-2">
@@ -114,7 +114,7 @@ export const HistoryModal = ({ isOpen, onClose, processId }: HistoryModalProps) 
                         ) : (
                           <div className="mb-2 text-sm text-gray-500 italic flex items-center gap-1.5">
                             <FileText size={14} />
-                            Cập nhật ghi chú
+                            Memo updated
                           </div>
                         )}
 
@@ -144,7 +144,7 @@ export const HistoryModal = ({ isOpen, onClose, processId }: HistoryModalProps) 
             className="inline-flex justify-center rounded-lg border border-gray-300 shadow-sm px-5 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 transition-colors"
             onClick={onClose}
           >
-            Đóng
+            Close
           </button>
         </div>
       </div>

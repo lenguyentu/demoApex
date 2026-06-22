@@ -32,11 +32,11 @@ export function CandidateCareerGoals({
         <div>
           <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
             <Briefcase className="h-4 w-4 text-pink-600" />
-            Mục tiêu & Điểm mạnh
+            Goals & Strengths
           </h2>
           <div className="space-y-4">
             <EditableField 
-              label="Mục tiêu nghề nghiệp" 
+              label="Career goals" 
               name="careerGoals" 
               value={isEditing ? formData.careerGoals : candidate.career_goals} 
               isEditing={isEditing} 
@@ -44,7 +44,7 @@ export function CandidateCareerGoals({
               type="textarea" 
             />
             <EditableField 
-              label="Điểm mạnh chính" 
+              label="Key strengths" 
               name="strengths" 
               value={isEditing ? formData.strengths : candidate.key_strengths} 
               isEditing={isEditing} 
@@ -60,7 +60,7 @@ export function CandidateCareerGoals({
         <div>
           <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
             <Award className="h-4 w-4 text-pink-600" />
-            Chứng chỉ chuyên nghiệp
+            Professional certifications
           </h2>
           <EditableField 
             label="" 
@@ -69,7 +69,7 @@ export function CandidateCareerGoals({
             isEditing={isEditing} 
             onChange={handleInputChange} 
             type="textarea" 
-            placeholder="Chi tiết chứng chỉ..." 
+            placeholder="Certification details..." 
           />
         </div>
       )}

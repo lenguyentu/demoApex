@@ -240,7 +240,7 @@ const AddJobPage = () => {
       setJobId(newJobId);
     } catch (err) {
       console.error('Error generating job_id:', err);
-      toast.error('Không thể tạo mã job mới');
+      toast.error('Cannot generate new job code');
     }
   }, []);
 
@@ -488,30 +488,30 @@ const AddJobPage = () => {
     const newErrors: Record<string, string> = {};
 
     if (!formData.position_title?.trim()) {
-      newErrors.position_title = 'Tên job không được để trống';
+      newErrors.position_title = 'Job name cannot be empty';
     }
     if (!formData.client_id) {
-      newErrors.client_id = 'Vui lòng chọn client';
+      newErrors.client_id = 'Please select a client';
     }
     if (!formData.work_location?.trim()) {
-      newErrors.work_location = 'Địa điểm làm việc không được để trống';
+      newErrors.work_location = 'Work location cannot be empty';
     }
     if (!formData.work_address?.trim()) {
-      newErrors.work_address = 'Địa chỉ chi tiết không được để trống';
+      newErrors.work_address = 'Detailed address cannot be empty';
     }
     if (!formData.td_job_category) {
-      newErrors.td_job_category = 'Vui lòng chọn TD Category';
+      newErrors.td_job_category = 'Please select TD Category';
     }
 
     // Salary validation - at least one field
     const hasSalary = formData.min_monthly_salary || formData.max_monthly_salary || 
                       formData.min_annual_salary || formData.max_annual_salary;
     if (!hasSalary) {
-      newErrors.salary = 'Vui lòng nhập ít nhất một mức lương';
+      newErrors.salary = 'Please enter at least one salary figure';
     }
 
     if (!formData.hr_contact_id) {
-      newErrors.hr_contact_id = 'Vui lòng chọn HR Contact';
+      newErrors.hr_contact_id = 'Please select HR Contact';
     }
 
     setErrors(newErrors);
@@ -535,13 +535,13 @@ const AddJobPage = () => {
     e.preventDefault();
 
     if (!validate()) {
-      toast.error('Vui lòng điền đầy đủ thông tin bắt buộc');
+      toast.error('Please fill out all required information');
       return;
     }
 
     // Check if job_id is generated (for new jobs)
     if (!isEditMode && !jobId) {
-      toast.error('Đang tạo mã job, vui lòng chờ...');
+      toast.error('Generating job code, please wait...');
       return;
     }
 
@@ -560,7 +560,7 @@ const AddJobPage = () => {
           (internalData.original_jd_url || internalData.internal_notes);
 
         if (!hasChanges && interviewDetails.length === 0 && !hasInternalDataChanges) {
-          toast.success('Không có thay đổi nào cần lưu', { duration: 2000 });
+          toast.success('No changes to save', { duration: 2000 });
           return;
         }
 
@@ -579,7 +579,7 @@ const AddJobPage = () => {
           await saveJobInternalData(id, internalData);
         }
         
-        toast.success('Cập nhật job thành công!', { duration: 3000 });
+        toast.success('Job updated successfully!', { duration: 3000 });
       } else {
         // Include auto-generated job_id for new jobs
         savedJob = await createJobMutation.mutateAsync({ ...formData, job_id: jobId });
@@ -594,7 +594,7 @@ const AddJobPage = () => {
           await saveJobInternalData(savedJob.id, internalData);
         }
         
-        toast.success(`Tạo job ${jobId} thành công!`, { duration: 3000 });
+        toast.success(`Job ${jobId} created successfully!`, { duration: 3000 });
       }
       
       // Delay to let toast show before redirect
@@ -603,7 +603,7 @@ const AddJobPage = () => {
       }, 1000);
     } catch (error) {
       console.error('Error saving job:', error);
-      toast.error('Có lỗi xảy ra. Vui lòng thử lại.');
+      toast.error('An error occurred. Please try again.');
     }
   };
 
@@ -631,10 +631,10 @@ const AddJobPage = () => {
           </button>
           <div>
             <h1 className="text-2xl font-bold text-gray-900 dark:text-white">
-              {isEditMode ? 'Chỉnh sửa Job' : 'Thêm Job mới'}
+              {isEditMode ? 'Edit Job' : 'Add New Job'}
             </h1>
             <p className="text-sm text-gray-500 dark:text-gray-400">
-              {isEditMode ? 'Cập nhật thông tin công việc' : 'Điền thông tin để tạo job mới'}
+              {isEditMode ? 'Update job information' : 'Fill in information to create a new job'}
             </p>
           </div>
         </div>
@@ -646,7 +646,7 @@ const AddJobPage = () => {
             onClick={() => navigate(-1)}
             className="px-6 py-2 border border-gray-300 dark:border-gray-600 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors bg-white dark:bg-gray-800"
           >
-            Hủy
+            Cancel
           </button>
           <button
             type="submit"
@@ -657,12 +657,12 @@ const AddJobPage = () => {
             {isSubmitting ? (
               <>
                 <Loader2 size={18} className="animate-spin" />
-                Đang lưu...
+                Saving...
               </>
             ) : (
               <>
                 <Save size={18} />
-                {isEditMode ? 'Cập nhật' : 'Tạo Job'}
+                {isEditMode ? 'Update' : 'Create Job'}
               </>
             )}
           </button>
@@ -675,7 +675,7 @@ const AddJobPage = () => {
           <div className="lg:col-span-3 space-y-6">
             {/* Basic Info */}
             <FormCard 
-              title="Thông tin cơ bản" 
+              title="Basic Information" 
               icon={<FileText size={18} />}
               rightContent={
                 (!isEditMode && jobId) ? (
@@ -686,14 +686,14 @@ const AddJobPage = () => {
               }
             >
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <FormField label="Tên Job" required error={errors.position_title}>
+            <FormField label="Job Name" required error={errors.position_title}>
               <input
                 type="text"
                 name="position_title"
                 value={formData.position_title || ''}
                 onChange={handleChange}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-brand-500 dark:bg-gray-800"
-                placeholder="Ví dụ: Senior Frontend Developer"
+                placeholder="E.g.: Senior Frontend Developer"
               />
             </FormField>
 
@@ -719,7 +719,7 @@ const AddJobPage = () => {
                 onChange={handleChange}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-brand-500 dark:bg-gray-800"
               >
-                <option value="">Chọn...</option>
+                <option value="">Select...</option>
                 {TD_JOB_CATEGORY_OPTIONS.map((opt) => (
                   <option key={opt.value} value={opt.value}>
                     {opt.label}
@@ -735,7 +735,7 @@ const AddJobPage = () => {
                 onChange={handleChange}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-brand-500 dark:bg-gray-800"
               >
-                <option value="">Chọn rank...</option>
+                <option value="">Select rank...</option>
                 {JOB_RANK_OPTIONS.map((opt) => (
                   <option key={opt.value} value={opt.value}>
                     {opt.label}
@@ -751,7 +751,7 @@ const AddJobPage = () => {
                 onChange={handleChange}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-brand-500 dark:bg-gray-800"
               >
-                <option value="">Chọn level...</option>
+                <option value="">Select level...</option>
                 {JOB_LEVEL_OPTIONS.map((opt) => (
                   <option key={opt.value} value={opt.value}>
                     {opt.label}
@@ -760,7 +760,7 @@ const AddJobPage = () => {
               </select>
             </FormField>
 
-            <FormField label="Số lượng tuyển">
+            <FormField label="Headcount">
               <input
                 type="number"
                 name="number_of_employees"
@@ -768,18 +768,18 @@ const AddJobPage = () => {
                 onChange={handleChange}
                 min={1}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-brand-500 dark:bg-gray-800"
-                placeholder="VD: 5"
+                placeholder="E.g.: 5"
               />
             </FormField>
 
-            <FormField label="Thời gian làm việc">
+            <FormField label="Working Hours">
               <input
                 type="text"
                 name="working_hours"
                 value={formData.working_hours || ''}
                 onChange={handleChange}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-brand-500 dark:bg-gray-800"
-                placeholder="VD: Thứ 2 - Thứ 6 (8:00 - 17:00)"
+                placeholder="E.g.: Mon - Fri (8:00 - 17:00)"
               />
             </FormField>
             
@@ -797,7 +797,7 @@ const AddJobPage = () => {
                     setFormData((prev) => ({ ...prev, client_id: value, hr_contact_id: '' }));
                     if (errors.client_id) setErrors((prev) => ({ ...prev, client_id: '' }));
                   }}
-                  placeholder="Tìm và chọn client..."
+                  placeholder="Find and select client..."
                 />
               </div>
             </FormField>
@@ -810,7 +810,7 @@ const AddJobPage = () => {
                 disabled={loadingHr || !formData.client_id}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-brand-500 dark:bg-gray-800 disabled:opacity-50"
               >
-                <option value="">{loadingHr ? 'Đang tải...' : 'Chọn HR...'}</option>
+                <option value="">{loadingHr ? 'Loading...' : 'Select HR...'}</option>
                 {hrContacts.map((hr) => (
                   <option key={hr.id} value={hr.id}>
                     {hr.name}
@@ -822,9 +822,9 @@ const AddJobPage = () => {
         </FormCard>
 
         {/* Location */}
-        <FormCard title="Địa điểm" icon={<MapPin size={18} />}>
+        <FormCard title="Location" icon={<MapPin size={18} />}>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <FormField label="Địa điểm" required error={errors.work_location}>
+            <FormField label="Location" required error={errors.work_location}>
               <div data-field="work_location">
                 <SearchableSelect
                   options={VIETNAM_PROVINCES.map(p => ({ value: p.value, label: p.label }))}
@@ -833,32 +833,32 @@ const AddJobPage = () => {
                     setFormData((prev) => ({ ...prev, work_location: value }));
                     if (errors.work_location) setErrors((prev) => ({ ...prev, work_location: '' }));
                   }}
-                  placeholder="Chọn tỉnh/thành..."
+                  placeholder="Select province/city..."
                   icon={<MapPin size={16} />}
                 />
               </div>
             </FormField>
 
-            <FormField label="Địa chỉ chi tiết" required error={errors.work_address}>
+            <FormField label="Detailed Address" required error={errors.work_address}>
               <input
                 type="text"
                 name="work_address"
                 value={formData.work_address || ''}
                 onChange={handleChange}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-brand-500 dark:bg-gray-800"
-                placeholder="123 Nguyễn Văn Trỗi, Q.Phú Nhuận..."
+                placeholder="123 Nguyen Van Troi, Phu Nhuan Dist..."
               />
             </FormField>
           </div>
         </FormCard>
 
         {/* Salary */}
-        <FormCard title="Mức lương" icon={<DollarSign size={18} />}>
+        <FormCard title="Salary" icon={<DollarSign size={18} />}>
           {errors.salary && (
             <p className="text-sm text-red-600 mb-2">{errors.salary}</p>
           )}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4" data-field="salary">
-            <FormField label="Lương tháng Min" required error={errors.min_monthly_salary}>
+            <FormField label="Min Monthly Salary" required error={errors.min_monthly_salary}>
               <input
                 type="text"
                 name="min_monthly_salary"
@@ -868,7 +868,7 @@ const AddJobPage = () => {
                 placeholder="25M VND"
               />
             </FormField>
-            <FormField label="Lương tháng Max" >
+            <FormField label="Max Monthly Salary" >
               <input
                 type="text"
                 name="max_monthly_salary"
@@ -878,7 +878,7 @@ const AddJobPage = () => {
                 placeholder="40M VND"
               />
             </FormField>
-            <FormField label="Lương năm Min">
+            <FormField label="Min Annual Salary">
               <input
                 type="text"
                 name="min_annual_salary"
@@ -888,7 +888,7 @@ const AddJobPage = () => {
                 placeholder="300M VND"
               />
             </FormField>
-            <FormField label="Lương năm Max">
+            <FormField label="Max Annual Salary">
               <input
                 type="text"
                 name="max_annual_salary"
@@ -902,9 +902,9 @@ const AddJobPage = () => {
         </FormCard>
 
         {/* Requirements */}
-        <FormCard title="Yêu cầu" icon={<Users size={18} />}>
+        <FormCard title="Requirements" icon={<Users size={18} />}>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <FormField label="Tuổi Min">
+            <FormField label="Min Age">
               <input
                 type="number"
                 name="lower_age_limit"
@@ -913,7 +913,7 @@ const AddJobPage = () => {
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-brand-500 dark:bg-gray-800"
               />
             </FormField>
-            <FormField label="Tuổi Max">
+            <FormField label="Max Age">
               <input
                 type="number"
                 name="upper_age_limit"
@@ -922,7 +922,7 @@ const AddJobPage = () => {
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-brand-500 dark:bg-gray-800"
               />
             </FormField>
-            <FormField label="Trình độ Tiếng Anh">
+            <FormField label="English Level">
               <select
                 name="english_level"
                 value={formData.english_level || ''}
@@ -936,7 +936,7 @@ const AddJobPage = () => {
                 ))}
               </select>
             </FormField>
-            <FormField label="Số vòng phỏng vấn">
+            <FormField label="Interview Rounds">
               <input
                 type="number"
                 name="interview_rounds"
@@ -953,7 +953,7 @@ const AddJobPage = () => {
           {interviewDetails.length > 0 && (
             <div className="mt-4 pt-4 border-t border-gray-200 dark:border-gray-700">
               <h4 className="text-base font-semibold text-gray-800 dark:text-white mb-4">
-                Chi tiết các vòng phỏng vấn
+                Interview Round Details
               </h4>
               <div className="space-y-4">
                 {interviewDetails.map((round) => (
@@ -962,13 +962,13 @@ const AddJobPage = () => {
                     className="border border-gray-200 dark:border-gray-600 rounded-lg p-4 bg-gray-50 dark:bg-gray-800"
                   >
                     <h5 className="text-sm font-semibold text-gray-700 dark:text-gray-300 mb-3">
-                      Vòng {round.round_number}
+                      Round {round.round_number}
                     </h5>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       {/* Tên vòng phỏng vấn */}
                       <div className="md:col-span-2">
                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                          Tên vòng phỏng vấn <span className="text-red-500">*</span>
+                          Interview Round Name <span className="text-red-500">*</span>
                         </label>
                         <select
                           value={round.round_name}
@@ -977,22 +977,22 @@ const AddJobPage = () => {
                           }
                           className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-brand-500 dark:bg-gray-700 text-sm"
                         >
-                          <option value="">-- Chọn vòng phỏng vấn --</option>
-                          <option value="INTERVIEW_COMPLETED_1ST">Vòng 1 - Phỏng vấn vòng 1</option>
-                          <option value="INTERVIEW_COMPLETED_2ND">Vòng 2 - Phỏng vấn vòng 2</option>
-                          <option value="INTERVIEW_COMPLETED_FINAL">Vòng 3 - Phỏng vấn vòng 3</option>
-                          <option value="INTERVIEW_COMPLETED_4TH">Vòng 4 - Phỏng vấn vòng 4</option>
-                          <option value="TEST_COMPLETED">Test - Hoàn thành bài test</option>
+                          <option value="">-- Select interview round --</option>
+                          <option value="INTERVIEW_COMPLETED_1ST">Round 1 - 1st Round Interview</option>
+                          <option value="INTERVIEW_COMPLETED_2ND">Round 2 - 2nd Round Interview</option>
+                          <option value="INTERVIEW_COMPLETED_FINAL">Round 3 - 3rd Round Interview</option>
+                          <option value="INTERVIEW_COMPLETED_4TH">Round 4 - 4th Round Interview</option>
+                          <option value="TEST_COMPLETED">Test - Completed test</option>
                         </select>
                         <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-                          Chọn vòng phỏng vấn tương ứng để client dễ dàng cập nhật process status
+                          Select the corresponding interview round for the client to easily update the process status
                         </p>
                       </div>
 
                       {/* Người phỏng vấn */}
                       <div>
                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                          Người phỏng vấn
+                          Interviewer
                         </label>
                         <input
                           type="text"
@@ -1008,14 +1008,14 @@ const AddJobPage = () => {
                       {/* Mô tả */}
                       <div className="md:col-span-2">
                         <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                          Mô tả
+                          Description
                         </label>
                         <textarea
                           value={round.description}
                           onChange={(e) =>
                             handleInterviewDetailChange(round.round_number, 'description', e.target.value)
                           }
-                          placeholder="Mô tả chi tiết về vòng phỏng vấn..."
+                          placeholder="Detailed description of the interview round..."
                           rows={2}
                           className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-brand-500 dark:bg-gray-700 text-sm"
                         />
@@ -1032,18 +1032,18 @@ const AddJobPage = () => {
             <div className="flex items-center gap-2 mb-3">
                <Layout size={16} className="text-brand-600" />
                <h4 className="text-sm font-semibold text-gray-800 dark:text-white uppercase tracking-wider">
-                  Xem trước luồng Kanban (Stages Preview)
+                  Kanban Stages Preview
                </h4>
             </div>
             <KanbanStagesPreview interviewDetails={interviewDetails} />
             <p className="mt-2 text-xs text-gray-500 dark:text-gray-400 italic">
-               * Các cột trên sẽ hiển thị động trên màn hình Quản lý Quy trình (Kanban) tương ứng với job này.
+               * The columns above will be dynamically displayed on the Kanban board corresponding to this job.
             </p>
           </div>
         </FormCard>
 
         {/* Fees */}
-        <FormCard title="Phí & Assignment" icon={<Briefcase size={18} />}>
+        <FormCard title="Fees & Assignment" icon={<Briefcase size={18} />}>
           <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
             <FormField label="Assignment Type">
               <select
@@ -1087,10 +1087,10 @@ const AddJobPage = () => {
                 value={formData.freelance_fee || ''}
                 onChange={handleChange}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-brand-500 dark:bg-gray-800"
-                placeholder="X triệu"
+                placeholder="X million"
               />
             </FormField>
-             <FormField label="Warranty (ngày)">
+             <FormField label="Warranty (days)">
             <input
               type="number"
               name="warranty_period_days"
@@ -1104,8 +1104,8 @@ const AddJobPage = () => {
         </FormCard>
 
         {/* Internal Data - CHỈ internal staff được xem */}
-        <FormCard title="Thông tin nội bộ (Chỉ internal staff)" icon={<Calendar size={18} />}>
-          <FormField label="Link JD gốc từ client">
+        <FormCard title="Internal Information (Internal staff only)" icon={<Calendar size={18} />}>
+          <FormField label="Original JD Link from client">
             <input
               type="url"
               value={internalData.original_jd_url}
@@ -1114,20 +1114,20 @@ const AddJobPage = () => {
               placeholder="https://..."
             />
             <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-              Link JD gốc từ client (có thể chứa thông tin nhạy cảm). Freelancer/CTV không thể xem.
+              Original JD link from client (may contain sensitive information). Freelancer/CTV cannot view.
             </p>
           </FormField>
 
-          <FormField label="Ghi chú nội bộ">
+          <FormField label="Internal Notes">
             <textarea
               value={internalData.internal_notes}
               onChange={(e) => setInternalData(prev => ({ ...prev, internal_notes: e.target.value }))}
               rows={4}
               className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-brand-500 dark:bg-gray-800"
-              placeholder="Ghi chú dành cho team nội bộ: lương thực tế, yêu cầu đặc biệt, thông tin nhạy cảm..."
+              placeholder="Notes for the internal team: actual salary, special requirements, sensitive information..."
             />
             <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-              Thông vị trí này được lưu trong bảng riêng biệt, chỉ internal staff mới xem được.
+              Information for this position is stored in a separate table, visible only to internal staff.
             </p>
           </FormField>
         </FormCard>
@@ -1136,7 +1136,7 @@ const AddJobPage = () => {
           {/* RIGHT COLUMN - Job Summary (Sticky) (2/5) */}
           <div className="lg:col-span-2">
             <div className="lg:sticky lg:top-6 space-y-6">
-              <FormCard title="Mô tả công việc" icon={<FileText size={18} />}>
+              <FormCard title="Job Description" icon={<FileText size={18} />}>
                 <FormField label="Job Summary">
                   <div 
                     className="border border-gray-300 dark:border-gray-600 rounded-lg overflow-hidden cursor-text bg-white dark:bg-gray-800 focus-within:ring-2 focus-within:ring-brand-500 focus-within:border-brand-500 transition-all"

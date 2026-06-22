@@ -13,8 +13,8 @@ export default function SalesDataPage() {
   const [sales, setSales] = useState<Sale[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState('');
-  const [statusFilter, setStatusFilter] = useState('Tất cả TT');
-  const [invoiceFilter, setInvoiceFilter] = useState('Hóa đơn');
+  const [statusFilter, setStatusFilter] = useState('All Statuses');
+  const [invoiceFilter, setInvoiceFilter] = useState('Invoice');
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedSale, setSelectedSale] = useState<Sale | null>(null);
   const [modalMode, setModalMode] = useState<'create' | 'edit' | 'view'>('create');
@@ -51,7 +51,7 @@ export default function SalesDataPage() {
       setSales(data);
     } catch (error) {
       console.error('Error loading sales:', error);
-      toast.error('Không thể tải danh sách dữ liệu');
+      toast.error('Unable to load data list');
     } finally {
       setLoading(false);
     }
@@ -83,12 +83,12 @@ export default function SalesDataPage() {
       }
 
       // 3. Filter by Overall Status
-      if (statusFilter !== 'Tất cả TT') {
+      if (statusFilter !== 'All Statuses') {
         if (s.finance?.overall_status !== statusFilter) return false;
       }
 
       // 4. Filter by Invoice Status
-      if (invoiceFilter !== 'Hóa đơn') {
+      if (invoiceFilter !== 'Invoice') {
         if (s.finance?.invoice_status !== invoiceFilter) return false;
       }
 
@@ -107,15 +107,15 @@ export default function SalesDataPage() {
     return sum + Math.max(0, total - paid);
   }, 0);
 
-  const exportTitle = `Dữ liệu công nợ — ${selectedMonth !== -1 ? MONTHS_SHORT[selectedMonth] + '/' : ''}${selectedYear}`;
+  const exportTitle = `Debt Data — ${selectedMonth !== -1 ? MONTHS_SHORT[selectedMonth] + '/' : ''}${selectedYear}`;
 
   return (
     <div className="space-y-6 animate-in fade-in duration-500 p-6">
       {/* Header & Stats */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Danh sách dữ liệu công nợ</h1>
-          <p className="text-sm text-gray-500">{filteredSales.length} bản ghi</p>
+          <h1 className="text-2xl font-bold text-gray-900">Debt Data List</h1>
+          <p className="text-sm text-gray-500">{filteredSales.length} records</p>
         </div>
         
         <div className="flex flex-wrap items-center gap-3">
@@ -123,11 +123,11 @@ export default function SalesDataPage() {
           <div className="flex items-center gap-2 bg-white border border-gray-100 rounded-xl shadow-sm overflow-hidden h-[38px]">
             <div className="flex items-center gap-2 px-4 border-r border-gray-100 h-full">
               <span className="text-[10px] font-semibold text-gray-400 uppercase tracking-wider whitespace-nowrap">No VAT</span>
-              <span className="text-sm font-bold text-gray-900">{(totalNoVat / 1_000_000).toFixed(1)}M đ</span>
+              <span className="text-sm font-bold text-gray-900">{(totalNoVat / 1_000_000).toFixed(1)}M VND</span>
             </div>
             <div className="flex items-center gap-2 px-4 h-full">
-              <span className="text-[10px] font-semibold text-red-400 uppercase tracking-wider whitespace-nowrap">Cần TT</span>
-              <span className="text-sm font-bold text-red-600">{(totalDue / 1_000_000).toFixed(1)}M đ</span>
+              <span className="text-[10px] font-semibold text-red-400 uppercase tracking-wider whitespace-nowrap">Due</span>
+              <span className="text-sm font-bold text-red-600">{(totalDue / 1_000_000).toFixed(1)}M VND</span>
             </div>
           </div>
           <button 
@@ -135,7 +135,7 @@ export default function SalesDataPage() {
             className="flex items-center gap-2 px-4 py-2 bg-brand-600 text-white rounded-lg hover:bg-brand-700 transition-all font-semibold shadow-lg shadow-brand-200"
           >
             <Plus size={20} />
-            Thêm mới
+            Add new
           </button>
           <button 
             onClick={() => {
@@ -153,13 +153,13 @@ export default function SalesDataPage() {
               }));
               exportToExcel(rows, [
                 { key: 'stt', label: '#' },
-                { key: 'client', label: 'Khách hàng' },
-                { key: 'candidate', label: 'Ứng viên' },
-                { key: 'position', label: 'Vị trí' },
-                { key: 'salary', label: 'Lương offer' },
-                { key: 'rate', label: 'Hệ số Rate' },
-                { key: 'fee_no_vat', label: 'Phí No VAT' },
-                { key: 'start_date', label: 'Ngày đi làm' },
+                { key: 'client', label: 'Customer' },
+                { key: 'candidate', label: 'Candidate' },
+                { key: 'position', label: 'Position' },
+                { key: 'salary', label: 'Offer Salary' },
+                { key: 'rate', label: 'Rate' },
+                { key: 'fee_no_vat', label: 'Fee No VAT' },
+                { key: 'start_date', label: 'Start Date' },
                 { key: 'bd', label: 'BD' },
                 { key: 'hh', label: 'HH' },
               ], 'DuLieuCongNo');
@@ -173,7 +173,7 @@ export default function SalesDataPage() {
             disabled={exporting}
             className="flex items-center gap-2 px-3 py-2 border border-gray-200 rounded-lg hover:bg-gray-50 text-sm font-medium disabled:opacity-50"
           >
-            {exporting ? <Loader2 size={16} className="animate-spin" /> : <Image size={16} />} Ảnh
+            {exporting ? <Loader2 size={16} className="animate-spin" /> : <Image size={16} />} Image
           </button>
           <button 
             onClick={() => exportToPDF('sales-data-table', 'DuLieuCongNo', setExporting, exportTitle)}
@@ -191,7 +191,7 @@ export default function SalesDataPage() {
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
           <input
             type="text"
-            placeholder="Tìm khách hàng, ứng viên, vị trí..."
+            placeholder="Search customer, candidate, position..."
             className="w-full pl-10 pr-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-brand-500 outline-none transition-all"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -203,7 +203,7 @@ export default function SalesDataPage() {
             onChange={(e) => setStatusFilter(e.target.value)}
             className="px-4 py-2 border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-brand-500 bg-white text-sm"
           >
-            <option value="Tất cả TT">Tất cả TT</option>
+            <option value="All Statuses">All Statuses</option>
             <option value="Doing">Doing</option>
             <option value="Done">Done</option>
             <option value="Reject">Reject</option>
@@ -213,9 +213,9 @@ export default function SalesDataPage() {
             onChange={(e) => setInvoiceFilter(e.target.value)}
             className="px-4 py-2 border border-gray-200 rounded-lg outline-none focus:ring-2 focus:ring-brand-500 bg-white text-sm"
           >
-            <option value="Hóa đơn">Hóa đơn</option>
-            <option value="Đã xuất">Đã xuất</option>
-            <option value="Chưa xuất">Chưa xuất</option>
+            <option value="Invoice">Invoice</option>
+            <option value="Issued">Issued</option>
+            <option value="Not Issued">Not Issued</option>
           </select>
 
           <div className="h-6 w-px bg-gray-200"></div>
@@ -227,7 +227,7 @@ export default function SalesDataPage() {
               onChange={(e) => setSelectedMonth(Number(e.target.value))}
               className="px-3 py-2 border border-gray-200 rounded-lg outline-none text-sm font-medium bg-white focus:ring-2 focus:ring-brand-500"
             >
-              <option value={-1}>Cả năm</option>
+              <option value={-1}>All year</option>
               {MONTHS_SHORT.map((m, i) => (
                 <option key={i} value={i}>{m}</option>
               ))}
@@ -237,7 +237,7 @@ export default function SalesDataPage() {
               onChange={(e) => setSelectedYear(Number(e.target.value))}
               className="px-3 py-2 border border-gray-200 rounded-lg outline-none text-sm font-medium bg-white focus:ring-2 focus:ring-brand-500"
             >
-              <option value={-1}>Tất cả năm</option>
+              <option value={-1}>All years</option>
               {[2024, 2025, 2026, 2027, 2028].map(y => (
                 <option key={y} value={y}>{y}</option>
               ))}

@@ -173,20 +173,20 @@ export function useCandidateForm(initialData?: Partial<CandidateFormData>): UseC
 
   const validateForm = useCallback((): { isValid: boolean; error?: string } => {
     if (!formData.fullName.trim()) {
-      return { isValid: false, error: 'Họ và tên là bắt buộc' };
+      return { isValid: false, error: 'Full name is required' };
     }
     if (!formData.email.trim()) {
-      return { isValid: false, error: 'Email là bắt buộc' };
+      return { isValid: false, error: 'Email is required' };
     }
     // Remove strict phone validation if it blocks import
     // if (!formData.phone.trim()) {
-    //   return { isValid: false, error: 'Số điện thoại là bắt buộc' };
+    //   return { isValid: false, error: 'Phone number is required' };
     // }
     
     // Validate email format
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(formData.email)) {
-      return { isValid: false, error: 'Email không hợp lệ' };
+      return { isValid: false, error: 'Invalid email' };
     }
 
     return { isValid: true };

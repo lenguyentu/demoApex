@@ -54,8 +54,8 @@ export function ConfirmModal({
   onConfirm,
   title,
   message,
-  confirmText = 'Xác nhận',
-  cancelText = 'Hủy',
+  confirmText = 'Confirm',
+  cancelText = 'Cancel',
   variant = 'danger',
   isLoading = false,
 }: ConfirmModalProps) {
@@ -146,7 +146,7 @@ export function ConfirmModal({
                 {isLoading ? (
                   <>
                     <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                    Đang xử lý...
+                    Processing...
                   </>
                 ) : (
                   confirmText

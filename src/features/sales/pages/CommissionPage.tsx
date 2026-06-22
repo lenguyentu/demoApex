@@ -83,7 +83,7 @@ export default function CommissionPage() {
       setSnapshots(snapshotData);
       setSalaryHistory(salaryData);
     } catch {
-      toast.error('Không thể tải dữ liệu');
+      toast.error('Unable to load data');
     } finally {
       setLoading(false);
     }
@@ -219,10 +219,10 @@ export default function CommissionPage() {
           } as CommissionSetting,
         ];
       });
-      toast.success('Đã lưu cấu hình hoa hồng');
+      toast.success('Commission settings saved');
       closeDetail();
     } catch {
-      toast.error('Không thể lưu cấu hình');
+      toast.error('Unable to save settings');
     } finally {
       setSavingModal(false);
     }
@@ -254,15 +254,15 @@ export default function CommissionPage() {
     });
     exportToExcel(rows, [
       { key: 'stt', label: '#' },
-      { key: 'name', label: 'Nhân sự' },
-      { key: 'role', label: 'Vai trò' },
-      { key: 'kpi', label: 'KPI tháng' },
-      { key: 'revenue', label: 'Doanh số' },
+      { key: 'name', label: 'Personnel' },
+      { key: 'role', label: 'Role' },
+      { key: 'kpi', label: 'Monthly KPI' },
+      { key: 'revenue', label: 'Revenue' },
       { key: 'kpi_pct', label: '% KPI' },
-      { key: 'bonus_cn', label: 'Thưởng CN' },
-      { key: 'bonus_hot', label: 'Thưởng nóng' },
-      { key: 'total', label: 'Tổng nhận' },
-    ], `HoaHong_${periodLabel.replace('/', '_')}`);
+      { key: 'bonus_cn', label: 'Performance Bonus' },
+      { key: 'bonus_hot', label: 'Hot Bonus' },
+      { key: 'total', label: 'Total Received' },
+    ], `Commission_${periodLabel.replace('/', '_')}`);
   };
 
   // Modal calculations
@@ -282,7 +282,7 @@ export default function CommissionPage() {
   if (loading) return (
     <div className="p-20 flex flex-col items-center gap-4">
       <Loader2 className="w-8 h-8 text-brand-500 animate-spin" />
-      <p className="text-sm text-gray-500">Đang tải dữ liệu hoa hồng...</p>
+      <p className="text-sm text-gray-500">Loading commission data...</p>
     </div>
   );
 
@@ -291,9 +291,9 @@ export default function CommissionPage() {
       {/* ── Header ── */}
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Phiếu hoa hồng nhân sự</h1>
+          <h1 className="text-2xl font-bold text-gray-900">Personnel Commission Slip</h1>
           <p className="text-sm text-gray-500 mt-0.5">
-            Tổng nhận = Lương ước tính + Thưởng CN + Thưởng nóng
+            Total Received = Estimated Salary + Performance Bonus + Hot Bonus
           </p>
         </div>
         <div className="flex flex-wrap items-center gap-2">
@@ -304,7 +304,7 @@ export default function CommissionPage() {
             className="px-3 py-2 border border-gray-200 rounded-lg text-sm font-medium bg-white outline-none focus:ring-2 focus:ring-brand-500"
           >
             {[2024, 2025, 2026, 2027, 2028].map(y => (
-              <option key={y} value={y}>Năm {y}</option>
+              <option key={y} value={y}>Year {y}</option>
             ))}
           </select>
           {/* Period type toggle */}
@@ -312,11 +312,11 @@ export default function CommissionPage() {
             <button
               onClick={() => setPeriodType('month')}
               className={`px-3 py-2 transition-colors ${periodType === 'month' ? 'bg-brand-600 text-white' : 'bg-white text-gray-500 hover:bg-gray-50'}`}
-            >Tháng</button>
+            >Month</button>
             <button
               onClick={() => setPeriodType('quarter')}
               className={`px-3 py-2 transition-colors ${periodType === 'quarter' ? 'bg-brand-600 text-white' : 'bg-white text-gray-500 hover:bg-gray-50'}`}
-            >Quý</button>
+            >Quarter</button>
           </div>
           {/* Month / Quarter pills */}
           <div className="flex items-center gap-0.5 bg-white px-2 py-1.5 border border-gray-200 rounded-lg">
@@ -354,7 +354,7 @@ export default function CommissionPage() {
             <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={14} />
             <input
               type="text"
-              placeholder="Tìm nhân sự..."
+              placeholder="Search personnel..."
               value={searchTerm}
               onChange={e => setSearchTerm(e.target.value)}
               className="pl-8 pr-3 py-2 border border-gray-200 rounded-lg text-sm outline-none focus:ring-2 focus:ring-brand-500 w-40"
@@ -376,13 +376,13 @@ export default function CommissionPage() {
           <thead>
             <tr className="bg-gray-50 border-b border-gray-200">
               <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider w-10">#</th>
-              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Nhân sự</th>
-              <th className="px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">KPI {periodType === 'quarter' ? 'quý' : 'tháng'}</th>
-              <th className="px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">Doanh số</th>
+              <th className="px-4 py-3 text-left text-xs font-semibold text-gray-500 uppercase tracking-wider">Personnel</th>
+              <th className="px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">KPI {periodType === 'quarter' ? 'Quarter' : 'Month'}</th>
+              <th className="px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">Revenue</th>
               <th className="px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">% KPI</th>
-              <th className="px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">Thưởng CN</th>
-              <th className="px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">Thưởng nóng</th>
-              <th className="px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">Tổng nhận</th>
+              <th className="px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">Performance Bonus</th>
+              <th className="px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">Hot Bonus</th>
+              <th className="px-4 py-3 text-right text-xs font-semibold text-gray-500 uppercase tracking-wider">Total Received</th>
               <th className="px-4 py-3 text-center text-xs font-semibold text-gray-500 uppercase tracking-wider w-16">Action</th>
             </tr>
           </thead>
@@ -390,7 +390,7 @@ export default function CommissionPage() {
             {commissionData.length === 0 ? (
               <tr>
                 <td colSpan={9} className="py-16 text-center text-gray-400 text-sm">
-                  Không có dữ liệu cho {periodLabel}
+                  No data for {periodLabel}
                 </td>
               </tr>
             ) : commissionData.map((person, idx) => {
@@ -425,7 +425,7 @@ export default function CommissionPage() {
                     </div>
                   </td>
                   <td className="px-4 py-3.5 text-right text-gray-600 tabular-nums">
-                    {person.kpi > 0 ? `${fmt(person.kpi)} đ` : <span className="text-gray-300">—</span>}
+                    {person.kpi > 0 ? `${fmt(person.kpi)} VND` : <span className="text-gray-300">—</span>}
                   </td>
                   <td className="px-4 py-3.5 text-right font-semibold text-gray-900 tabular-nums">
                     {fmt(person.totalRevenue)} đ
@@ -442,10 +442,10 @@ export default function CommissionPage() {
                     )}
                   </td>
                   <td className="px-4 py-3.5 text-right text-green-600 font-semibold tabular-nums">
-                    {bonusCN > 0 ? `${fmt(bonusCN)} đ` : <span className="text-gray-300">—</span>}
+                    {bonusCN > 0 ? `${fmt(bonusCN)} VND` : <span className="text-gray-300">—</span>}
                   </td>
                   <td className="px-4 py-3.5 text-right text-orange-500 font-semibold tabular-nums">
-                    {totalHot > 0 ? `${fmt(totalHot)} đ` : <span className="text-gray-300">—</span>}
+                    {totalHot > 0 ? `${fmt(totalHot)} VND` : <span className="text-gray-300">—</span>}
                   </td>
                   <td className="px-4 py-3.5 text-right font-bold text-gray-900 tabular-nums">
                     {fmt(total)} đ
@@ -454,7 +454,7 @@ export default function CommissionPage() {
                     <button
                       onClick={() => openDetail(person)}
                       className="p-1.5 rounded-lg text-gray-400 hover:text-brand-600 hover:bg-brand-50 transition-colors"
-                      title="Xem chi tiết"
+                      title="View details"
                     >
                       <Eye size={16} />
                     </button>
@@ -483,7 +483,7 @@ export default function CommissionPage() {
                     {detailPerson.role === 'BD' ? <Briefcase size={9} /> : <Users size={9} />}
                     {detailPerson.role}
                   </span>
-                  <span className="text-white/60 text-xs">Kỳ: {periodLabel}</span>
+                  <span className="text-white/60 text-xs">Period: {periodLabel}</span>
                 </div>
               </div>
               <button onClick={closeDetail} className="p-1.5 hover:bg-white/10 rounded-lg transition-colors">
@@ -497,21 +497,21 @@ export default function CommissionPage() {
               {/* Section 1: Lương ước tính */}
               <div className="rounded-xl border border-gray-200 overflow-hidden">
                 <div className="px-4 py-2.5 bg-gray-50 border-b border-gray-200">
-                  <span className="text-xs font-bold text-gray-500 uppercase tracking-wider">Lương ước tính</span>
+                  <span className="text-xs font-bold text-gray-500 uppercase tracking-wider">Estimated Salary</span>
                 </div>
                 <div className="p-4 flex items-center gap-6">
                   <div className="flex-1">
-                    <div className="text-xs text-gray-500 mb-1">Lương cơ bản</div>
-                    <div className="font-semibold text-gray-900">{fmt(detailPerson.baseSalary)} đ</div>
+                    <div className="text-xs text-gray-500 mb-1">Base Salary</div>
+                    <div className="font-semibold text-gray-900">{fmt(detailPerson.baseSalary)} VND</div>
                   </div>
                   <div className="text-gray-300 text-lg">÷</div>
                   <div className="flex-1">
-                    <div className="text-xs text-gray-500 mb-1">Ngày công chuẩn</div>
-                    <div className="font-semibold text-gray-900">{WORK_DAYS_STANDARD} ngày</div>
+                    <div className="text-xs text-gray-500 mb-1">Standard Work Days</div>
+                    <div className="font-semibold text-gray-900">{WORK_DAYS_STANDARD} days</div>
                   </div>
                   <div className="text-gray-300 text-lg">×</div>
                   <div className="flex-1">
-                    <label className="text-xs text-gray-500 mb-1 block">Ngày công thực tế</label>
+                    <label className="text-xs text-gray-500 mb-1 block">Actual Work Days</label>
                     <input
                       type="number"
                       min={0}
@@ -524,8 +524,8 @@ export default function CommissionPage() {
                   </div>
                   <div className="text-gray-300 text-lg">=</div>
                   <div className="flex-1 text-right">
-                    <div className="text-xs text-gray-500 mb-1">Lương ước tính</div>
-                    <div className="font-bold text-brand-600">{fmt(modalCalc.estimatedSalary)} đ</div>
+                    <div className="text-xs text-gray-500 mb-1">Estimated Salary</div>
+                    <div className="font-bold text-brand-600">{fmt(modalCalc.estimatedSalary)} VND</div>
                   </div>
                 </div>
               </div>
@@ -534,10 +534,10 @@ export default function CommissionPage() {
               <div className="rounded-xl border border-gray-200 overflow-hidden">
                 <div className="px-4 py-2.5 bg-gray-50 border-b border-gray-200 flex items-center justify-between">
                   <span className="text-xs font-bold text-gray-500 uppercase tracking-wider">
-                    Danh sách case ({detailPerson.cases.length})
+                    Case List ({detailPerson.cases.length})
                   </span>
                   <div className="flex items-center gap-2">
-                    <span className="text-xs text-gray-500">Thưởng nóng mặc định:</span>
+                    <span className="text-xs text-gray-500">Default Hot Bonus:</span>
                     <div className="w-36">
                       <MoneyInput
                         value={modalDefaultHotBonus}
@@ -552,17 +552,17 @@ export default function CommissionPage() {
                   </div>
                 </div>
                 {detailPerson.cases.length === 0 ? (
-                  <div className="py-8 text-center text-gray-400 text-sm">Không có case trong kỳ này</div>
+                  <div className="py-8 text-center text-gray-400 text-sm">No cases in this period</div>
                 ) : (
                   <table className="w-full text-sm">
                     <thead>
                       <tr className="border-b border-gray-100">
                         <th className="px-4 py-2 text-left text-xs font-semibold text-gray-400">#</th>
-                        <th className="px-4 py-2 text-left text-xs font-semibold text-gray-400">Khách hàng</th>
-                        <th className="px-4 py-2 text-left text-xs font-semibold text-gray-400">Ứng viên</th>
-                        <th className="px-4 py-2 text-left text-xs font-semibold text-gray-400">Vị trí</th>
-                        <th className="px-4 py-2 text-right text-xs font-semibold text-gray-400">Doanh số</th>
-                        <th className="px-4 py-2 text-right text-xs font-semibold text-gray-400">Thưởng nóng</th>
+                        <th className="px-4 py-2 text-left text-xs font-semibold text-gray-400">Customer</th>
+                        <th className="px-4 py-2 text-left text-xs font-semibold text-gray-400">Candidate</th>
+                        <th className="px-4 py-2 text-left text-xs font-semibold text-gray-400">Position</th>
+                        <th className="px-4 py-2 text-right text-xs font-semibold text-gray-400">Revenue</th>
+                        <th className="px-4 py-2 text-right text-xs font-semibold text-gray-400">Hot Bonus</th>
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-50">
@@ -593,12 +593,12 @@ export default function CommissionPage() {
               {/* Section 3: Tỷ lệ thưởng CN */}
               <div className="rounded-xl border border-gray-200 overflow-hidden">
                 <div className="px-4 py-2.5 bg-gray-50 border-b border-gray-200">
-                  <span className="text-xs font-bold text-gray-500 uppercase tracking-wider">Tỷ lệ thưởng CN (%)</span>
+                  <span className="text-xs font-bold text-gray-500 uppercase tracking-wider">Performance Bonus Rate (%)</span>
                 </div>
                 <div className="p-4 flex items-center gap-4">
                   <div className="flex-1">
                     <p className="text-xs text-gray-500 mb-2">
-                      Thưởng CN = Vượt KPI × Tỷ lệ%
+                      Performance Bonus = Over KPI × Rate%
                     </p>
                     <input
                       type="number"
@@ -613,8 +613,8 @@ export default function CommissionPage() {
                     <span className="ml-2 text-sm text-gray-500">%</span>
                   </div>
                   <div className="text-right">
-                    <div className="text-xs text-gray-500 mb-1">Vượt KPI</div>
-                    <div className="font-semibold text-gray-700">{fmt(modalCalc.overKpi)} đ</div>
+                    <div className="text-xs text-gray-500 mb-1">Over KPI</div>
+                    <div className="font-semibold text-gray-700">{fmt(modalCalc.overKpi)} VND</div>
                   </div>
                 </div>
               </div>
@@ -622,42 +622,42 @@ export default function CommissionPage() {
               {/* Section 4: Calculation summary */}
               <div className="rounded-xl border border-gray-200 overflow-hidden">
                 <div className="px-4 py-2.5 bg-gray-50 border-b border-gray-200">
-                  <span className="text-xs font-bold text-gray-500 uppercase tracking-wider">Tổng kết</span>
+                  <span className="text-xs font-bold text-gray-500 uppercase tracking-wider">Summary</span>
                 </div>
                 <div className="divide-y divide-gray-100">
                   <div className="px-4 py-3 flex justify-between text-sm">
-                    <span className="text-gray-500">Lương cơ bản</span>
-                    <span className="font-medium text-gray-700 tabular-nums">{fmt(detailPerson.baseSalary)} đ</span>
+                    <span className="text-gray-500">Base Salary</span>
+                    <span className="font-medium text-gray-700 tabular-nums">{fmt(detailPerson.baseSalary)} VND</span>
                   </div>
                   <div className="px-4 py-3 flex justify-between text-sm">
                     <span className="text-gray-500">
-                      Lương ước tính ({detailPerson.baseSalary > 0 ? `${fmt(detailPerson.baseSalary)} ÷ ${WORK_DAYS_STANDARD} × ${modalWorkDays}` : '—'})
+                      Estimated Salary ({detailPerson.baseSalary > 0 ? `${fmt(detailPerson.baseSalary)} ÷ ${WORK_DAYS_STANDARD} × ${modalWorkDays}` : '—'})
                     </span>
-                    <span className="font-medium text-brand-600 tabular-nums">{fmt(modalCalc.estimatedSalary)} đ</span>
+                    <span className="font-medium text-brand-600 tabular-nums">{fmt(modalCalc.estimatedSalary)} VND</span>
                   </div>
                   <div className="px-4 py-3 flex justify-between text-sm">
                     <span className="text-gray-500">
-                      Vượt KPI (max({fmt(detailPerson.totalRevenue)} − {fmt(detailPerson.kpi)}, 0))
+                      Over KPI (max({fmt(detailPerson.totalRevenue)} − {fmt(detailPerson.kpi)}, 0))
                     </span>
-                    <span className="font-medium text-gray-700 tabular-nums">{fmt(modalCalc.overKpi)} đ</span>
+                    <span className="font-medium text-gray-700 tabular-nums">{fmt(modalCalc.overKpi)} VND</span>
                   </div>
                   <div className="px-4 py-3 flex justify-between text-sm">
                     <span className="text-gray-500">
-                      Thưởng CN ({fmt(modalCalc.overKpi)} × {modalRate}%)
+                      Performance Bonus ({fmt(modalCalc.overKpi)} × {modalRate}%)
                     </span>
-                    <span className="font-semibold text-green-600 tabular-nums">{fmt(modalCalc.bonusCN)} đ</span>
+                    <span className="font-semibold text-green-600 tabular-nums">{fmt(modalCalc.bonusCN)} VND</span>
                   </div>
                   <div className="px-4 py-3 flex justify-between text-sm">
                     <span className="text-gray-500">
-                      Thưởng nóng ({detailPerson.cases.length} case)
+                      Hot Bonus ({detailPerson.cases.length} case)
                     </span>
-                    <span className="font-semibold text-orange-500 tabular-nums">{fmt(modalCalc.totalHot)} đ</span>
+                    <span className="font-semibold text-orange-500 tabular-nums">{fmt(modalCalc.totalHot)} VND</span>
                   </div>
                   <div className="px-5 py-4 flex justify-between items-center bg-gray-900 text-white">
                     <span className="text-sm font-bold uppercase tracking-widest flex items-center gap-2">
-                      <TrendingUp size={14} /> Tổng nhận
+                      <TrendingUp size={14} /> Total Received
                     </span>
-                    <span className="text-xl font-black tabular-nums">{fmt(modalCalc.total)} đ</span>
+                    <span className="text-xl font-black tabular-nums">{fmt(modalCalc.total)} VND</span>
                   </div>
                 </div>
               </div>
@@ -669,7 +669,7 @@ export default function CommissionPage() {
                 onClick={closeDetail}
                 className="px-4 py-2 text-sm font-medium text-gray-600 border border-gray-200 rounded-lg hover:bg-gray-100 transition-colors"
               >
-                Đóng
+                Close
               </button>
               <button
                 onClick={saveModal}
@@ -677,7 +677,7 @@ export default function CommissionPage() {
                 className="px-5 py-2 text-sm font-bold text-white bg-brand-600 rounded-lg hover:bg-brand-700 disabled:opacity-50 flex items-center gap-2 transition-colors"
               >
                 {savingModal ? <Loader2 size={14} className="animate-spin" /> : <Save size={14} />}
-                Lưu cấu hình
+                Save Settings
               </button>
             </div>
           </div>

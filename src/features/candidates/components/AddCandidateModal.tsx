@@ -143,7 +143,7 @@ export function AddCandidateModal({
 
     try {
       if (!user?.id) {
-        throw new Error('Chưa đăng nhập. Vui lòng đăng nhập lại.');
+        throw new Error('Not logged in. Please log in again.');
       }
 
       // Upload CV
@@ -158,7 +158,7 @@ export function AddCandidateModal({
       setAnalysisError(
         error instanceof Error
           ? error.message
-          : 'Không thể phân tích CV. Vui lòng điền thủ công.'
+          : 'Unable to analyze CV. Please fill in manually.'
       );
     } finally {
       setAnalyzing(false);
@@ -171,13 +171,13 @@ export function AddCandidateModal({
     e.preventDefault();
 
     if (!cvFile) {
-      toast.error('CV là bắt buộc để tạo ứng viên');
+      toast.error('CV is required to create a candidate');
       return;
     }
 
     const validation = validateForm();
     if (!validation.isValid) {
-      toast.error(validation.error || 'Vui lòng điền đầy đủ các trường bắt buộc');
+      toast.error(validation.error || 'Please fill in all required fields');
       return;
     }
 
@@ -246,16 +246,16 @@ export function AddCandidateModal({
 
       if (formData.isPotential === 'yes') {
         setShowDiscordPreview(true);
-        toast.success('Thêm ứng viên thành công! Vui lòng review thông báo Discord.');
+        toast.success('Candidate added successfully! Please review the Discord notification.');
       } else {
         // Success but not potential - ask via ConfirmModal if want to send Discord
-        toast.success('Thêm ứng viên thành công!');
+        toast.success('Candidate added successfully!');
         setShowDiscordConfirm(true);
       }
     } catch (error) {
       console.error('Error creating candidate:', error);
       toast.error(
-        error instanceof Error ? error.message : 'Có lỗi xảy ra khi tạo ứng viên'
+        error instanceof Error ? error.message : 'An error occurred while creating the candidate'
       );
       if (embedded) {
         setEmbeddedStatus('error');
@@ -295,7 +295,7 @@ export function AddCandidateModal({
         createdCandidate.cdd_code,
         extraData
       );
-      toast.success('Đã gửi thông báo tới Discord!');
+      toast.success('Discord notification sent!');
       handleSuccessFinish();
     } catch (error) {
       console.error('Error sending Discord notification:', error);
@@ -401,7 +401,7 @@ export function AddCandidateModal({
             <CheckCircle className="text-green-500 shrink-0" size={16} />
           )}
           <h2 className={`${embedded ? 'text-sm font-medium text-gray-700 truncate' : (isCompact ? 'text-lg' : 'text-2xl') + ' font-bold tracking-tight'}`}>
-            {embedded ? (initialFile?.name || 'Thêm ứng viên') : (isCompact ? 'Thêm ứng viên' : 'Thêm Ứng viên mới')}
+            {embedded ? (initialFile?.name || 'Add Candidate') : (isCompact ? 'Add Candidate' : 'Add New Candidate')}
           </h2>
         </div>
         <button
@@ -439,7 +439,7 @@ export function AddCandidateModal({
               {analyzing && (
                 <div className="flex items-center gap-2 text-sm text-blue-600 bg-blue-50 p-2 rounded-md">
                   <Loader2 size={16} className="animate-spin" />
-                  <span>Đang phân tích CV bằng AI...</span>
+                  <span>Analyzing CV with AI...</span>
                 </div>
               )}
 
@@ -455,7 +455,7 @@ export function AddCandidateModal({
                         {cvFile.name}
                       </p>
                       <p className="text-sm text-gray-500 mt-0.5">
-                        File đã được tải lên
+                        File uploaded
                       </p>
                     </div>
                     <button
@@ -468,7 +468,7 @@ export function AddCandidateModal({
                       }}
                       className="px-4 py-2 bg-white border border-brand-500 text-brand-600 rounded-lg hover:bg-brand-50 transition-colors font-medium text-sm"
                     >
-                      Thay đổi
+                      Change
                     </button>
                   </div>
                 </div>
@@ -480,7 +480,7 @@ export function AddCandidateModal({
                   {!cvError && !cvFile && !analyzing && (
                     <div className="flex items-center gap-2 text-sm text-yellow-700 bg-yellow-50 p-2 rounded-md">
                       <TriangleAlert size={16} />
-                      <span>CV là bắt buộc để tạo ứng viên</span>
+                      <span>CV is required to create a candidate</span>
                     </div>
                   )}
                   <div
@@ -502,15 +502,15 @@ export function AddCandidateModal({
                     <div className="w-12 h-12 bg-brand-100 rounded-full mx-auto flex items-center justify-center">
                       <UploadCloud size={24} className="text-brand-500" />
                     </div>
-                    <p className="font-semibold text-gray-700">Tải CV lên đây</p>
+                    <p className="font-semibold text-gray-700">Upload CV here</p>
                     <p className="text-sm text-gray-500">
-                      Kích thước tối đa 10MB (PDF, DOC, DOCX)
+                      Max size 10MB (PDF, DOC, DOCX)
                     </p>
                     <button
                       type="button"
                       className="mt-2 px-6 py-2 border border-brand-500 text-brand-600 rounded-full hover:bg-brand-50 font-semibold transition"
                     >
-                      Chọn File
+                      Select File
                   </button>
                 </div>
               </>
@@ -522,20 +522,19 @@ export function AddCandidateModal({
             <div className="flex items-start gap-3 bg-yellow-50 text-yellow-800 p-4 rounded-lg border border-yellow-200">
               <Lightbulb size={20} className="shrink-0 mt-0.5" />
               <p className="text-sm">
-                Hệ thống sẽ tự động đọc CV và điền nhanh các trường thông tin. Vui
-                lòng kiểm tra và bổ sung các thông tin còn thiếu trước khi lưu.
+                The system will automatically read the CV and fill in the information fields. Please review and add any missing information before saving.
               </p>
             </div>
 
             {/* Personal Info */}
             <div className="p-6 border rounded-lg space-y-4 bg-white">
               <h3 className="text-xl font-bold text-gray-800 border-b pb-3">
-                Thông tin cá nhân
+                Personal Information
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Họ và tên <span className="text-red-500">*</span>
+                    Full Name <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="text"
@@ -543,13 +542,13 @@ export function AddCandidateModal({
                     value={formData.fullName}
                     onChange={handleInputChange}
                     className={inputClass}
-                    placeholder="Nguyễn Văn A"
+                    placeholder="John Doe"
                     required
                   />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Điện thoại <span className="text-red-500">*</span>
+                    Phone <span className="text-red-500">*</span>
                   </label>
                   <input
                     type="tel"
@@ -577,7 +576,7 @@ export function AddCandidateModal({
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Ngày sinh
+                    Date of Birth
                   </label>
                   <input
                     type="text"
@@ -590,7 +589,7 @@ export function AddCandidateModal({
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Giới tính
+                    Gender
                   </label>
                   <select
                     name="gender"
@@ -598,15 +597,15 @@ export function AddCandidateModal({
                     onChange={handleInputChange}
                     className={inputClass}
                   >
-                    <option value="">Chọn giới tính</option>
-                    <option value="Male">Nam</option>
-                    <option value="Female">Nữ</option>
-                    <option value="Other">Khác</option>
+                    <option value="">Select gender</option>
+                    <option value="Male">Male</option>
+                    <option value="Female">Female</option>
+                    <option value="Other">Other</option>
                   </select>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Tiềm năng
+                    Potential
                   </label>
                   <select
                     name="isPotential"
@@ -623,12 +622,12 @@ export function AddCandidateModal({
                     ))}
                   </select>
                   <p className="text-xs text-amber-600 mt-0.5">
-                    * Ứng viên chất lượng, available trong 30 ngày
+                    * High quality candidate, available within 30 days
                   </p>
                 </div>
                 <div className="md:col-span-2">
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Địa chỉ
+                    Address
                   </label>
                   <input
                     type="text"
@@ -636,7 +635,7 @@ export function AddCandidateModal({
                     value={formData.address}
                     onChange={handleInputChange}
                     className={inputClass}
-                    placeholder="123 Đường ABC, Quận 1, TP.HCM"
+                    placeholder="123 ABC Street, District 1, HCMC"
                   />
                 </div>
                 <div className="md:col-span-2">
@@ -667,7 +666,7 @@ export function AddCandidateModal({
                 </div>
                 <div className="md:col-span-2">
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Vị trí ứng tuyển
+                    Applied Position
                   </label>
                   <input
                     type="text"
@@ -684,12 +683,12 @@ export function AddCandidateModal({
             {/* Education & Skills */}
             <div className="p-6 border rounded-lg space-y-4 bg-white">
               <h3 className="text-xl font-bold text-gray-800 border-b pb-3">
-                Học vấn và Kỹ năng
+                Education & Skills
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Bằng cấp
+                    Degree
                   </label>
                   <input
                     type="text"
@@ -697,12 +696,12 @@ export function AddCandidateModal({
                     value={formData.degree}
                     onChange={handleInputChange}
                     className={inputClass}
-                    placeholder="Cử nhân"
+                    placeholder="Bachelor"
                   />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Chuyên ngành
+                    Major
                   </label>
                   <input
                     type="text"
@@ -710,12 +709,12 @@ export function AddCandidateModal({
                     value={formData.major}
                     onChange={handleInputChange}
                     className={inputClass}
-                    placeholder="Công nghệ thông tin"
+                    placeholder="Information Technology"
                   />
                 </div>
                 <div className="md:col-span-2">
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Trường học
+                    University
                   </label>
                   <input
                     type="text"
@@ -723,12 +722,12 @@ export function AddCandidateModal({
                     value={formData.university}
                     onChange={handleInputChange}
                     className={inputClass}
-                    placeholder="Đại học Bách Khoa"
+                    placeholder="University of Technology"
                   />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Niên khóa
+                    Education Period
                   </label>
                   <input
                     type="text"
@@ -754,7 +753,7 @@ export function AddCandidateModal({
                 </div>
                 <div className="md:col-span-2">
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Trình độ Tiếng Anh
+                    English Level
                   </label>
                   <select
                     name="englishLevel"
@@ -762,17 +761,17 @@ export function AddCandidateModal({
                     onChange={handleInputChange}
                     className={inputClass}
                   >
-                    <option value="">Chọn trình độ</option>
-                    <option value="Basic">Cơ bản</option>
-                    <option value="Intermediate">Trung bình</option>
-                    <option value="Advanced">Nâng cao</option>
-                    <option value="Fluent">Thành thạo</option>
-                    <option value="Native">Bản ngữ</option>
+                    <option value="">Select level</option>
+                    <option value="Basic">Basic</option>
+                    <option value="Intermediate">Intermediate</option>
+                    <option value="Advanced">Advanced</option>
+                    <option value="Fluent">Fluent</option>
+                    <option value="Native">Native</option>
                   </select>
                 </div>
                 <div className="md:col-span-2">
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Chứng chỉ
+                    Certifications
                   </label>
                   <input
                     type="text"
@@ -785,7 +784,7 @@ export function AddCandidateModal({
                 </div>
                 <div className="md:col-span-2">
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Ngoại ngữ khác
+                    Other Languages
                   </label>
                   <input
                     type="text"
@@ -796,12 +795,12 @@ export function AddCandidateModal({
                     placeholder="Japanese, Korean, Chinese"
                   />
                   <p className="text-xs text-gray-500 mt-1">
-                    Tách các ngôn ngữ bằng dấu phẩy
+                    Separate languages with commas
                   </p>
                 </div>
                 <div className="md:col-span-2">
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Kỹ năng chuyên môn
+                    Technical Skills
                   </label>
                   <textarea
                     name="technicalSkills"
@@ -812,12 +811,12 @@ export function AddCandidateModal({
                     placeholder="JavaScript, React, Node.js, Python..."
                   />
                   <p className="text-xs text-gray-500 mt-1">
-                    Tách các kỹ năng bằng dấu phẩy
+                    Separate skills with commas
                   </p>
                 </div>
                 <div className="md:col-span-2">
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Kỹ năng mềm
+                    Soft Skills
                   </label>
                   <textarea
                     name="softSkills"
@@ -825,10 +824,10 @@ export function AddCandidateModal({
                     onChange={handleInputChange}
                     rows={3}
                     className={inputClass}
-                    placeholder="Giao tiếp, Lãnh đạo, Giải quyết vấn đề..."
+                    placeholder="Communication, Leadership, Problem Solving..."
                   />
                   <p className="text-xs text-gray-500 mt-1">
-                    Tách các kỹ năng bằng dấu phẩy
+                    Separate skills with commas
                   </p>
                 </div>
               </div>
@@ -837,12 +836,12 @@ export function AddCandidateModal({
             {/* Professional Info */}
             <div className="p-6 border rounded-lg space-y-4 bg-white">
               <h3 className="text-xl font-bold text-gray-800 border-b pb-3">
-                Thông tin nghề nghiệp
+                Professional Information
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Trạng thái việc làm
+                    Employment Status
                   </label>
                   <input
                     type="text"
@@ -850,12 +849,12 @@ export function AddCandidateModal({
                     value={formData.currentEmploymentStatus}
                     onChange={handleInputChange}
                     className={inputClass}
-                    placeholder="Đang làm việc, Đang tìm việc..."
+                    placeholder="Employed, Looking for a job..."
                   />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                     Lĩnh vực kinh nghiệm
+                     Experienced Industry
                   </label>
                   <input
                     type="text"
@@ -868,7 +867,7 @@ export function AddCandidateModal({
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Công việc kinh nghiệm
+                    Experienced Job
                   </label>
                   <input
                     type="text"
@@ -881,7 +880,7 @@ export function AddCandidateModal({
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Loại hình làm việc mong muốn
+                    Desired Employment Type
                   </label>
                   <select
                     name="employmentType"
@@ -889,18 +888,18 @@ export function AddCandidateModal({
                     onChange={handleInputChange}
                     className={inputClass}
                   >
-                    <option value="">Chọn loại hình</option>
-                    <option value="Full_Time_Permanent">Toàn thời gian</option>
-                    <option value="Part_Time_Permanent">Bán thời gian</option>
-                    <option value="Contract">Hợp đồng</option>
+                    <option value="">Select type</option>
+                    <option value="Full_Time_Permanent">Full-time</option>
+                    <option value="Part_Time_Permanent">Part-time</option>
+                    <option value="Contract">Contract</option>
                     <option value="Freelance">Freelance</option>
-                    <option value="Internship">Thực tập</option>
-                    <option value="Temporary">Tạm thời</option>
+                    <option value="Internship">Internship</option>
+                    <option value="Temporary">Temporary</option>
                   </select>
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Thời gian báo trước (Notice Period)
+                    Notice Period
                   </label>
                   <input
                     type="text"
@@ -908,12 +907,12 @@ export function AddCandidateModal({
                     value={formData.noticePeriod}
                     onChange={handleInputChange}
                     className={inputClass}
-                    placeholder="1 tháng, 2 tuần..."
+                    placeholder="1 month, 2 weeks..."
                   />
                 </div>
                 <div>
                    <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Ngày có thể bắt đầu làm việc
+                    Available Start Date
                   </label>
                   <input
                     type="text"
@@ -930,7 +929,7 @@ export function AddCandidateModal({
             {/* Professional History */}
             <div className="p-6 border rounded-lg space-y-4 bg-white">
               <h3 className="text-xl font-bold text-gray-800 border-b pb-3">
-                Lịch sử nghề nghiệp
+                Professional History
               </h3>
               
               {/* List */}
@@ -946,19 +945,19 @@ export function AddCandidateModal({
                     </button>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
-                        <p className="text-xs text-gray-500">Công ty</p>
+                        <p className="text-xs text-gray-500">Company</p>
                         <p className="font-semibold text-gray-800">{item.companyName || '---'}</p>
                       </div>
                       <div>
-                        <p className="text-xs text-gray-500">Vị trí</p>
+                        <p className="text-xs text-gray-500">Position</p>
                         <p className="font-semibold text-gray-800">{item.position || '---'}</p>
                       </div>
                       <div>
-                        <p className="text-xs text-gray-500">Thời gian</p>
+                        <p className="text-xs text-gray-500">Duration</p>
                         <p className="text-sm text-gray-700">{item.duration || '---'}</p>
                       </div>
                       <div className="md:col-span-2">
-                        <p className="text-xs text-gray-500">Mô tả</p>
+                        <p className="text-xs text-gray-500">Description</p>
                         <p className="text-sm text-gray-700 whitespace-pre-wrap">{item.description || '---'}</p>
                       </div>
                     </div>
@@ -966,19 +965,19 @@ export function AddCandidateModal({
                 ))}
 
                 {formData.professionalHistory.length === 0 && (
-                  <p className="text-sm text-gray-500 italic text-center py-4">Chưa có lịch sử làm việc</p>
+                  <p className="text-sm text-gray-500 italic text-center py-4">No professional history</p>
                 )}
               </div>
 
               {/* Add New Form */}
               <div className="border-t pt-4 mt-4">
-                <h4 className="text-sm font-semibold text-gray-700 mb-3 uppercase tracking-wider">Thêm công việc mới</h4>
+                <h4 className="text-sm font-semibold text-gray-700 mb-3 uppercase tracking-wider">Add New Job</h4>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 bg-gray-50 p-4 rounded-lg">
                   <div className="md:col-span-1">
                     <input
                       type="text"
                       className={inputClass}
-                      placeholder="Tên công ty"
+                      placeholder="Company Name"
                       value={newHistoryItem.companyName || ''}
                       onChange={(e) => setNewHistoryItem(prev => ({ ...prev, companyName: e.target.value }))}
                     />
@@ -987,7 +986,7 @@ export function AddCandidateModal({
                     <input
                       type="text"
                       className={inputClass}
-                      placeholder="Vị trí / Chức vụ"
+                      placeholder="Position / Title"
                       value={newHistoryItem.position || ''}
                       onChange={(e) => setNewHistoryItem(prev => ({ ...prev, position: e.target.value }))}
                     />
@@ -996,7 +995,7 @@ export function AddCandidateModal({
                     <input
                       type="text"
                       className={inputClass}
-                      placeholder="Thời gian (VD: Jan 2020 - Current)"
+                      placeholder="Duration (e.g., Jan 2020 - Current)"
                       value={newHistoryItem.duration || ''}
                       onChange={(e) => setNewHistoryItem(prev => ({ ...prev, duration: e.target.value }))}
                     />
@@ -1005,7 +1004,7 @@ export function AddCandidateModal({
                     <textarea
                       rows={2}
                       className={inputClass}
-                      placeholder="Mô tả công việc..."
+                      placeholder="Job Description..."
                       value={newHistoryItem.description || ''}
                       onChange={(e) => setNewHistoryItem(prev => ({ ...prev, description: e.target.value }))}
                     />
@@ -1020,7 +1019,7 @@ export function AddCandidateModal({
                       }}
                       className="flex items-center gap-2 px-4 py-2 bg-white border border-brand-500 text-brand-600 rounded-md hover:bg-brand-50 transition text-sm font-medium disabled:opacity-50 disabled:cursor-not-allowed"
                     >
-                      <Plus size={16} /> Thêm vào danh sách
+                      <Plus size={16} /> Add to List
                     </button>
                   </div>
                 </div>
@@ -1030,12 +1029,12 @@ export function AddCandidateModal({
             {/* Evaluation / Brief */}
             <div className="p-6 border rounded-lg space-y-4 bg-white">
               <h3 className="text-xl font-bold text-gray-800 border-b pb-3">
-                Đánh giá / Brief (Blind CV)
+                Evaluation / Brief (Blind CV)
               </h3>
               <div className="space-y-4">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Tóm tắt hồ sơ (Professional Summary)
+                    Professional Summary
                   </label>
                   <div className="relative">
                     <textarea
@@ -1044,14 +1043,14 @@ export function AddCandidateModal({
                       onChange={handleInputChange}
                       rows={10}
                       className={inputClass}
-                      placeholder="Nhập nội dung Blind CV hoặc tóm tắt đánh giá ứng viên..."
+                      placeholder="Enter Blind CV content or candidate evaluation summary..."
                     />
                     <div className="absolute top-2 right-2 text-xs text-gray-400 pointer-events-none">
                       Markdown Supported
                     </div>
                   </div>
                   <p className="text-xs text-gray-500 mt-1">
-                    Nội dung này sẽ được sử dụng để gửi cho khách hàng (Blind CV). AI đã tự động tạo brief, bạn có thể chỉnh sửa lại.
+                    This content will be used to send to clients (Blind CV). AI has automatically generated a brief, you can edit it.
                   </p>
                 </div>
               </div>
@@ -1060,12 +1059,12 @@ export function AddCandidateModal({
             {/* Salary & Additional Info */}
             <div className="p-6 border rounded-lg space-y-4 bg-white">
               <h3 className="text-xl font-bold text-gray-800 border-b pb-3">
-                Lương và Thông tin bổ sung
+                Salary and Additional Information
               </h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Lương hiện tại
+                    Current Salary
                   </label>
                   <div className="relative">
                     <input
@@ -1083,7 +1082,7 @@ export function AddCandidateModal({
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Lương mong muốn
+                    Expected Salary
                   </label>
                   <div className="relative">
                     <input
@@ -1101,7 +1100,7 @@ export function AddCandidateModal({
                 </div>
                 <div className="md:col-span-2">
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Ngày có thể đi làm
+                    Available Date
                   </label>
                   <input
                     type="text"
@@ -1114,7 +1113,7 @@ export function AddCandidateModal({
                 </div>
                 <div className="md:col-span-2">
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Điểm mạnh
+                    Strengths
                   </label>
                   <textarea
                     name="strengths"
@@ -1122,12 +1121,12 @@ export function AddCandidateModal({
                     onChange={handleInputChange}
                     rows={4}
                     className={inputClass}
-                    placeholder="Điểm mạnh và khả năng nổi bật của ứng viên..."
+                    placeholder="Candidate's strengths and outstanding abilities..."
                   />
                 </div>
                 <div className="md:col-span-2">
                   <label className="block text-sm font-medium text-gray-700 mb-1">
-                    Mục tiêu nghề nghiệp
+                    Career Goals
                   </label>
                   <textarea
                     name="careerGoals"
@@ -1135,7 +1134,7 @@ export function AddCandidateModal({
                     onChange={handleInputChange}
                     rows={4}
                     className={inputClass}
-                    placeholder="Định hướng nghề nghiệp của ứng viên..."
+                    placeholder="Candidate's career orientation..."
                   />
                 </div>
               </div>
@@ -1149,7 +1148,7 @@ export function AddCandidateModal({
               onClick={handleClose}
               className="px-6 py-2 border rounded-md text-gray-700 hover:bg-gray-100 font-semibold transition"
             >
-              Hủy
+              Cancel
             </button>
             <button
               type="submit"
@@ -1157,10 +1156,10 @@ export function AddCandidateModal({
               className="px-6 py-2 bg-brand-500 text-white rounded-md hover:bg-brand-600 font-semibold transition disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {loading
-                ? 'Đang tạo...'
+                ? 'Creating...'
                 : analyzing
-                ? 'Đang phân tích CV...'
-                : 'Thêm Ứng viên'}
+                ? 'Analyzing CV...'
+                : 'Add Candidate'}
             </button>
           </footer>
         </form>
@@ -1185,10 +1184,10 @@ export function AddCandidateModal({
           setShowDiscordConfirm(false);
           setShowDiscordPreview(true);
         }}
-        title="Gửi thông báo Discord?"
-        message="Ứng viên đã được thêm thành công. Bạn có muốn gửi thông báo lên Discord không?"
-        confirmText="Gửi Discord"
-        cancelText="Bỏ qua"
+        title="Send Discord Notification?"
+        message="Candidate has been added successfully. Do you want to send a notification to Discord?"
+        confirmText="Send to Discord"
+        cancelText="Skip"
         variant="info"
       />
     </>

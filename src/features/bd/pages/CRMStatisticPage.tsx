@@ -86,7 +86,7 @@ const BDReportCard = ({ label, count, color, textColor = 'text-gray-800', client
                     <div className="absolute top-0 right-full w-4 h-full bg-transparent" />
 
                     <div className="flex items-center justify-between mb-3 border-b border-rose-200/50 pb-2">
-                        <span className="font-black text-rose-800 text-xs tracking-tight uppercase">Chi tiết khách hàng</span>
+                        <span className="font-black text-rose-800 text-xs tracking-tight uppercase">Customer Details</span>
                         <span className="text-[10px] font-black text-white bg-rose-500 px-2 py-0.5 rounded-lg shadow-sm">
                             {clients.length}
                         </span>
@@ -107,7 +107,7 @@ const BDReportCard = ({ label, count, color, textColor = 'text-gray-800', client
                             onClick={() => window.open('/bd/customers', '_self')}
                             className="w-full mt-3 py-2 bg-rose-500 hover:bg-rose-600 text-white text-[10px] font-black uppercase tracking-widest rounded-xl transition-all shadow-lg shadow-rose-200 active:scale-95"
                         >
-                            Xem tất cả ({clients.length - MAX_VISIBLE} khách khác)
+                            View all ({clients.length - MAX_VISIBLE} other customers)
                         </button>
                     )}
                 </div>
@@ -243,7 +243,7 @@ export const CRMStatisticPage = () => {
 
     return (
         <div className="min-h-screen bg-gray-50 pb-10">
-            <PageMeta title="CRM Statistic | Apex Internal" description="Báo cáo tổng quan và phân tích chiến lược BD" />
+            <PageMeta title="CRM Statistic | Apex Internal" description="Overview report and BD strategy analysis" />
 
             <div className="w-full px-6 py-4">
                 {/* Header */}
@@ -253,7 +253,7 @@ export const CRMStatisticPage = () => {
                             <BarChart2 className="w-8 h-8 text-rose-500 bg-rose-100 p-1.5 rounded-lg" />
                             CRM Statistic
                         </h1>
-                        <p className="text-gray-500 text-sm mt-1 ml-10">Báo cáo tổng quan và phân tích chiến lược BD</p>
+                        <p className="text-gray-500 text-sm mt-1 ml-10">Overview report and BD strategy analysis</p>
                     </div>
 
                     <div className="flex items-center gap-3 bg-white p-1.5 rounded-lg shadow-sm border border-gray-200">
@@ -262,13 +262,13 @@ export const CRMStatisticPage = () => {
                                 onClick={() => setViewMode('personal')}
                                 className={`px-4 py-1.5 text-sm font-medium rounded-md transition-all ${viewMode === 'personal' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
                             >
-                                Cá nhân
+                                Personal
                             </button>
                             <button
                                 onClick={() => setViewMode('team')}
                                 className={`px-4 py-1.5 text-sm font-medium rounded-md transition-all ${viewMode === 'team' ? 'bg-white text-gray-900 shadow-sm' : 'text-gray-500 hover:text-gray-700'}`}
                             >
-                                Toàn đội
+                                Team
                             </button>
                         </div>
                         <div className="h-6 w-px bg-gray-300 mx-1"></div>
@@ -277,7 +277,7 @@ export const CRMStatisticPage = () => {
                             className="flex items-center gap-2 px-3 py-1.5 text-sm font-medium text-gray-600 hover:bg-gray-50 rounded-md transition-colors"
                         >
                             <ArrowLeft className="w-4 h-4" />
-                            Danh sách
+                            List
                         </button>
                     </div>
                 </div>
@@ -319,7 +319,7 @@ export const CRMStatisticPage = () => {
 
                     {/* Statistics by Status */}
                     <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 h-full">
-                        <h2 className="text-lg font-bold text-gray-800 mb-6">Thống kê theo Status</h2>
+                        <h2 className="text-lg font-bold text-gray-800 mb-6">Statistics by Status</h2>
                         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
                             {isLoading ? (
                                 Array(12).fill(0).map((_, i) => (
@@ -353,8 +353,8 @@ export const CRMStatisticPage = () => {
                     <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
                         <div className="mb-6 flex items-center justify-between">
                             <div>
-                                <h2 className="text-lg font-bold text-gray-800">Thống kê theo Nguồn Job</h2>
-                                <p className="text-sm text-gray-500">Các kênh tiếp cận khách hàng hiệu quả nhất</p>
+                                <h2 className="text-lg font-bold text-gray-800">Statistics by Job Source</h2>
+                                <p className="text-sm text-gray-500">Most effective customer acquisition channels</p>
                             </div>
                             <PieChartIcon className="w-5 h-5 text-indigo-400" />
                         </div>
@@ -362,7 +362,7 @@ export const CRMStatisticPage = () => {
                             <Skeleton className="h-[300px] w-full" />
                         ) : sources.length === 0 ? (
                             <div className="h-[300px] flex items-center justify-center text-gray-400 italic text-sm">
-                                Chưa có dữ liệu nguồn
+                                No source data yet
                             </div>
                         ) : (
                             <JobSourceChart data={sources} />
@@ -372,8 +372,8 @@ export const CRMStatisticPage = () => {
                     {/* Deal Ratio by Domain */}
                     <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100">
                         <div className="mb-6">
-                            <h2 className="text-lg font-bold text-gray-800">Tỉ lệ Deal theo Domain</h2>
-                            <p className="text-sm text-gray-500">Domain nào có khả năng thành công cao nhất</p>
+                            <h2 className="text-lg font-bold text-gray-800">Deal Ratio by Domain</h2>
+                            <p className="text-sm text-gray-500">Domains with the highest success rate</p>
                         </div>
                         {isLoading ? (
                             <Skeleton className="h-[300px] w-full" />
@@ -388,8 +388,8 @@ export const CRMStatisticPage = () => {
                     {/* Sales Cycle (Span 1) */}
                     <div className="bg-white rounded-2xl p-6 shadow-sm border border-gray-100 flex flex-col h-full">
                         <div className="mb-6">
-                            <h2 className="text-lg font-bold text-gray-800">Chu kỳ Sales</h2>
-                            <p className="text-sm text-gray-500 font-medium line-clamp-1">Thời gian từ tiếp cận đến ký hợp đồng</p>
+                            <h2 className="text-lg font-bold text-gray-800">Sales Cycle</h2>
+                            <p className="text-sm text-gray-500 font-medium line-clamp-1">Time from approach to signing</p>
                         </div>
 
                         <div className="flex flex-col items-center gap-6">
@@ -414,7 +414,7 @@ export const CRMStatisticPage = () => {
                                             </div>
                                             <div>
                                                 <h3 className="text-xl font-bold text-gray-800 leading-none">{stats?.avgSalesCycle || 0}</h3>
-                                                <p className="text-[10px] text-gray-500 font-medium uppercase tracking-wider mt-1">ngày trung bình</p>
+                                                <p className="text-[10px] text-gray-500 font-medium uppercase tracking-wider mt-1">avg days</p>
                                             </div>
                                         </div>
                                         <div className="flex items-center gap-3 p-3 bg-emerald-50 rounded-xl">
@@ -423,7 +423,7 @@ export const CRMStatisticPage = () => {
                                             </div>
                                             <div>
                                                 <h3 className="text-xl font-bold text-gray-800 leading-none">{totalSigned}</h3>
-                                                <p className="text-[10px] text-gray-500 font-medium uppercase tracking-wider mt-1">deal thành công</p>
+                                                <p className="text-[10px] text-gray-500 font-medium uppercase tracking-wider mt-1">successful deals</p>
                                             </div>
                                         </div>
                                     </>
@@ -438,12 +438,12 @@ export const CRMStatisticPage = () => {
                             <div>
                                 <h2 className="text-lg font-bold text-gray-800 flex items-center gap-2">
                                     <Building className="w-5 h-5 text-rose-500" />
-                                    Khách hàng Thân thiết
+                                    Loyal Customers
                                 </h2>
-                                <p className="text-sm text-gray-500">Đối tác có số lượng hợp đồng ký kết cao nhất</p>
+                                <p className="text-sm text-gray-500">Partners with the highest number of signed contracts</p>
                             </div>
                             <div className="bg-green-50 px-3 py-1 rounded-full text-green-700 font-bold text-xs border border-green-100">
-                                {totalSigned} deals đã ký
+                                {totalSigned} signed deals
                             </div>
                         </div>
 
@@ -454,7 +454,7 @@ export const CRMStatisticPage = () => {
                                 ))
                             ) : customers.length === 0 ? (
                                 <div className="col-span-2 h-40 flex items-center justify-center text-gray-400 italic text-sm">
-                                    Chưa có dữ liệu khách hàng thân thiết
+                                    No loyal customer data yet
                                 </div>
                             ) : (
                                 customers.map((cust: any, idx: number) => (

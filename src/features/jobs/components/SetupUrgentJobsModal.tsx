@@ -24,7 +24,7 @@ export const SetupUrgentJobsModal: React.FC<SetupUrgentJobsModalProps> = ({
   const { data: currentTitle, isLoading: titleLoading } = useUrgentJobTitle();
   const updateMutation = useUpdateUrgentJobsSetupMutation();
 
-  const [title, setTitle] = useState('HOT JOB TUẦN NÀY - PROCESS NHANH');
+  const [title, setTitle] = useState('HOT JOB THIS WEEK - FAST PROCESS');
   const [selectedConfigs, setSelectedConfigs] = useState<SelectedJobConfig[]>([]);
   const [search, setSearch] = useState('');
   const [debouncedSearch, setDebouncedSearch] = useState('');
@@ -49,7 +49,7 @@ export const SetupUrgentJobsModal: React.FC<SetupUrgentJobsModalProps> = ({
       const initialConfigs = currentUrgentJobs.map(job => ({
         id: job.id,
         job,
-        urgent_info: job.urgent_info || { tag1: '🔥 HOT', tag2: 'PROCESS 24H', note: 'Feedback CV trong 24h' }
+        urgent_info: job.urgent_info || { tag1: '🔥 HOT', tag2: 'PROCESS 24H', note: 'CV feedback in 24h' }
       }));
       setSelectedConfigs(initialConfigs.slice(0, 5)); // Max 5
     }
@@ -58,11 +58,11 @@ export const SetupUrgentJobsModal: React.FC<SetupUrgentJobsModalProps> = ({
 
   const handleAddJob = (job: Job) => {
     if (selectedConfigs.length >= 5) {
-      toast.error('Chỉ được chọn tối đa 5 Job Gấp');
+      toast.error('Maximum 5 Urgent Jobs allowed');
       return;
     }
     if (selectedConfigs.find(c => c.id === job.id)) {
-      toast.error('Job này đã được chọn');
+      toast.error('This Job has already been selected');
       return;
     }
     setSelectedConfigs([
@@ -70,7 +70,7 @@ export const SetupUrgentJobsModal: React.FC<SetupUrgentJobsModalProps> = ({
       {
         id: job.id,
         job,
-        urgent_info: { tag1: '🔥 HOT', tag2: 'PROCESS 24H', note: 'Feedback CV trong 24h' }
+        urgent_info: { tag1: '🔥 HOT', tag2: 'PROCESS 24H', note: 'CV feedback in 24h' }
       }
     ]);
     setSearch('');
@@ -94,7 +94,7 @@ export const SetupUrgentJobsModal: React.FC<SetupUrgentJobsModalProps> = ({
 
   const handleSubmit = async () => {
     if (!title.trim()) {
-      toast.error('Vui lòng nhập tiêu đề khu vực');
+      toast.error('Please enter a section title');
       return;
     }
 
@@ -106,11 +106,11 @@ export const SetupUrgentJobsModal: React.FC<SetupUrgentJobsModalProps> = ({
           urgent_info: c.urgent_info
         }))
       });
-      toast.success('Lưu cài đặt Job Gấp thành công');
+      toast.success('Urgent Job setup saved successfully');
       onClose();
     } catch (error) {
       console.error('Error saving urgent setup:', error);
-      toast.error('Có lỗi xảy ra khi lưu cài đặt');
+      toast.error('An error occurred while saving setup');
     }
   };
 
@@ -138,7 +138,7 @@ export const SetupUrgentJobsModal: React.FC<SetupUrgentJobsModalProps> = ({
               <Flame size={20} className="text-orange-500 fill-orange-500" />
             </div>
             <h2 className="text-lg font-bold text-gray-900 dark:text-white">
-              Cài đặt Top 5 Job Gấp
+              Setup Top 5 Urgent Jobs
             </h2>
           </div>
           <button
@@ -153,7 +153,7 @@ export const SetupUrgentJobsModal: React.FC<SetupUrgentJobsModalProps> = ({
           {(urgentLoading || titleLoading) ? (
             <div className="flex flex-col items-center justify-center h-64 text-gray-500">
               <Loader2 className="w-8 h-8 animate-spin text-brand-500 mb-4" />
-              <p>Đang tải dữ liệu...</p>
+              <p>Loading data...</p>
             </div>
           ) : (
             <div className="flex flex-col lg:flex-row gap-6">
@@ -164,14 +164,14 @@ export const SetupUrgentJobsModal: React.FC<SetupUrgentJobsModalProps> = ({
                 <div className="bg-white dark:bg-gray-800 rounded-xl p-4 md:p-5 shadow-sm border border-gray-200 dark:border-gray-700">
                   <h3 className="text-sm font-semibold text-gray-800 dark:text-gray-200 mb-3 flex items-center gap-2">
                     <span className="flex items-center justify-center w-6 h-6 rounded-full bg-brand-100 text-brand-600 text-xs">1</span>
-                    Tiêu đề Khu vực (Hiển thị to nhất)
+                    Section Title (Largest display)
                   </h3>
                   <input
                     type="text"
                     value={title}
                     onChange={(e) => setTitle(e.target.value)}
                     className="w-full px-3 py-2 text-lg font-bold border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-brand-500 dark:bg-gray-700 dark:text-white"
-                    placeholder="VD: HOT JOB TUẦN NÀY - PROCESS NHANH"
+                    placeholder="Ex: HOT JOB THIS WEEK - FAST PROCESS"
                   />
                 </div>
 
@@ -180,7 +180,7 @@ export const SetupUrgentJobsModal: React.FC<SetupUrgentJobsModalProps> = ({
                   <div className="flex items-center justify-between mb-4">
                     <h3 className="text-sm font-semibold text-gray-800 dark:text-gray-200 flex items-center gap-2">
                       <span className="flex items-center justify-center w-6 h-6 rounded-full bg-brand-100 text-brand-600 text-xs">2</span>
-                      Danh sách Job Gấp ({selectedConfigs.length}/5)
+                      Urgent Job List ({selectedConfigs.length}/5)
                     </h3>
                   </div>
 
@@ -193,7 +193,7 @@ export const SetupUrgentJobsModal: React.FC<SetupUrgentJobsModalProps> = ({
                           type="text"
                           value={search}
                           onChange={(e) => setSearch(e.target.value)}
-                          placeholder="Tìm job để thêm vào danh sách gấp (Gõ tên, mã job, công ty)..."
+                          placeholder="Search for a job to add to the urgent list (Type name, job code, company)..."
                           className="w-full pl-10 pr-4 py-2.5 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-brand-500 bg-white dark:bg-gray-700 text-gray-900 dark:text-white"
                         />
                       </div>
@@ -204,12 +204,12 @@ export const SetupUrgentJobsModal: React.FC<SetupUrgentJobsModalProps> = ({
                           {searchLoading && (
                             <div className="p-3 text-sm text-gray-500 text-center flex items-center justify-center gap-2">
                               <Loader2 size={14} className="animate-spin" />
-                              Đang tìm kiếm...
+                              Searching...
                             </div>
                           )}
                           {!searchLoading && searchResults.length === 0 && (
                             <div className="p-4 text-center text-gray-500 text-sm">
-                              Không tìm thấy Job (chỉ hỗ trợ job Open và loại Freelancer/CTV)
+                              No Jobs found (only Open jobs and Freelancer/CTV types are supported)
                             </div>
                           )}
                           {!searchLoading && searchResults.map(job => (
@@ -233,7 +233,7 @@ export const SetupUrgentJobsModal: React.FC<SetupUrgentJobsModalProps> = ({
                       )}
                       {search.trim() && searchResults.length === 0 && (
                         <div className="absolute top-full left-0 right-0 mt-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg shadow-lg p-4 text-center text-gray-500 text-sm">
-                          Không tìm thấy Job (chỉ hỗ trợ job Open và loại Freelancer/CTV)
+                          No Jobs found (only Open jobs and Freelancer/CTV types are supported)
                         </div>
                       )}
                     </div>
@@ -243,7 +243,7 @@ export const SetupUrgentJobsModal: React.FC<SetupUrgentJobsModalProps> = ({
                   <div className="space-y-4">
                     {selectedConfigs.length === 0 ? (
                       <div className="p-8 border-2 border-dashed border-gray-200 dark:border-gray-700 rounded-xl text-center text-gray-500">
-                        Chưa có Job nào được chọn. Vui lòng tìm kiếm và thêm ở trên.
+                        No Jobs selected. Please search and add above.
                       </div>
                     ) : (
                       selectedConfigs.map((config, index) => (
@@ -252,7 +252,7 @@ export const SetupUrgentJobsModal: React.FC<SetupUrgentJobsModalProps> = ({
                           <button
                             onClick={() => handleRemoveJob(config.id)}
                             className="absolute top-4 right-4 p-1.5 text-gray-400 hover:text-red-500 hover:bg-red-50 dark:hover:bg-red-900/20 rounded-md transition-colors"
-                            title="Loại khỏi danh sách"
+                            title="Remove from list"
                           >
                             <Trash2 size={16} />
                           </button>
@@ -266,14 +266,14 @@ export const SetupUrgentJobsModal: React.FC<SetupUrgentJobsModalProps> = ({
                                 {config.job.position_title}
                               </h4>
                               <p className="text-xs text-gray-500 truncate mt-1">
-                                {config.job.clients?.client_name} • {(config.job.min_monthly_salary || config.job.max_monthly_salary) ? `${config.job.min_monthly_salary} - ${config.job.max_monthly_salary}` : 'Thỏa thuận'}
+                                {config.job.clients?.client_name} • {(config.job.min_monthly_salary || config.job.max_monthly_salary) ? `${config.job.min_monthly_salary} - ${config.job.max_monthly_salary}` : 'Negotiable'}
                               </p>
                             </div>
                           </div>
 
                           <div className="grid grid-cols-2 gap-3 pl-9">
                             <div>
-                              <label className="block text-[11px] font-medium text-gray-500 mb-1">Tag 1 (VD: 🔥 HOT)</label>
+                              <label className="block text-[11px] font-medium text-gray-500 mb-1">Tag 1 (Ex: 🔥 HOT)</label>
                               <input
                                 type="text"
                                 value={config.urgent_info.tag1 || ''}
@@ -282,7 +282,7 @@ export const SetupUrgentJobsModal: React.FC<SetupUrgentJobsModalProps> = ({
                               />
                             </div>
                             <div>
-                              <label className="block text-[11px] font-medium text-gray-500 mb-1">Tag 2 (VD: PROCESS 24H)</label>
+                              <label className="block text-[11px] font-medium text-gray-500 mb-1">Tag 2 (Ex: PROCESS 24H)</label>
                               <input
                                 type="text"
                                 value={config.urgent_info.tag2 || ''}
@@ -291,7 +291,7 @@ export const SetupUrgentJobsModal: React.FC<SetupUrgentJobsModalProps> = ({
                               />
                             </div>
                             <div className="col-span-2">
-                              <label className="block text-[11px] font-medium text-gray-500 mb-1">Ghi chú (VD: Feedback CV trong 24h)</label>
+                              <label className="block text-[11px] font-medium text-gray-500 mb-1">Note (Ex: CV feedback in 24h)</label>
                               <input
                                 type="text"
                                 value={config.urgent_info.note || ''}
@@ -311,7 +311,7 @@ export const SetupUrgentJobsModal: React.FC<SetupUrgentJobsModalProps> = ({
               <div className="w-full lg:w-[380px] shrink-0">
                 <div className="sticky top-0 bg-white dark:bg-gray-800 rounded-xl p-4 md:p-5 shadow-sm border border-gray-200 dark:border-gray-700">
                   <h3 className="text-sm font-semibold text-gray-800 dark:text-gray-200 mb-4 flex items-center gap-2">
-                    <Eye size={16} /> Xem trước giao diện Freelancer
+                    <Eye size={16} /> Freelancer UI Preview
                   </h3>
                   
                   <div className="p-4 bg-gradient-to-r from-pink-50/80 to-white dark:from-pink-900/10 dark:to-gray-800 rounded-xl border border-pink-100/50 dark:border-pink-900/30 relative overflow-hidden">
@@ -321,7 +321,7 @@ export const SetupUrgentJobsModal: React.FC<SetupUrgentJobsModalProps> = ({
                     <div className="flex items-center gap-2 mb-4 relative z-10">
                       <Flame className="w-5 h-5 text-pink-600 fill-pink-600" />
                       <h4 className="text-sm font-black text-gray-900 dark:text-white tracking-tight uppercase line-clamp-2">
-                        {title || 'TIÊU ĐỀ KHU VỰC'}
+                        {title || 'SECTION TITLE'}
                       </h4>
                     </div>
 
@@ -348,19 +348,19 @@ export const SetupUrgentJobsModal: React.FC<SetupUrgentJobsModalProps> = ({
                                 {config.job.position_title}
                               </h3>
                               <p className="text-sm text-gray-600 dark:text-gray-400">
-                                {config.job.clients?.client_name || 'Tên Công Ty'} (sẽ bị ẩn)
+                                {config.job.clients?.client_name || 'Company Name'} (will be hidden)
                               </p>
                               <div className="text-sm font-bold text-green-600 mt-1.5">
                                 {(config.job.min_monthly_salary || config.job.max_monthly_salary) 
                                   ? `${config.job.min_monthly_salary} - ${config.job.max_monthly_salary}` 
-                                  : 'Thỏa thuận'}
+                                  : 'Negotiable'}
                               </div>
                             </div>
 
                             <div className="grid grid-cols-2 gap-y-2 text-xs text-gray-500 dark:text-gray-400 mb-2">
                               <div className="flex items-center gap-1.5">
                                 <MapPin className="w-3.5 h-3.5 shrink-0" />
-                                <span>{config.job.work_location || 'Địa điểm'}</span>
+                                <span>{config.job.work_location || 'Location'}</span>
                               </div>
                               <div className="flex items-center gap-1.5">
                                 <Users className="w-3.5 h-3.5 shrink-0" />
@@ -368,7 +368,7 @@ export const SetupUrgentJobsModal: React.FC<SetupUrgentJobsModalProps> = ({
                               </div>
                               <div className="col-span-2 flex items-start gap-1.5 text-indigo-600 dark:text-indigo-400 font-medium mt-1">
                                 <Clock className="w-3.5 h-3.5 shrink-0 mt-0.5" />
-                                <span className="whitespace-pre-wrap">{config.urgent_info.note || 'Ghi chú thêm...'}</span>
+                                <span className="whitespace-pre-wrap">{config.urgent_info.note || 'Additional note...'}</span>
                               </div>
                             </div>
                           </div>
@@ -376,7 +376,7 @@ export const SetupUrgentJobsModal: React.FC<SetupUrgentJobsModalProps> = ({
                       </div>
                     ) : (
                       <div className="bg-white/50 border border-dashed border-pink-200 rounded-xl p-6 text-center text-sm text-gray-500 relative z-10">
-                        Chưa có Job nào để hiển thị
+                        No Jobs to display
                       </div>
                     )}
                   </div>
@@ -393,7 +393,7 @@ export const SetupUrgentJobsModal: React.FC<SetupUrgentJobsModalProps> = ({
             onClick={onClose}
             className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-brand-500 dark:bg-gray-800 dark:text-gray-300 dark:border-gray-600 dark:hover:bg-gray-700"
           >
-            Hủy
+            Cancel
           </button>
           <button
             onClick={handleSubmit}
@@ -403,12 +403,12 @@ export const SetupUrgentJobsModal: React.FC<SetupUrgentJobsModalProps> = ({
             {updateMutation.isPending ? (
               <>
                 <Loader2 size={16} className="animate-spin" />
-                Đang lưu...
+                Saving...
               </>
             ) : (
               <>
                 <Save size={16} />
-                Lưu Cấu Hình
+                Save Configuration
               </>
             )}
           </button>

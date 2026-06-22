@@ -102,7 +102,7 @@ export const BDCustomerDetailModal = ({ isOpen, onClose, processId }: BDCustomer
           <div className="flex items-center justify-between border-b px-6 py-4 bg-gray-50/50">
             <h3 className="text-lg font-semibold leading-6 text-gray-900 flex items-center gap-2">
               <Building2 className="text-brand-600 h-5 w-5" />
-              Chi tiết khách hàng
+              Customer Details
             </h3>
             <button
               type="button"
@@ -162,7 +162,7 @@ export const BDCustomerDetailModal = ({ isOpen, onClose, processId }: BDCustomer
                       </p>
                       {customer.last_contact_date && (
                         <p className="text-xs text-zinc-600">
-                          <span className="text-zinc-400">Last Contact:</span> {new Date(customer.last_contact_date).toLocaleDateString('vi-VN')}
+                          <span className="text-zinc-400">Last Contact:</span> {new Date(customer.last_contact_date).toLocaleDateString('en-GB')}
                         </p>
                       )}
                       {client.website_url && (
@@ -183,7 +183,7 @@ export const BDCustomerDetailModal = ({ isOpen, onClose, processId }: BDCustomer
                     {/* Memo */}
                     {customer.memo && (
                       <div className="pt-2 border-t border-zinc-100">
-                        <p className="text-xs text-zinc-400 mb-1">Ghi chú:</p>
+                        <p className="text-xs text-zinc-400 mb-1">Note:</p>
                         <p className="text-sm text-zinc-700 bg-gray-50 p-2 rounded-lg border border-gray-100">
                           {customer.memo}
                         </p>
@@ -199,20 +199,20 @@ export const BDCustomerDetailModal = ({ isOpen, onClose, processId }: BDCustomer
                     className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-gray-300 text-gray-700 font-medium rounded-lg hover:bg-gray-50 transition-colors text-sm"
                   >
                     <FileText size={16} />
-                    Xem chi tiết
+                    View details
                   </button>
                   <button 
                     onClick={() => navigate(`/clients/${client.id}/edit`, { state: { isEdit: true } })}
                     className="inline-flex items-center gap-2 px-4 py-2 bg-brand-600 text-white font-medium rounded-lg hover:bg-brand-700 transition-colors text-sm"
                   >
                     <User size={16} />
-                    Chỉnh sửa
+                    Edit
                   </button>
                 </div>
               </div>
             ) : (
               <div className="text-center py-12 text-gray-500">
-                Không tìm thấy thông tin khách hàng.
+                Customer information not found.
               </div>
             )}
           </div>

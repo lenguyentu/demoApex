@@ -31,7 +31,7 @@ interface TeamMemberSelectProps {
 export function TeamMemberSelect({
   value,
   onChange,
-  placeholder = 'Chọn thành viên...',
+  placeholder = 'Select member...',
   className = '',
   disabled = false,
   includeSelf = true,
@@ -50,7 +50,7 @@ export function TeamMemberSelect({
       const selfExists = options.some(opt => opt.value === user.id);
       if (!selfExists) {
         options = [
-          { value: user.id, label: `${user.full_name} (Bạn)` },
+          { value: user.id, label: `${user.full_name} (You)` },
           ...options
         ];
       }
@@ -73,7 +73,7 @@ export function TeamMemberSelect({
       options={userOptions}
       value={value}
       onChange={onChange}
-      placeholder={isLoading ? 'Đang tải...' : placeholder}
+      placeholder={isLoading ? 'Loading...' : placeholder}
       icon={<Users size={16} />}
       className={className}
     />

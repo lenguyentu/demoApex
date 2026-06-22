@@ -39,13 +39,13 @@ export const JobPhaseMemoModal = ({
 
       if (error) throw error;
 
-      toast.success('Đã cập nhật phase thành công');
+      toast.success('Phase updated successfully');
       setMemo('');
       onSuccess();
       onClose();
     } catch (err: any) {
       console.error('Error updating phase:', err);
-      toast.error(err.message || 'Không thể cập nhật phase');
+      toast.error(err.message || 'Cannot update phase');
     } finally {
       setUpdating(false);
     }
@@ -69,7 +69,7 @@ export const JobPhaseMemoModal = ({
         <div className="flex justify-between items-center px-6 py-4 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50">
           <h3 className="text-lg font-semibold text-gray-900 dark:text-white flex items-center gap-2">
             <FileText size={20} className="text-brand-600" />
-            Ghi chú thay đổi Phase
+            Phase Change Memo
           </h3>
           <button
             onClick={onClose}
@@ -84,7 +84,7 @@ export const JobPhaseMemoModal = ({
           {/* Phase Change Display */}
           <div className="bg-blue-50 dark:bg-blue-900/20 border border-blue-200 dark:border-blue-800 rounded-lg p-4">
             <p className="text-sm text-gray-700 dark:text-gray-300 mb-2">
-              <strong>Thay đổi phase:</strong>
+              <strong>Phase Change:</strong>
             </p>
             <div className="flex items-center gap-2">
               {currentPhaseConfig && (
@@ -102,13 +102,13 @@ export const JobPhaseMemoModal = ({
           {/* Memo Input */}
           <div>
             <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              Ghi chú (tùy chọn)
+              Memo (optional)
             </label>
             <textarea
               value={memo}
               onChange={(e) => setMemo(e.target.value)}
               rows={4}
-              placeholder="Nhập ghi chú về lý do thay đổi phase..."
+              placeholder="Enter memo for phase change reason..."
               className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-brand-500 focus:border-brand-500 resize-none"
               autoFocus
             />
@@ -123,7 +123,7 @@ export const JobPhaseMemoModal = ({
             disabled={updating}
             className="inline-flex justify-center rounded-lg border border-gray-300 dark:border-gray-600 shadow-sm px-4 py-2 bg-white dark:bg-gray-700 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 transition-colors disabled:opacity-50"
           >
-            Hủy
+            Cancel
           </button>
           <button
             type="button"
@@ -134,12 +134,12 @@ export const JobPhaseMemoModal = ({
             {updating ? (
               <>
                 <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white" />
-                Đang lưu...
+                Saving...
               </>
             ) : (
               <>
                 <Save size={16} />
-                Lưu thay đổi
+                Save Changes
               </>
             )}
           </button>

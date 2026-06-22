@@ -31,7 +31,7 @@ export const HrContactForm: React.FC<HrContactFormProps> = ({
             type="button"
             onClick={() => onRemove(index)}
             className="text-gray-400 hover:text-red-600 transition-colors p-1 rounded-md hover:bg-red-50"
-            title="Xóa liên hệ này"
+            title="Delete this contact"
           >
             <Trash2 className="h-4 w-4" />
           </button>
@@ -41,18 +41,18 @@ export const HrContactForm: React.FC<HrContactFormProps> = ({
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
          {/* Name & Title */}
         <div className="space-y-1.5 md:col-span-2">
-            <label className="text-xs font-medium text-gray-700">Họ tên <span className="text-red-500">*</span></label>
+            <label className="text-xs font-medium text-gray-700">Full Name <span className="text-red-500">*</span></label>
             <input
             type="text"
             value={hrContact.name}
             onChange={(e) => onUpdate(index, 'name', e.target.value)}
-            placeholder="Nguyễn Văn A"
+            placeholder="John Doe"
             className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-500 focus:border-brand-500"
             disabled={isViewMode}
             />
         </div>
         <div className="space-y-1.5 md:col-span-2">
-            <label className="text-xs font-medium text-gray-700">Chức vụ</label>
+            <label className="text-xs font-medium text-gray-700">Job Title</label>
             <input
             type="text"
             value={hrContact.position_title}
@@ -67,7 +67,7 @@ export const HrContactForm: React.FC<HrContactFormProps> = ({
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
         {/* Email */}
         <div className="space-y-1.5 md:col-span-2">
-            <label className="text-xs font-medium text-gray-700">Email chính</label>
+            <label className="text-xs font-medium text-gray-700">Primary Email</label>
             <input
             type="text"
             value={hrContact.email_1 || ''}
@@ -78,7 +78,7 @@ export const HrContactForm: React.FC<HrContactFormProps> = ({
             />
         </div>
         <div className="space-y-1.5 md:col-span-2">
-            <label className="text-xs font-medium text-gray-700">Số điện thoại</label>
+            <label className="text-xs font-medium text-gray-700">Phone Number</label>
             <input
             type="text"
             value={hrContact.phone_1 || ''}
@@ -92,12 +92,12 @@ export const HrContactForm: React.FC<HrContactFormProps> = ({
 
       {/* Note */}
       <div className="space-y-1.5">
-        <label className="text-xs font-medium text-gray-700">Ghi chú</label>
+        <label className="text-xs font-medium text-gray-700">Notes</label>
         <textarea
             rows={2}
             value={hrContact.memo || ''}
             onChange={(e) => onUpdate(index, 'memo', e.target.value)}
-            placeholder="Ghi chú thêm..."
+            placeholder="Additional notes..."
             className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-500 focus:border-brand-500 resize-y"
             disabled={isViewMode}
         />
@@ -113,7 +113,7 @@ export const HrContactForm: React.FC<HrContactFormProps> = ({
            className="w-4 h-4 text-brand-600 border-gray-300 rounded focus:ring-brand-500"
            disabled={isViewMode}
          />
-         <label htmlFor={`key-person-${index}`} className="text-sm text-gray-700 font-medium">Người liên hệ chính (Key Person)</label>
+         <label htmlFor={`key-person-${index}`} className="text-sm text-gray-700 font-medium">Key Person</label>
        </div>
     </div>
   );

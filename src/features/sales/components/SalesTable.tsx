@@ -16,8 +16,8 @@ const STATUS_STLYES: Record<OverallAccountingStatus, string> = {
 };
 
 const INVOICE_STYLES: Record<InvoiceStatus, string> = {
-  'Đã xuất': 'bg-green-100 text-green-800',
-  'Chưa xuất': 'bg-yellow-100 text-yellow-800',
+  'Issued': 'bg-green-100 text-green-800',
+  'Not Issued': 'bg-yellow-100 text-yellow-800',
 };
 
 export function SalesTable({ data, loading, onView, onEdit }: SalesTableProps) {
@@ -34,7 +34,7 @@ export function SalesTable({ data, loading, onView, onEdit }: SalesTableProps) {
   if (data.length === 0) {
     return (
       <div className="p-20 text-center text-gray-500">
-        Chưa có dữ liệu công nợ nào. Hãy nhấn "Thêm mới" để bắt đầu.
+        No debt data available. Click "Add new" to start.
       </div>
     );
   }
@@ -45,16 +45,16 @@ export function SalesTable({ data, loading, onView, onEdit }: SalesTableProps) {
         <thead className="bg-gray-50/50">
           <tr>
             <th className="px-4 py-3 font-semibold text-gray-500 uppercase tracking-wider w-8 text-center text-[10px]">#</th>
-            <th className="px-4 py-3 font-semibold text-gray-500 uppercase tracking-wider text-[10px]">Ngày offer</th>
-            <th className="px-4 py-3 font-semibold text-gray-500 uppercase tracking-wider text-[10px]">Khách hàng</th>
-            <th className="px-4 py-3 font-semibold text-gray-500 uppercase tracking-wider text-[10px]">Ứng viên</th>
-            <th className="px-4 py-3 font-semibold text-gray-500 uppercase tracking-wider text-[10px]">Vị trí</th>
+            <th className="px-4 py-3 font-semibold text-gray-500 uppercase tracking-wider text-[10px]">Offer Date</th>
+            <th className="px-4 py-3 font-semibold text-gray-500 uppercase tracking-wider text-[10px]">Customer</th>
+            <th className="px-4 py-3 font-semibold text-gray-500 uppercase tracking-wider text-[10px]">Candidate</th>
+            <th className="px-4 py-3 font-semibold text-gray-500 uppercase tracking-wider text-[10px]">Position</th>
             <th className="px-4 py-3 font-semibold text-gray-500 uppercase tracking-wider text-right text-[10px]">No VAT</th>
             <th className="px-4 py-3 font-semibold text-gray-500 uppercase tracking-wider text-right text-[10px]">VAT</th>
-            <th className="px-4 py-3 font-semibold text-gray-500 uppercase tracking-wider text-right text-[10px]">Cần TT</th>
-            <th className="px-4 py-3 font-semibold text-gray-500 uppercase tracking-wider text-center text-[10px]">Trạng thái</th>
-            <th className="px-4 py-3 font-semibold text-gray-500 uppercase tracking-wider text-center text-[10px]">Hóa đơn</th>
-            <th className="px-4 py-3 font-semibold text-gray-500 uppercase tracking-wider text-center text-[10px]">Thao tác</th>
+            <th className="px-4 py-3 font-semibold text-gray-500 uppercase tracking-wider text-right text-[10px]">Due</th>
+            <th className="px-4 py-3 font-semibold text-gray-500 uppercase tracking-wider text-center text-[10px]">Status</th>
+            <th className="px-4 py-3 font-semibold text-gray-500 uppercase tracking-wider text-center text-[10px]">Invoice</th>
+            <th className="px-4 py-3 font-semibold text-gray-500 uppercase tracking-wider text-center text-[10px]">Action</th>
           </tr>
         </thead>
         <tbody className="bg-white divide-y divide-gray-100">
@@ -80,13 +80,13 @@ export function SalesTable({ data, loading, onView, onEdit }: SalesTableProps) {
                   {sale.job?.position_title || 'N/A'}
                 </td>
                 <td className="px-4 py-3 text-right font-medium text-gray-900">
-                  {noVat.toLocaleString()} đ
+                  {noVat.toLocaleString()} VND
                 </td>
                 <td className="px-4 py-3 text-right font-medium text-gray-900">
-                  {hasVat.toLocaleString()} đ
+                  {hasVat.toLocaleString()} VND
                 </td>
                 <td className="px-4 py-3 text-right font-bold text-red-600">
-                  {balanceDue.toLocaleString()} đ
+                  {balanceDue.toLocaleString()} VND
                 </td>
                 <td className="px-4 py-3 text-center">
                   <span className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold border ${STATUS_STLYES[sale.finance?.overall_status || 'Doing']}`}>
@@ -94,8 +94,8 @@ export function SalesTable({ data, loading, onView, onEdit }: SalesTableProps) {
                   </span>
                 </td>
                 <td className="px-4 py-3 text-center">
-                  <span className={`px-2 py-0.5 rounded text-[10px] font-medium ${INVOICE_STYLES[sale.finance?.invoice_status || 'Chưa xuất']}`}>
-                    {sale.finance?.invoice_status || 'Chưa xuất'}
+                  <span className={`px-2 py-0.5 rounded text-[10px] font-medium ${INVOICE_STYLES[sale.finance?.invoice_status || 'Not Issued']}`}>
+                    {sale.finance?.invoice_status || 'Not Issued'}
                   </span>
                 </td>
                 <td className="px-4 py-3 text-center">

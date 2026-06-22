@@ -254,19 +254,19 @@ function BDKanbanColumnComponent({
                   <div className="pt-1">
                     {item.reminderBadge.type === 'overdue' ? (
                       <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-red-100 text-red-700 border border-red-200">
-                        ⚠️ Quá {item.reminderBadge.days} ngày
+                        ⚠️ Overdue {item.reminderBadge.days} days
                       </span>
                     ) : item.reminderBadge.type === 'today' ? (
                       <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-amber-100 text-amber-700 border border-amber-200">
-                        🔔 Nhắc hôm nay
+                        🔔 Reminder today
                       </span>
                     ) : item.reminderBadge.type === 'upcoming' ? (
                       <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-green-100 text-green-700 border border-green-200">
-                        ✓ Còn {item.reminderBadge.days} ngày
+                        ✓ {item.reminderBadge.days} days left
                       </span>
                     ) : (
                       <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[10px] font-semibold bg-blue-50 text-blue-600 border border-blue-200">
-                        📅 Còn {item.reminderBadge.days} ngày
+                        📅 {item.reminderBadge.days} days left
                       </span>
                     )}
                   </div>

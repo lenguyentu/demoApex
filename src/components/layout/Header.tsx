@@ -175,7 +175,7 @@ export const Header = () => {
                   <div className="p-1.5 rounded-lg bg-gray-100 text-gray-500 group-hover:bg-brand-100 group-hover:text-brand-600 transition-colors">
                     <User size={16} />
                   </div>
-                  Hồ sơ cá nhân
+                  Profile
                 </Link>
                 
                 <div className="h-px bg-gray-100 my-1 mx-2"></div>
@@ -187,7 +187,7 @@ export const Header = () => {
                   <div className="p-1.5 rounded-lg bg-red-50 text-red-500 group-hover:bg-red-100 group-hover:text-red-600 transition-colors">
                     <LogOut size={16} />
                   </div>
-                  Đăng xuất
+                  Logout
                 </button>
               </div>
             </div>

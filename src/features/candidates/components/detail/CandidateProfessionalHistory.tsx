@@ -26,14 +26,14 @@ export function CandidateProfessionalHistory({
       <div className="flex items-center justify-between mb-4">
         <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
           <Briefcase className="h-4 w-4 text-pink-600" />
-          Lịch sử nghề nghiệp
+          Professional History
         </h2>
         {isEditing && (
           <button 
             onClick={onAddHistory} 
             className="text-sm text-pink-600 hover:text-pink-700 flex items-center gap-1"
           >
-            <Plus className="h-4 w-4" /> Thêm
+            <Plus className="h-4 w-4" /> Add
           </button>
         )}
       </div>
@@ -50,25 +50,25 @@ export function CandidateProfessionalHistory({
               </button>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 <input 
-                  placeholder="Vị trí" 
+                  placeholder="Position" 
                   value={history.position || ''} 
                   onChange={(e) => onHistoryChange(index, 'position', e.target.value)} 
                   className="text-sm border-gray-300 rounded-md" 
                 />
                 <input 
-                  placeholder="Công ty" 
+                  placeholder="Company" 
                   value={history.companyName || history.company || ''} 
                   onChange={(e) => onHistoryChange(index, 'companyName', e.target.value)} 
                   className="text-sm border-gray-300 rounded-md" 
                 />
                 <input 
-                  placeholder="Thời gian (vd: 2020 - 2022)" 
+                  placeholder="Duration (e.g. 2020 - 2022)" 
                   value={history.duration || history.period || ''} 
                   onChange={(e) => onHistoryChange(index, 'duration', e.target.value)} 
                   className="text-sm border-gray-300 rounded-md" 
                 />
                 <textarea 
-                  placeholder="Mô tả" 
+                  placeholder="Description" 
                   value={history.description || ''} 
                   onChange={(e) => onHistoryChange(index, 'description', e.target.value)} 
                   className="text-sm border-gray-300 rounded-md md:col-span-2" 
@@ -82,10 +82,10 @@ export function CandidateProfessionalHistory({
             candidate.professional_history.map((history: ProfessionalHistoryItem, index: number) => (
               <div key={index} className="border-l-4 border-pink-500 pl-4 py-2">
                 <div className="font-semibold text-sm text-gray-900">
-                  {history.position || 'Vị trí'}
+                  {history.position || 'Position'}
                 </div>
                 <div className="text-xs text-gray-600">
-                  {history.companyName || history.company || 'Công ty'}
+                  {history.companyName || history.company || 'Company'}
                 </div>
                 {(history.duration || history.period) && (
                   <div className="text-xs text-gray-500">

@@ -27,11 +27,11 @@ export const BDInfoSection = ({ bdData, onChange, isViewMode }: BDInfoSectionPro
     <div className="bg-white rounded-xl shadow-sm border border-gray-200">
       <div className="px-6 py-4 border-b border-gray-100 bg-pink-50/30 flex items-center gap-2 rounded-t-xl">
         <Target className="w-5 h-5 text-pink-600" />
-        <h2 className="font-semibold text-gray-900">Thông tin Quy trình BD</h2>
+        <h2 className="font-semibold text-gray-900">BD Process Information</h2>
       </div>
       <div className="p-5 grid grid-cols-1 md:grid-cols-2 gap-5">
         <div className="space-y-2">
-          <label className="text-sm font-medium text-gray-700">Trạng thái BD</label>
+          <label className="text-sm font-medium text-gray-700">BD Status</label>
           <select
             className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500 bg-white disabled:bg-gray-50 text-sm"
             value={bdData.status}
@@ -45,20 +45,20 @@ export const BDInfoSection = ({ bdData, onChange, isViewMode }: BDInfoSectionPro
         </div>
 
         <div className="space-y-2">
-          <label className="text-sm font-medium text-gray-700">Độ ưu tiên</label>
+          <label className="text-sm font-medium text-gray-700">Priority</label>
           <select
             className="w-full px-4 py-2.5 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 focus:border-pink-500 bg-white disabled:bg-gray-50 text-sm font-medium"
             value={bdData.priority}
             onChange={(e) => onChange('priority', e.target.value)}
             disabled={isViewMode}
           >
-            <option value="Bình thường">Bình thường</option>
-            <option value="Ưu tiên">Ưu tiên</option>
+            <option value="Normal">Normal</option>
+            <option value="High Priority">High Priority</option>
           </select>
         </div>
 
         <div className="space-y-2">
-          <label className="text-sm font-medium text-gray-700">Nguồn khách hàng</label>
+          <label className="text-sm font-medium text-gray-700">Client Source</label>
           <div className="relative">
             <Share2 className="absolute left-3 top-2.5 text-gray-400" size={18} />
             <select
@@ -67,8 +67,8 @@ export const BDInfoSection = ({ bdData, onChange, isViewMode }: BDInfoSectionPro
               className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 text-sm disabled:bg-gray-50 font-medium appearance-none bg-white"
               disabled={isViewMode}
             >
-              <option value="">Chọn nguồn</option>
-              {['Facebook', 'Linkedin', 'Thread', 'Job Portal', 'Referral', 'Khác'].map(opt => (
+              <option value="">Select source</option>
+              {['Facebook', 'Linkedin', 'Thread', 'Job Portal', 'Referral', 'Other'].map(opt => (
                 <option key={opt} value={opt}>{opt}</option>
               ))}
             </select>
@@ -80,14 +80,14 @@ export const BDInfoSection = ({ bdData, onChange, isViewMode }: BDInfoSectionPro
         </div>
 
         <div className="space-y-2 md:col-span-2">
-          <label className="text-sm font-medium text-gray-700">Tên Job tiềm năng (Text)</label>
+          <label className="text-sm font-medium text-gray-700">Potential Job Title</label>
           <div className="relative">
             <Briefcase className="absolute left-3 top-2.5 text-gray-400" size={18} />
             <input
               type="text"
               value={bdData.potential_job_title}
               onChange={(e) => onChange('potential_job_title', e.target.value)}
-              placeholder="VD: Senior React Developer..."
+              placeholder="E.g.: Senior React Developer..."
               className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 text-sm disabled:bg-gray-50 font-medium"
               disabled={isViewMode}
             />
@@ -95,7 +95,7 @@ export const BDInfoSection = ({ bdData, onChange, isViewMode }: BDInfoSectionPro
         </div>
 
         <div className="space-y-2 md:col-span-2">
-          <label className="text-sm font-medium text-gray-700">Link Job tiềm năng (URL)</label>
+          <label className="text-sm font-medium text-gray-700">Potential Job Link</label>
           <div className="relative">
             <LinkIcon className="absolute left-3 top-2.5 text-gray-400" size={18} />
             <input
@@ -110,12 +110,12 @@ export const BDInfoSection = ({ bdData, onChange, isViewMode }: BDInfoSectionPro
         </div>
 
         <div className="space-y-2 md:col-span-2">
-          <label className="text-sm font-medium text-gray-700">Ghi chú BD</label>
+          <label className="text-sm font-medium text-gray-700">BD Notes</label>
           <textarea
             rows={2}
             value={bdData.memo}
             onChange={(e) => onChange('memo', e.target.value)}
-            placeholder="Ghi chú về khách hàng này..."
+            placeholder="Notes about this client..."
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-pink-500 text-sm disabled:bg-gray-50 font-medium resize-none"
             disabled={isViewMode}
           />

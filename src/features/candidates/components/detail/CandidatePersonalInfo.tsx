@@ -30,39 +30,39 @@ export function CandidatePersonalInfo({
   const getGenderLabel = (gender: string | null | undefined) => {
     if (!gender) return '';
     switch (gender) {
-      case 'Male': return 'Nam';
-      case 'Female': return 'Nữ';
-      default: return 'Khác';
+      case 'Male': return 'Male';
+      case 'Female': return 'Female';
+      default: return 'Other';
     }
   };
 
   const genderOptions = [
-    { value: 'Male', label: 'Nam' },
-    { value: 'Female', label: 'Nữ' },
-    { value: 'Other', label: 'Khác' },
+    { value: 'Male', label: 'Male' },
+    { value: 'Female', label: 'Female' },
+    { value: 'Other', label: 'Other' },
   ];
 
   const visaOptions = [
-    { value: 'Citizen', label: 'Công dân (Citizen)' },
-    { value: 'Permanent_Resident', label: 'PR (Thường trú nhân)' },
+    { value: 'Citizen', label: 'Citizen' },
+    { value: 'Permanent_Resident', label: 'PR (Permanent Resident)' },
     { value: 'Work_Permit_Holder', label: 'Work Permit (EP/SP/WP)' },
     { value: 'Dependent_Pass_Holder', label: 'Dependent Pass (DP/LTVP)' },
     { value: 'Student_Pass_Holder', label: 'Student Pass' },
-    { value: 'Requires_Sponsorship', label: 'Cần bảo lãnh (Sponsorship)' },
-    { value: 'Not_Applicable', label: 'Không áp dụng / Khác' },
+    { value: 'Requires_Sponsorship', label: 'Requires Sponsorship' },
+    { value: 'Not_Applicable', label: 'Not Applicable / Other' },
   ];
 
   return (
     <div>
       <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
         <User className="h-4 w-4 text-pink-600" />
-        Thông tin cá nhân
+        Personal Information
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {isEditing ? (
           <>
             <EditableField 
-              label="Họ và tên" 
+              label="Full Name" 
               name="fullName" 
               value={formData.fullName} 
               isEditing={true} 
@@ -77,7 +77,7 @@ export function CandidatePersonalInfo({
               type="email"
             />
             <EditableField 
-              label="Số điện thoại" 
+              label="Phone number" 
               name="phone" 
               value={formData.phone} 
               isEditing={true} 
@@ -85,7 +85,7 @@ export function CandidatePersonalInfo({
               type="tel"
             />
             <EditableField 
-              label="Ngày sinh" 
+              label="Date of birth" 
               name="birthDate" 
               value={formData.birthDate} 
               isEditing={true} 
@@ -93,7 +93,7 @@ export function CandidatePersonalInfo({
               type="date" 
             />
             <EditableField 
-              label="Giới tính" 
+              label="Gender" 
               name="gender" 
               value={formData.gender} 
               isEditing={true} 
@@ -102,7 +102,7 @@ export function CandidatePersonalInfo({
               options={genderOptions}
             />
             <EditableField 
-              label="Tình trạng visa" 
+              label="Visa status" 
               name="visaStatus" 
               value={formData.visaStatus} 
               isEditing={true} 
@@ -111,14 +111,14 @@ export function CandidatePersonalInfo({
               options={visaOptions}
             />
              <EditableField 
-              label="Số CMND/Passport" 
+              label="IC/Passport No." 
               name="icPassportNo" 
               value={formData.icPassportNo} 
               isEditing={true} 
               onChange={handleInputChange} 
             />
             <EditableField 
-              label="Địa chỉ" 
+              label="Address" 
               name="address" 
               value={formData.address} 
               isEditing={true} 
@@ -143,14 +143,14 @@ export function CandidatePersonalInfo({
         ) : (
           <>
             <EditableField 
-              label="Giới tính" 
+              label="Gender" 
               name="gender" 
               value={getGenderLabel(candidate.gender)} 
               isEditing={false} 
               onChange={handleInputChange} 
             />
             <EditableField 
-              label="Ngày sinh" 
+              label="Date of birth" 
               name="date_of_birth" 
               value={candidate.date_of_birth} 
               isEditing={false} 
@@ -165,21 +165,21 @@ export function CandidatePersonalInfo({
               onChange={handleInputChange} 
             />
             <EditableField 
-              label="Số điện thoại" 
+              label="Phone number" 
               name="phone" 
               value={candidate.phone} 
               isEditing={false} 
               onChange={handleInputChange} 
             />
             <EditableField 
-              label="Tình trạng visa" 
+              label="Visa status" 
               name="visa_status" 
               value={candidate.visa_status} 
               isEditing={false} 
               onChange={handleInputChange} 
             />
             <EditableField 
-              label="Số CMND/Passport" 
+              label="IC/Passport No." 
               name="ic_passport_no" 
               value={candidate.ic_passport_no} 
               isEditing={false} 
@@ -200,7 +200,7 @@ export function CandidatePersonalInfo({
               onChange={handleInputChange} 
             />
             <EditableField 
-              label="Địa chỉ" 
+              label="Address" 
               name="address" 
               value={candidate.address} 
               isEditing={false} 

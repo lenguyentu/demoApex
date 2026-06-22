@@ -25,11 +25,9 @@ export const HRReferralDetailsModal = ({ isOpen, onClose, hrId, hrName, dateRang
           <div>
             <h3 className="text-xl font-bold text-gray-900 flex items-center gap-2">
               <Activity className="w-5 h-5 text-amber-600" />
-              Chi tiết Referral của {hrName}
+              Referral Details for {hrName}
             </h3>
-            <p className="text-sm text-gray-500 mt-1">
-              Danh sách user được mời trong khoảng thời gian đã chọn
-            </p>
+              List of users invited during the selected period
           </div>
           <button 
             onClick={onClose}
@@ -52,10 +50,10 @@ export const HRReferralDetailsModal = ({ isOpen, onClose, hrId, hrName, dateRang
               <table className="w-full text-sm text-left">
                 <thead className="bg-gray-50 text-xs uppercase text-gray-500 font-semibold">
                   <tr>
-                    <th className="px-6 py-4">Hội viên</th>
-                    <th className="px-6 py-4">Vai trò</th>
-                    <th className="px-6 py-4">Trạng thái</th>
-                    <th className="px-6 py-4 text-right">Ngày đăng ký</th>
+                    <th className="px-6 py-4">User</th>
+                    <th className="px-6 py-4">Role</th>
+                    <th className="px-6 py-4">Status</th>
+                    <th className="px-6 py-4 text-right">Registered At</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-100">
@@ -98,7 +96,7 @@ export const HRReferralDetailsModal = ({ isOpen, onClose, hrId, hrName, dateRang
             </div>
           ) : (
             <div className="py-20 text-center text-gray-400 italic">
-              Không tìm thấy dữ liệu nào.
+              No data found.
             </div>
           )}
         </div>
@@ -109,7 +107,7 @@ export const HRReferralDetailsModal = ({ isOpen, onClose, hrId, hrName, dateRang
             onClick={onClose}
             className="px-6 py-2 text-sm font-bold text-gray-700 hover:bg-white rounded-lg border border-gray-200 transition-colors shadow-sm"
           >
-            Đóng
+            Close
           </button>
         </div>
       </div>

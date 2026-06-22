@@ -70,17 +70,17 @@ export function DebtCollectionModal({ isOpen, onClose, onSuccess, item }: DebtCo
 
       if (totalAmount > 0) {
         if (totalPaid > totalAmount) {
-          toast.error('Cảnh báo: Tổng thực thu đang lớn hơn dự kiến thu!', { id: 'debt-warning' });
+          toast.error('Warning: Total paid amount is greater than expected!', { id: 'debt-warning' });
         }
 
         if (totalPaid >= totalAmount) {
           if (next.overall_status !== 'Done') {
             next.overall_status = 'Done';
-            toast.success('Đã thu đủ! Tự động chuyển trạng thái Hoàn tất.', { id: 'debt-done' });
+            toast.success('Fully collected! Automatically changed to Done status.', { id: 'debt-done' });
           }
         } else if (next.overall_status === 'Done' && totalPaid < totalAmount) {
           next.overall_status = 'Doing';
-          toast('Chưa thu đủ. Tự động chuyển về Đang thu.', { icon: 'ℹ️', id: 'debt-doing' });
+          toast('Not fully collected. Automatically changed to Doing status.', { icon: 'ℹ️', id: 'debt-doing' });
         }
       }
 
@@ -91,7 +91,7 @@ export function DebtCollectionModal({ isOpen, onClose, onSuccess, item }: DebtCo
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!item.finance?.sales_id) {
-       toast.error('Lỗi dữ liệu: Không tìm thấy ID tài chính');
+       toast.error('Data error: Finance ID not found');
        return;
     }
 
@@ -109,12 +109,12 @@ export function DebtCollectionModal({ isOpen, onClose, onSuccess, item }: DebtCo
         note: formData.note,
         overall_status: formData.overall_status as any
       });
-      toast.success('Cập nhật thu hồi nợ thành công');
+      toast.success('Debt collection updated successfully');
       onSuccess();
       onClose();
     } catch (error: any) {
       console.error('Error updating debt collection:', error);
-      toast.error('Không thể cập nhật công nợ: ' + error.message);
+      toast.error('Cannot update debt collection: ' + error.message);
     } finally {
       setLoading(false);
     }
@@ -125,8 +125,8 @@ export function DebtCollectionModal({ isOpen, onClose, onSuccess, item }: DebtCo
       <div className="bg-white rounded-2xl shadow-xl w-full max-w-2xl overflow-hidden animate-in zoom-in-95 duration-200 flex flex-col max-h-[90vh]">
         <div className="flex items-center justify-between p-5 border-b border-gray-100 bg-gray-50/50 shrink-0">
           <div>
-            <h2 className="text-xl font-bold text-gray-900">Cập nhật Kế hoạch & Thực thu</h2>
-            <p className="text-sm text-gray-500 mt-1">Ứng viên: <span className="font-semibold text-brand-600">{item.candidate_name}</span> - {item.job_title}</p>
+            <h2 className="text-xl font-bold text-gray-900">Update Plan & Actual Collection</h2>
+            <p className="text-sm text-gray-500 mt-1">Candidate: <span className="font-semibold text-brand-600">{item.candidate_name}</span> - {item.job_title}</p>
           </div>
           <button
             onClick={onClose}
@@ -144,10 +144,10 @@ export function DebtCollectionModal({ isOpen, onClose, onSuccess, item }: DebtCo
               
               {/* Cột Đợt 1 */}
               <div className="bg-gray-50/50 p-4 rounded-xl border border-gray-100 space-y-4">
-                <h3 className="font-bold text-brand-600 border-b border-brand-100 pb-2">Thanh toán Đợt 1</h3>
+                <h3 className="font-bold text-brand-600 border-b border-brand-100 pb-2">Phase 1 Payment</h3>
                 
                 <div className="space-y-1.5">
-                  <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wide">Ngày hẹn trả</label>
+                  <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wide">Due Date</label>
                   <input
                     type="date"
                     disabled={loading}
@@ -156,15 +156,15 @@ export function DebtCollectionModal({ isOpen, onClose, onSuccess, item }: DebtCo
                     onChange={(e) => setFormData(prev => ({ ...prev, p1_due_date: e.target.value }))}
                   />
                   {!formData.p1_due_date && p1DefaultDate && (
-                    <p className="text-[10px] text-blue-500 italic">Tự động: {p1DefaultDate} ({item.finance?.p1_days} ngày từ onboarding)</p>
+                    <p className="text-[10px] text-blue-500 italic">Auto: {p1DefaultDate} ({item.finance?.p1_days} days from onboarding)</p>
                   )}
                   {!formData.p1_due_date && !p1DefaultDate && (
-                    <p className="text-[10px] text-gray-400 italic">Để trống để lấy mốc {item.finance?.p1_days || 0} ngày bắt đầu.</p>
+                    <p className="text-[10px] text-gray-400 italic">Leave blank to use {item.finance?.p1_days || 0} days as start.</p>
                   )}
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wide">Dự kiến thu (VNĐ)</label>
+                  <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wide">Expected (VND)</label>
                   <input
                     type="text"
                     disabled={loading}
@@ -173,11 +173,11 @@ export function DebtCollectionModal({ isOpen, onClose, onSuccess, item }: DebtCo
                     onChange={(e) => handleMoneyChange('p1_amount', e.target.value)}
                     onFocus={(e) => e.target.select()}
                   />
-                  {formData.p1_amount > 1000 && <p className="text-[10px] text-gray-400 font-medium px-1 pt-1">{formatMoney(formData.p1_amount)} VNĐ</p>}
+                  {formData.p1_amount > 1000 && <p className="text-[10px] text-gray-400 font-medium px-1 pt-1">{formatMoney(formData.p1_amount)} VND</p>}
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="block text-xs font-bold text-brand-600 uppercase tracking-wide bg-brand-50 px-2 py-1 rounded">Đã Thực thu</label>
+                  <label className="block text-xs font-bold text-brand-600 uppercase tracking-wide bg-brand-50 px-2 py-1 rounded">Actual Paid</label>
                   <input
                     type="text"
                     disabled={loading}
@@ -186,16 +186,16 @@ export function DebtCollectionModal({ isOpen, onClose, onSuccess, item }: DebtCo
                     onChange={(e) => handleMoneyChange('p1_paid_amount', e.target.value)}
                     onFocus={(e) => e.target.select()}
                   />
-                  {formData.p1_paid_amount > 1000 && <p className="text-[10px] text-green-600 font-medium px-1">{formatMoney(formData.p1_paid_amount)} VNĐ</p>}
+                  {formData.p1_paid_amount > 1000 && <p className="text-[10px] text-green-600 font-medium px-1">{formatMoney(formData.p1_paid_amount)} VND</p>}
                 </div>
               </div>
 
               {/* Cột Đợt 2 */}
               <div className="bg-gray-50/50 p-4 rounded-xl border border-gray-100 space-y-4">
-                <h3 className="font-bold text-brand-600 border-b border-brand-100 pb-2">Thanh toán Đợt 2</h3>
+                <h3 className="font-bold text-brand-600 border-b border-brand-100 pb-2">Phase 2 Payment</h3>
                 
                 <div className="space-y-1.5">
-                  <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wide">Ngày hẹn trả</label>
+                  <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wide">Due Date</label>
                   <input
                     type="date"
                     disabled={loading}
@@ -204,15 +204,15 @@ export function DebtCollectionModal({ isOpen, onClose, onSuccess, item }: DebtCo
                     onChange={(e) => setFormData(prev => ({ ...prev, p2_due_date: e.target.value }))}
                   />
                   {!formData.p2_due_date && p2DefaultDate && (
-                    <p className="text-[10px] text-blue-500 italic">Tự động: {p2DefaultDate} ({item.finance?.p2_days} ngày từ onboarding)</p>
+                    <p className="text-[10px] text-blue-500 italic">Auto: {p2DefaultDate} ({item.finance?.p2_days} days from onboarding)</p>
                   )}
                   {!formData.p2_due_date && !p2DefaultDate && (
-                    <p className="text-[10px] text-gray-400 italic">Để trống để lấy mốc {item.finance?.p2_days || 0} ngày bắt đầu.</p>
+                    <p className="text-[10px] text-gray-400 italic">Leave blank to use {item.finance?.p2_days || 0} days as start.</p>
                   )}
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wide">Dự kiến thu (VNĐ)</label>
+                  <label className="block text-xs font-semibold text-gray-600 uppercase tracking-wide">Expected (VND)</label>
                   <input
                     type="text"
                     disabled={loading}
@@ -221,11 +221,11 @@ export function DebtCollectionModal({ isOpen, onClose, onSuccess, item }: DebtCo
                     onChange={(e) => handleMoneyChange('p2_amount', e.target.value)}
                     onFocus={(e) => e.target.select()}
                   />
-                  {formData.p2_amount > 1000 && <p className="text-[10px] text-gray-400 font-medium px-1 pt-1">{formatMoney(formData.p2_amount)} VNĐ</p>}
+                  {formData.p2_amount > 1000 && <p className="text-[10px] text-gray-400 font-medium px-1 pt-1">{formatMoney(formData.p2_amount)} VND</p>}
                 </div>
 
                 <div className="space-y-1.5">
-                  <label className="block text-xs font-bold text-brand-600 uppercase tracking-wide bg-brand-50 px-2 py-1 rounded">Đã Thực thu</label>
+                  <label className="block text-xs font-bold text-brand-600 uppercase tracking-wide bg-brand-50 px-2 py-1 rounded">Actual Paid</label>
                   <input
                     type="text"
                     disabled={loading}
@@ -234,7 +234,7 @@ export function DebtCollectionModal({ isOpen, onClose, onSuccess, item }: DebtCo
                     onChange={(e) => handleMoneyChange('p2_paid_amount', e.target.value)}
                     onFocus={(e) => e.target.select()}
                   />
-                  {formData.p2_paid_amount > 1000 && <p className="text-[10px] text-green-600 font-medium px-1">{formatMoney(formData.p2_paid_amount)} VNĐ</p>}
+                  {formData.p2_paid_amount > 1000 && <p className="text-[10px] text-green-600 font-medium px-1">{formatMoney(formData.p2_paid_amount)} VND</p>}
                 </div>
               </div>
 
@@ -244,21 +244,21 @@ export function DebtCollectionModal({ isOpen, onClose, onSuccess, item }: DebtCo
             <div className="space-y-4 border-t border-gray-100 pt-5">
                <div className="grid grid-cols-3 gap-4">
                  <div className="col-span-1 space-y-2">
-                   <label className="block text-sm font-semibold text-gray-700">Trạng thái Nợ</label>
+                   <label className="block text-sm font-semibold text-gray-700">Debt Status</label>
                    <select
                      value={formData.overall_status}
                      disabled={loading}
                      onChange={(e) => setFormData(prev => ({ ...prev, overall_status: e.target.value }))}
                      className="w-full px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-brand-500 focus:bg-white outline-none transition-all font-medium text-gray-700 bg-white"
                    >
-                     <option value="Doing">Đang thu (Doing)</option>
-                     <option value="Done">Hoàn tất (Done)</option>
-                     <option value="Reject">Hủy bỏ (Cancel)</option>
+                     <option value="Doing">Doing</option>
+                     <option value="Done">Done</option>
+                     <option value="Reject">Cancel</option>
                    </select>
                  </div>
                  
                  <div className="col-span-2 space-y-2">
-                   <label className="block text-sm font-semibold text-gray-700">Ghi chú kế toán</label>
+                   <label className="block text-sm font-semibold text-gray-700">Accounting Notes</label>
                    <textarea
                      disabled={loading}
                      rows={2}
@@ -281,7 +281,7 @@ export function DebtCollectionModal({ isOpen, onClose, onSuccess, item }: DebtCo
             disabled={loading}
             className="px-5 py-2.5 text-sm font-semibold text-gray-700 hover:bg-gray-100 rounded-lg transition-colors"
           >
-            Hủy
+            Cancel
           </button>
           <button
             type="submit"
@@ -290,7 +290,7 @@ export function DebtCollectionModal({ isOpen, onClose, onSuccess, item }: DebtCo
             className="flex items-center gap-2 px-6 py-2.5 bg-brand-500 text-white rounded-lg hover:bg-brand-600 transition-colors font-bold shadow-md shadow-brand-200 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             <Save size={18} />
-            {loading ? 'Đang lưu...' : 'Lưu thông tin'}
+            {loading ? 'Saving...' : 'Save Information'}
           </button>
         </div>
       </div>

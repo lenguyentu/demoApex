@@ -67,7 +67,7 @@ export const JobPhaseHistoryModal = ({
         <div className="flex justify-between items-center px-6 py-4 border-b border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50 shrink-0">
           <h3 className="text-lg font-semibold text-gray-900 dark:text-white flex items-center gap-2">
             <Activity size={20} className="text-brand-600" />
-            Lịch sử thay đổi Phase
+            Phase Change History
           </h3>
           <button
             onClick={onClose}
@@ -82,11 +82,11 @@ export const JobPhaseHistoryModal = ({
           {loading ? (
             <div className="py-12 text-center text-gray-500 flex flex-col items-center gap-2">
               <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand-500" />
-              <span className="text-sm">Đang tải...</span>
+              <span className="text-sm">Loading...</span>
             </div>
           ) : history.length === 0 ? (
             <div className="py-12 text-center text-gray-500 italic text-sm">
-              Chưa có lịch sử thay đổi
+              No change history yet
             </div>
           ) : (
             <div className="relative border-l-2 border-gray-200 dark:border-gray-700 ml-4 space-y-8 pl-6 my-2">
@@ -129,7 +129,7 @@ export const JobPhaseHistoryModal = ({
                           <div className="mb-3 pb-3 border-b border-gray-200 dark:border-gray-600 border-dashed last:border-0 last:mb-0 last:pb-0">
                             <div className="flex items-center gap-2 flex-wrap">
                               <span className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                                {prevItem ? JOB_PHASE_CONFIG[prevItem.phase]?.displayName || prevItem.phase : 'Khởi tạo'}
+                                {prevItem ? JOB_PHASE_CONFIG[prevItem.phase]?.displayName || prevItem.phase : 'Initialized'}
                               </span>
                               <ArrowRight size={14} className="text-gray-400" />
                               <div className={`px-2.5 py-1 rounded-md text-sm font-semibold border ${phaseConfig ? `${phaseConfig.columnBg} ${phaseConfig.text} ${phaseConfig.border}` : 'bg-gray-100 text-gray-700 border-gray-200'}`}>
@@ -140,7 +140,7 @@ export const JobPhaseHistoryModal = ({
                         ) : (
                           <div className="mb-2 text-sm text-gray-500 dark:text-gray-400 italic flex items-center gap-1.5">
                             <FileText size={14} />
-                            Cập nhật ghi chú
+                            Updated memo
                           </div>
                         )}
 
@@ -171,7 +171,7 @@ export const JobPhaseHistoryModal = ({
             className="inline-flex justify-center rounded-lg border border-gray-300 dark:border-gray-600 shadow-sm px-5 py-2 bg-white dark:bg-gray-700 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 transition-colors"
             onClick={onClose}
           >
-            Đóng
+            Close
           </button>
         </div>
       </div>

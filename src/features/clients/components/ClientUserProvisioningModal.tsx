@@ -44,11 +44,11 @@ export const ClientUserProvisioningModal = ({
       { email, full_name: fullName, client_id: clientId, role },
       {
         onSuccess: () => {
-          toast.success('Đã tạo tài khoản cho client thành công');
+          toast.success('Client account created successfully');
           onClose();
         },
         onError: (error: any) => {
-          toast.error(error.message || 'Lỗi khi tạo tài khoản');
+          toast.error(error.message || 'Error creating account');
         },
       }
     );
@@ -67,7 +67,7 @@ export const ClientUserProvisioningModal = ({
         <div className="flex justify-between items-center px-6 py-4 border-b bg-gray-50">
           <h3 className="text-lg font-medium text-gray-900 flex items-center gap-2">
             <UserPlus size={20} className="text-brand-600" />
-            Cấp quyền truy cập Portal
+            Grant Portal Access
           </h3>
           <button
             onClick={onClose}
@@ -79,12 +79,12 @@ export const ClientUserProvisioningModal = ({
 
         <form onSubmit={handleSubmit} className="p-6 space-y-4">
           <div className="text-sm text-gray-600 mb-2">
-            Tạo tài khoản truy cập cho khách hàng <span className="font-semibold text-gray-900">{clientName}</span>.
+            Create an access account for client <span className="font-semibold text-gray-900">{clientName}</span>.
           </div>
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Email đăng nhập <span className="text-red-500">*</span>
+              Login Email <span className="text-red-500">*</span>
             </label>
             <div className="relative">
               <Mail className="absolute left-3 top-2.5 text-gray-400 w-4 h-4" />
@@ -101,7 +101,7 @@ export const ClientUserProvisioningModal = ({
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Họ và tên <span className="text-red-500">*</span>
+              Full Name <span className="text-red-500">*</span>
             </label>
             <div className="relative">
               <User className="absolute left-3 top-2.5 text-gray-400 w-4 h-4" />
@@ -111,14 +111,14 @@ export const ClientUserProvisioningModal = ({
                 onChange={(e) => setFullName(e.target.value)}
                 required
                 className="w-full pl-9 pr-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-brand-500"
-                placeholder="Nguyễn Văn A"
+                placeholder="John Doe"
               />
             </div>
           </div>
 
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">
-              Vai trò (Role)
+              Role
             </label>
             <div className="relative">
               <Shield className="absolute left-3 top-2.5 text-gray-400 w-4 h-4" />
@@ -141,7 +141,7 @@ export const ClientUserProvisioningModal = ({
               disabled={isPending}
               className="px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-gray-200 disabled:opacity-50"
             >
-              Hủy
+              Cancel
             </button>
             <button
               type="submit"
@@ -151,12 +151,12 @@ export const ClientUserProvisioningModal = ({
               {isPending ? (
                 <>
                   <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                  Đang xử lý...
+                  Processing...
                 </>
               ) : (
                 <>
                   <UserPlus size={16} />
-                  Tạo tài khoản
+                  Create Account
                 </>
               )}
             </button>

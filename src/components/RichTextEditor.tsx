@@ -44,39 +44,39 @@ export function RichTextEditor({ value, onChange, editable = true,  }: RichTextE
             onClick={() => editor.chain().focus().toggleBold().run()}
             isActive={editor.isActive('bold')}
             icon={<Bold size={16} />}
-            title="Đậm"
+            title="Bold"
           />
           <MenuButton
             onClick={() => editor.chain().focus().toggleItalic().run()}
             isActive={editor.isActive('italic')}
             icon={<Italic size={16} />}
-            title="Nghiêng"
+            title="Italic"
           />
           <div className="w-px h-6 bg-gray-300 mx-1" />
           <MenuButton
             onClick={() => editor.chain().focus().toggleBulletList().run()}
             isActive={editor.isActive('bulletList')}
             icon={<List size={16} />}
-            title="Danh sách"
+            title="Bullet List"
           />
           <MenuButton
             onClick={() => editor.chain().focus().toggleOrderedList().run()}
             isActive={editor.isActive('orderedList')}
             icon={<ListOrdered size={16} />}
-            title="Danh sách số"
+            title="Numbered List"
           />
           <div className="w-px h-6 bg-gray-300 mx-1" />
           <MenuButton
             onClick={() => editor.chain().focus().undo().run()}
             disabled={!editor.can().undo()}
             icon={<Undo size={16} />}
-            title="Hoàn tác"
+            title="Undo"
           />
           <MenuButton
             onClick={() => editor.chain().focus().redo().run()}
             disabled={!editor.can().redo()}
             icon={<Redo size={16} />}
-            title="Làm lại"
+            title="Redo"
           />
         </div>
       )}

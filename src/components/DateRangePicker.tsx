@@ -16,20 +16,20 @@ interface DateRangePickerProps {
 }
 
 const PRESET_OPTIONS = [
-  { value: 'last_24h', label: '24h trước' },
-  { value: 'today', label: 'Hôm nay' },
-  { value: 'this_week', label: 'Tuần này' },
-  { value: 'this_month', label: 'Tháng này' },
-  { value: 'last_month', label: 'Tháng trước' },
-  { value: 'custom', label: 'Tùy chọn...' },
+  { value: 'last_24h', label: 'Last 24h' },
+  { value: 'today', label: 'Today' },
+  { value: 'this_week', label: 'This Week' },
+  { value: 'this_month', label: 'This Month' },
+  { value: 'last_month', label: 'Last Month' },
+  { value: 'custom', label: 'Custom...' },
 ];
 
 const MONTHS_VN = [
-  "Tháng 1", "Tháng 2", "Tháng 3", "Tháng 4", "Tháng 5", "Tháng 6",
-  "Tháng 7", "Tháng 8", "Tháng 9", "Tháng 10", "Tháng 11", "Tháng 12"
+  "January", "February", "March", "April", "May", "June",
+  "July", "August", "September", "October", "November", "December"
 ];
 
-export function DateRangePicker({ value, onChange, placeholder = 'Thời gian tạo', className = '' }: DateRangePickerProps) {
+export function DateRangePicker({ value, onChange, placeholder = 'Created Date', className = '' }: DateRangePickerProps) {
   const [isOpen, setIsOpen] = useState(false);
   const [showCustom, setShowCustom] = useState(false);
   const [tempFrom, setTempFrom] = useState('');
@@ -158,10 +158,10 @@ export function DateRangePicker({ value, onChange, placeholder = 'Thời gian t�
       return `${fromStr} - ${toStr}`;
     }
     if (value.from) {
-      return `Từ ${format(value.from, 'dd/MM/yyyy', { locale: vi })}`;
+      return `From ${format(value.from, 'dd/MM/yyyy')}`;
     }
     if (value.to) {
-      return `Đến ${format(value.to, 'dd/MM/yyyy', { locale: vi })}`;
+      return `To ${format(value.to, 'dd/MM/yyyy')}`;
     }
     return placeholder;
   };
@@ -194,7 +194,7 @@ export function DateRangePicker({ value, onChange, placeholder = 'Thời gian t�
         <div className="absolute top-full left-0 mt-1 bg-white border border-gray-200 rounded-lg shadow-lg z-50 min-w-[220px]">
           {!showCustom ? (
             <div className="py-1 max-h-[400px] overflow-y-auto">
-              <div className="px-3 py-1.5 text-xs font-bold text-gray-400 uppercase tracking-wider">Lựa chọn nhanh</div>
+              <div className="px-3 py-1.5 text-xs font-bold text-gray-400 uppercase tracking-wider">Quick Select</div>
               {PRESET_OPTIONS.map(option => (
                 <button
                   key={option.value}
@@ -206,7 +206,7 @@ export function DateRangePicker({ value, onChange, placeholder = 'Thời gian t�
                 </button>
               ))}
               <div className="border-t border-gray-100 my-1"></div>
-              <div className="px-3 py-1.5 text-xs font-bold text-gray-400 uppercase tracking-wider">Theo tháng ({new Date().getFullYear()})</div>
+              <div className="px-3 py-1.5 text-xs font-bold text-gray-400 uppercase tracking-wider">By Month ({new Date().getFullYear()})</div>
               <div className="grid grid-cols-2 p-1">
                 {MONTHS_VN.map((m, i) => (
                   <button
@@ -222,11 +222,11 @@ export function DateRangePicker({ value, onChange, placeholder = 'Thời gian t�
             </div>
           ) : (
             <div className="p-4 space-y-3">
-              <div className="text-sm font-medium text-gray-700">Chọn khoảng thời gian</div>
+              <div className="text-sm font-medium text-gray-700">Select Date Range</div>
               
               <div className="space-y-2">
                 <div>
-                  <label className="block text-xs text-gray-500 mb-1">Từ ngày</label>
+                  <label className="block text-xs text-gray-500 mb-1">From</label>
                   <input
                     type="date"
                     value={tempFrom}
@@ -235,7 +235,7 @@ export function DateRangePicker({ value, onChange, placeholder = 'Thời gian t�
                   />
                 </div>
                 <div>
-                  <label className="block text-xs text-gray-500 mb-1">Đến ngày</label>
+                  <label className="block text-xs text-gray-500 mb-1">To</label>
                   <input
                     type="date"
                     value={tempTo}
@@ -251,14 +251,14 @@ export function DateRangePicker({ value, onChange, placeholder = 'Thời gian t�
                   onClick={() => setShowCustom(false)}
                   className="flex-1 px-3 py-2 text-sm border border-gray-200 rounded-md hover:bg-gray-50"
                 >
-                  Hủy
+                  Cancel
                 </button>
                 <button
                   type="button"
                   onClick={handleCustomApply}
                   className="flex-1 px-3 py-2 text-sm bg-brand-500 text-white rounded-md hover:bg-brand-600"
                 >
-                  Áp dụng
+                  Apply
                 </button>
               </div>
             </div>

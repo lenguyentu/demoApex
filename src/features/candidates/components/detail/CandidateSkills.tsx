@@ -24,13 +24,13 @@ export function CandidateSkills({
     <div>
       <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
         <Award className="h-4 w-4 text-pink-600" />
-        Kỹ năng
+        Skills
       </h2>
       <div className="space-y-4">
         {isEditing ? (
           <>
             <EditableField 
-              label="Kỹ năng kỹ thuật (phân cách bằng dấu phẩy)" 
+              label="Technical skills (comma-separated)" 
               name="technicalSkills" 
               value={formData.technicalSkills} 
               isEditing={true} 
@@ -38,7 +38,7 @@ export function CandidateSkills({
               type="textarea" 
             />
             <EditableField 
-              label="Kỹ năng mềm (phân cách bằng dấu phẩy)" 
+              label="Soft skills (comma-separated)" 
               name="softSkills" 
               value={formData.softSkills} 
               isEditing={true} 
@@ -46,14 +46,14 @@ export function CandidateSkills({
               type="textarea" 
             />
             <EditableField 
-              label="Ngôn ngữ khác (phân cách bằng dấu phẩy)" 
+              label="Other languages (comma-separated)" 
               name="languages" 
               value={formData.languages} 
               isEditing={true} 
               onChange={handleInputChange} 
             />
             <EditableField 
-              label="Trình độ tiếng Anh" 
+              label="English level" 
               name="englishLevel" 
               value={formData.englishLevel} 
               isEditing={true} 
@@ -64,7 +64,7 @@ export function CandidateSkills({
           <>
             {candidate.technical_skills && candidate.technical_skills.length > 0 && (
               <div>
-                <label className="text-xs text-gray-500 mb-2 block">Kỹ năng kỹ thuật</label>
+                <label className="text-xs text-gray-500 mb-2 block">Technical skills</label>
                 <div className="flex flex-wrap gap-2">
                   {candidate.technical_skills.map((skill, index) => (
                     <span 
@@ -79,7 +79,7 @@ export function CandidateSkills({
             )}
             {candidate.soft_skills && candidate.soft_skills.length > 0 && (
               <div>
-                <label className="text-xs text-gray-500 mb-2 block">Kỹ năng mềm</label>
+                <label className="text-xs text-gray-500 mb-2 block">Soft skills</label>
                 <div className="flex flex-wrap gap-2">
                   {candidate.soft_skills.map((skill, index) => (
                     <span 
@@ -93,14 +93,14 @@ export function CandidateSkills({
               </div>
             )}
             <EditableField 
-              label="Trình độ tiếng Anh" 
+              label="English level" 
               name="english_level" 
               value={candidate.english_level} 
               isEditing={false} 
               onChange={handleInputChange} 
             />
             <EditableField 
-              label="Ngôn ngữ khác" 
+              label="Other languages" 
               name="other_languages" 
               value={candidate.other_languages?.join(', ')} 
               isEditing={false} 

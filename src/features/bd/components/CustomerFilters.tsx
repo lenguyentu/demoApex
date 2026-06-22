@@ -35,22 +35,22 @@ export const CustomerFilters = ({ filters, onFilterChange, hideStatus }: Custome
 
         {/* Client Select */}
         <div className="lg:col-span-1">
-           <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Công ty (Exact)</label>
+           <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Company (Exact)</label>
            <ClientSelect 
               value={filters.clientId || ''} 
               onChange={(val) => onFilterChange('clientId', val)}
-              placeholder="Chọn công ty..."
+              placeholder="Select company..."
               className="w-full"
            />
         </div>
 
         {/* Owner Select */}
         <div className="lg:col-span-1">
-           <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Người phụ trách</label>
+           <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Assignee</label>
            <OwnerSelect 
               value={filters.owner_id || ''} 
               onChange={(val) => onFilterChange('owner_id', val)} 
-              placeholder="Tất cả"
+              placeholder="All"
               className="w-full"
            />
         </div>
@@ -64,7 +64,7 @@ export const CustomerFilters = ({ filters, onFilterChange, hideStatus }: Custome
                   onChange={(e) => onFilterChange('status', e.target.value)}
                   className="w-full px-3 py-2 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg text-sm text-gray-700 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-brand-500"
               >
-                  <option>Tất cả Status</option>
+                  <option>All Statuses</option>
                   
                   <optgroup label="Phase 1: Connect">
                     <option value="Research">Research</option>
@@ -88,7 +88,7 @@ export const CustomerFilters = ({ filters, onFilterChange, hideStatus }: Custome
                     <option value="Excluded">Excluded</option>
                   </optgroup>
 
-                  <optgroup label="Legacy (Cũ)">
+                  <optgroup label="Legacy">
                     <option value="Working">Working</option>
                     <option value="Hiring">Hiring</option>
                     <option value="Pending">Pending</option>
@@ -107,28 +107,28 @@ export const CustomerFilters = ({ filters, onFilterChange, hideStatus }: Custome
                 onChange={(e) => onFilterChange('domain', e.target.value)}
                 className="w-full px-3 py-2 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg text-sm text-gray-700 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-brand-500"
             >
-                <option value="">Tất cả Domain</option>
+                <option value="">All Domains</option>
                 {industries.map((ind) => (
                   <option key={ind.id} value={ind.name}>{ind.name}</option>
                 ))}
             </select>
         </div>
 
-        {/* Nguồn Job */}
+        {/* Job Source */}
         <div>
-           <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Nguồn Job</label>
+           <label className="block text-xs font-medium text-gray-500 dark:text-gray-400 mb-1">Job Source</label>
             <select 
                 value={filters.source}
                 onChange={(e) => onFilterChange('source', e.target.value)}
                 className="w-full px-3 py-2 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg text-sm text-gray-700 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-brand-500"
             >
-                <option>Tất cả nguồn</option>
+                <option>All sources</option>
                 <option value="Facebook">Facebook</option>
                 <option value="Linkedin">Linkedin</option>
                 <option value="Thread">Thread</option>
                 <option value="Job Portal">Job Portal</option>
                 <option value="Referral">Referral</option>
-                <option value="Khác">Khác</option>
+                <option value="Other">Other</option>
             </select>
         </div>
 
@@ -140,9 +140,9 @@ export const CustomerFilters = ({ filters, onFilterChange, hideStatus }: Custome
                 onChange={(e) => onFilterChange('priority', e.target.value)}
                 className="w-full px-3 py-2 bg-gray-50 dark:bg-gray-900 border border-gray-200 dark:border-gray-700 rounded-lg text-sm text-gray-700 dark:text-gray-300 focus:outline-none focus:ring-2 focus:ring-brand-500"
             >
-                <option>Tất cả</option>
-                 <option>Ưu tiên</option>
-                 <option>Bình thường</option>
+                <option>All</option>
+                 <option>High Priority</option>
+                 <option>Normal</option>
             </select>
         </div>
       </div>

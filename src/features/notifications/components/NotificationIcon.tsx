@@ -46,43 +46,43 @@ export function NotificationIcon({ type, className = '' }: NotificationIconProps
 }
 
 /**
- * Get notification type label in Vietnamese
+ * Get notification type label
  */
 export function getNotificationTypeLabel(type: NotificationType | null): string {
   const typeLabels: Record<string, string> = {
     // Job & Freelancer
     'job_assignment_type_changed_to_freelancer': 'Job → Freelancer',
-    'job_open_created': 'Job mới',
-    'job_phase_cancelled': 'Job hủy phase',
+    'job_open_created': 'New Job',
+    'job_phase_cancelled': 'Job phase cancelled',
     
     // Process - Owner/Participant
-    'new_process_owner': 'Process mới (Owner)',
-    'new_process_ctv_freelancer_hr': 'Process mới (CTV/FL/HR)',
-    'new_process_client_owner': 'Process mới (Client)',
-    'process_status_update': 'Cập nhật status',
+    'new_process_owner': 'New Process (Owner)',
+    'new_process_ctv_freelancer_hr': 'New Process (CTV/FL/HR)',
+    'new_process_client_owner': 'New Process (Client)',
+    'process_status_update': 'Status Update',
     'process_status_update_ctv_freelancer_hr': 'Status (CTV/FL/HR)',
     'process_status_update_client_owner': 'Status (Client)',
     
     // Admin
-    'new_process_admin': 'Process mới (Admin)',
-    'new_process_privileged_user': 'Process mới (Privileged)',
+    'new_process_admin': 'New Process (Admin)',
+    'new_process_privileged_user': 'New Process (Privileged)',
     'process_status_update_admin': 'Status (Admin)',
     'job_assignment_type_changed_admin': 'Job changed (Admin)',
     
     // User & Registration
-    'new_user_registration': 'Đăng ký mới',
-    'user_registration_no_referral': 'Đăng ký (No Ref)',
-    'referral_registration': 'Đăng ký Referral',
+    'new_user_registration': 'New Registration',
+    'user_registration_no_referral': 'Registration (No Ref)',
+    'referral_registration': 'Referral Registration',
     
     // Communication
     'job_comment': 'Comment Job',
-    'chat_message': 'Tin nhắn Chat',
+    'chat_message': 'Chat Message',
 
     // BD & Customer Care
-    'bd_reminder': 'Chăm sóc khách hàng',
+    'bd_reminder': 'Customer Care',
   };
   
-  return typeLabels[type || ''] || type || 'Thông báo';
+  return typeLabels[type || ''] || type || 'Notification';
 }
 
 /**

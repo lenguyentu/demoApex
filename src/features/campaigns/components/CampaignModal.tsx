@@ -137,7 +137,7 @@ export const CampaignModal = ({ campaign, isOpen, onClose, onSuccess }: Campaign
                   value={formData.title}
                   onChange={e => setFormData({ ...formData, title: e.target.value })}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-brand-500 outline-none"
-                  placeholder="e.g. CHIẾN DỊCH THÁNG 6"
+                  placeholder="e.g. JUNE CAMPAIGN"
                 />
               </div>
               <div>

@@ -54,7 +54,7 @@ export const exportToPDF = async (
   try {
     const element = document.getElementById(elementId);
     if (!element) {
-      toast.error('Không tìm thấy nội dung để xuất');
+      toast.error('No content found to export');
       return;
     }
 
@@ -81,10 +81,10 @@ export const exportToPDF = async (
       pdf.save(`${fileName}.pdf`);
     });
 
-    toast.success('Đã xuất PDF thành công!');
+    toast.success('Exported PDF successfully!');
   } catch (error) {
     console.error('Error exporting PDF:', error);
-    toast.error('Có lỗi khi xuất PDF');
+    toast.error('Error exporting PDF');
   } finally {
     setLoading?.(false);
   }
@@ -103,7 +103,7 @@ export const exportToImage = async (
   try {
     const element = document.getElementById(elementId);
     if (!element) {
-      toast.error('Không tìm thấy nội dung để xuất');
+      toast.error('No content found to export');
       return;
     }
 
@@ -122,10 +122,10 @@ export const exportToImage = async (
       link.click();
     });
 
-    toast.success('Đã xuất ảnh thành công!');
+    toast.success('Exported image successfully!');
   } catch (error) {
     console.error('Error exporting image:', error);
-    toast.error('Có lỗi khi xuất ảnh');
+    toast.error('Error exporting image');
   } finally {
     setLoading?.(false);
   }
@@ -159,10 +159,10 @@ export const exportToExcel = (
     const wb = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Data');
     XLSX.writeFile(wb, `${fileName}.xlsx`);
-    toast.success('Đã xuất Excel thành công!');
+    toast.success('Exported Excel successfully!');
   } catch (error) {
     console.error('Error exporting Excel:', error);
-    toast.error('Có lỗi khi xuất Excel');
+    toast.error('Error exporting Excel');
   }
 };
 
@@ -182,13 +182,13 @@ export const exportToDebtExcel = (
     const wsData: any[][] = [];
 
     // --- ROW 1: TOP HEADERS ---
-    const header1 = ['Khách hàng / Vị trí / Ứng viên', 'Số case', 'Nợ phát sinh', 'Đã TT'];
+    const header1 = ['Customer / Position / Candidate', 'Cases', 'Incurred Debt', 'Paid'];
     const colCountBeforeMonths = header1.length;
     // Add "Dự kiến thu công nợ theo tháng" merged header
-    header1.push('Dự kiến thu công nợ theo tháng');
+    header1.push('Expected Debt Collection by Month');
     // Pad with empty strings for merging
     for (let i = 0; i < (monthHeaders.length * 2) - 1; i++) header1.push('');
-    header1.push('Trạng thái');
+    header1.push('Status');
     wsData.push(header1);
 
     // --- ROW 2: MONTH HEADERS ---
@@ -203,8 +203,8 @@ export const exportToDebtExcel = (
     // --- ROW 3: SUB HEADERS ---
     const header3 = ['', '', '', ''];
     monthHeaders.forEach(() => {
-      header3.push('Số tiền');
-      header3.push('Ngày hạn');
+      header3.push('Amount');
+      header3.push('Due Date');
     });
     header3.push('');
     wsData.push(header3);
@@ -228,7 +228,7 @@ export const exportToDebtExcel = (
 
     // --- FOOTER: GRAND TOTAL ---
     const footerArr = [
-      'TỔNG CỘNG',
+      'GRAND TOTAL',
       '',
       grandTotal.incurred,
       grandTotal.paid,
@@ -275,12 +275,12 @@ export const exportToDebtExcel = (
     ];
 
     const wb = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Công nợ');
+    XLSX.utils.book_append_sheet(wb, ws, 'Debt');
     XLSX.writeFile(wb, `${fileName}.xlsx`);
-    toast.success('Đã xuất Excel chuyên sâu thành công!');
+    toast.success('Exported advanced Excel successfully!');
 
   } catch (error) {
     console.error('Advanced Excel Export Error:', error);
-    toast.error('Có lỗi khi xuất Excel nâng cao');
+    toast.error('Error exporting advanced Excel');
   }
 };

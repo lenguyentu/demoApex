@@ -60,7 +60,7 @@ export function DebtHistoryModal({ isOpen, onClose, item }: DebtHistoryModalProp
         <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-700 bg-white/50 dark:bg-gray-800/50 shrink-0">
           <h3 className="text-lg font-medium text-gray-900 dark:text-white flex items-center gap-2">
             <Activity size={20} className="text-brand-600" />
-            Lịch sử Thu hồi nợ
+            Debt Collection History
           </h3>
           <button
             onClick={onClose}
@@ -75,10 +75,10 @@ export function DebtHistoryModal({ isOpen, onClose, item }: DebtHistoryModalProp
           {loading ? (
              <div className="py-12 text-center text-gray-500 flex flex-col items-center gap-2">
                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand-500"></div>
-                <span className="text-sm">Đang tải dữ liệu...</span>
+                <span className="text-sm">Loading data...</span>
              </div>
           ) : history.length === 0 ? (
-            <div className="py-12 text-center text-gray-500 italic">Chưa có lịch sử thay đổi nào.</div>
+            <div className="py-12 text-center text-gray-500 italic">No modification history found.</div>
           ) : (
             <div className="relative border-l-2 border-gray-200 dark:border-gray-700 ml-4 space-y-8 pl-6 my-2">
               {history.map((log) => {
@@ -120,7 +120,7 @@ export function DebtHistoryModal({ isOpen, onClose, item }: DebtHistoryModalProp
                               <div className="mb-3 pb-3 border-b border-gray-200 dark:border-gray-600 border-dashed">
                                  <div className="flex items-center gap-2 flex-wrap text-sm">
                                     <span className="font-medium text-gray-500">
-                                        {log.old_overall_status || 'Khởi tạo'}
+                                        {log.old_overall_status || 'Initialize'}
                                     </span>
                                     <ArrowRight size={14} className="text-gray-400" />
                                     <div className={`px-2 py-0.5 rounded text-xs font-bold border uppercase tracking-wider
@@ -128,7 +128,7 @@ export function DebtHistoryModal({ isOpen, onClose, item }: DebtHistoryModalProp
                                           log.new_overall_status === 'Cancel' ? 'bg-gray-50 border-gray-200 text-gray-500' : 
                                           'bg-amber-50 border-amber-200 text-amber-700'}
                                     `}>
-                                        {log.new_overall_status || 'Trống'}
+                                        {log.new_overall_status || 'Empty'}
                                     </div>
                                  </div>
                               </div>
@@ -138,14 +138,14 @@ export function DebtHistoryModal({ isOpen, onClose, item }: DebtHistoryModalProp
                           <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                              {(p1Changed || p1ExpChanged) && (
                                 <div className="space-y-1">
-                                    <div className="text-[10px] uppercase font-bold text-gray-400 tracking-widest">Đợt 1</div>
+                                    <div className="text-[10px] uppercase font-bold text-gray-400 tracking-widest">Phase 1</div>
                                     <div className="text-sm flex flex-col">
                                        {p1ExpChanged && (
-                                         <div className="text-gray-500 line-through text-xs">Phát sinh: {Number(log.old_p1_amount || 0).toLocaleString()}đ</div>
+                                         <div className="text-gray-500 line-through text-xs">Expected: {Number(log.old_p1_amount || 0).toLocaleString()} VND</div>
                                        )}
                                        <div className="text-gray-900 font-semibold">
-                                         {Number(log.new_p1_amount || 0).toLocaleString()}đ 
-                                         <span className="text-xs text-green-600 ml-2">(Thu: {Number(log.new_p1_paid_amount || 0).toLocaleString()}đ)</span>
+                                         {Number(log.new_p1_amount || 0).toLocaleString()} VND 
+                                         <span className="text-xs text-green-600 ml-2">(Collected: {Number(log.new_p1_paid_amount || 0).toLocaleString()} VND)</span>
                                        </div>
                                     </div>
                                 </div>
@@ -153,14 +153,14 @@ export function DebtHistoryModal({ isOpen, onClose, item }: DebtHistoryModalProp
                              
                              {(p2Changed || p2ExpChanged) && (
                                 <div className="space-y-1">
-                                    <div className="text-[10px] uppercase font-bold text-gray-400 tracking-widest">Đợt 2</div>
+                                    <div className="text-[10px] uppercase font-bold text-gray-400 tracking-widest">Phase 2</div>
                                     <div className="text-sm flex flex-col">
                                        {p2ExpChanged && (
-                                          <div className="text-gray-500 line-through text-xs">Phát sinh: {Number(log.old_p2_amount || 0).toLocaleString()}đ</div>
+                                          <div className="text-gray-500 line-through text-xs">Expected: {Number(log.old_p2_amount || 0).toLocaleString()} VND</div>
                                        )}
                                        <div className="text-gray-900 font-semibold">
-                                          {Number(log.new_p2_amount || 0).toLocaleString()}đ
-                                          <span className="text-xs text-green-600 ml-2">(Thu: {Number(log.new_p2_paid_amount || 0).toLocaleString()}đ)</span>
+                                          {Number(log.new_p2_amount || 0).toLocaleString()} VND
+                                          <span className="text-xs text-green-600 ml-2">(Collected: {Number(log.new_p2_paid_amount || 0).toLocaleString()} VND)</span>
                                        </div>
                                     </div>
                                 </div>
@@ -190,7 +190,7 @@ export function DebtHistoryModal({ isOpen, onClose, item }: DebtHistoryModalProp
               className="inline-flex justify-center rounded-lg border border-gray-300 shadow-sm px-5 py-2 bg-white text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-brand-500 transition-colors"
               onClick={onClose}
             >
-              Đóng
+              Close
             </button>
         </div>
       </div>

@@ -8,9 +8,9 @@ export const MOCK_CLIENTS = [
     website: "https://technova-solutions.com",
     contact_email: "hr@technova-solutions.com",
     phone: "028 3812 3456",
-    address: "Tòa nhà Bitexco, Quận 1, TP. Hồ Chí Minh",
+    address: "Bitexco Tower, District 1, Ho Chi Minh City",
     tax_code: "0312345678",
-    description: "Công ty phát triển phần mềm và cung cấp giải pháp chuyển đổi số hàng đầu Châu Á."
+    description: "Leading software development and digital transformation solution provider in Asia."
   },
   {
     id: "client-2",
@@ -21,9 +21,9 @@ export const MOCK_CLIENTS = [
     website: "https://fintech-asia.com",
     contact_email: "recruitment@fintech-asia.com",
     phone: "024 3721 9999",
-    address: "Keangnam Landmark 72, Nam Từ Liêm, Hà Nội",
+    address: "Keangnam Landmark 72, Nam Tu Liem, Hanoi",
     tax_code: "0109876543",
-    description: "Startup tỷ đô (Unicorn) cung cấp các giải pháp thanh toán điện tử và tín dụng vi mô."
+    description: "Billion-dollar startup (Unicorn) providing electronic payment and microcredit solutions."
   },
   {
     id: "client-3",
@@ -34,9 +34,9 @@ export const MOCK_CLIENTS = [
     website: "https://global-ecommerce.com",
     contact_email: "talent@global-ecommerce.com",
     phone: "0236 3888 888",
-    address: "Khu CNTT Tập Trung, Hải Châu, Đà Nẵng",
+    address: "Central IT Park, Hai Chau, Da Nang",
     tax_code: "0401122334",
-    description: "Tập đoàn thương mại điện tử đa quốc gia có trụ sở tại Singapore."
+    description: "Multinational e-commerce corporation headquartered in Singapore."
   },
   {
     id: "client-4",
@@ -47,8 +47,8 @@ export const MOCK_CLIENTS = [
     website: "https://nextgen-logistics.vn",
     contact_email: "hr.manager@nextgen-logistics.vn",
     phone: "028 3999 7777",
-    address: "Khu Công Nghiệp Cát Lái, Quận 2, TP. Hồ Chí Minh",
+    address: "Cat Lai Industrial Zone, District 2, Ho Chi Minh City",
     tax_code: "0319988776",
-    description: "Công ty cung cấp giải pháp vận tải và chuỗi cung ứng thông minh bằng công nghệ AI."
+    description: "Company providing smart transportation and supply chain solutions using AI technology."
   }
 ];

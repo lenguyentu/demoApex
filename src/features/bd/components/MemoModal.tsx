@@ -7,7 +7,7 @@ interface MemoModalProps {
   title?: string;
 }
 
-export const MemoModal = ({ isOpen, onClose, content, title = "Ghi chú & Memo" }: MemoModalProps) => {
+export const MemoModal = ({ isOpen, onClose, content, title = "Notes & Memo" }: MemoModalProps) => {
   if (!isOpen) return null;
 
   return (
@@ -32,7 +32,7 @@ export const MemoModal = ({ isOpen, onClose, content, title = "Ghi chú & Memo" 
             </div>
           ) : (
             <div className="flex flex-col items-center justify-center py-8 text-gray-400">
-                <span className="text-sm italic">Chưa có ghi chú nào</span>
+                <span className="text-sm italic">No notes yet</span>
             </div>
           )}
         </div>
@@ -42,7 +42,7 @@ export const MemoModal = ({ isOpen, onClose, content, title = "Ghi chú & Memo" 
             onClick={onClose}
             className="px-4 py-2 bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-600 text-gray-700 dark:text-gray-300 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 font-medium text-sm transition-colors"
           >
-            Đóng
+            Close
           </button>
         </div>
       </div>

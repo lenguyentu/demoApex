@@ -37,46 +37,46 @@ export function CandidateProfessionalInfo({
 
   // Options for Employment Type
   const employmentTypeOptions = [
-    { value: 'Full_Time_Permanent', label: 'Toàn thời gian' },
-    { value: 'Part_Time_Permanent', label: 'Bán thời gian' },
-    { value: 'Contract', label: 'Hợp đồng' },
+    { value: 'Full_Time_Permanent', label: 'Full Time' },
+    { value: 'Part_Time_Permanent', label: 'Part Time' },
+    { value: 'Contract', label: 'Contract' },
     { value: 'Freelance', label: 'Freelance' },
-    { value: 'Internship', label: 'Thực tập' },
-    { value: 'Temporary', label: 'Tạm thời' },
+    { value: 'Internship', label: 'Internship' },
+    { value: 'Temporary', label: 'Temporary' },
   ];
 
   return (
     <div>
       <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center gap-2">
         <Building2 className="h-4 w-4 text-pink-600" />
-        Thông tin nghề nghiệp
+        Professional Information
       </h2>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
         {isEditing ? (
           <>
             <EditableField
-              label="Trạng thái việc làm"
+              label="Employment status"
               name="currentEmploymentStatus"
               value={formData.currentEmploymentStatus}
               isEditing={true}
               onChange={handleInputChange}
             />
             <EditableField
-              label="Lĩnh vực kinh nghiệm"
+              label="Experienced industry"
               name="experiencedIndustry"
               value={formData.experiencedIndustry}
               isEditing={true}
               onChange={handleInputChange}
             />
             <EditableField
-              label="Công việc kinh nghiệm"
+              label="Experienced job"
               name="experiencedJob"
               value={formData.experiencedJob}
               isEditing={true}
               onChange={handleInputChange}
             />
             <EditableField
-              label="Loại hình làm việc"
+              label="Employment type"
               name="employmentType"
               value={formData.employmentType}
               isEditing={true}
@@ -85,14 +85,14 @@ export function CandidateProfessionalInfo({
               options={employmentTypeOptions}
             />
             <EditableField
-              label="Thời gian báo trước"
+              label="Notice period"
               name="noticePeriod"
               value={formData.noticePeriod}
               isEditing={true}
               onChange={handleInputChange}
             />
             <EditableField
-              label="Ngày có thể bắt đầu"
+              label="Available date"
               name="availableDate"
               value={formData.availableDate}
               isEditing={true}
@@ -100,21 +100,21 @@ export function CandidateProfessionalInfo({
               placeholder="dd/mm/yyyy"
             />
             <EditableField
-              label="Lương hiện tại"
+              label="Current salary"
               name="currentSalary"
               value={formData.currentSalary}
               isEditing={true}
               onChange={handleInputChange}
             />
             <EditableField
-              label="Lương mong muốn (Tháng)"
+              label="Expected salary (Monthly)"
               name="expectedSalary"
               value={formData.expectedSalary}
               isEditing={true}
               onChange={handleInputChange}
             />
             <EditableField
-              label="Lương mong muốn (Năm)"
+              label="Expected salary (Annual)"
               name="expectedAnnualSalary"
               value={formData.expectedAnnualSalary}
               isEditing={true}
@@ -124,63 +124,63 @@ export function CandidateProfessionalInfo({
         ) : (
           <>
             <EditableField
-              label="Trạng thái việc làm"
+              label="Employment status"
               name="current_employment_status"
               value={candidate.current_employment_status}
               isEditing={false}
               onChange={handleInputChange}
             />
             <EditableField
-              label="Lĩnh vực kinh nghiệm"
+              label="Experienced industry"
               name="experienced_industry"
               value={candidate.experienced_industry}
               isEditing={false}
               onChange={handleInputChange}
             />
             <EditableField
-              label="Công việc kinh nghiệm"
+              label="Experienced job"
               name="experienced_job"
               value={candidate.experienced_job}
               isEditing={false}
               onChange={handleInputChange}
             />
             <EditableField
-              label="Loại hình làm việc"
+              label="Employment type"
               name="employment_type"
               value={candidate.employment_type}
               isEditing={false}
               onChange={handleInputChange}
             />
             <EditableField
-              label="Thời gian báo trước"
+              label="Notice period"
               name="notice_period"
               value={candidate.notice_period}
               isEditing={false}
               onChange={handleInputChange}
             />
             <EditableField
-              label="Ngày có thể bắt đầu"
+              label="Available date"
               name="employment_start_date"
               value={candidate.employment_start_date}
               isEditing={false}
               onChange={handleInputChange}
             />
             <EditableField
-              label="Lương hiện tại"
+              label="Current salary"
               name="current_monthly_salary"
               value={candidate.current_monthly_salary}
               isEditing={false}
               onChange={handleInputChange}
             />
             <EditableField
-              label="Lương mong muốn (Tháng)"
+              label="Expected salary (Monthly)"
               name="expected_monthly_salary"
               value={candidate.expected_monthly_salary}
               isEditing={false}
               onChange={handleInputChange}
             />
             <EditableField
-              label="Lương mong muốn (Năm)"
+              label="Expected salary (Annual)"
               name="expected_annual_salary"
               value={candidate.expected_annual_salary}
               isEditing={false}

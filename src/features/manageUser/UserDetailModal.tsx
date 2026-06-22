@@ -65,11 +65,11 @@ export function UserDetailModal({ userId, mode, onClose }: UserDetailModalProps)
            {isLoading ? (
              <div className="h-[400px] flex flex-col items-center justify-center gap-4">
                  <Loader2 className="w-10 h-10 text-brand-500 animate-spin" />
-                 <p className="text-gray-500">Đang tải thông tin...</p>
+                 <p className="text-gray-500">Loading information...</p>
              </div>
            ) : error || !profile ? (
              <div className="h-[400px] flex items-center justify-center text-red-500">
-                Lỗi tải thông tin user.
+                Error loading user information.
              </div>
            ) : (
              <div className="p-6 md:p-8 max-h-[90vh] overflow-y-auto">
@@ -77,7 +77,7 @@ export function UserDetailModal({ userId, mode, onClose }: UserDetailModalProps)
                 
                 <div className="mt-8">
                     <h3 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
-                        {mode === 'view' ? 'Chi tiết hồ sơ' : 'Chỉnh sửa hồ sơ'} 
+                        {mode === 'view' ? 'Profile Details' : 'Edit Profile'} 
                         {mode === 'view' && <span className="text-sm font-normal text-gray-500 bg-gray-100 px-3 py-1 rounded-full">Read Only</span>}
                     </h3>
                     <ProfileForm profile={profile} readOnly={mode === 'view'} />

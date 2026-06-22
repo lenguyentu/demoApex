@@ -29,7 +29,7 @@ interface ClientSelectProps {
 export function ClientSelect({
   value,
   onChange,
-  placeholder = 'Chọn khách hàng...',
+  placeholder = 'Select client...',
   className = '',
   disabled = false,
 }: ClientSelectProps) {
@@ -69,7 +69,7 @@ export function ClientSelect({
     const selectedLabel = clientOptions.find((opt: { value: string, label: string }) => opt.value === value)?.label || selectedClient?.client_name;
     return (
       <div className={`px-3 py-2 border border-gray-200 rounded-lg bg-gray-100 text-gray-500 ${className}`}>
-        {selectedLabel || (value ? 'Đang tải...' : placeholder)}
+        {selectedLabel || (value ? 'Loading...' : placeholder)}
       </div>
     );
   }
@@ -79,7 +79,7 @@ export function ClientSelect({
       options={clientOptions}
       value={value}
       onChange={onChange}
-      placeholder={isSearching ? 'Đang tìm...' : placeholder}
+      placeholder={isSearching ? 'Searching...' : placeholder}
       icon={<Building2 size={16} />}
       className={className}
       onSearch={setSearchTerm}

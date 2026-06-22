@@ -79,9 +79,9 @@ export const ProfileForm = ({ profile, readOnly = false }: ProfileFormProps) => 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         <div className="lg:col-span-2 space-y-6">
           {/* Personal Info */}
-          <FormCard title="Thông tin cá nhân" icon={<User size={20} />}>
+          <FormCard title="Personal Information" icon={<User size={20} />}>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <FormField label="Họ và tên">
+              <FormField label="Full Name">
                 <input
                   type="text"
                   name="full_name"
@@ -89,10 +89,10 @@ export const ProfileForm = ({ profile, readOnly = false }: ProfileFormProps) => 
                   onChange={handleChange}
                   disabled={readOnly}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-brand-500 disabled:bg-gray-50 disabled:text-gray-500"
-                  placeholder="Nhập họ và tên"
+                  placeholder="Enter full name"
                 />
               </FormField>
-              <FormField label="Số điện thoại">
+              <FormField label="Phone Number">
                 <input
                   type="text"
                   name="phone"
@@ -100,10 +100,10 @@ export const ProfileForm = ({ profile, readOnly = false }: ProfileFormProps) => 
                   onChange={handleChange}
                   disabled={readOnly}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-brand-500 disabled:bg-gray-50 disabled:text-gray-500"
-                  placeholder="Nhập số điện thoại"
+                  placeholder="Enter phone number"
                 />
               </FormField>
-              <FormField label="Địa chỉ">
+              <FormField label="Address">
                 <input
                   type="text"
                   name="address"
@@ -111,10 +111,10 @@ export const ProfileForm = ({ profile, readOnly = false }: ProfileFormProps) => 
                   onChange={handleChange}
                   disabled={readOnly}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-brand-500 disabled:bg-gray-50 disabled:text-gray-500"
-                  placeholder="Địa chỉ liên hệ"
+                  placeholder="Contact address"
                 />
               </FormField>
-              <FormField label="Thành phố / Tỉnh">
+              <FormField label="City / Province">
                 <input
                   type="text"
                   name="location"
@@ -122,11 +122,11 @@ export const ProfileForm = ({ profile, readOnly = false }: ProfileFormProps) => 
                   onChange={handleChange}
                   disabled={readOnly}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-brand-500 disabled:bg-gray-50 disabled:text-gray-500"
-                  placeholder="VD: Hồ Chí Minh"
+                  placeholder="Ex: Ho Chi Minh"
                 />
               </FormField>
               <div className="md:col-span-2">
-                <FormField label="Giới thiệu bản thân (Bio)">
+                <FormField label="Bio">
                   <textarea
                     name="bio"
                     rows={3}
@@ -134,7 +134,7 @@ export const ProfileForm = ({ profile, readOnly = false }: ProfileFormProps) => 
                     onChange={handleChange}
                     disabled={readOnly}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-brand-500 disabled:bg-gray-50 disabled:text-gray-500"
-                    placeholder="Một chút về bản thân..."
+                    placeholder="A little bit about yourself..."
                   />
                 </FormField>
               </div>
@@ -142,10 +142,10 @@ export const ProfileForm = ({ profile, readOnly = false }: ProfileFormProps) => 
           </FormCard>
 
           {/* Positions Confident / Exp */}
-          <FormCard title="Kinh nghiệm & Vị trí tự tin" icon={<Briefcase size={20} />}>
+          <FormCard title="Experience & Confident Positions" icon={<Briefcase size={20} />}>
             <div className="space-y-4">
               <p className="text-sm text-gray-500">
-                Những lĩnh vực bạn có kinh nghiệm hoặc tự tin tuyển dụng
+                Fields you have experience in or are confident recruiting for
               </p>
               <div className="flex flex-wrap gap-2">
                 {(formData.positions_confident || []).map((pos, idx) => (
@@ -176,7 +176,7 @@ export const ProfileForm = ({ profile, readOnly = false }: ProfileFormProps) => 
                   <input
                     type="text"
                     id="new-position-input"
-                    placeholder="Thêm vị trí mới (nhấn Enter)"
+                    placeholder="Add new position (press Enter)"
                     className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-brand-500"
                     onKeyDown={(e) => {
                       if (e.key === 'Enter') {
@@ -209,7 +209,7 @@ export const ProfileForm = ({ profile, readOnly = false }: ProfileFormProps) => 
                     className="px-3 py-2 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 transition-colors flex items-center gap-1"
                   >
                     <Plus size={16} />
-                    Thêm
+                    Add
                   </button>
                 </div>
               )}
@@ -217,7 +217,7 @@ export const ProfileForm = ({ profile, readOnly = false }: ProfileFormProps) => 
           </FormCard>
 
           {/* Identity & Files */}
-          <FormCard title="Hồ sơ & Định danh" icon={<FileText size={20} />}>
+          <FormCard title="Documents & Identity" icon={<FileText size={20} />}>
             <div className="grid grid-cols-1 gap-4">
               <FormField label="Link CV">
                 <input
@@ -231,7 +231,7 @@ export const ProfileForm = ({ profile, readOnly = false }: ProfileFormProps) => 
                 />
               </FormField>
               <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                <FormField label="CCCD (Mặt trước)">
+                <FormField label="ID Card (Front)">
                   <input
                     type="text"
                     name="cccd_front_path"
@@ -242,7 +242,7 @@ export const ProfileForm = ({ profile, readOnly = false }: ProfileFormProps) => 
                     placeholder="URL hình ảnh"
                   />
                 </FormField>
-                <FormField label="CCCD (Mặt sau)">
+                <FormField label="ID Card (Back)">
                   <input
                     type="text"
                     name="cccd_back_path"
@@ -253,7 +253,7 @@ export const ProfileForm = ({ profile, readOnly = false }: ProfileFormProps) => 
                     placeholder="URL hình ảnh"
                   />
                 </FormField>
-                <FormField label="File CCCD">
+                <FormField label="ID Card File">
                   <input
                     type="text"
                     name="cccd_file_path"
@@ -261,7 +261,7 @@ export const ProfileForm = ({ profile, readOnly = false }: ProfileFormProps) => 
                     onChange={handleChange}
                     disabled={readOnly}
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-brand-500 disabled:bg-gray-50 disabled:text-gray-500"
-                    placeholder="Đường dẫn file scan"
+                    placeholder="Scan file path"
                   />
                 </FormField>
               </div>
@@ -271,7 +271,7 @@ export const ProfileForm = ({ profile, readOnly = false }: ProfileFormProps) => 
 
         <div className="space-y-6">
           {/* Socials */}
-          <FormCard title="Mạng xã hội" icon={<Globe size={20} />}>
+          <FormCard title="Social Media" icon={<Globe size={20} />}>
             <div className="space-y-4">
               <FormField label="Zalo">
                 <div className="flex items-center gap-2">
@@ -283,7 +283,7 @@ export const ProfileForm = ({ profile, readOnly = false }: ProfileFormProps) => 
                     onChange={handleChange}
                     disabled={readOnly}
                     className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-brand-500 disabled:bg-gray-50 disabled:text-gray-500"
-                    placeholder="Số điện thoại Zalo"
+                    placeholder="Zalo phone number"
                   />
                 </div>
               </FormField>
@@ -297,7 +297,7 @@ export const ProfileForm = ({ profile, readOnly = false }: ProfileFormProps) => 
                     onChange={handleChange}
                     disabled={readOnly}
                     className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-brand-500 disabled:bg-gray-50 disabled:text-gray-500"
-                    placeholder="Link Facebook profile"
+                    placeholder="Facebook profile link"
                   />
                 </div>
               </FormField>
@@ -305,9 +305,9 @@ export const ProfileForm = ({ profile, readOnly = false }: ProfileFormProps) => 
           </FormCard>
 
           {/* Banking */}
-          <FormCard title="Thông tin ngân hàng" icon={<CreditCard size={20} />}>
+          <FormCard title="Bank Information" icon={<CreditCard size={20} />}>
             <div className="space-y-4">
-              <FormField label="Tên ngân hàng">
+              <FormField label="Bank Name">
                 <input
                   type="text"
                   name="bank_name"
@@ -318,7 +318,7 @@ export const ProfileForm = ({ profile, readOnly = false }: ProfileFormProps) => 
                   placeholder="VD: Vietcombank"
                 />
               </FormField>
-              <FormField label="Số tài khoản">
+              <FormField label="Account Number">
                 <input
                   type="text"
                   name="bank_account_number"
@@ -329,7 +329,7 @@ export const ProfileForm = ({ profile, readOnly = false }: ProfileFormProps) => 
                   placeholder="xxxx xxxx xxxx"
                 />
               </FormField>
-              <FormField label="Chủ tài khoản">
+              <FormField label="Account Holder">
                 <input
                   type="text"
                   name="bank_account_holder"
@@ -340,7 +340,7 @@ export const ProfileForm = ({ profile, readOnly = false }: ProfileFormProps) => 
                   placeholder="NGUYEN VAN A"
                 />
               </FormField>
-              <FormField label="Chi nhánh">
+              <FormField label="Branch">
                 <input
                   type="text"
                   name="bank_branch"
@@ -348,7 +348,7 @@ export const ProfileForm = ({ profile, readOnly = false }: ProfileFormProps) => 
                   onChange={handleChange}
                   disabled={readOnly}
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-brand-500 disabled:bg-gray-50 disabled:text-gray-500"
-                  placeholder="VD: Chi nhánh HCM"
+                  placeholder="Ex: HCM Branch"
                 />
               </FormField>
             </div>
@@ -363,7 +363,7 @@ export const ProfileForm = ({ profile, readOnly = false }: ProfileFormProps) => 
                 className="w-full flex items-center justify-center gap-2 bg-brand-600 text-white py-3 px-4 rounded-xl font-medium shadow-lg shadow-brand-500/30 hover:bg-brand-700 transition-all disabled:opacity-70 disabled:shadow-none"
               >
                 {isSaving ? <Loader2 className="animate-spin" /> : <Save size={20} />}
-                {isSaving ? 'Đang lưu...' : 'Lưu thay đổi'}
+                {isSaving ? 'Saving...' : 'Save Changes'}
               </button>
             </div>
           )}

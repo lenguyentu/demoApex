@@ -74,10 +74,10 @@ export const ProcessHistoryModal = ({ isOpen, onClose, processId }: ProcessHisto
             {loading ? (
               <div className="py-12 text-center text-gray-500 flex flex-col items-center gap-2">
                  <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand-500"></div>
-                 <span className="text-sm">Đang tải dữ liệu...</span>
+                 <span className="text-sm">Loading data...</span>
               </div>
             ) : history.length === 0 ? (
-              <div className="py-12 text-center text-gray-500 italic">Chưa có lịch sử thay đổi nào.</div>
+              <div className="py-12 text-center text-gray-500 italic">No change history yet.</div>
             ) : (
                 <div className="relative border-l-2 border-gray-200 dark:border-gray-700 ml-4 space-y-8 pl-6 my-2">
                   {history.map((item, index) => {
@@ -115,7 +115,7 @@ export const ProcessHistoryModal = ({ isOpen, onClose, processId }: ProcessHisto
                                   <div className="mb-3 pb-3 border-b border-gray-200 dark:border-gray-600 border-dashed last:border-0 last:mb-0 last:pb-0">
                                      <div className="flex items-center gap-2 flex-wrap">
                                         <span className="text-sm font-medium text-gray-500 dark:text-gray-400">
-                                            {prevItem ? STATUS_CONFIG[prevItem.status as keyof typeof STATUS_CONFIG]?.displayName || prevItem.status : 'Khởi tạo'}
+                                            {prevItem ? STATUS_CONFIG[prevItem.status as keyof typeof STATUS_CONFIG]?.displayName || prevItem.status : 'Initialized'}
                                         </span>
                                         <ArrowRight size={14} className="text-gray-400" />
                                         <div 

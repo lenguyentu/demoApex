@@ -51,7 +51,7 @@ export default function DebtTrackingPage() {
       setSales(data);
     } catch (error) {
       console.error('Error loading sales:', error);
-      toast.error('Không thể tải danh sách dữ liệu');
+      toast.error('Unable to load data list');
     } finally {
       setLoading(false);
     }
@@ -94,7 +94,7 @@ export default function DebtTrackingPage() {
     const m2 = parseInt(monthKeys[1].split('-')[1]);
     const m3 = parseInt(monthKeys[2].split('-')[1]);
     const year = monthKeys[0].split('-')[0];
-    return `Công nợ T${m1}-T${m2}-T${m3}/${year}`;
+    return `Debt M${m1}-M${m2}-M${m3}/${year}`;
   })();
 
   return (
@@ -103,23 +103,23 @@ export default function DebtTrackingPage() {
       <div className="flex flex-col xl:flex-row xl:items-end justify-between gap-4">
         <div className="flex flex-wrap items-center gap-4 border-b border-gray-100 pb-4 xl:border-0 xl:pb-0">
           <div>
-            <h1 className="text-2xl font-bold text-gray-900 mb-1">Công nợ</h1>
-            <p className="text-sm text-gray-500">{totalClients} khách hàng</p>
+            <h1 className="text-2xl font-bold text-gray-900 mb-1">Debt</h1>
+            <p className="text-sm text-gray-500">{totalClients} customers</p>
           </div>
           
           <div className="h-10 w-px bg-gray-200 hidden sm:block mx-2"></div>
           
           <div className="flex flex-wrap items-center gap-3">
             <div className="px-4 py-2 bg-gray-50 rounded-full border border-gray-200 flex items-center gap-2">
-              <span className="text-xs text-gray-500 font-medium">Nợ phát sinh:</span>
+              <span className="text-xs text-gray-500 font-medium">Incurred Debt:</span>
               <span className="text-sm font-black text-gray-900">{totalIncurredDebt.toLocaleString()}</span>
             </div>
             <div className="px-4 py-2 bg-green-50 rounded-full border border-green-200 flex items-center gap-2">
-              <span className="text-xs text-green-700 font-medium">Đã TT:</span>
+              <span className="text-xs text-green-700 font-medium">Paid:</span>
               <span className="text-sm font-black text-green-700">{totalPaid.toLocaleString()}</span>
             </div>
             <div className="px-4 py-2 bg-red-50 rounded-full border border-red-200 flex items-center gap-2 shadow-sm shadow-red-100">
-              <span className="text-xs text-red-600 font-medium">Dư cuối kỳ:</span>
+              <span className="text-xs text-red-600 font-medium">Closing Balance:</span>
               <span className="text-sm font-black text-red-600">{balanceDebt.toLocaleString()}</span>
             </div>
           </div>
@@ -130,7 +130,7 @@ export default function DebtTrackingPage() {
             onClick={() => {
               const monthLabels = monthKeys.map(mKey => {
                 const [year, month] = mKey.split('-');
-                return `Tháng ${parseInt(month)}/${year}`;
+                return `Month ${parseInt(month)}/${year}`;
               });
 
               // Title gồm 3 tháng liên tiếp — dùng exportTitle từ component level
@@ -193,7 +193,7 @@ export default function DebtTrackingPage() {
                 monthHeaders: monthLabels,
                 rows: exportRows,
                 grandTotal
-              }, `CongNo_${exportTitle}_${new Date().toISOString().split('T')[0]}`);
+              }, `Debt_${exportTitle}_${new Date().toISOString().split('T')[0]}`);
             }}
             className="flex items-center gap-2 px-4 py-2 bg-white text-gray-700 border border-gray-200 rounded-lg hover:bg-gray-50 transition-all font-semibold shadow-sm text-sm"
           >
@@ -203,16 +203,16 @@ export default function DebtTrackingPage() {
 
           <button 
             onClick={() => {
-              exportToImage('debt-tracking-table', 'CongNo', setExporting, exportTitle);
+              exportToImage('debt-tracking-table', 'Debt', setExporting, exportTitle);
             }}
             disabled={exporting}
             className="flex items-center gap-2 px-3 py-2 bg-white text-gray-700 border border-gray-200 rounded-lg hover:bg-gray-50 transition-all text-sm font-medium disabled:opacity-50"
           >
-            {exporting ? <Loader2 size={16} className="animate-spin" /> : <Image size={16} />} Ảnh
+            {exporting ? <Loader2 size={16} className="animate-spin" /> : <Image size={16} />} Image
           </button>
           <button 
             onClick={() => {
-              exportToPDF('debt-tracking-table', 'CongNo', setExporting, exportTitle);
+              exportToPDF('debt-tracking-table', 'Debt', setExporting, exportTitle);
             }}
             disabled={exporting}
             className="flex items-center gap-2 px-3 py-2 bg-white text-gray-700 border border-gray-200 rounded-lg hover:bg-gray-50 transition-all text-sm font-medium disabled:opacity-50"
@@ -228,7 +228,7 @@ export default function DebtTrackingPage() {
           <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
           <input
             type="text"
-            placeholder="Tìm khách hàng, vị trí, nhân viên..."
+            placeholder="Search customer, position, personnel..."
             className="w-full pl-11 pr-4 py-2.5 bg-gray-50 border border-gray-200 rounded-lg focus:ring-2 focus:ring-brand-500 focus:bg-white outline-none transition-all text-sm"
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
@@ -237,7 +237,7 @@ export default function DebtTrackingPage() {
 
         {/* Status filter */}
         <div className="flex items-center gap-1 bg-gray-50 border border-gray-200 rounded-lg p-1 shrink-0">
-          {([['all', 'Tất cả'], ['Doing', 'Đang thu'], ['Done', 'Hoàn thành'], ['Reject', 'Reject']] as const).map(([val, label]) => (
+          {([['all', 'All'], ['Doing', 'Doing'], ['Done', 'Done'], ['Reject', 'Reject']] as const).map(([val, label]) => (
             <button
               key={val}
               onClick={() => setStatusFilter(val)}
@@ -256,7 +256,7 @@ export default function DebtTrackingPage() {
         </div>
         
         <div className="flex items-center gap-3 flex-wrap xl:flex-nowrap w-full xl:w-auto">
-          <span className="text-sm font-medium text-gray-500 shrink-0">Chọn tháng bắt đầu:</span>
+          <span className="text-sm font-medium text-gray-500 shrink-0">Select start month:</span>
           
           <div className="flex items-center gap-2">
             {/* Month Selector */}
@@ -270,7 +270,7 @@ export default function DebtTrackingPage() {
               className="px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-lg outline-none text-sm font-medium text-gray-700 focus:ring-2 focus:ring-brand-500"
             >
               {[...Array(12)].map((_, i) => (
-                <option key={i} value={i}>Tháng {i + 1}</option>
+                <option key={i} value={i}>Month {i + 1}</option>
               ))}
             </select>
 
@@ -285,7 +285,7 @@ export default function DebtTrackingPage() {
               className="px-3 py-2.5 bg-gray-50 border border-gray-200 rounded-lg outline-none text-sm font-medium text-gray-700 focus:ring-2 focus:ring-brand-500"
             >
               {[2024, 2025, 2026, 2027, 2028].map(year => (
-                <option key={year} value={year}>Năm {year}</option>
+                <option key={year} value={year}>Year {year}</option>
               ))}
             </select>
           </div>
@@ -296,7 +296,7 @@ export default function DebtTrackingPage() {
              }}
              className="flex items-center gap-1.5 px-3 py-2 text-sm font-medium text-brand-600 hover:bg-brand-50 rounded-lg transition-colors ml-auto"
           >
-            <X size={16} /> Mặc định
+            <X size={16} /> Default
           </button>
         </div>
       </div>

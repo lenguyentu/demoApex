@@ -102,7 +102,7 @@ export function ScheduleManagementPage() {
       setSelectedSchedule(null);
     } catch (error) {
       console.error('Failed to update schedule:', error);
-      toast.error('Có lỗi xảy ra khi cập nhật!');
+      toast.error('Error updating!');
     }
   };
 
@@ -122,7 +122,7 @@ export function ScheduleManagementPage() {
             </div>
             <div>
               <h1 className="text-2xl font-bold text-gray-900">Schedule</h1>
-              <p className="text-gray-500">Lịch nhắc nhở theo dõi khách hàng 7/15/30 ngày</p>
+              <p className="text-gray-500">7/15/30 day customer follow-up reminder schedule</p>
             </div>
           </div>
           <button
@@ -130,7 +130,7 @@ export function ScheduleManagementPage() {
             className="inline-flex items-center gap-2 px-4 py-2 border border-gray-200 bg-white hover:bg-gray-50 rounded-md text-sm font-medium transition"
           >
             <Calendar className="h-4 w-4" />
-            Lịch nhắc nhở
+            Reminder schedule
             <span className="ml-1 px-1.5 py-0.5 text-xs rounded-full bg-yellow-100 text-yellow-700">
               {stats.upcoming}
             </span>
@@ -143,7 +143,7 @@ export function ScheduleManagementPage() {
           <div className="rounded-xl border border-gray-100 bg-white shadow-sm p-6 transition-all hover:shadow-md">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-gray-500 uppercase tracking-wider">Tổng lịch nhắc</p>
+                <p className="text-sm font-medium text-gray-500 uppercase tracking-wider">Total Reminders</p>
                 <p className="text-3xl font-bold text-gray-900 mt-1">{stats.total}</p>
               </div>
               <div className="p-3 bg-gray-50 rounded-lg">
@@ -152,13 +152,13 @@ export function ScheduleManagementPage() {
             </div>
           </div>
 
-          {/* Overdue - chỉ lịch custom quá hạn */}
+          {/* Overdue - only custom overdue schedules */}
           <div className="rounded-xl border border-red-100 bg-white shadow-sm p-6 transition-all hover:shadow-md">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-red-500 uppercase tracking-wider">Quá hạn</p>
+                <p className="text-sm font-medium text-red-500 uppercase tracking-wider">Overdue</p>
                 <p className="text-3xl font-bold text-red-600 mt-1">{stats.overdue}</p>
-                <p className="text-[10px] text-red-400 mt-0.5">Lịch custom chưa hoàn thành</p>
+                <p className="text-[10px] text-red-400 mt-0.5">Uncompleted custom schedule</p>
               </div>
               <div className="p-3 bg-red-50 rounded-lg">
                 <TriangleAlert className="h-6 w-6 text-red-500" />
@@ -170,7 +170,7 @@ export function ScheduleManagementPage() {
           <div className="rounded-xl border border-yellow-100 bg-white shadow-sm p-6 transition-all hover:shadow-md">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-yellow-500 uppercase tracking-wider">Hôm nay</p>
+                <p className="text-sm font-medium text-yellow-500 uppercase tracking-wider">Today</p>
                 <p className="text-3xl font-bold text-yellow-600 mt-1">{stats.today}</p>
               </div>
               <div className="p-3 bg-yellow-50 rounded-lg">
@@ -183,7 +183,7 @@ export function ScheduleManagementPage() {
           <div className="rounded-xl border border-orange-100 bg-white shadow-sm p-6 transition-all hover:shadow-md">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-medium text-orange-500 uppercase tracking-wider">Sắp đến hạn</p>
+                <p className="text-sm font-medium text-orange-500 uppercase tracking-wider">Upcoming</p>
                 <p className="text-3xl font-bold text-orange-600 mt-1">{stats.upcoming}</p>
               </div>
               <div className="p-3 bg-orange-50 rounded-lg">
@@ -203,7 +203,7 @@ export function ScheduleManagementPage() {
                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
                 <input
                   type="text"
-                  placeholder="Tìm kiếm công ty..."
+                  placeholder="Search company..."
                   value={searchQuery}
                   onChange={(e) => { setSearchQuery(e.target.value); setCurrentPage(1); }}
                   className="w-full pl-9 pr-4 py-2 border border-gray-200 rounded-md text-sm focus:outline-none focus:ring-2 focus:ring-brand-500"
@@ -215,7 +215,7 @@ export function ScheduleManagementPage() {
                 <OwnerSelect
                   value={selectedOwnerId}
                   onChange={(val) => { setSelectedOwnerId(val); setCurrentPage(1); }}
-                  placeholder="Tất cả BD"
+                  placeholder="All BD"
                   className="w-full"
                 />
               </div>
@@ -229,7 +229,7 @@ export function ScheduleManagementPage() {
                   className={`px-3 py-1.5 text-sm font-medium rounded-sm transition ${reminderFilter === 'all' ? 'bg-white shadow-sm' : 'hover:bg-gray-50'
                     }`}
                 >
-                  Tất cả
+                  All
                 </button>
                 {(['7-day', '15-day', '30-day'] as const).map(f => (
                   <button
@@ -238,7 +238,7 @@ export function ScheduleManagementPage() {
                     className={`px-3 py-1.5 text-sm font-medium rounded-sm transition ${reminderFilter === f ? 'bg-white shadow-sm' : 'hover:bg-gray-50'
                       }`}
                   >
-                    {f.replace('-day', ' ngày')}
+                    {f.replace('-day', ' days')}
                   </button>
                 ))}
               </div>
@@ -251,18 +251,18 @@ export function ScheduleManagementPage() {
           <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             {/* Date Filters */}
             <div className="flex items-center gap-2 flex-wrap">
-              <span className="text-sm text-gray-500">Lọc ngày:</span>
+              <span className="text-sm text-gray-500">Filter Date:</span>
               <DateRangePicker
                 value={dateRange}
                 onChange={handleDateRangeChange}
-                placeholder="Chọn khoảng thời gian"
+                placeholder="Select time range"
                 className="min-w-[200px]"
               />
             </div>
 
             {/* Status Filters */}
             <div className="flex items-center gap-2 sm:ml-auto flex-wrap">
-              <span className="text-sm text-gray-500">Trạng thái:</span>
+              <span className="text-sm text-gray-500">Status:</span>
               <div className="flex gap-1 flex-wrap">
                 <button
                   onClick={() => { setStatusFilter('all'); setCurrentPage(1); }}
@@ -271,17 +271,17 @@ export function ScheduleManagementPage() {
                       : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                     }`}
                 >
-                  Tất cả
+                  All
                 </button>
                 <button
                   onClick={() => { setStatusFilter('overdue'); setCurrentPage(1); }}
-                  title="Lịch custom đã quá ngày hẹn mà chưa xử lý (không tính rolling)"
+                  title="Custom schedule overdue and unhandled (not rolling)"
                   className={`px-3 py-1.5 rounded-md text-sm font-medium transition ${statusFilter === 'overdue'
                       ? 'bg-red-100 text-red-700'
                       : 'bg-red-50 text-red-600 hover:bg-red-100'
                     }`}
                 >
-                  Quá hạn ({stats.overdue}) · <span className="text-[11px] opacity-70">custom</span>
+                  Overdue ({stats.overdue}) · <span className="text-[11px] opacity-70">custom</span>
                 </button>
                 <button
                   onClick={() => { setStatusFilter('today'); setCurrentPage(1); }}
@@ -290,7 +290,7 @@ export function ScheduleManagementPage() {
                       : 'bg-yellow-50 text-yellow-600 hover:bg-yellow-100'
                     }`}
                 >
-                  Hôm nay ({stats.today})
+                  Today ({stats.today})
                 </button>
                 <button
                   onClick={() => { setStatusFilter('upcoming'); setCurrentPage(1); }}
@@ -299,7 +299,7 @@ export function ScheduleManagementPage() {
                       : 'bg-orange-50 text-orange-600 hover:bg-orange-100'
                     }`}
                 >
-                  Sắp tới ({stats.upcoming})
+                  Upcoming ({stats.upcoming})
                 </button>
               </div>
             </div>
@@ -316,13 +316,13 @@ export function ScheduleManagementPage() {
             ) : schedules.length === 0 ? (
               <div className="text-center py-16 bg-white rounded-xl border border-dashed border-gray-200">
                 <Bell className="mx-auto h-12 w-12 text-gray-300" />
-                <h3 className="mt-2 text-sm font-medium text-gray-900">Không có lịch nhắc nhở</h3>
-                <p className="mt-1 text-sm text-gray-500">Tuyệt vời! Bạn đã hoàn thành hết các công việc cần làm.</p>
+                <h3 className="mt-2 text-sm font-medium text-gray-900">No Reminders</h3>
+                <p className="mt-1 text-sm text-gray-500">Great! You have completed all tasks.</p>
               </div>
             ) : (
               <>
                 <div className="flex items-center justify-between mb-4 px-1">
-                  <h3 className="text-base font-semibold text-gray-800">Danh sách nhắc nhở ({totalItems})</h3>
+                  <h3 className="text-base font-semibold text-gray-800">Reminder List ({totalItems})</h3>
                 </div>
                 <div className="space-y-3">
                   {paginatedSchedules.map((schedule) => (
@@ -352,9 +352,9 @@ export function ScheduleManagementPage() {
                                     schedule.reminderType === 'Calling' ? 'bg-green-50 text-green-700 border-green-100' :
                                       'bg-indigo-50 text-indigo-700 border-indigo-100'
                             }`}>
-                            {schedule.reminderType === '7' ? '7 ngày' :
-                              schedule.reminderType === '15' ? '15 ngày' :
-                                schedule.reminderType === '30' ? '30 ngày' :
+                            {schedule.reminderType === '7' ? '7 days' :
+                              schedule.reminderType === '15' ? '15 days' :
+                                schedule.reminderType === '30' ? '30 days' :
                                   schedule.reminderType}
                           </span>
                           <span className="px-2.5 py-0.5 rounded-full bg-gray-50 border border-gray-100 text-gray-600 text-[11px] font-medium">
@@ -363,7 +363,7 @@ export function ScheduleManagementPage() {
                         </div>
                         <div className="flex items-center gap-4 text-xs text-gray-500 flex-wrap">
                           <div className="flex items-center gap-1.5 bg-gray-50 px-2 py-1 rounded-md border border-gray-100">
-                            <span className="text-gray-400">Bắt đầu:</span>
+                            <span className="text-gray-400">Start:</span>
                             <span className="font-medium text-gray-700">{schedule.startDate ? format(new Date(schedule.startDate), 'dd/MM/yyyy') : '-'}</span>
                           </div>
                           <span className="text-gray-300">→</span>
@@ -372,7 +372,7 @@ export function ScheduleManagementPage() {
                                 'bg-green-50 text-green-700 border-green-100'
                             }`}>
                             <span className={schedule.overdueDays && schedule.overdueDays > 0 ? 'text-red-600 font-semibold' : 'text-gray-500'}>
-                              Đến hạn:
+                              Due:
                             </span>
                             <span className="font-bold">{schedule.dueDate ? format(new Date(schedule.dueDate), 'dd/MM/yyyy') : '-'}</span>
                           </div>
@@ -389,17 +389,17 @@ export function ScheduleManagementPage() {
                         {schedule.overdueDays && schedule.overdueDays > 0 ? (
                           <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-red-100 text-red-700 border border-red-200">
                             <TriangleAlert className="h-3 w-3" />
-                            Quá {schedule.overdueDays} ngày
+                            Overdue {schedule.overdueDays} days
                           </span>
                         ) : schedule.dueDate === new Date().toISOString().split('T')[0] ? (
                           <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-amber-100 text-amber-700 border border-amber-200">
                             <Clock className="h-3 w-3" />
-                            Hôm nay
+                            Today
                           </span>
                         ) : (
                           <span className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold bg-green-100 text-green-700 border border-green-200">
                             <CircleCheckBig className="h-3 w-3" />
-                            Sắp đến
+                            Upcoming
                           </span>
                         )}
 
@@ -408,7 +408,7 @@ export function ScheduleManagementPage() {
                           className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-white border border-gray-200 hover:bg-brand-50 hover:border-brand-200 hover:text-brand-700 text-gray-700 rounded-lg text-xs font-medium transition-all shadow-sm"
                         >
                           <CircleCheckBig className="h-3.5 w-3.5" />
-                          Xác nhận remind
+                          Confirm reminder
                         </button>
 
                         <button
@@ -428,7 +428,7 @@ export function ScheduleManagementPage() {
             {!isLoading && totalItems > 0 && (
               <div className="flex items-center justify-between pt-6 mt-2 pb-8">
                 <p className="text-xs text-gray-500 font-medium">
-                  Hiển thị {paginatedSchedules.length} / {totalItems} nhắc nhở
+                  Showing {paginatedSchedules.length} / {totalItems} reminders
                 </p>
 
                 <div className="flex gap-2">
@@ -437,17 +437,17 @@ export function ScheduleManagementPage() {
                     disabled={currentPage === 1}
                     className="px-3 py-1.5 text-xs font-medium border border-gray-200 rounded-md hover:bg-white hover:shadow-sm disabled:opacity-50 disabled:cursor-not-allowed transition bg-white"
                   >
-                    Trước
+                    Previous
                   </button>
                   <span className="px-3 py-1.5 text-xs font-medium text-gray-700 flex items-center bg-white border border-gray-200 rounded-md">
-                    Trang {currentPage}
+                    Page {currentPage}
                   </span>
                   <button
                     onClick={() => handlePageChange(currentPage + 1)}
                     disabled={currentPage === totalPages}
                     className="px-3 py-1.5 text-sm border border-gray-200 rounded-md hover:bg-gray-50 disabled:opacity-50 disabled:cursor-not-allowed transition"
                   >
-                    Sau
+                    Next
                   </button>
                 </div>
               </div>

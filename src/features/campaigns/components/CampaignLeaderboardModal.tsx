@@ -47,7 +47,7 @@ export const CampaignLeaderboardModal: React.FC<Props> = ({ campaignId, isOpen, 
             </div>
           ) : data.length === 0 ? (
             <div className="text-center py-12 text-gray-500">
-              Chưa có dữ liệu thống kê cho chiến dịch này.
+              No statistics data for this campaign yet.
             </div>
           ) : (
             <div className="border border-gray-200 rounded-xl overflow-hidden">
@@ -56,8 +56,8 @@ export const CampaignLeaderboardModal: React.FC<Props> = ({ campaignId, isOpen, 
                   <tr>
                     <th className="px-6 py-4 font-medium w-16 text-center">Top</th>
                     <th className="px-6 py-4 font-medium">Freelancer</th>
-                    <th className="px-6 py-4 font-medium text-center">Số lượng đạt</th>
-                    <th className="px-6 py-4 font-medium text-right">Tổng thưởng</th>
+                    <th className="px-6 py-4 font-medium text-center">Achieved Count</th>
+                    <th className="px-6 py-4 font-medium text-right">Total Bonus</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-gray-200">
@@ -73,7 +73,7 @@ export const CampaignLeaderboardModal: React.FC<Props> = ({ campaignId, isOpen, 
                         </span>
                       </td>
                       <td className="px-6 py-4">
-                        <div className="font-medium text-gray-900">{row.freelancer_name || 'Người dùng ẩn danh'}</div>
+                        <div className="font-medium text-gray-900">{row.freelancer_name || 'Anonymous User'}</div>
                       </td>
                       <td className="px-6 py-4 text-center font-bold text-gray-700">
                         {row.process_count}

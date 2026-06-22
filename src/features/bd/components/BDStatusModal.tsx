@@ -52,9 +52,9 @@ export function BDStatusModal({
               <Target size={20} />
             </div>
             <div>
-              <h3 className="font-bold text-gray-900">Cập nhật Trạng thái BD</h3>
+              <h3 className="font-bold text-gray-900">Update BD Status</h3>
               <p className="text-xs text-gray-500 mt-0.5 font-medium">
-                Khách hàng: <span className="text-pink-600">{clientName}</span>
+                Customer: <span className="text-pink-600">{clientName}</span>
               </p>
             </div>
           </div>
@@ -70,7 +70,7 @@ export function BDStatusModal({
           {/* Status Display */}
           <div>
             <label className="block text-xs font-bold text-gray-500 uppercase tracking-wider mb-2">
-              Trạng thái mới
+              New Status
             </label>
             <div className="px-4 py-2.5 bg-pink-50 border border-pink-100 rounded-xl text-pink-700 font-bold text-sm flex items-center gap-2">
               <div className="w-2 h-2 rounded-full bg-pink-500 animate-pulse" />
@@ -81,18 +81,18 @@ export function BDStatusModal({
           {/* Memo Input */}
           <div>
             <label htmlFor="bd-memo" className="text-xs font-bold text-gray-500 uppercase tracking-wider mb-2 flex items-center gap-1">
-              Ghi chú cập nhật <Info size={14} className="text-gray-400" />
+              Update note <Info size={14} className="text-gray-400" />
             </label>
             <textarea
               id="bd-memo"
               rows={4}
               value={memo}
               onChange={(e) => setMemo(e.target.value)}
-              placeholder="Nhập ghi chú hoặc lý do thay đổi trạng thái..."
+              placeholder="Enter note or reason for status change..."
               className="w-full px-4 py-3 border border-gray-200 rounded-xl focus:ring-4 focus:ring-pink-500/10 focus:border-pink-500 text-sm font-medium transition-all resize-none bg-gray-50/30"
             />
             <p className="mt-2 text-[11px] text-gray-400">
-              * Ghi chú này sẽ được lưu vào lịch sử quy trình BD.
+              * This note will be saved in the BD process history.
             </p>
           </div>
 
@@ -104,7 +104,7 @@ export function BDStatusModal({
               disabled={isSubmitting}
               className="px-5 py-2.5 text-sm font-bold text-gray-500 bg-white border border-gray-200 rounded-xl hover:bg-gray-50 transition-all disabled:opacity-50"
             >
-              Hủy
+              Cancel
             </button>
             <button
               type="submit"
@@ -114,10 +114,10 @@ export function BDStatusModal({
               {isSubmitting ? (
                 <>
                   <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                  Đang lưu...
+                  Saving...
                 </>
               ) : (
-                'Xác nhận Cập nhật'
+                'Confirm Update'
               )}
             </button>
           </div>

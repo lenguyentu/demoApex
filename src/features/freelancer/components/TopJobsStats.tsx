@@ -36,8 +36,8 @@ export const TopJobsStats = ({ dateRange }: TopJobsStatsProps) => {
             <Briefcase className="w-5 h-5 text-[#ED0A63]" />
           </div>
           <div>
-            <h3 className="text-lg font-bold text-gray-900">Vị trí được gửi CV nhiều nhất</h3>
-            <p className="text-sm text-gray-500 mt-0.5">Xếp hạng theo số lượng CV từ Freelancer</p>
+            <h3 className="text-lg font-bold text-gray-900">Most Submitted Positions</h3>
+            <p className="text-sm text-gray-500 mt-0.5">Ranked by number of CVs from freelancers</p>
           </div>
         </div>
         
@@ -45,7 +45,7 @@ export const TopJobsStats = ({ dateRange }: TopJobsStatsProps) => {
           onClick={toggleLimit}
           className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-700 bg-white border border-gray-200 rounded-full hover:bg-gray-50 shadow-sm active:scale-95 transition-all"
         >
-          {limit === 5 ? 'Xem thêm' : 'Thu gọn'}
+          {limit === 5 ? 'View more' : 'View less'}
           {limit === 5 ? <ChevronDown className="w-4 h-4 text-gray-400" /> : <ChevronUp className="w-4 h-4 text-gray-400" />}
         </button>
       </div>
@@ -93,7 +93,7 @@ export const TopJobsStats = ({ dateRange }: TopJobsStatsProps) => {
             </ResponsiveContainer>
           ) : (
             <div className="h-full flex items-center justify-center text-gray-400 italic">
-              Không có dữ liệu
+              No data available
             </div>
           )}
         </div>
@@ -104,9 +104,9 @@ export const TopJobsStats = ({ dateRange }: TopJobsStatsProps) => {
             <thead>
               <tr className="text-xs font-semibold text-gray-400 uppercase tracking-wider text-left">
                 <th className="pb-4 px-4 w-12 text-center">#</th>
-                <th className="pb-4 px-4">Vị trí</th>
-                <th className="pb-4 px-4">Công ty</th>
-                <th className="pb-4 px-4 text-right">Số CV</th>
+                <th className="pb-4 px-4">Position</th>
+                <th className="pb-4 px-4">Company</th>
+                <th className="pb-4 px-4 text-right">Total CVs</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-50">
@@ -146,7 +146,7 @@ export const TopJobsStats = ({ dateRange }: TopJobsStatsProps) => {
                 ))
               ) : (
                 <tr>
-                   <td colSpan={4} className="py-8 text-center text-gray-500 italic">Chưa có dữ liệu</td>
+                   <td colSpan={4} className="py-8 text-center text-gray-500 italic">No data available</td>
                 </tr>
               )}
             </tbody>

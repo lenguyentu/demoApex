@@ -72,9 +72,9 @@ export const FreelancerCVListPage = () => {
             <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                 <div className="flex items-center gap-4">
                     <div>
-                        <h1 className="text-2xl font-bold text-gray-900">Danh sách CV đã gửi</h1>
+                        <h1 className="text-2xl font-bold text-gray-900">Submitted CV List</h1>
                         <p className="text-sm text-gray-500">
-                            Freelancer: <span className="font-semibold text-gray-700">{freelancerName}</span> • Tổng: {cvDetails.length} CV
+                            Freelancer: <span className="font-semibold text-gray-700">{freelancerName}</span> • Total: {cvDetails.length} CVs
                         </p>
                     </div>
                 </div>
@@ -111,9 +111,9 @@ export const FreelancerCVListPage = () => {
                                 <table className="w-full caption-bottom text-sm text-left">
                                     <thead className="[&_tr]:border-b">
                                         <tr className="border-b border-gray-100 transition-colors bg-gray-50/30">
-                                            <th className="h-12 px-4 align-middle font-medium text-gray-500 w-16 text-center">STT</th>
-                                            <th className="h-12 px-4 align-middle font-medium text-gray-500 w-48 text-center">Tên ứng viên</th>
-                                            <th className="h-12 px-4 align-middle font-medium text-gray-500 w-32 text-center">Ngày apply</th>
+                                            <th className="h-12 px-4 align-middle font-medium text-gray-500 w-16 text-center">No.</th>
+                                            <th className="h-12 px-4 align-middle font-medium text-gray-500 w-48 text-center">Candidate Name</th>
+                                            <th className="h-12 px-4 align-middle font-medium text-gray-500 w-32 text-center">Applied Date</th>
                                             <th className="h-12 px-4 align-middle font-medium text-gray-500 w-40 text-center">Action</th>
                                         </tr>
                                     </thead>
@@ -131,7 +131,7 @@ export const FreelancerCVListPage = () => {
                                                         onClick={() => window.open(`/candidates/${cv.candidate.id}`, '_blank')}
                                                     >
                                                         <FileText className="h-4 w-4" />
-                                                        Xem CV
+                                                        View CV
                                                         <ExternalLink className="h-3 w-3" />
                                                     </button>
                                                 </td>
@@ -146,7 +146,7 @@ export const FreelancerCVListPage = () => {
 
                 {cvDetails.length === 0 && (
                     <div className="text-center p-12 bg-white rounded-xl border border-gray-200">
-                        <p className="text-gray-500">Chưa có CV nào.</p>
+                        <p className="text-gray-500">No CVs found.</p>
                     </div>
                 )}
             </div>

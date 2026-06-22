@@ -456,7 +456,7 @@ export async function provisionClientUser(payload: {
   role: string;
 }): Promise<any> {
   const { data: { session } } = await supabase.auth.getSession();
-  if (!session) throw new Error('Vui lòng đăng nhập lại');
+  if (!session) throw new Error('Please login again');
 
   const { data, error } = await supabase.functions.invoke('invite-user', {
     body: payload,

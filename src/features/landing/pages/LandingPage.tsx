@@ -26,7 +26,7 @@ export default function LandingPage() {
               <Globe className="text-brand-500" size={28} />
               <div>
                 <h1 className="text-2xl font-bold text-gray-900 dark:text-white">Landing Page</h1>
-                <p className="text-sm text-gray-500">Hàng đợi CV từ landing</p>
+                <p className="text-sm text-gray-500">CV from landing custom</p>
               </div>
             </div>
           ) : null}

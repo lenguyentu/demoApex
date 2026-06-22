@@ -28,11 +28,11 @@ export function DiscordPreviewModal({
   const [extraData, setExtraData] = useState<DiscordExtraData>({
     fullName: candidate.fullName || '',
     appliedPosition: candidate.appliedPosition || '',
-    address: candidate.address || 'Hà Nội',
+    address: candidate.address || 'Hanoi',
     cddCode: cddCode || '',
-    expectedSalary: candidate.expectedSalary || 'Thoả thuận khi phỏng vấn',
-    desiredLocation: 'Hà Nội',
-    startDate: 'Có thể bắt đầu ngay',
+    expectedSalary: candidate.expectedSalary || 'Negotiable during interview',
+    desiredLocation: 'Hanoi',
+    startDate: 'Can start immediately',
     reason: '',
     professionalSummary: candidate.professionalSummary || '',
   });
@@ -43,11 +43,11 @@ export function DiscordPreviewModal({
       setExtraData({
         fullName: candidate.fullName || '',
         appliedPosition: candidate.appliedPosition || '',
-        address: candidate.address || 'Hà Nội',
+        address: candidate.address || 'Hanoi',
         cddCode: cddCode || '',
-        expectedSalary: candidate.expectedSalary || 'Thoả thuận khi phỏng vấn',
-        desiredLocation: 'Hà Nội',
-        startDate: 'Có thể bắt đầu ngay',
+        expectedSalary: candidate.expectedSalary || 'Negotiable during interview',
+        desiredLocation: 'Hanoi',
+        startDate: 'Can start immediately',
         reason: '',
         professionalSummary: candidate.professionalSummary || '',
       });
@@ -72,13 +72,13 @@ export function DiscordPreviewModal({
         <div className="md:w-[35%] bg-[#2b2d31] border-r border-white/5 flex flex-col overflow-hidden shrink-0">
           <div className="p-3 border-b border-white/5 flex items-center gap-2 text-white shrink-0">
             <Edit3 size={18} className="text-brand-500" />
-            <h3 className="font-bold text-sm">Chỉnh sửa thông báo</h3>
+            <h3 className="font-bold text-sm">Edit Notification</h3>
           </div>
 
           <div className="flex-1 overflow-y-auto p-4 space-y-4">
             <div className="grid grid-cols-2 gap-3">
               <div className="col-span-1">
-                <label className="block text-[10px] font-bold text-[#b5bac1] uppercase mb-1">Mã ứng viên</label>
+                <label className="block text-[10px] font-bold text-[#b5bac1] uppercase mb-1">Candidate Code</label>
                 <input
                   type="text"
                   name="cddCode"
@@ -88,7 +88,7 @@ export function DiscordPreviewModal({
                 />
               </div>
               <div className="col-span-1">
-                <label className="block text-[10px] font-bold text-[#b5bac1] uppercase mb-1">Tên ứng viên</label>
+                <label className="block text-[10px] font-bold text-[#b5bac1] uppercase mb-1">Candidate Name</label>
                 <input
                   type="text"
                   name="fullName"
@@ -98,7 +98,7 @@ export function DiscordPreviewModal({
                 />
               </div>
               <div className="col-span-1">
-                <label className="block text-[10px] font-bold text-[#b5bac1] uppercase mb-1">Vị trí</label>
+                <label className="block text-[10px] font-bold text-[#b5bac1] uppercase mb-1">Position</label>
                 <input
                   type="text"
                   name="appliedPosition"
@@ -108,7 +108,7 @@ export function DiscordPreviewModal({
                 />
               </div>
               <div className="col-span-1">
-                <label className="block text-[10px] font-bold text-[#b5bac1] uppercase mb-1">Địa chỉ</label>
+                <label className="block text-[10px] font-bold text-[#b5bac1] uppercase mb-1">Address</label>
                 <input
                   type="text"
                   name="address"
@@ -118,7 +118,7 @@ export function DiscordPreviewModal({
                 />
               </div>
               <div className="col-span-1">
-                <label className="block text-[10px] font-bold text-[#b5bac1] uppercase mb-1">Lương kỳ vọng</label>
+                <label className="block text-[10px] font-bold text-[#b5bac1] uppercase mb-1">Expected Salary</label>
                 <input
                   type="text"
                   name="expectedSalary"
@@ -128,7 +128,7 @@ export function DiscordPreviewModal({
                 />
               </div>
               <div className="col-span-1">
-                <label className="block text-[10px] font-bold text-[#b5bac1] uppercase mb-1">📍 Địa điểm mong muốn</label>
+                <label className="block text-[10px] font-bold text-[#b5bac1] uppercase mb-1">📍 Desired Location</label>
                 <input
                   type="text"
                   name="desiredLocation"
@@ -140,7 +140,7 @@ export function DiscordPreviewModal({
             </div>
 
             <div>
-              <label className="block text-[10px] font-bold text-[#b5bac1] uppercase mb-1">📌 Thời gian nhận việc</label>
+              <label className="block text-[10px] font-bold text-[#b5bac1] uppercase mb-1">📌 Start Date</label>
               <input
                 type="text"
                 name="startDate"
@@ -151,7 +151,7 @@ export function DiscordPreviewModal({
             </div>
 
             <div>
-              <label className="block text-[10px] font-bold text-[#b5bac1] uppercase mb-1">📌 Lý do tìm cơ hội mới</label>
+              <label className="block text-[10px] font-bold text-[#b5bac1] uppercase mb-1">📌 Reason for seeking new opportunities</label>
               <input
                 name="reason"
                 value={extraData.reason}
@@ -183,7 +183,7 @@ export function DiscordPreviewModal({
               </div>
               <div>
                 <h2 className="font-bold text-white text-sm leading-none">Discord Preview</h2>
-                <p className="text-[10px] text-[#b5bac1] mt-1">Nội dung thực tế khi gửi tin nhắn</p>
+                <p className="text-[10px] text-[#b5bac1] mt-1">Actual content when sending message</p>
               </div>
             </div>
             <button
@@ -198,7 +198,7 @@ export function DiscordPreviewModal({
           <div className="p-4 overflow-y-auto flex-1 space-y-4 bg-[#313338]">
             <div className="flex items-start gap-2 bg-[#f0f0f0]/5 p-2 rounded text-[11px] text-[#b5bac1] border-l-4 border-amber-500">
               <AlertCircle size={14} className="shrink-0 text-amber-500 mt-0.5" />
-              <p>Ứng viên <strong>{extraData.fullName}</strong> ({extraData.cddCode}) sẽ được bắn thông báo. Kiểm tra kỹ nội dung trước khi nhấn gửi.</p>
+              <p>Candidate <strong>{extraData.fullName}</strong> ({extraData.cddCode}) will be notified. Carefully check the content before sending.</p>
             </div>
 
             <div className="space-y-1">
@@ -241,7 +241,7 @@ export function DiscordPreviewModal({
               className="px-4 py-2 text-xs font-medium text-[#dbdee1] hover:underline"
               disabled={isSending}
             >
-              Hủy
+              Cancel
             </button>
             <button
               onClick={() => onConfirm(extraData)}
@@ -251,12 +251,12 @@ export function DiscordPreviewModal({
               {isSending ? (
                 <>
                   <div className="w-3 h-3 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                  Đang gửi...
+                  Sending...
                 </>
               ) : (
                 <>
                   <Send size={14} />
-                  Gửi lên Discord
+                  Send to Discord
                 </>
               )}
             </button>

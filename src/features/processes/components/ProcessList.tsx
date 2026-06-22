@@ -250,7 +250,7 @@ export function ProcessList({ data, loading, loadingMore, hasMore, loadMore, tot
             toast.success(`Đã gửi email & thông báo thành công tới ${clientUsers.length} người dùng`, { id: notifyToast });
           } catch (notifyError) {
             console.error('Notification error:', notifyError);
-            toast.error('Gửi email & thông báo thất bại', { id: notifyToast });
+            toast.error('Failed to send email & notification', { id: notifyToast });
           }
         }
       }
@@ -440,14 +440,14 @@ export function ProcessList({ data, loading, loadingMore, hasMore, loadMore, tot
                             }
                           } catch (err) {
                             console.error('Error signing CV URL:', err);
-                            toast.error('Không có quyền xem CV hoặc file không tồn tại');
+                            toast.error('No permission to view CV or file does not exist');
                           } finally {
                             setSigningCvId(null);
                           }
                         }}
                         disabled={signingCvId === process.id}
                         className="inline-flex items-center justify-center p-1.5 rounded-lg text-gray-400 hover:text-brand-600 hover:bg-brand-50 transition-colors disabled:opacity-50"
-                        title="Mở CV trong tab mới"
+                        title="Open CV in new tab"
                       >
                         {signingCvId === process.id ? (
                           <div className="animate-spin h-3.5 w-3.5 border-2 border-gray-400 border-t-brand-600 rounded-full" />
@@ -482,7 +482,7 @@ export function ProcessList({ data, loading, loadingMore, hasMore, loadMore, tot
                       <button
                         onClick={() => navigate(`/chat?process=${process.id}`)}
                         className="p-1 text-gray-400 hover:text-brand-600 hover:bg-brand-50 rounded transition-colors"
-                        title={`Chat về ${process.candidate?.name || 'ứng viên'}`}
+                        title={`Chat about ${process.candidate?.name || 'candidate'}`}
                       >
                         <MessageCircle size={14} />
                       </button>
@@ -511,7 +511,7 @@ export function ProcessList({ data, loading, loadingMore, hasMore, loadMore, tot
                           jobTitle: process.job?.position_title || undefined
                         })}
                         className="p-1 text-gray-400 hover:text-purple-600 hover:bg-purple-50 rounded transition-colors"
-                        title="Xem lịch phỏng vấn"
+                        title="View interview schedule"
                       >
                         <Calendar size={14} />
                       </button>
@@ -521,7 +521,7 @@ export function ProcessList({ data, loading, loadingMore, hasMore, loadMore, tot
                         <button
                           onClick={() => setDeleteConfirmProcessId(process.id)}
                           className="p-1 text-gray-400 hover:text-red-600 hover:bg-red-50 rounded transition-colors"
-                          title="Xóa quy trình"
+                          title="Delete process"
                         >
                           <Trash2 size={14} />
                         </button>
@@ -624,20 +624,20 @@ export function ProcessList({ data, loading, loadingMore, hasMore, loadMore, tot
           setIsDeleting(true);
           try {
             await deleteProcess(deleteConfirmProcessId);
-            toast.success('Đã xóa quy trình');
+            toast.success('Process deleted');
             if (refetchData) refetchData();
             setDeleteConfirmProcessId(null);
           } catch (e) {
             console.error(e);
-            toast.error('Không thể xóa quy trình');
+            toast.error('Could not delete process');
           } finally {
             setIsDeleting(false);
           }
         }}
-        title="Xác nhận xóa"
-        message="Bạn có chắc chắn muốn xóa quy trình này? Hành động này không thể hoàn tác."
-        confirmText="Xóa"
-        cancelText="Hủy"
+        title="Confirm deletion"
+        message="Are you sure you want to delete this process? This action cannot be undone."
+        confirmText="Delete"
+        cancelText="Cancel"
         variant="danger"
         isLoading={isDeleting}
       />

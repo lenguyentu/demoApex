@@ -18,7 +18,7 @@ const makeFinance = (salesId: string, contractType: 'Cá nhân' | 'Công ty', ca
   rate_intern: 0,
   rate_freelancer: 0,
   overall_status: paidAmount >= p1Amount ? 'Done' : 'Doing',
-  invoice_status: paidAmount >= p1Amount ? 'Đã xuất' : 'Chưa xuất',
+  invoice_status: paidAmount >= p1Amount ? 'Issued' : 'Not Issued',
   ctv_status: 'Pending',
   ctv_pay_date: null,
   refund_amount: 0,

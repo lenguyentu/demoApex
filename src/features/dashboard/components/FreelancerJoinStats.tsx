@@ -18,29 +18,29 @@ export default function FreelancerJoinStats({ timeFilter: _timeFilter = '1_month
 
   return (
     <div className="rounded-xl bg-white px-6 py-6 shadow-sm border border-gray-200">
-      <h4 className="mb-6 text-xl font-semibold text-black dark:text-white">Thống kê Freelancer Join</h4>
+      <h4 className="mb-6 text-xl font-semibold text-black dark:text-white">Freelancer Join Stats</h4>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-6">
         <div className="bg-blue-50 p-4 rounded-lg">
-           <p className="text-sm font-medium text-gray-600">Hôm nay</p>
+           <p className="text-sm font-medium text-gray-600">Today</p>
            <p className="text-2xl font-bold text-blue-600">{stats.stats.daily}</p>
         </div>
          <div className="bg-green-50 p-4 rounded-lg">
-           <p className="text-sm font-medium text-gray-600">Tuần này</p>
+           <p className="text-sm font-medium text-gray-600">This Week</p>
            <p className="text-2xl font-bold text-green-600">{stats.stats.weekly}</p>
         </div>
          <div className="bg-orange-50 p-4 rounded-lg">
-           <p className="text-sm font-medium text-gray-600">Tháng này</p>
+           <p className="text-sm font-medium text-gray-600">This Month</p>
            <p className="text-2xl font-bold text-orange-600">{stats.stats.monthly}</p>
         </div>
          <div className="bg-purple-50 p-4 rounded-lg">
-           <p className="text-sm font-medium text-gray-600">Tổng cộng</p>
+           <p className="text-sm font-medium text-gray-600">Total</p>
            <p className="text-2xl font-bold text-purple-600">{stats.stats.total}</p>
         </div>
       </div>
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         <div>
-          <h5 className="text-lg font-semibold text-gray-800 mb-4">Xu hướng Join theo thời gian</h5>
+          <h5 className="text-lg font-semibold text-gray-800 mb-4">Join Trend Over Time</h5>
           <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={stats.trend}>
@@ -55,7 +55,7 @@ export default function FreelancerJoinStats({ timeFilter: _timeFilter = '1_month
         </div>
 
         <div>
-           <h5 className="text-lg font-semibold text-gray-800 mb-4">Join theo nguồn</h5>
+           <h5 className="text-lg font-semibold text-gray-800 mb-4">Join by Source</h5>
            <div className="h-64">
             <ResponsiveContainer width="100%" height="100%">
               <PieChart>

@@ -21,7 +21,7 @@ export type BDStatus =
   | 'No current need'
   | 'Excluded';
 export type BDPhase = 'Connect' | 'Follow up' | 'Approach' | 'Nurturing' | 'Proposal' | 'Negotiation' | 'Closing' | 'Lost';
-export type BDPriority = 'Bình thường' | 'Ưu tiên';
+export type BDPriority = 'Normal' | 'High Priority';
 
 // Type ánh xạ trực tiếp từ DB
 export interface BDProcess {

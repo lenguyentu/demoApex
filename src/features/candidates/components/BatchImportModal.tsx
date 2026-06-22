@@ -67,7 +67,7 @@ export function BatchImportModal({ open, onClose, onSuccess }: BatchImportModalP
     setShowConfirmSaveAll(false);
     // Dispatch global event that all embedded cards will listen for
     window.dispatchEvent(new CustomEvent('save-all-candidates'));
-    toast.success('Đang lưu tất cả hồ sơ...');
+    toast.success('Saving all candidates...');
   };
 
   const handleClose = () => {
@@ -76,7 +76,7 @@ export function BatchImportModal({ open, onClose, onSuccess }: BatchImportModalP
     );
 
     if (hasActiveProcessors && isProcessing) {
-      if (!confirm('Có tiến trình đang chạy. Bạn có chắc muốn đóng?')) {
+      if (!confirm('There are processes running. Are you sure you want to close?')) {
         return;
       }
     }
@@ -96,7 +96,7 @@ export function BatchImportModal({ open, onClose, onSuccess }: BatchImportModalP
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4"
       onClick={(e) => {
         if (isProcessing && e.target === e.currentTarget) {
-          toast.error('Vui lòng đợi hoặc nhấn nút Đóng');
+          toast.error('Please wait or click the Close button');
         } else if (!isProcessing && e.target === e.currentTarget) {
           handleClose();
         }
@@ -108,12 +108,12 @@ export function BatchImportModal({ open, onClose, onSuccess }: BatchImportModalP
           <div>
             <h2 className="text-lg font-semibold text-gray-900 flex items-center gap-2">
               <UploadCloud className="text-brand-600" size={24} />
-              {isProcessing ? 'Xử lý hồ sơ hàng loạt' : 'Upload CV hàng loạt'}
+              {isProcessing ? 'Batch CV Processing' : 'Batch CV Upload'}
             </h2>
             {isProcessing && (
               <p className="text-xs text-gray-500 mt-1">
-                Sẵn sàng: <span className="font-semibold text-brand-600">{readyCount}</span> | 
-                Hoàn thành: <span className="font-semibold text-green-600">{successCount}</span>
+                Ready: <span className="font-semibold text-brand-600">{readyCount}</span> | 
+                Success: <span className="font-semibold text-green-600">{successCount}</span>
               </p>
             )}
           </div>
@@ -144,14 +144,14 @@ export function BatchImportModal({ open, onClose, onSuccess }: BatchImportModalP
                 <div className="w-16 h-16 bg-blue-50 text-brand-500 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
                   <UploadCloud size={32} />
                 </div>
-                <h3 className="text-lg font-medium text-gray-900 mb-1">Kéo thả hoặc chọn nhiều CV</h3>
-                <p className="text-sm text-gray-500">Hỗ trợ PDF, DOCX, Ảnh (Tối đa 5 file cùng lúc)</p>
+                <h3 className="text-lg font-medium text-gray-900 mb-1">Drag & drop or select multiple CVs</h3>
+                <p className="text-sm text-gray-500">Supports PDF, DOCX, Images (Max 5 files at a time)</p>
               </div>
 
               {/* File List */}
               {files.length > 0 && (
                 <div className="space-y-3">
-                  <h4 className="text-sm font-medium text-gray-700">Đã chọn {files.length}/5 file:</h4>
+                  <h4 className="text-sm font-medium text-gray-700">Selected {files.length}/5 files:</h4>
                   <div className="space-y-2">
                     {files.map((fileItem) => (
                       <div key={fileItem.key} className="flex items-center justify-between bg-white p-3 rounded-lg border border-gray-200 shadow-sm">
@@ -206,7 +206,7 @@ export function BatchImportModal({ open, onClose, onSuccess }: BatchImportModalP
                 onClick={handleClose}
                 className="px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-lg"
               >
-                Hủy
+                Cancel
               </button>
               <button 
                 onClick={startProcessing}
@@ -214,7 +214,7 @@ export function BatchImportModal({ open, onClose, onSuccess }: BatchImportModalP
                 className="px-4 py-2 text-sm font-medium text-white bg-brand-600 hover:bg-brand-700 rounded-lg shadow-sm disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
               >
                 <div className="bg-white/20 px-1.5 py-0.5 rounded text-xs font-bold">{files.length}</div>
-                Bắt đầu xử lý
+                Start Processing
               </button>
             </>
           ) : (
@@ -223,7 +223,7 @@ export function BatchImportModal({ open, onClose, onSuccess }: BatchImportModalP
                 onClick={handleClose}
                 className="px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-lg"
               >
-                Đóng
+                Close
               </button>
               {readyCount > 0 && (
                 <button 
@@ -243,25 +243,25 @@ export function BatchImportModal({ open, onClose, onSuccess }: BatchImportModalP
       {showConfirmSaveAll && (
         <div className="fixed inset-0 z-60 flex items-center justify-center bg-black/60 backdrop-blur-sm">
           <div className="bg-white rounded-xl shadow-2xl p-6 max-w-md mx-4">
-            <h3 className="text-lg font-semibold text-gray-900 mb-3">Xác nhận Import All</h3>
+            <h3 className="text-lg font-semibold text-gray-900 mb-3">Confirm Import All</h3>
             <p className="text-sm text-gray-600 mb-2">
-              Bạn muốn import <span className="font-semibold text-brand-600">{readyCount} hồ sơ</span>?
+              Do you want to import <span className="font-semibold text-brand-600">{readyCount} candidates</span>?
             </p>
             <p className="text-xs text-amber-600 bg-amber-50 p-2 rounded mb-4">
-              ⚠️ Hãy kiểm tra kỹ thông tin trước khi import.
+              ⚠️ Please check the information carefully before importing.
             </p>
             <div className="flex gap-3 justify-end">
               <button 
                 onClick={() => setShowConfirmSaveAll(false)}
                 className="px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-lg"
               >
-                Hủy
+                Cancel
               </button>
               <button 
                 onClick={handleSaveAll}
                 className="px-4 py-2 text-sm font-medium text-white bg-green-600 hover:bg-green-700 rounded-lg shadow-sm"
               >
-                Đã kiểm tra, Import ngay
+                Checked, Import Now
               </button>
             </div>
           </div>
