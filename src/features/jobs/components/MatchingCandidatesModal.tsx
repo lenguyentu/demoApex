@@ -175,17 +175,48 @@ export const MatchingCandidatesModal = ({ job, open, onClose }: MatchingCandidat
       setLoading(true);
       try {
         const { MOCK_CANDIDATES } = await import('../../../mocks/candidates');
-        const result = MOCK_CANDIDATES.map((c, i) => ({
-          id: c.id,
-          name: c.full_name || 'No Name',
-          email: c.email,
-          phone: c.phone,
-          applied_position: c.current_title,
-          cv_link: null,
-          has_cv: false,
-          address: 'Hà Nội',
-          similarity: 0.95 - (i * 0.05)
+        const jobTitle = (job?.position_title || '').toLowerCase();
+        
+        let result = MOCK_CANDIDATES.map((c) => {
+          let sim = 0.5;
+          const candTitle = (c.current_title || '').toLowerCase();
+          
+          if (candTitle === jobTitle) {
+            sim = 0.95;
+          } else {
+            const jobTokens = jobTitle.split(/[\s/]+/).filter(Boolean);
+            let matchCount = 0;
+            jobTokens.forEach(token => {
+              if (token.length > 2 && candTitle.includes(token)) matchCount++;
+            });
+            if (matchCount > 0) sim = 0.75 + (matchCount * 0.05);
+          }
+          
+          if (c.experienced_industry === job?.td_job_category) {
+            sim += 0.05;
+          }
+          sim = Math.min(0.99, sim);
+          
+          return {
+            id: c.id,
+            name: c.full_name || 'No Name',
+            email: c.email,
+            phone: c.phone,
+            applied_position: c.current_title,
+            cv_link: c.cv_link,
+            has_cv: !!c.cv_link,
+            address: c.address || 'Hà Nội',
+            similarity: sim
+          };
+        });
+        
+        result = result.sort((a, b) => b.similarity - a.similarity).slice(0, 7);
+        
+        result = result.map((r, i) => ({
+            ...r,
+            similarity: Math.max(0.4, r.similarity - (i * 0.02))
         }));
+
         setCandidates(result as unknown as MatchingCandidate[]);
         setSelectedIds(new Set()); // Khởi đầu với danh sách chưa chọn ai cả
       } catch (err: any) { 

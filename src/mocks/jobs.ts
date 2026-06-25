@@ -1,187 +1,22 @@
 export const MOCK_JOBS = [
-  {
-    id: "job-1",
-    job_id: "TD1029",
-    position_title: "Senior Fullstack Engineer (React/Node.js)",
-    number_of_employees: 2,
-    clients: { id: "client-1", client_name: "TechNova Solutions" },
-    interview_rounds: 3,
-    min_monthly_salary: "$ 2500",
-    max_monthly_salary: "4000",
-    work_location: "District 1, Ho Chi Minh City",
-    warranty_period_days: 60,
-    created_at: new Date(Date.now() - 86400000).toISOString(),
-    is_urgent: true,
-    status: "Open",
-    job_summary: `
-      <p>We are looking for a passionate <strong>Senior Fullstack Engineer</strong> to join our core product development team. You will play a crucial role in designing and building large-scale systems serving millions of users.</p>
-      <p><strong>Key Responsibilities:</strong></p>
-      <ul style="list-style-type: disc; padding-left: 20px; line-height: 1.6;">
-        <li>Design, develop and maintain frontend features using <strong>React.js</strong> and backend using <strong>Node.js</strong>.</li>
-        <li>Analyze system requirements, propose optimal and scalable software architecture solutions.</li>
-        <li>Review code, guide and provide technical direction for Junior/Mid-level members in the team.</li>
-        <li>Work closely with Product Manager and QA to ensure the best product quality before release.</li>
-      </ul>
-    `,
-    requirements: `
-      <p>To succeed in this position, you need to have:</p>
-      <ul style="list-style-type: disc; padding-left: 20px; line-height: 1.6;">
-        <li>At least <strong>4 years of experience</strong> working as a Fullstack Developer.</li>
-        <li>Proficient in Javascript/Typescript, React.js, Node.js (Express/NestJS).</li>
-        <li>Experience working with relational databases (PostgreSQL, MySQL) and NoSQL (MongoDB, Redis).</li>
-        <li>Deep understanding of RESTful API, GraphQL and Microservices architecture.</li>
-        <li>Experience deploying applications on Cloud platforms (AWS/GCP), using Docker/Kubernetes is a huge advantage.</li>
-        <li>Excellent problem solving skills, good communication and teamwork abilities.</li>
-      </ul>
-    `,
-    jd_clear: `
-      <p><strong>Benefits Policy:</strong></p>
-      <ul style="list-style-type: disc; padding-left: 20px; line-height: 1.6;">
-        <li>Attractive salary from <strong>$2500 - $4000</strong>, negotiable based on ability.</li>
-        <li>13th month salary + Quarterly project performance bonus (up to 2 months salary/year).</li>
-        <li>Salary review twice a year based on ability and contribution.</li>
-        <li>Comprehensive health insurance package (Bao Viet Healthcare) for employees and relatives.</li>
-        <li>Provided with the latest Macbook Pro M2/M3 and external monitor for work.</li>
-        <li>Flexible working environment (Hybrid working at home 2 days/week), no strict dress code required.</li>
-        <li>Annual company trip at a 5-star resort, exciting monthly teambuilding activities.</li>
-      </ul>
-    `
-  },
-  {
-    id: "job-2",
-    job_id: "TD1030",
-    position_title: "Product Marketing Manager",
-    number_of_employees: 1,
-    clients: { id: "client-2", client_name: "FinTech Asia" },
-    interview_rounds: 2,
-    min_monthly_salary: "40M",
-    max_monthly_salary: "60M",
-    work_location: "Cau Giay, Hanoi",
-    warranty_period_days: 60,
-    created_at: new Date(Date.now() - 86400000 * 3).toISOString(),
-    is_urgent: false,
-    status: "Open",
-    job_summary: `
-      <p>FinTech Asia is looking for a talented <strong>Product Marketing Manager</strong> to lead the product launch strategy and brand positioning in the Southeast Asian market.</p>
-      <p><strong>Detailed Description:</strong></p>
-      <ul style="list-style-type: disc; padding-left: 20px; line-height: 1.6;">
-        <li>Market research, competitor analysis to identify the product's unique selling proposition (USP).</li>
-        <li>Plan and execute the GTM (Go-To-Market) strategy for new features and products.</li>
-        <li>Build communication messages, sales materials (sales kit, pitch deck, case studies) in coordination with the Design and Content team.</li>
-        <li>Work closely with the Product, Sales and Customer Success teams to ensure consistent product messaging across all touchpoints.</li>
-      </ul>
-    `,
-    requirements: `
-      <p><strong>Candidate Requirements:</strong></p>
-      <ul style="list-style-type: disc; padding-left: 20px; line-height: 1.6;">
-        <li>3-5 years of experience in Marketing, including at least 2 years doing Product Marketing for B2B/SaaS or FinTech companies.</li>
-        <li>Excellent storytelling skills and data analysis thinking.</li>
-        <li>Proficient in English (IELTS 6.5 or above), able to write and communicate fluently with international partners.</li>
-        <li>Keen on the financial and technology markets, always updating new trends.</li>
-        <li>Independent working mindset and ability to withstand high pressure in a fast-paced startup environment.</li>
-      </ul>
-    `,
-    jd_clear: `
-      <p><strong>Benefits for you:</strong></p>
-      <ul style="list-style-type: disc; padding-left: 20px; line-height: 1.6;">
-        <li>Competitive income from <strong>40,000,000 - 60,000,000 VND/month</strong> + Business bonus.</li>
-        <li>Provided with an abundant budget to execute breakthrough marketing campaigns.</li>
-        <li>Participate in professional advanced training courses sponsored by the company.</li>
-        <li>Premium health insurance, annual periodic health check-ups.</li>
-        <li>Flexible working hours, focusing on efficiency and results rather than timekeeping hours.</li>
-      </ul>
-    `
-  },
-  {
-    id: "job-3",
-    job_id: "TD1031",
-    position_title: "Data Engineer (AWS/Snowflake)",
-    number_of_employees: 3,
-    clients: { id: "client-1", client_name: "Global E-commerce Corp" },
-    interview_rounds: 3,
-    min_monthly_salary: "$ 2000",
-    max_monthly_salary: "3500",
-    work_location: "Da Nang",
-    warranty_period_days: 60,
-    created_at: new Date(Date.now() - 86400000 * 5).toISOString(),
-    is_urgent: true,
-    status: "Open",
-    job_summary: `
-      <p>Become a key member of the Data Engineer team at a leading e-commerce corporation, processing Terabytes of data every day.</p>
-      <p><strong>Your job:</strong></p>
-      <ul style="list-style-type: disc; padding-left: 20px; line-height: 1.6;">
-        <li>Design, build and optimize Data Pipelines (ETL/ELT) using Python, Spark, and Airflow.</li>
-        <li>Manage and develop a modern Data Warehouse on the <strong>Snowflake</strong> and <strong>AWS (S3, Redshift, Glue)</strong> platform.</li>
-        <li>Collaborate with Data Scientists and Data Analysts to prepare data for Machine Learning models and reporting Dashboards.</li>
-        <li>Ensure data security, integrity and quality throughout the system.</li>
-      </ul>
-    `,
-    requirements: `
-      <p><strong>You need to meet:</strong></p>
-      <ul style="list-style-type: disc; padding-left: 20px; line-height: 1.6;">
-        <li>Graduated from University with a degree in IT, Mathematics or related.</li>
-        <li>Minimum 3 years of practical experience in the position of Data Engineer.</li>
-        <li>Proficient in <strong>Python</strong> and <strong>Advanced SQL</strong> programming.</li>
-        <li>In-depth experience with at least one Cloud ecosystem (preferably AWS) and workflow management tools (Airflow/Luigi).</li>
-        <li>Practical experience with Snowflake or Databricks is a big plus.</li>
-        <li>Good English communication skills to work directly with engineering teams in Europe and the US.</li>
-      </ul>
-    `,
-    jd_clear: `
-      <p><strong>Benefits upon joining:</strong></p>
-      <ul style="list-style-type: disc; padding-left: 20px; line-height: 1.6;">
-        <li>Salary from <strong>$2000 - $3500</strong> depending on ability evaluated through the test.</li>
-        <li>Signing bonus (1 month salary) for candidates who accept the job this month.</li>
-        <li>Relocation package of 20 million VND for candidates moving from other provinces to work in Da Nang.</li>
-        <li>100% international environment, opportunities to exchange and learn with top data experts.</li>
-        <li>Premium insurance for yourself and your family, 15 days of annual leave/year.</li>
-      </ul>
-    `
-  },
-  {
-    id: "job-4",
-    job_id: "TD1032",
-    position_title: "Head of Talent Acquisition",
-    number_of_employees: 1,
-    clients: { id: "client-2", client_name: "NextGen Logistics" },
-    interview_rounds: 4,
-    min_monthly_salary: "60M",
-    max_monthly_salary: "100M",
-    work_location: "District 3, Ho Chi Minh City",
-    warranty_period_days: 90,
-    created_at: new Date(Date.now() - 86400000 * 7).toISOString(),
-    is_urgent: false,
-    status: "Open",
-    job_summary: `
-      <p>We need to find a strategic leader to shape the future of the HR team at NextGen Logistics, helping the company scale from 500 to 1000 employees in the coming year.</p>
-      <p><strong>Main Tasks:</strong></p>
-      <ul style="list-style-type: disc; padding-left: 20px; line-height: 1.6;">
-        <li>Build and execute the overall Recruitment strategy, positioning a strong Employer Branding in the market.</li>
-        <li>Manage, train and develop a high-performance TA team (about 10-15 people).</li>
-        <li>Optimize the recruitment funnel, improve the application process to enhance Candidate Experience.</li>
-        <li>Build a strong network with Universities, recruitment partners and professional communities.</li>
-        <li>Report directly to the CHRO and advise the Board of Directors on long-term HR strategy.</li>
-      </ul>
-    `,
-    requirements: `
-      <p><strong>Job Requirements:</strong></p>
-      <ul style="list-style-type: disc; padding-left: 20px; line-height: 1.6;">
-        <li>At least 7 years of experience in Recruitment, including at least 3 years in a senior management position (TA Manager / Head of TA).</li>
-        <li>Track record proving successful organization scale-up at large-scale companies or tech startups.</li>
-        <li>Data-driven mindset, keen on using ATS systems and analyzing recruitment metrics.</li>
-        <li>Excellent leadership, inspiring and change management skills.</li>
-        <li>Fluent English, professional demeanor and persuasive communication.</li>
-      </ul>
-    `,
-    jd_clear: `
-      <p><strong>Super Attractive Benefits Package:</strong></p>
-      <ul style="list-style-type: disc; padding-left: 20px; line-height: 1.6;">
-        <li>Competitive income: Base salary <strong>60 - 100 million/month</strong> + KPIs bonus + Annual Employee Stock Ownership Plan (ESOP).</li>
-        <li>Car allowance for commuting and business travel expenses.</li>
-        <li>Participate in senior leadership training courses domestically and internationally.</li>
-        <li>Flexible working hours, respecting personal space.</li>
-        <li>Premium VIP healthcare policy exclusively for management level.</li>
-      </ul>
-    `
-  }
+  {"id": "job-1", "job_id": "TD1029", "position_title": "Senior Frontend Engineer", "number_of_employees": 2, "clients": {"id": "client-1", "client_name": "TechNova Solutions"}, "interview_rounds": 3, "min_monthly_salary": "$2500", "max_monthly_salary": "$4000", "work_location": "Ho Chi Minh City", "warranty_period_days": 60, "is_urgent": true, "status": "Open", "phase": "Open", "job_rank": "S", "td_job_category": "IT", "assignment_type": "Headhunter", "job_summary": "<p>Looking for a Senior Frontend Engineer to build world-class enterprise SaaS products using React, Next.js, and TypeScript.</p>", "requirements": "<p>5+ years of frontend experience. Strong knowledge of React, Next.js, and modern CSS (Tailwind). Experience with micro-frontends is a plus.</p>", "jd_clear": "<p>Annual performance review, premium healthcare, flexible remote work policy.</p>", "created_at": "2026-06-13T21:56:21.516679"},
+  {"id": "job-2", "job_id": "TD1030", "position_title": "Product Marketing Manager", "number_of_employees": 1, "clients": {"id": "client-2", "client_name": "FinTech Asia"}, "interview_rounds": 2, "min_monthly_salary": "40M", "max_monthly_salary": "60M", "work_location": "Hanoi", "warranty_period_days": 60, "is_urgent": false, "status": "Open", "phase": "Sourcing", "job_rank": "A", "td_job_category": "Marketing", "assignment_type": "Headhunter", "job_summary": "<p>We need an experienced Product Marketing Manager to drive GTM strategy for our B2B financial products across Southeast Asia.</p>", "requirements": "<p>3+ years in B2B Product Marketing. Excellent English, analytical skills, and experience with marketing automation tools.</p>", "jd_clear": "<p>13th-month salary, KPI bonus, ESOP, premium healthcare.</p>", "created_at": "2026-06-11T21:56:21.516743"},
+  {"id": "job-3", "job_id": "TD1031", "position_title": "Backend Developer (Go)", "number_of_employees": 3, "clients": {"id": "client-3", "client_name": "Global Payments"}, "interview_rounds": 3, "min_monthly_salary": "$2000", "max_monthly_salary": "$3500", "work_location": "Da Nang", "warranty_period_days": 60, "is_urgent": true, "status": "Open", "phase": "Interview", "job_rank": "A", "td_job_category": "IT", "assignment_type": "Headhunter", "job_summary": "<p>Develop high-performance payment processing systems using Golang and gRPC.</p>", "requirements": "<p>3+ years backend experience, at least 1.5 years with Go. Solid understanding of Postgres, Redis, and distributed systems.</p>", "jd_clear": "<p>Sign-on bonus, 100% remote option, international environment.</p>", "created_at": "2026-06-22T21:56:21.516765"},
+  {"id": "job-4", "job_id": "TD1032", "position_title": "Head of Talent Acquisition", "number_of_employees": 1, "clients": {"id": "client-4", "client_name": "NextGen Logistics"}, "interview_rounds": 4, "min_monthly_salary": "60M", "max_monthly_salary": "100M", "work_location": "Ho Chi Minh City", "warranty_period_days": 90, "is_urgent": false, "status": "Open", "phase": "Offer", "job_rank": "S", "td_job_category": "HR", "assignment_type": "Headhunter", "job_summary": "<p>Lead the entire recruitment department and scale our workforce from 500 to 1200 employees within the next 2 years.</p>", "requirements": "<p>7+ years in TA, 3+ years in a leadership role. Proven track record of scaling tech/logistics startups.</p>", "jd_clear": "<p>Base salary + strong ESOP package, company car allowance.</p>", "created_at": "2026-06-22T21:56:21.516782"},
+  {"id": "job-5", "job_id": "TD1033", "position_title": "Data Engineer (Snowflake)", "number_of_employees": 2, "clients": {"id": "client-5", "client_name": "BigData Inc"}, "interview_rounds": 2, "min_monthly_salary": "$2500", "max_monthly_salary": "$4500", "work_location": "Hanoi", "warranty_period_days": 60, "is_urgent": true, "status": "Open", "phase": "Sourcing", "job_rank": "B", "td_job_category": "IT", "assignment_type": "CTV", "job_summary": "<p>Build data pipelines and warehouse solutions using Snowflake, AWS, and Airflow.</p>", "requirements": "<p>Strong Python, advanced SQL, experience with Snowflake and AWS ecosystem.</p>", "jd_clear": "<p>13th month salary, hybrid work, MacBook Pro M3 provided.</p>", "created_at": "2026-06-01T21:56:21.516795"},
+  {"id": "job-6", "job_id": "TD1034", "position_title": "B2B Sales Executive", "number_of_employees": 5, "clients": {"id": "client-6", "client_name": "SaaS Platform Corp"}, "interview_rounds": 2, "min_monthly_salary": "15M", "max_monthly_salary": "25M", "work_location": "Ho Chi Minh City", "warranty_period_days": 30, "is_urgent": true, "status": "Open", "phase": "Open", "job_rank": "C", "td_job_category": "Sales", "assignment_type": "Freelancer", "job_summary": "<p>Drive sales for our enterprise SaaS products to SME clients in Vietnam.</p>", "requirements": "<p>1-3 years of B2B sales experience. Strong communication and negotiation skills.</p>", "jd_clear": "<p>High commission rate (up to 15%), monthly allowances, structured training.</p>", "created_at": "2026-05-30T21:56:21.516807"},
+  {"id": "job-7", "job_id": "TD1035", "position_title": "Chief Financial Officer (CFO)", "number_of_employees": 1, "clients": {"id": "client-7", "client_name": "Eco Retail Group"}, "interview_rounds": 4, "min_monthly_salary": "$5000", "max_monthly_salary": "$8000", "work_location": "Hanoi", "warranty_period_days": 90, "is_urgent": false, "status": "Open", "phase": "Interview", "job_rank": "S", "td_job_category": "Finance", "assignment_type": "Headhunter", "job_summary": "<p>Oversee all financial operations, fundraising, and M&A activities for a rapidly growing retail chain.</p>", "requirements": "<p>10+ years in Finance, previous CFO or VP Finance experience required. CFA or CPA preferred.</p>", "jd_clear": "<p>Executive compensation package, performance bonus, ESOP.</p>", "created_at": "2026-06-10T21:56:21.516818"},
+  {"id": "job-8", "job_id": "TD1036", "position_title": "Senior UX/UI Designer", "number_of_employees": 2, "clients": {"id": "client-8", "client_name": "Creative Studio"}, "interview_rounds": 2, "min_monthly_salary": "30M", "max_monthly_salary": "50M", "work_location": "Da Nang", "warranty_period_days": 60, "is_urgent": false, "status": "Open", "phase": "Sourcing", "job_rank": "A", "td_job_category": "Design", "assignment_type": "Headhunter", "job_summary": "<p>Lead the design of complex web applications. Create wireframes, prototypes, and high-fidelity UI.</p>", "requirements": "<p>4+ years UX/UI design experience. Strong portfolio demonstrating SaaS product design. Expert in Figma.</p>", "jd_clear": "<p>Creative work environment, flexible hours, annual design workshops abroad.</p>", "created_at": "2026-06-23T21:56:21.516830"},
+  {"id": "job-9", "job_id": "TD1037", "position_title": "Supply Chain Manager", "number_of_employees": 1, "clients": {"id": "client-9", "client_name": "Global FMCG"}, "interview_rounds": 3, "min_monthly_salary": "50M", "max_monthly_salary": "75M", "work_location": "Binh Duong", "warranty_period_days": 60, "is_urgent": true, "status": "Open", "phase": "Open", "job_rank": "A", "td_job_category": "Logistics", "assignment_type": "Headhunter", "job_summary": "<p>Manage end-to-end supply chain operations, including procurement, warehousing, and distribution.</p>", "requirements": "<p>5+ years in supply chain management within FMCG. Strong SAP skills and vendor management.</p>", "jd_clear": "<p>Shuttle bus from HCMC, comprehensive insurance, yearly bonus (up to 3 months).</p>", "created_at": "2026-06-17T21:56:21.516840"},
+  {"id": "job-10", "job_id": "TD1038", "position_title": "Mobile Developer (Flutter)", "number_of_employees": 4, "clients": {"id": "client-1", "client_name": "TechNova Solutions"}, "interview_rounds": 2, "min_monthly_salary": "$1500", "max_monthly_salary": "$2500", "work_location": "Ho Chi Minh City", "warranty_period_days": 60, "is_urgent": true, "status": "Open", "phase": "Interview", "job_rank": "B", "td_job_category": "IT", "assignment_type": "CTV", "job_summary": "<p>Develop cross-platform mobile applications using Flutter for our e-commerce client.</p>", "requirements": "<p>2+ years with Flutter/Dart. Experience with REST APIs, state management (Provider/Riverpod).</p>", "jd_clear": "<p>Performance bonus, project bonus, friendly environment.</p>", "created_at": "2026-05-28T21:56:21.516850"},
+  {"id": "job-11", "job_id": "TD1039", "position_title": "Content Creator / Copywriter", "number_of_employees": 2, "clients": {"id": "client-10", "client_name": "Media Buzz"}, "interview_rounds": 2, "min_monthly_salary": "12M", "max_monthly_salary": "20M", "work_location": "Hanoi", "warranty_period_days": 30, "is_urgent": false, "status": "Open", "phase": "Offer", "job_rank": "C", "td_job_category": "Marketing", "assignment_type": "Freelancer", "job_summary": "<p>Create engaging content for social media, blogs, and marketing campaigns.</p>", "requirements": "<p>1-2 years copywriting experience. Creative mindset, good SEO knowledge.</p>", "jd_clear": "<p>Remote-friendly, unlimited snacks, creative freedom.</p>", "created_at": "2026-06-04T21:56:21.516873"},
+  {"id": "job-12", "job_id": "TD1040", "position_title": "AI/ML Engineer", "number_of_employees": 2, "clients": {"id": "client-11", "client_name": "AI Robotics Ltd"}, "interview_rounds": 3, "min_monthly_salary": "$3000", "max_monthly_salary": "$5000", "work_location": "Ho Chi Minh City", "warranty_period_days": 60, "is_urgent": false, "status": "Open", "phase": "Sourcing", "job_rank": "S", "td_job_category": "IT", "assignment_type": "Headhunter", "job_summary": "<p>Design and deploy machine learning models for computer vision and NLP applications.</p>", "requirements": "<p>Strong Python, PyTorch/TensorFlow. Experience deploying ML models to production (MLOps).</p>", "jd_clear": "<p>Stock options, cutting-edge projects, top-tier health insurance.</p>", "created_at": "2026-06-11T21:56:21.516883"},
+  {"id": "job-13", "job_id": "TD1041", "position_title": "Legal Counsel", "number_of_employees": 1, "clients": {"id": "client-12", "client_name": "Real Estate Corp"}, "interview_rounds": 3, "min_monthly_salary": "40M", "max_monthly_salary": "60M", "work_location": "Hanoi", "warranty_period_days": 60, "is_urgent": true, "status": "Open", "phase": "Open", "job_rank": "A", "td_job_category": "Legal", "assignment_type": "Headhunter", "job_summary": "<p>Review contracts, provide legal advice on M&A, and ensure corporate compliance.</p>", "requirements": "<p>5+ years of corporate law experience. Real estate industry knowledge is highly preferred.</p>", "jd_clear": "<p>Annual retreat, professional development allowance, 13th month salary.</p>", "created_at": "2026-06-14T21:56:21.516919"},
+  {"id": "job-14", "job_id": "TD1042", "position_title": "Customer Success Manager", "number_of_employees": 3, "clients": {"id": "client-6", "client_name": "SaaS Platform Corp"}, "interview_rounds": 2, "min_monthly_salary": "20M", "max_monthly_salary": "35M", "work_location": "Da Nang", "warranty_period_days": 30, "is_urgent": false, "status": "Open", "phase": "Sourcing", "job_rank": "B", "td_job_category": "Sales", "assignment_type": "Headhunter", "job_summary": "<p>Manage a portfolio of B2B clients, ensure adoption, and drive renewals/upsells.</p>", "requirements": "<p>3+ years in B2B Account Management or Customer Success. Excellent problem-solving skills.</p>", "jd_clear": "<p>Bonus based on retention rates, clear promotion path, flexible hours.</p>", "created_at": "2026-06-08T21:56:21.516931"},
+  {"id": "job-15", "job_id": "TD1043", "position_title": "QA Automation Engineer", "number_of_employees": 4, "clients": {"id": "client-1", "client_name": "TechNova Solutions"}, "interview_rounds": 2, "min_monthly_salary": "$1200", "max_monthly_salary": "$2000", "work_location": "Ho Chi Minh City", "warranty_period_days": 60, "is_urgent": false, "status": "Open", "phase": "Interview", "job_rank": "C", "td_job_category": "IT", "assignment_type": "CTV", "job_summary": "<p>Build and maintain automated test frameworks for web and mobile applications.</p>", "requirements": "<p>2+ years automation testing (Selenium, Cypress, or Appium). Experience with CI/CD.</p>", "jd_clear": "<p>13th month salary, hybrid working model, English class sponsorships.</p>", "created_at": "2026-06-19T21:56:21.516941"},
+  {"id": "job-16", "job_id": "TD1044", "position_title": "Chief Marketing Officer (CMO)", "number_of_employees": 1, "clients": {"id": "client-7", "client_name": "Eco Retail Group"}, "interview_rounds": 4, "min_monthly_salary": "$4000", "max_monthly_salary": "$7000", "work_location": "Ho Chi Minh City", "warranty_period_days": 90, "is_urgent": true, "status": "Open", "phase": "Offer", "job_rank": "S", "td_job_category": "Marketing", "assignment_type": "Headhunter", "job_summary": "<p>Lead the entire marketing division, driving brand strategy, digital marketing, and market expansion.</p>", "requirements": "<p>10+ years marketing experience, with 3+ at C-level or VP level in retail/FMCG.</p>", "jd_clear": "<p>High performance bonuses, ESOP, premium health care for family.</p>", "created_at": "2026-05-31T21:56:21.516951"},
+  {"id": "job-17", "job_id": "TD1045", "position_title": "DevOps Architect", "number_of_employees": 1, "clients": {"id": "client-13", "client_name": "CloudServices Inc"}, "interview_rounds": 3, "min_monthly_salary": "$3500", "max_monthly_salary": "$5500", "work_location": "Hanoi", "warranty_period_days": 60, "is_urgent": false, "status": "Open", "phase": "Open", "job_rank": "S", "td_job_category": "IT", "assignment_type": "Headhunter", "job_summary": "<p>Design scalable cloud infrastructure and secure CI/CD pipelines for enterprise clients.</p>", "requirements": "<p>6+ years in DevOps/Cloud. Expert in Kubernetes, AWS/GCP, Terraform. AWS Solutions Architect certified.</p>", "jd_clear": "<p>Sign-on bonus, completely remote, tech gadget allowance.</p>", "created_at": "2026-06-04T21:56:21.516965"},
+  {"id": "job-18", "job_id": "TD1046", "position_title": "Production Manager", "number_of_employees": 1, "clients": {"id": "client-14", "client_name": "Viet Manufacturing"}, "interview_rounds": 3, "min_monthly_salary": "40M", "max_monthly_salary": "60M", "work_location": "Dong Nai", "warranty_period_days": 60, "is_urgent": true, "status": "Open", "phase": "Interview", "job_rank": "A", "td_job_category": "Manufacturing", "assignment_type": "Headhunter", "job_summary": "<p>Manage daily production operations, optimize efficiency, and ensure quality standards.</p>", "requirements": "<p>5+ years as Production Manager in manufacturing. Six Sigma or Lean Manufacturing experience.</p>", "jd_clear": "<p>Company car, housing allowance, 14th month salary.</p>", "created_at": "2026-06-23T21:56:21.516979"},
+  {"id": "job-19", "job_id": "TD1047", "position_title": "Business Analyst (BA)", "number_of_employees": 3, "clients": {"id": "client-2", "client_name": "FinTech Asia"}, "interview_rounds": 2, "min_monthly_salary": "25M", "max_monthly_salary": "40M", "work_location": "Hanoi", "warranty_period_days": 30, "is_urgent": false, "status": "Open", "phase": "Sourcing", "job_rank": "B", "td_job_category": "IT", "assignment_type": "CTV", "job_summary": "<p>Gather requirements and write SRS documents for core banking software implementations.</p>", "requirements": "<p>3+ years as IT BA. Experience in Banking/Finance domains. Fluent English.</p>", "jd_clear": "<p>Agile training, premium healthcare, project bonuses.</p>", "created_at": "2026-06-15T21:56:21.516990"},
+  {"id": "job-20", "job_id": "TD1048", "position_title": "Social Media Executive", "number_of_employees": 2, "clients": {"id": "client-10", "client_name": "Media Buzz"}, "interview_rounds": 1, "min_monthly_salary": "10M", "max_monthly_salary": "15M", "work_location": "Ho Chi Minh City", "warranty_period_days": 30, "is_urgent": false, "status": "Open", "phase": "Offer", "job_rank": "C", "td_job_category": "Marketing", "assignment_type": "Freelancer", "job_summary": "<p>Manage daily posts on Facebook, TikTok, and Instagram for various brand campaigns.</p>", "requirements": "<p>1 year experience. Trend-savvy, basic video editing skills (CapCut).</p>", "jd_clear": "<p>Young environment, team building trips, commission on viral campaigns.</p>", "created_at": "2026-06-09T21:56:21.516999"},
 ];

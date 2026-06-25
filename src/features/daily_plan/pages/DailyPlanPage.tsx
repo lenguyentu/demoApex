@@ -23,9 +23,9 @@ const DailyPlanPage = () => {
   const [dbHasMorning, setDbHasMorning] = useState(false);
   const [dbHasAfternoon, setDbHasAfternoon] = useState(false);
 
-  // Tách làm 2 mảng riêng biệt cho Sáng và Chiều
+  // Tách làm 2 mảng riêng biệt cho Morning và Afternoon
   const [morningTasks, setMorningTasks] = useState<TaskRow[]>([
-    { id: generateId(), time: '8h30 - 9h00', task: 'Lên plan daily, check mail', target: '-' },
+    { id: generateId(), time: '8h30 - 9h00', task: 'Create daily plan, check emails', target: '-' },
     { id: generateId(), time: '9h00 - 11h00', task: '', target: '' },
     { id: generateId(), time: '11h00 - 12h00', task: '', target: '' }
   ]);
@@ -33,7 +33,7 @@ const DailyPlanPage = () => {
   const [afternoonTasks, setAfternoonTasks] = useState<TaskRow[]>([
     { id: generateId(), time: '13h00 - 15h00', task: '', target: '' },
     { id: generateId(), time: '15h00 - 17h00', task: '', target: '' },
-    { id: generateId(), time: '17h00 - 17h30', task: 'Điền database, tổng kết ngày', target: '-' }
+    { id: generateId(), time: '17h00 - 17h30', task: 'Update database, summarize day', target: '-' }
   ]);
   
   const [isCapturing, setIsCapturing] = useState(false);
@@ -77,10 +77,10 @@ const DailyPlanPage = () => {
       } else if (!hasException) {
         if (currentHour >= 9 && (currentHour < 13 || (currentHour === 13 && currentMinute < 20)) && !hasMorning) {
           setIsLocked(true);
-          setLockMessage('Đã quá hạn nộp kế hoạch buổi sáng (09:00). Vui lòng liên hệ Admin để xin quyền nộp muộn.');
+          setLockMessage('Morning plan submission deadline (09:00) has passed. Please contact Admin for late submission.');
         } else if ((currentHour > 13 || (currentHour === 13 && currentMinute >= 20)) && !hasAfternoon) {
           setIsLocked(true);
-          setLockMessage('Đã quá hạn nộp kế hoạch buổi chiều (13:20). Vui lòng liên hệ Admin để xin quyền nộp muộn.');
+          setLockMessage('Afternoon plan submission deadline (13:20) has passed. Please contact Admin for late submission.');
         } else {
           setIsLocked(false);
         }
@@ -97,7 +97,7 @@ const DailyPlanPage = () => {
     const currentHasMorning = isAfternoon ? dbHasMorning : morningTasks.some(t => t.time.trim() !== '' || t.task.trim() !== '' || t.target.trim() !== '');
     const currentHasAfternoon = afternoonTasks.some(t => t.time.trim() !== '' || t.task.trim() !== '' || t.target.trim() !== '');
 
-    if (!currentHasMorning && !currentHasAfternoon) return alert('Bảng đang trống hoàn toàn, hãy nhập dữ liệu vào ít nhất 1 dòng!');
+    if (!currentHasMorning && !currentHasAfternoon) return alert('The board is completely empty, please enter data into at least 1 row!');
 
     setIsCapturing(true);
 
@@ -118,7 +118,7 @@ const DailyPlanPage = () => {
             has_afternoon: currentHasAfternoon
           }, { onConflict: 'user_id, plan_date' });
           
-          if (dbError) console.error('Lỗi lưu daily plan:', dbError);
+          if (dbError) console.error('Error saving daily plan:', dbError);
         }
 
         const canvas = await html2canvas(element, {
@@ -133,13 +133,13 @@ const DailyPlanPage = () => {
           const webhookUrl = import.meta.env.VITE_DISCORD_DAILY_PLAN_WEBHOOK_URL;
           
           if (!webhookUrl) {
-            alert('Lỗi: Chưa cấu hình VITE_DISCORD_DAILY_PLAN_WEBHOOK_URL trong file .env');
+            alert('Error: VITE_DISCORD_DAILY_PLAN_WEBHOOK_URL is not configured in .env');
             return;
           }
 
           const contentMessage = user?.discord_id 
-            ? `<@${user.discord_id}> đã nộp daily plan!` 
-            : `**${user?.full_name || 'Một thành viên'}** đã nộp daily plan!`;
+            ? `<@${user.discord_id}> has submitted daily plan!` 
+            : `**${user?.full_name || 'A member'}** has submitted daily plan!`;
 
           const payload: any = { content: contentMessage };
           if (user?.discord_id) payload.allowed_mentions = { users: [user.discord_id] };
@@ -149,12 +149,12 @@ const DailyPlanPage = () => {
           formData.append('payload_json', JSON.stringify(payload));
 
           const response = await fetch(webhookUrl, { method: 'POST', body: formData });
-          if (response.ok) alert('Thành công! Ảnh đã lên Discord.');
-          else alert('Có lỗi gửi Webhook.');
+          if (response.ok) alert('Success! Image uploaded to Discord.');
+          else alert('Error sending Webhook.');
         }, 'image/png');
         
       } catch (error) {
-        console.error('Lỗi tạo ảnh:', error);
+        console.error('Error creating image:', error);
         setIsCapturing(false);
       }
     }, 150);
@@ -168,7 +168,7 @@ const DailyPlanPage = () => {
     if (isCapturing && displayTasks.length === 0) {
       return (
         <tr>
-          <td colSpan={3} className="border border-gray-300 p-4 text-center text-gray-400 italic">Không có lịch trình</td>
+          <td colSpan={3} className="border border-gray-300 p-4 text-center text-gray-400 italic">No schedule</td>
         </tr>
       );
     }
@@ -208,7 +208,7 @@ const DailyPlanPage = () => {
                 setTasks(newTasks);
               }}
               className="w-full h-full min-h-[40px] px-4 py-2 bg-transparent outline-none resize-none overflow-hidden"
-              placeholder="Nhập công việc vào đây..."
+              placeholder="Enter task here..."
               rows={1}
             />
           )}
@@ -241,7 +241,7 @@ const DailyPlanPage = () => {
                 setTasks(newTasks);
               }}
               className="p-1.5 text-red-500 hover:bg-red-50 rounded"
-              title="Xóa dòng"
+              title="Delete row"
             >
               <Trash2 size={16} />
             </button>
@@ -251,16 +251,16 @@ const DailyPlanPage = () => {
     ));
   };
 
-  if (isLoading) return <div className="p-8 text-center text-gray-500">Đang tải cấu hình Daily Plan...</div>;
+  if (isLoading) return <div className="p-8 text-center text-gray-500">Loading Daily Plan configuration...</div>;
 
   if (isLocked) {
     return (
       <div className="p-8 flex flex-col items-center min-h-[80vh] justify-center bg-gray-50">
         <div className="bg-white p-8 rounded-xl shadow-lg border border-red-200 text-center max-w-lg">
            <div className="text-4xl mb-4">🔒</div>
-           <h1 className="text-2xl font-bold text-red-600 mb-4">MÀN HÌNH BỊ KHÓA</h1>
+           <h1 className="text-2xl font-bold text-red-600 mb-4">SCREEN LOCKED</h1>
            <p className="text-gray-700 text-lg mb-6">{lockMessage}</p>
-           <p className="text-sm text-gray-500 italic">Hệ thống đang chặn bạn nhận CV vì chưa nộp báo cáo đúng hạn.</p>
+           <p className="text-sm text-gray-500 italic">System is blocking you from receiving CVs because you haven't submitted your report on time.</p>
         </div>
       </div>
     );
@@ -270,14 +270,14 @@ const DailyPlanPage = () => {
 
   return (
     <div className="p-8 flex flex-col items-center min-h-screen bg-gray-50 pb-32">
-      <h1 className="text-2xl font-bold mb-6 text-gray-800">Báo cáo Kế hoạch Ngày (Daily Plan)</h1>
+      <h1 className="text-2xl font-bold mb-6 text-gray-800">Daily Plan Report</h1>
       
       {isSubmittedForCurrentShift ? (
         <div className="w-full max-w-2xl mt-10 p-8 bg-white border border-green-200 rounded-xl shadow-lg flex flex-col items-center justify-center text-center animate-fade-in">
           <div className="text-5xl mb-4">✅</div>
-          <h2 className="text-2xl font-bold text-green-600 mb-2">Đã nộp báo cáo</h2>
+          <h2 className="text-2xl font-bold text-green-600 mb-2">Report Submitted</h2>
           <p className="text-gray-600 text-lg">
-            Bạn đã nộp Kế hoạch Ngày cho ca {isAfternoon ? 'Chiều' : 'Sáng'} hôm nay.
+            You have submitted the Daily Plan for the {isAfternoon ? 'Afternoon' : 'Morning'} shift today.
           </p>
           <button 
             onClick={() => {
@@ -286,7 +286,7 @@ const DailyPlanPage = () => {
             }}
             className="mt-6 text-brand-600 hover:text-brand-700 underline text-sm font-medium"
           >
-            Nhập lại báo cáo mới
+            Enter a new report
           </button>
         </div>
       ) : (
@@ -299,16 +299,16 @@ const DailyPlanPage = () => {
               Daily Plan {new Date().toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit' })}
             </h2>
             <div className="text-gray-600 mt-2 font-medium">
-              Họ tên: <span className="text-brand-600">{user?.full_name || 'Đang tải...'}</span>
+              Full Name: <span className="text-brand-600">{user?.full_name || 'Loading...'}</span>
             </div>
           </div>
           
           <table className="border-collapse border border-gray-300 text-gray-800 w-full relative">
             <thead>
               <tr className="bg-brand-50">
-                <th className="border border-gray-300 px-4 py-3 font-semibold text-brand-800">Thời gian</th>
-                <th className="border border-gray-300 px-4 py-3 font-semibold text-brand-800">Công việc</th>
-                <th className="border border-gray-300 px-4 py-3 font-semibold text-brand-800">Mục tiêu</th>
+                <th className="border border-gray-300 px-4 py-3 font-semibold text-brand-800">Time</th>
+                <th className="border border-gray-300 px-4 py-3 font-semibold text-brand-800">Task</th>
+                <th className="border border-gray-300 px-4 py-3 font-semibold text-brand-800">Target</th>
               </tr>
             </thead>
             <tbody>
@@ -318,7 +318,7 @@ const DailyPlanPage = () => {
                   {!isCapturing && (
                     <tr className="bg-gray-100">
                       <td colSpan={3} className="border border-gray-300 px-4 py-2 font-bold text-gray-700">
-                        Sáng  (08:30 - 12:00)
+                        Morning  (08:30 - 12:00)
                       </td>
                     </tr>
                   )}
@@ -340,7 +340,7 @@ const DailyPlanPage = () => {
                           }}
                           className="w-full py-2 flex items-center justify-center gap-2 text-sm text-brand-600 hover:bg-brand-50 transition-colors font-medium"
                         >
-                          <Plus size={16} /> Thêm dòng
+                          <Plus size={16} /> Add row
                         </button>
                       </td>
                     </tr>
@@ -352,7 +352,7 @@ const DailyPlanPage = () => {
               {!isCapturing && (
                 <tr className="bg-gray-100">
                   <td colSpan={3} className="border border-gray-300 px-4 py-2 font-bold text-gray-700">
-                    Chiều (13:00 - 17:30)
+                    Afternoon (13:00 - 17:30)
                   </td>
                 </tr>
               )}
@@ -374,7 +374,7 @@ const DailyPlanPage = () => {
                       }}
                       className="w-full py-2 flex items-center justify-center gap-2 text-sm text-brand-600 hover:bg-brand-50 transition-colors font-medium"
                     >
-                      <Plus size={16} /> Thêm dòng
+                      <Plus size={16} /> Add row
                     </button>
                   </td>
                 </tr>
@@ -392,7 +392,7 @@ const DailyPlanPage = () => {
               : 'bg-brand-600 text-white hover:bg-brand-700 active:scale-95'
           }`}
         >
-          {isCapturing ? '⏳ Đang giấu các nút bấm và chụp ảnh...' : 'Nộp báo cáo'}
+          {isCapturing ? '⏳ Hiding buttons and capturing image...' : 'Submit Report'}
         </button>
         
         

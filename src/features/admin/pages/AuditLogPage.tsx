@@ -23,10 +23,10 @@ interface AuditLog {
 }
 
 const ACTION_OPTIONS = [
-  { value: '', label: 'Tất cả hành động' },
-  { value: 'INSERT', label: 'Tạo mới (Insert)' },
-  { value: 'UPDATE', label: 'Cập nhật (Update)' },
-  { value: 'DELETE', label: 'Xóa (Delete)' },
+  { value: '', label: 'All actions' },
+  { value: 'INSERT', label: 'Create (Insert)' },
+  { value: 'UPDATE', label: 'Update' },
+  { value: 'DELETE', label: 'Delete' },
 ];
 
 export const AuditLogPage = () => {
@@ -74,8 +74,8 @@ export const AuditLogPage = () => {
     return (
       <div className="flex flex-col items-center justify-center min-h-[60vh] text-center p-4">
         <AlertCircle size={48} className="text-red-500 mb-4" />
-        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Truy cập bị từ chối</h2>
-        <p className="text-gray-500 dark:text-gray-400">Bạn không có quyền xem nhật ký hệ thống.</p>
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Access Denied</h2>
+        <p className="text-gray-500 dark:text-gray-400">You do not have permission to view system logs.</p>
       </div>
     );
   }
@@ -86,14 +86,14 @@ export const AuditLogPage = () => {
         <div>
           <h1 className="text-2xl font-bold text-gray-900 dark:text-white">System Audit Log</h1>
           <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">
-            Ghi lại các hoạt động quan trọng trong hệ thống
+            Record important system activities
           </p>
         </div>
         <button
           onClick={refresh}
           className="px-4 py-2 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg hover:bg-gray-50 dark:hover:bg-gray-700 transition shadow-sm"
         >
-          Làm mới
+          Refresh
         </button>
       </div>
 
@@ -114,7 +114,7 @@ export const AuditLogPage = () => {
           <OwnerSelect
             value={userFilter}
             onChange={setUserFilter}
-            placeholder="Lọc theo Người thực hiện..."
+            placeholder="Filter by Performer..."
             className="bg-gray-50"
           />
         </div>
@@ -123,7 +123,7 @@ export const AuditLogPage = () => {
       {!!error && (
         <div className="bg-red-50 text-red-600 p-4 rounded-lg mb-4 flex items-center gap-2 shrink-0">
           <AlertCircle size={20} />
-          <span>Có lỗi xảy ra khi tải nhật ký. Vui lòng thử lại.</span>
+          <span>An error occurred while loading logs. Please try again.</span>
         </div>
       )}
 
@@ -135,11 +135,11 @@ export const AuditLogPage = () => {
           <table className="w-full text-sm text-left">
             <thead className="text-xs text-gray-500 uppercase bg-gray-50 dark:bg-gray-700/50 sticky top-0 z-10 backdrop-blur-sm">
               <tr>
-                <th className="px-6 py-3 whitespace-nowrap">Thời gian</th>
-                <th className="px-6 py-3 whitespace-nowrap">Hành động</th>
-                <th className="px-6 py-3 whitespace-nowrap">Người thực hiện</th>
-                <th className="px-6 py-3 whitespace-nowrap">Đối tượng</th>
-                <th className="px-6 py-3 text-center whitespace-nowrap" style={{ width: '100px' }}>Chi tiết</th>
+                <th className="px-6 py-3 whitespace-nowrap">Time</th>
+                <th className="px-6 py-3 whitespace-nowrap">Action</th>
+                <th className="px-6 py-3 whitespace-nowrap">Performer</th>
+                <th className="px-6 py-3 whitespace-nowrap">Target</th>
+                <th className="px-6 py-3 text-center whitespace-nowrap" style={{ width: '100px' }}>Details</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
@@ -150,7 +150,7 @@ export const AuditLogPage = () => {
                       <div className="bg-gray-100 p-3 rounded-full">
                         <AlertCircle size={24} className="text-gray-400" />
                       </div>
-                      <p>Không có nhật ký nào được ghi nhận</p>
+                      <p>No logs recorded</p>
                     </div>
                   </td>
                 </tr>
@@ -198,7 +198,7 @@ export const AuditLogPage = () => {
                           {/* Optional: Show Owner if available and different */}
                           {log.target_user_name && !log.target_summary.includes(log.target_user_name) && (
                             <span className="text-[10px] text-gray-400 mt-0.5">
-                              của {log.target_user_name}
+                              of {log.target_user_name}
                             </span>
                           )}
                         </div>
@@ -218,7 +218,7 @@ export const AuditLogPage = () => {
                       <button
                         onClick={() => setSelectedLog(log)}
                         className="p-2 text-gray-500 hover:text-brand-600 hover:bg-brand-50 rounded-lg transition-all"
-                        title="Xem chi tiết"
+                        title="View Details"
                       >
                         <Eye size={18} />
                       </button>
@@ -232,7 +232,7 @@ export const AuditLogPage = () => {
           {loading && (
             <div className="py-8 text-center flex justify-center items-center gap-2 text-gray-500">
               <Loader2 size={20} className="animate-spin text-brand-500" />
-              <span className="text-sm">Đang tải dữ liệu...</span>
+              <span className="text-sm">Loading data...</span>
             </div>
           )}
 
@@ -243,7 +243,7 @@ export const AuditLogPage = () => {
                 className="flex items-center gap-2 px-4 py-2 text-sm font-medium text-gray-600 bg-gray-50 hover:bg-gray-100 rounded-lg transition-colors border border-gray-200"
               >
                 <ArrowDown size={16} />
-                Xem thêm cũ hơn
+                Load more
               </button>
             </div>
           )}

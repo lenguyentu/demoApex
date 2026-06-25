@@ -72,21 +72,21 @@ function calcMilestones(processes: Process[]): MilestoneResult[] {
     return { phaseDate, daysRemaining: remaining, status };
   };
 
-  // Pre-Onboard: tính từ onboarding_date - 1 ngày (nhắc trước 1 ngày đi làm)
+  // Pre-Onboard: tính từ onboarding_date - 1 ngày (nhắc ago 1 ngày đi làm)
   // Nếu chưa có onboarding_date → tính từ offer date + 1 ngày (fallback)
   const preOnboardBase = onbDate
     ? new Date(onbDate.getTime() - 1 * 86400000)  // onboarding_date - 1 ngày
     : offerDate;
 
   // Day-1/7/30/60: tính từ onboarding_date thực tế
-  // Mỗi milestone active khi đã qua milestone trước (dùng daysSinceOnboard)
+  // Mỗi milestone active khi đã qua milestone ago (dùng daysSinceOnboard)
   const daysSinceOnboard = onbDate
     ? Math.floor((now - onbDate.getTime()) / 86400000)
     : null;
 
   const calcFollowUp = (targetDays: number): Pick<MilestoneResult, 'phaseDate' | 'daysRemaining' | 'status'> => {
     if (!onbDate) return { phaseDate: null, daysRemaining: null, status: 'not_reached' };
-    // Chỉ active khi đã qua milestone trước (targetDays - 1 ngày)
+    // Chỉ active khi đã qua milestone ago (targetDays - 1 ngày)
     if (daysSinceOnboard! < targetDays - 1) return { phaseDate: onbDate, daysRemaining: null, status: 'not_reached' };
     const deadline = onbDate.getTime() + targetDays * 86400000;
     const remaining = Math.ceil((deadline - now) / 86400000);
@@ -96,13 +96,13 @@ function calcMilestones(processes: Process[]): MilestoneResult[] {
   };
 
   return [
-    { key: 'cv_submitted', icon: <FileText size={10} />,     label: 'Follow KH - CV',       hint: '📋 Follow KH lấy feedback về CV đã gửi.\nNếu KH chưa phản hồi sau 5 ngày → escalate lên lead.',  targetDays: 5,  ...calc(cvDate, 5, intDate) },
-    { key: 'interview',    icon: <Mic size={10} />,          label: 'Follow KH - Interview', hint: '🎤 Follow KH lấy kết quả phỏng vấn.\nNếu KH delay → nhắc nhở nhẹ nhàng 1 lần/ngày.',            targetDays: 5,  ...calc(intDate, 5, offerDate) },
-    { key: 'pre_onboard',  icon: <Rocket size={10} />,       label: 'Pre-Onboard',           hint: '🚀 Gọi/nhắn UV xác nhận ngày mai đi làm.\nHỏi địa điểm, giờ, cần chuẩn bị gì.',                  targetDays: 0,  ...calc(preOnboardBase, 0, onbDate) },
-    { key: 'day1',         icon: <Leaf size={10} />,         label: 'Day-1 Follow',          hint: '🌱 Hỏi thăm UV sau ngày đầu tiên đi làm.\nCảm nhận, team, môi trường.',                           targetDays: 1,  ...calcFollowUp(1) },
-    { key: 'day7',         icon: <Phone size={10} />,        label: '7-day Follow',          hint: '📞 Check-in sau 1 tuần.\nUV có vấn đề gì không? KH có phản hồi gì không?',                        targetDays: 7,  ...calcFollowUp(7) },
-    { key: 'day30',        icon: <CalendarDays size={10} />, label: '30-day Follow',         hint: '📅 Check-in sau 1 tháng.\nUV có adapt được không? Kỳ vọng vs thực tế.',                            targetDays: 30, ...calcFollowUp(30) },
-    { key: 'day60',        icon: <Flag size={10} />,         label: '60-day Follow',         hint: '🏁 Check-in cuối kỳ bảo hành.\nUV vẫn làm không? Nếu nghỉ → kích hoạt điều khoản bảo hành.',      targetDays: 60, ...calcFollowUp(60) },
+    { key: 'cv_submitted', icon: <FileText size={10} />,     label: 'Client Follow-up - CV',       hint: '📋 Follow KH lấy feedback về CV đã gửi.\nNếu KH chưa phản hồi sau 5 ngày → escalate lên lead.',  targetDays: 5,  ...calc(cvDate, 5, intDate) },
+    { key: 'interview',    icon: <Mic size={10} />,          label: 'Client Follow-up - Interview', hint: '🎤 Follow KH lấy kết quả phỏng vấn.\nNếu KH delay → nhắc nhở nhẹ nhàng 1 lần/ngày.',            targetDays: 5,  ...calc(intDate, 5, offerDate) },
+    { key: 'pre_onboard',  icon: <Rocket size={10} />,       label: 'Pre-Onboard',           hint: '🚀 Call/message candidate to confirm first day tomorrow.\nAsk about location, time, preparation.',                  targetDays: 0,  ...calc(preOnboardBase, 0, onbDate) },
+    { key: 'day1',         icon: <Leaf size={10} />,         label: 'Day-1 Follow',          hint: '🌱 Check in with candidate after first day.\nFeedback on team and environment.',                           targetDays: 1,  ...calcFollowUp(1) },
+    { key: 'day7',         icon: <Phone size={10} />,        label: '7-day Follow',          hint: '📞 Check in after 1 week.\nAny issues? Client feedback?',                        targetDays: 7,  ...calcFollowUp(7) },
+    { key: 'day30',        icon: <CalendarDays size={10} />, label: '30-day Follow',         hint: '📅 Check in after 1 month.\nAdaptation? Expectations vs reality.',                            targetDays: 30, ...calcFollowUp(30) },
+    { key: 'day60',        icon: <Flag size={10} />,         label: '60-day Follow',         hint: '🏁 Check in at the end of warranty.\nStill employed? If not → activate warranty.',      targetDays: 60, ...calcFollowUp(60) },
   ];
 }
 
@@ -129,8 +129,8 @@ function calcMilestoneForProcess(process: Process): MilestoneResult | null {
   // CV Submitted → follow KH trong 5 ngày
   if (status === 'CV_SUBMITTED_TO_CLIENT') {
     const r = calcRemaining(updatedAt, 5);
-    return { key: 'cv_submitted', icon: <FileText size={10} />, label: 'Follow KH - CV',
-      hint: '📋 Follow KH lấy feedback CV.\nNếu chưa phản hồi sau 5 ngày → escalate lên lead.',
+    return { key: 'cv_submitted', icon: <FileText size={10} />, label: 'Client Follow-up - CV',
+      hint: '📋 Follow up with client for CV feedback.\nEscalate to lead if no response after 5 days.',
       targetDays: 5, phaseDate: updatedAt, daysRemaining: r, status: toStatus(r) };
   }
 
@@ -139,17 +139,17 @@ function calcMilestoneForProcess(process: Process): MilestoneResult | null {
        'INTERVIEW_COMPLETED_2ND','INTERVIEW_SCHEDULED_FINAL','INTERVIEW_COMPLETED_FINAL',
        'TEST_ASSIGNED','TEST_COMPLETED'].includes(status)) {
     const r = calcRemaining(updatedAt, 5);
-    return { key: 'interview', icon: <Mic size={10} />, label: 'Follow KH - Interview',
-      hint: '🎤 Follow KH lấy kết quả phỏng vấn.\nNếu KH delay → nhắc nhở 1 lần/ngày.',
+    return { key: 'interview', icon: <Mic size={10} />, label: 'Client Follow-up - Interview',
+      hint: '🎤 Follow up with client for interview results.\nRemind once a day if delayed.',
       targetDays: 5, phaseDate: updatedAt, daysRemaining: r, status: toStatus(r) };
   }
 
-  // Offer → Pre-Onboard: nhắc UV trước 1 ngày onboarding_date
+  // Offer → Pre-Onboard: nhắc UV ago 1 ngày onboarding_date
   if (['OFFER_EXTENDED','OFFER_ACCEPTED_BY_CANDIDATE'].includes(status)) {
     const preOnbBase = onbDate ? new Date(onbDate.getTime() - 86400000) : updatedAt;
     const r = calcRemaining(preOnbBase, 0);
     return { key: 'pre_onboard', icon: <Rocket size={10} />, label: 'Pre-Onboard',
-      hint: '🚀 Gọi/nhắn UV xác nhận ngày mai đi làm.\nHỏi địa điểm, giờ, cần chuẩn bị gì.',
+      hint: '🚀 Call/message candidate to confirm first day tomorrow.\nAsk about location, time, preparation.',
       targetDays: 1, phaseDate: preOnbBase, daysRemaining: r, status: toStatus(r) };
   }
 
@@ -159,10 +159,10 @@ function calcMilestoneForProcess(process: Process): MilestoneResult | null {
     void daysSince; // used implicitly via calcRemaining
     // Tìm milestone phù hợp nhất
     const followUps = [
-      { key: 'day1', icon: <Leaf size={10} />, label: 'Day-1 Follow', hint: '🌱 Hỏi thăm UV sau ngày đầu tiên.\nCảm nhận, team, môi trường.', targetDays: 1 },
-      { key: 'day7', icon: <Phone size={10} />, label: '7-day Follow', hint: '📞 Check-in sau 1 tuần.\nUV có vấn đề gì? KH có phản hồi gì?', targetDays: 7 },
-      { key: 'day30', icon: <CalendarDays size={10} />, label: '30-day Follow', hint: '📅 Check-in sau 1 tháng.\nUV adapt được không? Kỳ vọng vs thực tế.', targetDays: 30 },
-      { key: 'day60', icon: <Flag size={10} />, label: '60-day Follow', hint: '🏁 Check-in cuối kỳ bảo hành.\nUV vẫn làm không? Nếu nghỉ → kích hoạt bảo hành.', targetDays: 60 },
+      { key: 'day1', icon: <Leaf size={10} />, label: 'Day-1 Follow', hint: '🌱 Check in with candidate after first day.\nFeedback on team and environment.', targetDays: 1 },
+      { key: 'day7', icon: <Phone size={10} />, label: '7-day Follow', hint: '📞 Check in after 1 week.\nAny issues? Client feedback?', targetDays: 7 },
+      { key: 'day30', icon: <CalendarDays size={10} />, label: '30-day Follow', hint: '📅 Check in after 1 month.\nAdaptation? Expectations vs reality.', targetDays: 30 },
+      { key: 'day60', icon: <Flag size={10} />, label: '60-day Follow', hint: '🏁 Check in at the end of warranty.\nStill employed? If not → activate warranty.', targetDays: 60 },
     ];
     // Lấy milestone gần nhất chưa quá 2 ngày
     for (const f of followUps) {
@@ -192,17 +192,34 @@ function JobFocusRow({
   const [commentProcessId, setCommentProcessId] = useState<string | null>(null);
 
   // ─────────────────────────────────────────────────────────────────────────────
-  // NOTE: Processes KHÔNG filter theo tuần
+  // NOTE: Processes KHÔNG filter theo week
   // - Hiển thị TẤT CẢ processes của job này (owner = assignee)
   // - Lý do: Cần tracking đầy đủ pipeline cho báo cáo và milestone
-  // - VD: CV submit tuần trước vẫn cần hiện để theo dõi tiến độ interview
-  // - Nếu cần filter theo tuần, thêm dateFrom/dateTo vào useProcessesList
+  // - VD: CV submit week ago vẫn cần hiện để theo dõi tiến độ interview
+  // - Nếu cần filter theo week, thêm dateFrom/dateTo vào useProcessesList
   // ─────────────────────────────────────────────────────────────────────────────
-  const { data: processPages, refetch: refetchProcesses } = useProcessesList({
+  let { data: processPages, refetch: refetchProcesses } = useProcessesList({
     jobIdFilter: job.job_id,
     ownerIdFilter: assigneeId,
   });
-  const processes = processPages?.pages.flatMap(p => p.data) ?? [];
+  let processes = processPages?.pages.flatMap(p => p.data) ?? [];
+  
+  if (import.meta.env.DEV && processes.length === 0) {
+    processes = [
+      {
+        id: 'mock-process-1',
+        process_status: 'CV_SUBMITTED_TO_CLIENT',
+        candidate: { name: 'Alice Nguyen', email: 'alice@example.com', cv_link: 'http://example.com/cv.pdf' },
+        updated_at: new Date(Date.now() - 3 * 86400000).toISOString(),
+      },
+      {
+        id: 'mock-process-2',
+        process_status: 'INTERVIEW_SCHEDULED_1ST',
+        candidate: { name: 'Bob Tran', email: 'bob@example.com' },
+        updated_at: new Date(Date.now() - 1 * 86400000).toISOString(),
+      }
+    ] as any;
+  }
 
   // Milestone tính từ phase date + target days
   const milestones = calcMilestones(processes);
@@ -228,7 +245,7 @@ function JobFocusRow({
         evaluation_brief: brief,
         ...(onboardingDate ? { onboarding_date: onboardingDate } : {}),
       });
-      toast.success('Cập nhật trạng thái thành công');
+      toast.success('Status updated successfully');
       setStatusModalData(null);
       refetchProcesses();
     } catch (err: any) {
@@ -268,10 +285,10 @@ function JobFocusRow({
 
         {/* ── Thead ── */}
         <div className="flex items-center px-3 py-2 bg-gray-50 dark:bg-gray-700/40 border-b border-pink-100 dark:border-gray-700">
-          <div className="w-[22%] min-w-[140px] shrink-0 text-[10px] font-semibold text-gray-500 uppercase tracking-wide">Ứng viên</div>
-          <div className="w-[24%] min-w-[160px] shrink-0 text-[10px] font-semibold text-gray-500 uppercase tracking-wide">Trạng thái</div>
+          <div className="w-[22%] min-w-[140px] shrink-0 text-[10px] font-semibold text-gray-500 uppercase tracking-wide">Candidate</div>
+          <div className="w-[24%] min-w-[160px] shrink-0 text-[10px] font-semibold text-gray-500 uppercase tracking-wide">Status</div>
           <div className="w-[28%] min-w-[180px] shrink-0 text-[10px] font-semibold text-gray-500 uppercase tracking-wide">Milestone</div>
-          <div className="w-[14%] min-w-[80px] shrink-0 text-[10px] font-semibold text-gray-500 uppercase tracking-wide text-center">Cập nhật</div>
+          <div className="w-[14%] min-w-[80px] shrink-0 text-[10px] font-semibold text-gray-500 uppercase tracking-wide text-center">Update</div>
           <div className="w-[12%] min-w-[80px] flex items-center justify-center gap-0.5 shrink-0 text-[10px] font-semibold text-gray-500 uppercase tracking-wide">
             <span className="w-7 text-center">CV</span>
             <span className="w-7 text-center">LS</span>
@@ -286,7 +303,7 @@ function JobFocusRow({
             <div className="flex items-center justify-between px-4 py-4">
               <div className="flex items-center gap-2 text-gray-400">
                 <FileText size={16} className="opacity-40" />
-                <span className="text-xs">Chưa có CV nào được submit</span>
+                <span className="text-xs">No CVs submitted yet</span>
               </div>
               {/* Milestone vẫn hiển thị dù chưa có CV */}
               {(() => {
@@ -295,8 +312,8 @@ function JobFocusRow({
                 const cls = active.status === 'overdue' ? 'bg-red-50 border-red-200 text-red-700'
                   : active.status === 'due_soon' ? 'bg-yellow-50 border-yellow-300 text-yellow-800'
                   : 'bg-blue-50 border-blue-200 text-blue-700';
-                const timeText = active.status === 'overdue' ? `Quá ${Math.abs(active.daysRemaining!)}d`
-                  : active.daysRemaining === 0 ? 'Hôm nay' : `${active.daysRemaining}d nữa`;
+                const timeText = active.status === 'overdue' ? `Overdue ${Math.abs(active.daysRemaining!)}d`
+                  : active.daysRemaining === 0 ? 'Today' : `${active.daysRemaining}d left`;
                 return (
                   <div className={`group relative flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg border text-[10px] font-semibold ${cls}`}>
                     {active.icon}{active.label} · <span className="font-bold">{timeText}</span>
@@ -319,15 +336,15 @@ function JobFocusRow({
                   : daysSinceUpdate <= 5 ? 'text-orange-500'
                   : 'text-red-500';
                 const updateLabel = daysSinceUpdate === null ? '—'
-                  : daysSinceUpdate === 0 ? 'Hôm nay'
-                  : `${daysSinceUpdate}d trước`;
+                  : daysSinceUpdate === 0 ? 'Today'
+                  : `${daysSinceUpdate}d ago`;
 
                 // Milestone riêng cho từng process
                 const active = calcMilestoneForProcess(process);
                 const timeText = active
-                  ? active.status === 'overdue' ? `Quá ${Math.abs(active.daysRemaining!)}d`
-                    : active.daysRemaining === 0 ? 'Hôm nay'
-                    : `${active.daysRemaining}d nữa`
+                  ? active.status === 'overdue' ? `Overdue ${Math.abs(active.daysRemaining!)}d`
+                    : active.daysRemaining === 0 ? 'Today'
+                    : `${active.daysRemaining}d left`
                   : null;
                 const hintBg = active?.status === 'overdue' ? 'bg-red-50 border-red-100 text-red-700'
                   : active?.status === 'due_soon' ? 'bg-yellow-50 border-yellow-100 text-yellow-800'
@@ -365,14 +382,14 @@ function JobFocusRow({
                       <div className="w-[12%] min-w-[80px] flex items-center justify-center gap-0.5 shrink-0">
                         {process.candidate?.cv_link ? (
                           <a href={process.candidate.cv_link} target="_blank" rel="noopener noreferrer"
-                            className="w-7 h-7 flex items-center justify-center rounded hover:bg-blue-100 text-blue-400 hover:text-blue-600 transition-colors" title="Xem CV">
+                            className="w-7 h-7 flex items-center justify-center rounded hover:bg-blue-100 text-blue-400 hover:text-blue-600 transition-colors" title="View CV">
                             <FileText size={13} />
                           </a>
                         ) : (
                           <span className="w-7 h-7 flex items-center justify-center text-gray-200"><FileText size={13} /></span>
                         )}
                         <button onClick={() => setHistoryProcessId(process.id)}
-                          className="w-7 h-7 flex items-center justify-center rounded hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-400 hover:text-gray-600 transition-colors" title="Lịch sử">
+                          className="w-7 h-7 flex items-center justify-center rounded hover:bg-gray-200 dark:hover:bg-gray-600 text-gray-400 hover:text-gray-600 transition-colors" title="History">
                           <History size={13} />
                         </button>
                         <button onClick={() => setCommentProcessId(process.id)}
@@ -431,17 +448,17 @@ function JobFocusRow({
   );
 }
 
-// Helper: format ngày ngắn gọn kèm label tuần tương đối
+// Helper: format ngày ngắn gọn kèm label week tương đối
 function fmtDate(iso: string | null | undefined, weekStart: string): string {
   if (!iso) return '—';
   const d = new Date(iso);
   const ws = new Date(weekStart);
   const diffWeeks = Math.floor((ws.getTime() - d.getTime()) / (7 * 86400000));
   const dateStr = d.toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit' });
-  if (diffWeeks === 0) return `${dateStr} (tuần này)`;
-  if (diffWeeks === -1) return `${dateStr} (tuần trước)`;
-  if (diffWeeks < 0) return `${dateStr} (${Math.abs(diffWeeks)} tuần trước)`;
-  return `${dateStr} (tuần +${diffWeeks})`;
+  if (diffWeeks === 0) return `${dateStr} (this week)`;
+  if (diffWeeks === -1) return `${dateStr} (week ago)`;
+  if (diffWeeks < 0) return `${dateStr} (${Math.abs(diffWeeks)} week ago)`;
+  return `${dateStr} (week +${diffWeeks})`;
 }
 
 // Tooltip nội dung cho 1 stage
@@ -462,7 +479,7 @@ function StageTooltip({
       </p>
       <div className="space-y-2.5 max-h-52 overflow-y-auto">
         {candidates.map((c) => {
-          // carry-over: job được giao tuần trước (assigned_week_start < weekStart)
+          // carry-over: job được giao week ago (assigned_week_start < weekStart)
           const isCarryOver = c.assigned_week_start < weekStart;
           return (
             <div key={c.process_id} className="border-b border-gray-700 pb-2 last:border-0 last:pb-0">
@@ -474,7 +491,7 @@ function StageTooltip({
                   </span>
                 ) : (
                   <span className="shrink-0 text-[9px] font-semibold px-1.5 py-0.5 rounded-full bg-green-500/20 text-green-400 border border-green-500/30 whitespace-nowrap">
-                    tuần này
+                    this week
                   </span>
                 )}
               </div>
@@ -601,11 +618,11 @@ function JobPerformanceRow({ job, stats, weekStart }: { job: JobFocusWithDetails
     'text-red-600 bg-red-50';
 
   const statusText = 
-    stats.conversion_rate >= 40 ? 'Tốt' :
-    stats.conversion_rate >= 25 ? 'TB' :
-    'Yếu';
+    stats.conversion_rate >= 40 ? 'Good' :
+    stats.conversion_rate >= 25 ? 'Avg' :
+    'Poor';
 
-  // Số ngày từ đầu tuần (Thứ 7) đến hiện tại
+  // Số ngày từ đầu week (Thứ 7) đến hiện tại
   const daysFromWeekStart = weekStart 
     ? Math.max(0, Math.floor((Date.now() - new Date(weekStart).getTime()) / (1000 * 60 * 60 * 24)))
     : 0;
@@ -674,7 +691,7 @@ export default function JobFocusPage() {
   const [assignModalOpen, setAssignModalOpen] = useState(false);
   const [selectedMemberId, setSelectedMemberId] = useState<string>('self');
   const [selectedTeamLeadId, setSelectedTeamLeadId] = useState<string>('');
-  // weekOffset: 0 = tuần này, -1 = tuần trước, -2 = 2 tuần trước, ...
+  // weekOffset: 0 = this week, -1 = week ago, -2 = 2 week ago, ...
   const [weekOffset, setWeekOffset] = useState(0);
 
   const SELF_ID = 'self';
@@ -736,19 +753,19 @@ export default function JobFocusPage() {
     return d.toISOString().split('T')[0];
   }, [currentWeekStart, weekOffset]);
 
-  // Build member tabs: Admin không có "Bản thân", chỉ có team members
-  // Headhunter thường chỉ có "Bản thân", không có team members
+  // Build member tabs: Admin không có "Self", chỉ có team members
+  // Headhunter thường chỉ có "Self", không có team members
   const memberTabs = useMemo(() => {
-    // Admin: chỉ hiển thị team members, không có "Bản thân"
+    // Admin: chỉ hiển thị team members, không có "Self"
     if (isAdmin) {
       return teamMembers.map(m => ({ ...m, isSelf: false }));
     }
     
-    // HH Lead: "Bản thân" đầu tiên + team members
+    // HH Lead: "Self" đầu tiên + team members
     if (isHHLead) {
       const selfTab = {
         id: SELF_ID,
-        full_name: user?.full_name || 'Bản thân',
+        full_name: user?.full_name || 'Self',
         role: user?.role || '',
         isSelf: true,
       };
@@ -756,10 +773,10 @@ export default function JobFocusPage() {
       return [selfTab, ...teamTabs];
     }
     
-    // Headhunter thường: chỉ có "Bản thân"
+    // Headhunter thường: chỉ có "Self"
     return [{
       id: SELF_ID,
-      full_name: user?.full_name || 'Bản thân',
+      full_name: user?.full_name || 'Self',
       role: user?.role || '',
       isSelf: true,
     }];
@@ -772,29 +789,137 @@ export default function JobFocusPage() {
     }
   }, [memberTabs, selectedMemberId]);
 
-  const { data: jobFocusData = [], isLoading: loadingJobs, refetch } = useJobFocusWithDetails({
+  let { data: jobFocusData = [], isLoading: loadingJobs, refetch } = useJobFocusWithDetails({
     assignee_id: selectedMemberId === SELF_ID ? (user?.id || undefined) : (selectedMemberId || undefined),
     week_start: weekStart,
   });
 
+  if (import.meta.env.DEV && jobFocusData.length === 0 && !loadingJobs) {
+    jobFocusData = [
+      {
+        id: 'mock-jf-1',
+        job_id: 'mock-job-1',
+        job_code: 'J001',
+        position_title: 'Senior Frontend Engineer',
+        phase: 'Open',
+        phase_date: '2026-06-20',
+        headhunt_fee: '1500 USD',
+        client_name: 'Tech Corp',
+        assignee_id: (selectedMemberId === SELF_ID ? user?.id : selectedMemberId) || 'mock-id',
+        week_start: weekStart || '2026-06-22',
+        created_at: new Date().toISOString(),
+      },
+      {
+        id: 'mock-jf-2',
+        job_id: 'mock-job-2',
+        job_code: 'J002',
+        position_title: 'Product Manager',
+        phase: 'Sourcing',
+        phase_date: '2026-06-15',
+        headhunt_fee: '2000 USD',
+        client_name: 'Product LLC',
+        assignee_id: (selectedMemberId === SELF_ID ? user?.id : selectedMemberId) || 'mock-id',
+        week_start: weekStart || '2026-06-22',
+        created_at: new Date().toISOString(),
+      },
+      {
+        id: 'mock-jf-3',
+        job_id: 'mock-job-3',
+        job_code: 'J003',
+        position_title: 'Backend Developer (Go)',
+        phase: 'Interview',
+        phase_date: '2026-06-18',
+        headhunt_fee: '1800 USD',
+        client_name: 'Fintech Solutions',
+        assignee_id: (selectedMemberId === SELF_ID ? user?.id : selectedMemberId) || 'mock-id',
+        week_start: weekStart || '2026-06-22',
+        created_at: new Date().toISOString(),
+      },
+      {
+        id: 'mock-jf-4',
+        job_id: 'mock-job-4',
+        job_code: 'J004',
+        position_title: 'Data Engineer',
+        phase: 'Offer',
+        phase_date: '2026-06-22',
+        headhunt_fee: '2200 USD',
+        client_name: 'BigData Inc',
+        assignee_id: (selectedMemberId === SELF_ID ? user?.id : selectedMemberId) || 'mock-id',
+        week_start: weekStart || '2026-06-22',
+        created_at: new Date().toISOString(),
+      },
+      {
+        id: 'mock-jf-5',
+        job_id: 'mock-job-5',
+        job_code: 'J005',
+        position_title: 'UX/UI Designer',
+        phase: 'Sourcing',
+        phase_date: '2026-06-19',
+        headhunt_fee: '1200 USD',
+        client_name: 'Creative Studio',
+        assignee_id: (selectedMemberId === SELF_ID ? user?.id : selectedMemberId) || 'mock-id',
+        week_start: weekStart || '2026-06-22',
+        created_at: new Date().toISOString(),
+      }
+    ] as any;
+  }
+
   // Fetch pipeline stats thật từ processes table
   const effectiveAssigneeId = selectedMemberId === SELF_ID ? user?.id : selectedMemberId;
-  const { data: pipelineStats = [], isLoading: loadingStats } = useJobFocusPipelineStats(
+  let { data: pipelineStats = [], isLoading: loadingStats } = useJobFocusPipelineStats(
     effectiveAssigneeId || undefined,
     weekStart
   );
+
+  if (import.meta.env.DEV && pipelineStats.length === 0 && !loadingStats) {
+    pipelineStats = [
+      { job_id: 'mock-job-1', cv_client: 3, interview: 2, offer: 1, onboard: 0, conversion_rate: 33 },
+      { job_id: 'mock-job-2', cv_client: 5, interview: 1, offer: 0, onboard: 0, conversion_rate: 20 },
+      { job_id: 'mock-job-3', cv_client: 2, interview: 1, offer: 0, onboard: 0, conversion_rate: 50 },
+      { job_id: 'mock-job-4', cv_client: 4, interview: 3, offer: 2, onboard: 1, conversion_rate: 25 },
+      { job_id: 'mock-job-5', cv_client: 6, interview: 0, offer: 0, onboard: 0, conversion_rate: 0 },
+    ] as any;
+  }
 
   // Fetch CV to DB count
-  const { data: cvToDbCount = 0 } = useWeeklyCvToDb(
+  let { data: cvToDbCount = 0 } = useWeeklyCvToDb(
     effectiveAssigneeId || undefined,
     weekStart
   );
 
+  if (import.meta.env.DEV && cvToDbCount === 0) {
+    cvToDbCount = 12;
+  }
+
   // Fetch pipeline stage detail cho tooltip (activity-based)
-  const { data: stageDetail = [], isLoading: loadingStageDetail } = usePipelineStageDetail(
+  let { data: stageDetail = [], isLoading: loadingStageDetail } = usePipelineStageDetail(
     effectiveAssigneeId || undefined,
     weekStart
   );
+
+  if (import.meta.env.DEV && stageDetail.length === 0 && !loadingStageDetail) {
+    stageDetail = [
+      {
+        stage: 'cv_client',
+        candidates: [
+          { process_id: 'p1', job_id: 'mock-job-1', candidate_name: 'Nguyen Van A', cv_submitted_at: new Date(Date.now() - 2*86400000).toISOString(), assigned_week_start: weekStart || '' },
+          { process_id: 'p2', job_id: 'mock-job-2', candidate_name: 'Tran Thi B', cv_submitted_at: new Date(Date.now() - 1*86400000).toISOString(), assigned_week_start: weekStart || '' },
+        ]
+      },
+      {
+        stage: 'interview',
+        candidates: [
+          { process_id: 'p1', job_id: 'mock-job-1', candidate_name: 'Nguyen Van A', interview_at: new Date().toISOString(), assigned_week_start: weekStart || '' },
+        ]
+      },
+      {
+        stage: 'offer',
+        candidates: [
+          { process_id: 'p1', job_id: 'mock-job-1', candidate_name: 'Nguyen Van A', offer_at: new Date(Date.now() + 86400000).toISOString(), assigned_week_start: weekStart || '' },
+        ]
+      }
+    ] as any;
+  }
 
   // Debug log
   console.log('🔍 CV to DB Debug:', {
@@ -814,7 +939,7 @@ export default function JobFocusPage() {
     return map;
   }, [pipelineStats]);
 
-  // Tính carry-over job IDs: job có activity tuần này nhưng KHÔNG được giao tuần này
+  // Tính carry-over job IDs: job có activity this week nhưng KHÔNG được giao this week
   // Lấy từ stageDetail (đã có r_job_id và r_assigned_week_start)
   const carryOverJobIds = useMemo(() => {
     if (!weekStart) return new Set<string>();
@@ -837,7 +962,7 @@ export default function JobFocusPage() {
     carryOverJobIdsArray
   );
 
-  // Merge: jobs được giao tuần này + carry-over jobs có activity tuần này
+  // Merge: jobs được giao this week + carry-over jobs có activity this week
   const allDisplayJobs = useMemo(() => {
     const thisWeekJobIds = new Set(jobFocusData.map(j => j.job_id));
     const extras = carryOverJobDetails.filter(j => !thisWeekJobIds.has(j.job_id));
@@ -848,7 +973,7 @@ export default function JobFocusPage() {
   const emptyStats: JobPipelineStats = { job_id: '', cv_client: 0, interview: 0, offer: 0, onboard: 0, conversion_rate: 0 };
 
   const selectedMember = selectedMemberId === SELF_ID
-    ? { id: user?.id || '', full_name: user?.full_name || 'Bản thân', role: user?.role || '' }
+    ? { id: user?.id || '', full_name: user?.full_name || 'Self', role: user?.role || '' }
     : teamMembers.find(m => m.id === selectedMemberId);
 
   // Tổng stats từ pipeline data thật
@@ -872,7 +997,7 @@ export default function JobFocusPage() {
         <div className="flex items-center justify-between">
           <div>
             <h1 className="text-lg font-bold text-gray-900 dark:text-white">Job Focus Management</h1>
-            <p className="text-xs text-gray-500 dark:text-gray-400">{memberTabs.length - 1} thành viên</p>
+            <p className="text-xs text-gray-500 dark:text-gray-400">{memberTabs.length - 1} members</p>
           </div>
           <div className="flex items-center gap-2">
             {/* Giao job - chỉ HH Lead và Admin, Headhunter thường có thể focus cho bản thân */}
@@ -882,7 +1007,7 @@ export default function JobFocusPage() {
                 className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition-colors text-xs font-medium"
               >
                 <UserPlus size={14} />
-                {selectedMemberId === SELF_ID ? 'Focus Job' : 'Giao Job'}
+                {selectedMemberId === SELF_ID ? 'Focus Job' : 'Assign Job'}
               </button>
             )}
             {/* Week navigation */}
@@ -890,12 +1015,12 @@ export default function JobFocusPage() {
               <button
                 onClick={() => setWeekOffset(o => o - 1)}
                 className="p-2 hover:bg-white rounded-md transition-colors"
-                title="Tuần trước"
+                title="Last week"
               >
                 <ChevronLeft size={18} />
               </button>
               <div className="px-3 py-1 text-center">
-                <div className="text-sm font-bold">{weekOffset === 0 ? 'Tuần này' : weekOffset === -1 ? 'Tuần trước' : `${Math.abs(weekOffset)} tuần trước`}</div>
+                <div className="text-sm font-bold">{weekOffset === 0 ? 'This week' : weekOffset === -1 ? 'Last week' : `${Math.abs(weekOffset)} week ago`}</div>
                 {weekStart && (() => {
                   const d = new Date(weekStart);
                   const endDate = new Date(d);
@@ -906,7 +1031,7 @@ export default function JobFocusPage() {
                   const endStr = endDate.toLocaleDateString('vi-VN', { day: '2-digit', month: '2-digit' });
                   return (
                     <div className="text-[10px] text-gray-500 mt-0.5">
-                      Tuần {weekNum} · {startStr} - {endStr}
+                      Week {weekNum} · {startStr} - {endStr}
                     </div>
                   );
                 })()}
@@ -915,7 +1040,7 @@ export default function JobFocusPage() {
                 onClick={() => setWeekOffset(o => Math.min(0, o + 1))}
                 disabled={weekOffset === 0}
                 className="p-2 hover:bg-white rounded-md transition-colors disabled:opacity-30 disabled:cursor-not-allowed"
-                title="Tuần sau"
+                title="Next week"
               >
                 <ChevronRight size={18} />
               </button>
@@ -968,7 +1093,7 @@ export default function JobFocusPage() {
                     </div>
                     <div className="text-left">
                       <p className="text-xs font-medium leading-tight">
-                        {member.isSelf ? 'Bản thân' : member.full_name}
+                        {member.isSelf ? 'Self' : member.full_name}
                       </p>
                       <p className={`text-[9px] leading-tight ${isSelected ? 'text-white/70' : 'text-gray-400'}`}>
                         {member.role}
@@ -978,7 +1103,7 @@ export default function JobFocusPage() {
                       <span className={`text-[8px] px-1 py-0.5 rounded font-semibold ${
                         isSelected ? 'bg-white/20 text-white' : 'bg-pink-100 text-pink-600'
                       }`}>
-                        Tôi
+                        Me
                       </span>
                     )}
                   </button>
@@ -998,10 +1123,10 @@ export default function JobFocusPage() {
             <div className="bg-white dark:bg-gray-800 rounded-lg border border-dashed border-gray-300 dark:border-gray-600 p-12 text-center">
               <Briefcase className="mx-auto mb-2 text-gray-200" size={40} />
               <p className="text-sm text-gray-500 font-medium mb-1">
-                {selectedMemberId === SELF_ID ? 'Bạn chưa có job focus tuần này' : 'Chưa có job focus'}
+                {selectedMemberId === SELF_ID ? "You don't have job focus this week" : 'No job focus'}
               </p>
               <p className="text-xs text-gray-400 mb-4">
-                {selectedMemberId === SELF_ID ? 'Focus job để bắt đầu làm việc' : 'Giao job để bắt đầu'}
+                {selectedMemberId === SELF_ID ? 'Focus on a job to start working' : 'Assign job to start'}
               </p>
               {(canAssign) && (
                 <button
@@ -1009,7 +1134,7 @@ export default function JobFocusPage() {
                   className="inline-flex items-center gap-1.5 px-4 py-2 bg-pink-500 text-white rounded-lg hover:bg-pink-600 transition-colors text-xs font-medium"
                 >
                   <UserPlus size={14} />
-                  {selectedMemberId === SELF_ID ? 'Focus Job' : 'Giao Job'}
+                  {selectedMemberId === SELF_ID ? 'Focus Job' : 'Assign Job'}
                 </button>
               )}
             </div>
@@ -1037,7 +1162,7 @@ export default function JobFocusPage() {
               <div className="bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700 p-3">
                 <h3 className="text-xs font-semibold text-gray-700 dark:text-gray-300 mb-2 flex items-center gap-1">
                   <TrendingUp size={12} className="text-pink-500" />
-                  Pipeline {weekOffset === 0 ? 'Tuần Này' : weekOffset === -1 ? 'Tuần Trước' : `${Math.abs(weekOffset)} Tuần Trước`}
+                  Pipeline {weekOffset === 0 ? 'This Week' : weekOffset === -1 ? 'Last Week' : `${Math.abs(weekOffset)} Last Week`}
                   {loadingStats && <Loader2 size={10} className="animate-spin text-gray-400 ml-1" />}
                 </h3>
                 <PipelineBar stats={pipelineStats} cvToDb={cvToDbCount} stageDetail={stageDetail} weekStart={weekStart || ''} />
@@ -1048,7 +1173,7 @@ export default function JobFocusPage() {
                 <div className="px-3 py-2 border-b border-gray-50 dark:border-gray-700 flex items-center justify-between">
                   <h2 className="text-xs font-semibold text-gray-700 dark:text-gray-300 flex items-center gap-1">
                     <Target size={12} className="text-pink-500" />
-                    Hiệu Suất
+                    Performance
                   </h2>
                   <span className="text-[10px] text-gray-400">{jobFocusData.length} jobs</span>
                 </div>
@@ -1082,7 +1207,7 @@ export default function JobFocusPage() {
                 <div className="flex items-center justify-between">
                   <h2 className="text-xs font-semibold text-gray-700 dark:text-gray-300 flex items-center gap-1">
                     <Briefcase size={12} className="text-pink-500" />
-                    Danh Sách Jobs
+                    Job List
                   </h2>
                   <span className="text-[10px] text-gray-400">{allDisplayJobs.length} jobs{carryOverJobIdsArray.length > 0 && ` · ${carryOverJobIdsArray.length} carry-over`}</span>
                 </div>
@@ -1093,7 +1218,7 @@ export default function JobFocusPage() {
                       <div className="absolute -top-1.5 left-4 z-10">
                         <span className="inline-flex items-center gap-1 text-[9px] font-semibold px-2 py-0.5 rounded-full bg-amber-100 text-amber-700 border border-amber-300 shadow-sm">
                           <span className="w-1.5 h-1.5 rounded-full bg-amber-500 inline-block" />
-                           Có cập nhật tuần này
+                           Updates this week
                         </span>
                       </div>
                     )}

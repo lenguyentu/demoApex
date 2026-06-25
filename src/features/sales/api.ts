@@ -37,7 +37,7 @@ const mockSales: Sale[] = [
     job_id: 'job-1',
     job_owner_id: 'mock-user-123',
     candidate_owner_id: 'other-user',
-    offered_monthly_salary: 2000,
+    offered_monthly_salary: 50000000,
     fee_percent: 20,
     rate: 1,
     start_date: new Date().toISOString(),
@@ -47,7 +47,7 @@ const mockSales: Sale[] = [
     candidate: { id: 'cand-1', name: 'Nguyễn Văn A' },
     job_owner: { id: 'mock-user-123', full_name: 'Admin Demo' },
     candidate_owner: { id: 'other-user', full_name: 'HH Lead Demo' },
-    finance: makeFinance('sale-1', 'Công ty', 'Nội bộ', 400, 0),
+    finance: makeFinance('sale-1', 'Công ty', 'Nội bộ', 10000000, 0),
   },
   {
     id: 'sale-2',
@@ -57,7 +57,7 @@ const mockSales: Sale[] = [
     job_id: 'job-2',
     job_owner_id: 'mock-user-123',
     candidate_owner_id: 'other-user',
-    offered_monthly_salary: 3000,
+    offered_monthly_salary: 75000000,
     fee_percent: 25,
     rate: 1,
     start_date: new Date(Date.now() - 60000000).toISOString(),
@@ -67,7 +67,7 @@ const mockSales: Sale[] = [
     candidate: { id: 'cand-2', name: 'Trần Thị B' },
     job_owner: { id: 'mock-user-123', full_name: 'Admin Demo' },
     candidate_owner: { id: 'other-user', full_name: 'HH Lead Demo' },
-    finance: makeFinance('sale-2', 'Công ty', 'Freelancer', 750, 750),
+    finance: makeFinance('sale-2', 'Công ty', 'Freelancer', 18750000, 18750000),
   },
   {
     id: 'sale-3',
@@ -77,7 +77,7 @@ const mockSales: Sale[] = [
     job_id: 'job-3',
     job_owner_id: 'mock-user-123',
     candidate_owner_id: 'other-user',
-    offered_monthly_salary: 1500,
+    offered_monthly_salary: 37500000,
     fee_percent: 15,
     rate: 1,
     start_date: new Date(Date.now() + 10000000).toISOString(),
@@ -87,7 +87,7 @@ const mockSales: Sale[] = [
     candidate: { id: 'cand-3', name: 'Lê Văn C' },
     job_owner: { id: 'mock-user-123', full_name: 'Admin Demo' },
     candidate_owner: { id: 'other-user', full_name: 'HH Lead Demo' },
-    finance: makeFinance('sale-3', 'Cá nhân', 'Nội bộ', 225, 0),
+    finance: makeFinance('sale-3', 'Cá nhân', 'Nội bộ', 5625000, 0),
   },
   {
     id: 'sale-4',
@@ -97,7 +97,7 @@ const mockSales: Sale[] = [
     job_id: 'job-4',
     job_owner_id: 'mock-user-123',
     candidate_owner_id: 'other-user',
-    offered_monthly_salary: 5000,
+    offered_monthly_salary: 125000000,
     fee_percent: 30,
     rate: 1,
     start_date: new Date(Date.now() - 30000000).toISOString(),
@@ -107,7 +107,7 @@ const mockSales: Sale[] = [
     candidate: { id: 'cand-4', name: 'Phạm Thị D' },
     job_owner: { id: 'mock-user-123', full_name: 'Admin Demo' },
     candidate_owner: { id: 'other-user', full_name: 'HH Lead Demo' },
-    finance: makeFinance('sale-4', 'Công ty', 'Nội bộ', 1500, 500),
+    finance: makeFinance('sale-4', 'Công ty', 'Nội bộ', 37500000, 12500000),
   },
   {
     id: 'sale-5',
@@ -117,7 +117,7 @@ const mockSales: Sale[] = [
     job_id: 'job-5',
     job_owner_id: 'mock-user-123',
     candidate_owner_id: 'other-user',
-    offered_monthly_salary: 1000,
+    offered_monthly_salary: 25000000,
     fee_percent: 15,
     rate: 1,
     start_date: new Date(Date.now() - 100000000).toISOString(),
@@ -127,14 +127,25 @@ const mockSales: Sale[] = [
     candidate: { id: 'cand-5', name: 'Vũ Đức E' },
     job_owner: { id: 'mock-user-123', full_name: 'Admin Demo' },
     candidate_owner: { id: 'other-user', full_name: 'HH Lead Demo' },
-    finance: makeFinance('sale-5', 'Công ty', 'Intern', 150, 100),
+    finance: makeFinance('sale-5', 'Công ty', 'Intern', 3750000, 2500000),
   },
 ];
 
-export const getSales = async (): Promise<Sale[]> => mockSales;
+export const getSales = async (): Promise<Sale[]> => [...mockSales];
 export const getAllProcessesForSale = async () => [];
 export const getEligibleProcesses = async () => [];
-export const createSaleWithFinance = async (..._args: any[]) => mockSales[0];
+export const createSaleWithFinance = async (sale: any, finance: any) => {
+  const newSale = {
+    id: 'mock-' + Date.now(),
+    ...sale,
+    client: { id: sale.client_id, client_name: 'Khách hàng mới (Mock)' },
+    job: { id: sale.job_id, position_title: 'Vị trí mới (Mock)' },
+    candidate: { id: sale.candidate_id, name: 'Ứng viên mới (Mock)' },
+    finance: { ...finance }
+  };
+  mockSales.unshift(newSale);
+  return newSale;
+};
 export const updateSale = async (id: string, updates: Partial<Sale>) => {
   const sale = mockSales.find(s => s.id === id);
   if (sale) Object.assign(sale, updates);

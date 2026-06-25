@@ -23,7 +23,7 @@ export default function HHKPIPage() {
   
   const businessDate = vnDate; // Calendar day logic
 
-  const businessDateLabel = now.toLocaleDateString('vi-VN', {
+  const businessDateLabel = now.toLocaleDateString('en-GB', {
     weekday: 'short',
     day: '2-digit',
     month: '2-digit',
@@ -44,7 +44,23 @@ export default function HHKPIPage() {
   // Get daily KPI (auto from processes + manual approaches)
   const { data: dailyKPI, isLoading: isLoadingDaily } = useQuery({
     queryKey: ['dailyKPIFromProcesses', effectiveUserId, businessDate],
-    queryFn: () => getDailyKPIFromProcesses(effectiveUserId!, businessDate),
+    queryFn: async () => {
+      const data = await getDailyKPIFromProcesses(effectiveUserId!, businessDate);
+      if (!data && import.meta.env.DEV) {
+        // Fallback mock data for testing
+        return {
+          approaches: 12,
+          cv_to_db: 3,
+          cv_to_client: 1,
+          setup_interview: 0,
+          actual_interview: 1,
+          offer: 0,
+          placement: 0,
+          note: 'Mock daily data for testing'
+        };
+      }
+      return data;
+    },
     enabled: !!effectiveUserId,
     staleTime: 30 * 1000,
   });
@@ -52,7 +68,20 @@ export default function HHKPIPage() {
   // Get weekly history
   const { data: weeklyHistory = [], isLoading: isLoadingHistory } = useQuery({
     queryKey: ['weeklyKPIFromProcesses', effectiveUserId, currentWeekStart],
-    queryFn: () => getWeeklyKPIFromProcesses(effectiveUserId!, currentWeekStart!),
+    queryFn: async () => {
+      const data = await getWeeklyKPIFromProcesses(effectiveUserId!, currentWeekStart!);
+      if ((!data || data.length === 0) && import.meta.env.DEV) {
+        // Fallback mock data for testing
+        return [
+          { date: '2026-06-22', day_of_week: 'Mon', approaches: 10, cv_to_db: 2, cv_to_client: 1, actual_interview: 0, offer: 0, placement: 0, is_today: false },
+          { date: '2026-06-23', day_of_week: 'Tue', approaches: 15, cv_to_db: 4, cv_to_client: 2, actual_interview: 1, offer: 0, placement: 0, is_today: false },
+          { date: '2026-06-24', day_of_week: 'Wed', approaches: 8, cv_to_db: 1, cv_to_client: 0, actual_interview: 0, offer: 0, placement: 0, is_today: false },
+          { date: businessDate, day_of_week: 'Thu', approaches: 12, cv_to_db: 3, cv_to_client: 1, actual_interview: 1, offer: 0, placement: 0, is_today: true },
+          { date: '2026-06-26', day_of_week: 'Fri', approaches: 0, cv_to_db: 0, cv_to_client: 0, actual_interview: 0, offer: 0, placement: 0, is_today: false },
+        ];
+      }
+      return data;
+    },
     enabled: !!effectiveUserId && !!currentWeekStart,
     staleTime: 30 * 1000,
   });
@@ -64,7 +93,7 @@ export default function HHKPIPage() {
     onSuccess: async (_data, variables) => {
       queryClient.invalidateQueries({ queryKey: ['dailyKPIFromProcesses'] });
       queryClient.invalidateQueries({ queryKey: ['weeklyKPIFromProcesses'] });
-      toast.success('Đã lưu KPI hôm nay! 🎉');
+      toast.success('Saved today\'s KPI! 🎉');
 
       if (!user) return;
 
@@ -88,11 +117,11 @@ export default function HHKPIPage() {
     },
     onError: (error) => {
       console.error('Save error:', error);
-      toast.error('Lỗi khi lưu');
+      toast.error('Error saving KPI');
     },
   });
 
-  // Form state (chỉ approaches)
+  // Form state
   const isViewingOwnData = effectiveUserId === user?.id;
   const [approaches, setApproaches] = useState(0);
 
@@ -148,19 +177,19 @@ export default function HHKPIPage() {
               <div>
                 <h1 className="text-2xl font-bold text-gray-900">KPI Tracker</h1>
                 <p className="text-sm text-gray-500 mt-1">
-                  KPI tính theo ngày dương lịch (00:00 - 23:59) - {businessDateLabel}
+                  KPI calculated by calendar day (00:00 - 23:59) - {businessDateLabel}
                 </p>
               </div>
 
               {/* User Selector for HH Lead and Admin */}
               {canViewOthers && (
                 <div className="flex items-center gap-2 pl-4 border-l border-gray-200">
-                  <span className="text-sm font-medium text-gray-600 whitespace-nowrap">Xem KPI của:</span>
+                  <span className="text-sm font-medium text-gray-600 whitespace-nowrap">View KPI for:</span>
                   <div className="w-56">
                     <TeamMemberSelect
                       value={selectedUserId || ''}
                       onChange={setSelectedUserId}
-                      placeholder="Chọn thành viên..."
+                      placeholder="Select member..."
                       includeSelf={true}
                     />
                   </div>
@@ -179,12 +208,12 @@ export default function HHKPIPage() {
                   {isSaving ? (
                     <>
                       <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin"></div>
-                      Đang lưu...
+                      Saving...
                     </>
                   ) : (
                     <>
                       <Save size={18} />
-                      Lưu KPI
+                      Save KPI
                     </>
                   )}
                 </button>
@@ -196,16 +225,16 @@ export default function HHKPIPage() {
         {/* Input table */}
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
           <div className="px-5 py-4 border-b border-gray-50">
-            <h2 className="text-sm font-semibold text-gray-700">KPI hôm nay</h2>
+            <h2 className="text-sm font-semibold text-gray-700">Today's KPI</h2>
             <p className="text-xs text-gray-400 mt-0.5">
-              Chỉ số tự động tính 00:00–lúc lưu · Lưu KPI sẽ gửi báo cáo Discord
+              Metrics auto-calculated 00:00–now · Saving KPI sends a Discord report
             </p>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-gray-50">
-                  {['Chỉ số','Target/ngày','Nhập actual hôm nay','Tổng tuần','Target tuần','% Tuần','Lũy kế T'].map(h => (
+                  {['Metric','Daily Target','Actual Today','Weekly Total','Weekly Target','% Week','MTD Total'].map(h => (
                     <th key={h} className="text-left px-4 py-3 text-xs font-medium text-gray-400 uppercase tracking-wider">{h}</th>
                   ))}
                 </tr>
@@ -249,13 +278,13 @@ export default function HHKPIPage() {
         {/* History */}
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden mt-6">
           <div className="px-5 py-4 border-b border-gray-50">
-            <h2 className="text-sm font-semibold text-gray-700">Lịch sử KPI các ngày trong tuần</h2>
+            <h2 className="text-sm font-semibold text-gray-700">Weekly KPI History</h2>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-gray-50">
-                  {['Ngày','Approaches','CV DB','CV Client','Interview','Offer','Placement','Note'].map(h => (
+                  {['Day','Approaches','CV DB','CV Client','Interview','Offer','Placement','Note'].map(h => (
                     <th key={h} className="text-left px-4 py-3 text-xs font-medium text-gray-400 uppercase tracking-wider">{h}</th>
                   ))}
                 </tr>

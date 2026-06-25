@@ -6,7 +6,7 @@ import { useAuthStore } from '../../auth/store';
 import toast from 'react-hot-toast';
 import { MoneyInput, formatMoney } from './MoneyInput';
 import { useActiveInternalUsers } from '../../auth/hooks';
-import { updateClientOwner } from '../../clients/api';
+// import { updateClientOwner } from '../../clients/api';
 import { getProcesses } from '../../processes/api';
 import { ClientSelect } from '../../../components/ClientSelect';
 import { OwnerSelect } from '../../../components/OwnerSelect';
@@ -207,9 +207,9 @@ export function SaleModal({ isOpen, onClose, onSuccess, sale, mode = 'create' }:
     return () => document.removeEventListener('mousedown', handler);
   }, []);
 
-  // Load processes khi user search (lazy loading)
+  // Load processes by default
   useEffect(() => {
-    if (isOpen && step === 1 && (debouncedCandidateSearch || clientFilter || ownerFilter || roleFilter)) {
+    if (isOpen && step === 1) {
       loadProcesses();
     }
   }, [isOpen, step, debouncedCandidateSearch, clientFilter, ownerFilter, roleFilter]);
@@ -408,25 +408,12 @@ export function SaleModal({ isOpen, onClose, onSuccess, sale, mode = 'create' }:
         await updateSale(sale.id, salePayload);
         await updateSaleFinance(sale.id, {
           ...financePayload,
-          // Nếu chuyển sang Done và chưa có paid → set = amount
           ...(status.overall === 'Done' && (sale.finance?.p1_paid_amount ?? 0) === 0 && {
             p1_paid_amount: p1Amt,
             p2_paid_amount: p2Amt,
           })
         });
-        
-        // Cập nhật client owner nếu assigned user thay đổi
-        if (sale.client_id && assignedUserId && assignedUserId !== bdOwnerId) {
-          try {
-            await updateClientOwner(sale.client_id, assignedUserId);
-            console.log('✅ Updated client owner to:', assignedUserId);
-          } catch (err) {
-            console.warn('⚠️ Failed to update client owner:', err);
-            // Không throw error để không block việc update sale
-          }
-        }
-        
-        toast.success('Debt updated successfully');
+        toast.success('Debt updated successfully (Mock - F5 to reset)');
       } else {
         await createSaleWithFinance(
           { ...salePayload, created_by_id: user.id },
@@ -440,22 +427,8 @@ export function SaleModal({ isOpen, onClose, onSuccess, sale, mode = 'create' }:
             created_at: new Date().toISOString()
           }
         );
-        
-        // Cập nhật client owner khi tạo mới sale
-        const clientId = process?.client?.id || (Array.isArray(process?.client) ? process?.client[0]?.id : null);
-        if (clientId && assignedUserId) {
-          try {
-            await updateClientOwner(clientId, assignedUserId);
-            console.log('✅ Updated client owner to:', assignedUserId);
-          } catch (err) {
-            console.warn('⚠️ Failed to update client owner:', err);
-            // Không throw error để không block việc tạo sale
-          }
-        }
-        
-        toast.success('Debt accounted successfully');
+        toast.success('Debt accounted successfully (Mock - F5 to reset)');
       }
-      
       onSuccess();
       onClose();
     } catch (error: any) {
@@ -546,12 +519,6 @@ export function SaleModal({ isOpen, onClose, onSuccess, sale, mode = 'create' }:
                 <div className="flex flex-col items-center justify-center p-20 gap-3">
                   <div className="w-8 h-8 border-3 border-brand-500 border-t-transparent rounded-full animate-spin"></div>
                   <p className="text-sm text-gray-500">Searching...</p>
-                </div>
-              ) : !candidateSearch && !clientFilter && !ownerFilter && !roleFilter ? (
-                <div className="text-center py-20 bg-gray-50 rounded-lg border border-dashed border-gray-300">
-                  <Search size={48} className="mx-auto text-gray-300 mb-3" />
-                  <p className="text-gray-500 font-medium">Enter search criteria</p>
-                  <p className="text-sm text-gray-400 mt-1">Search by candidate name/email, customer, recruiter or role</p>
                 </div>
               ) : processes.length === 0 ? (
                 <div className="text-center py-20 bg-gray-50 rounded-lg border border-dashed border-gray-300">

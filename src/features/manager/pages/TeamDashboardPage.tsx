@@ -22,7 +22,7 @@ function StatCard({ label, value, target }: { label: string; value: number; targ
     <div className="bg-white rounded-2xl border border-gray-100 p-5 shadow-sm">
       <p className="text-xs text-gray-400 uppercase tracking-wider font-medium mb-1">{label}</p>
       <p className="text-3xl font-bold text-gray-900">{value}</p>
-      <p className="text-xs text-gray-400 mt-1">Target {target} · tháng này</p>
+      <p className="text-xs text-gray-400 mt-1">Target {target} · this month</p>
       <div className="mt-3 h-1.5 bg-gray-100 rounded-full overflow-hidden">
         <div className={`h-full rounded-full transition-all ${color}`} style={{ width: `${Math.min(pct, 100)}%` }} />
       </div>
@@ -47,7 +47,7 @@ function KpiBar({ value, max = 200 }: { value: number; max?: number }) {
 
 function StatusBadge({ status }: { status: string }) {
   const isStreak = status.startsWith('Streak');
-  const isReview = status === 'Cần review';
+  const isReview = status === 'Needs review';
   return (
     <span className={`inline-flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded-full ${
       isStreak ? 'bg-orange-50 text-orange-600' :
@@ -67,7 +67,7 @@ export default function TeamDashboardPage() {
   const user = useAuthStore(s => s.user);
   const isAdmin = user?.role === ROLES.ADMIN;
   const isHHLead = user?.role === ROLES.HH_LEAD;
-  const pageTitle = isHHLead ? 'Report tháng team của tôi' : 'Report tháng';
+  const pageTitle = isHHLead ? "My Team's Monthly Report" : 'Monthly Report';
 
   // Month navigation state
   const [monthOffset, setMonthOffset] = useState(0);
@@ -89,11 +89,11 @@ export default function TeamDashboardPage() {
   });
 
   // State for selected HH Lead (Admin only)
-  // '' = "Tất cả thành viên" (default), specific id = team của HH Lead đó
+  // '' = "All members" (default), specific id = team của HH Lead đó
   const [selectedLeadId, setSelectedLeadId] = useState<string>('');
 
   // Use selected lead ID for data fetching
-  // - Admin chọn "Tất cả thành viên" → null (RPC trả về toàn bộ HH + HH Lead)
+  // - Admin chọn "All members" → null (RPC trả về toàn bộ HH + HH Lead)
   // - Admin chọn 1 HH Lead → id của HH Lead đó
   // - HH Lead → chính họ
   const effectiveLeadId: string | null = isAdmin
@@ -104,10 +104,10 @@ export default function TeamDashboardPage() {
     ? hhLeads.find(l => l.id === selectedLeadId)
     : null;
   const teamLabel = isAdmin
-    ? (selectedLead ? `Team của ${selectedLead.full_name}` : 'Tất cả thành viên')
+    ? (selectedLead ? `Team of ${selectedLead.full_name}` : 'All members')
     : isHHLead 
-    ? `Team của ${user?.full_name || 'bạn'}`
-    : 'Toàn bộ team';
+    ? `Team of ${user?.full_name || 'bạn'}`
+    : 'Entire team';
 
   // Calculate month start based on offset
   // Tháng = từ ngày 1 → ngày 1 tháng sau (không quan tâm thứ)
@@ -125,7 +125,7 @@ export default function TeamDashboardPage() {
     const [year, month, day] = monthStart.split('-').map(Number);
     const d = new Date(year, month - 1, day); // month is 0-indexed in JS
     const monthName = d.toLocaleDateString('vi-VN', { month: 'long', year: 'numeric' });
-    const label = monthOffset === 0 ? 'Tháng này' : monthOffset === -1 ? 'Tháng trước' : `${Math.abs(monthOffset)} tháng trước`;
+    const label = monthOffset === 0 ? 'This month' : monthOffset === -1 ? 'Last month' : `${Math.abs(monthOffset)} months ago`;
     return { label, monthName };
   }, [monthStart, monthOffset]);
 
@@ -229,7 +229,7 @@ export default function TeamDashboardPage() {
 
   return (
     <>
-      <PageMeta title="Report tháng" />
+      <PageMeta title="Monthly Report" />
       <div className="p-6 space-y-6">
 
         {/* Header */}
@@ -237,21 +237,21 @@ export default function TeamDashboardPage() {
           <div className="flex items-center gap-4">
             <div>
               <h1 className="text-xl font-bold text-gray-900">{pageTitle}</h1>
-              <p className="text-sm text-gray-400 mt-0.5">{teamMembers.length} thành viên</p>
+              <p className="text-sm text-gray-400 mt-0.5">{teamMembers.length} members</p>
             </div>
             
             {/* Admin: HH Lead Selector (luôn hiện cho Admin, kể cả khi chưa có HH Lead) */}
             {isAdmin && (
               <div className="flex items-center gap-2 border-l border-gray-200 pl-4">
                 <label className="text-sm font-medium text-gray-600 whitespace-nowrap">
-                  Xem team của:
+                  View team of:
                 </label>
                 <select
                   value={selectedLeadId}
                   onChange={(e) => setSelectedLeadId(e.target.value)}
                   className="w-56 px-3 py-2 text-sm border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-transparent bg-white"
                 >
-                  <option value="">Tất cả thành viên</option>
+                  <option value="">All members</option>
                   {hhLeads.map(lead => (
                     <option key={lead.id} value={lead.id}>
                       {lead.full_name}
@@ -267,7 +267,7 @@ export default function TeamDashboardPage() {
             <button
               onClick={() => setMonthOffset(o => o - 1)}
               className="p-2 hover:bg-white rounded-md transition-colors"
-              title="Tháng trước"
+              title="Last month"
             >
               <ChevronLeft size={18} />
             </button>
@@ -307,26 +307,26 @@ export default function TeamDashboardPage() {
               <Users size={16} className="text-brand-500" />
               Team Performance
             </h2>
-            <span className="text-xs text-gray-400">{teamMembers.length} thành viên</span>
+            <span className="text-xs text-gray-400">{teamMembers.length} members</span>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-gray-50">
-                  <th className="text-left px-5 py-3 text-xs font-medium text-gray-400 uppercase tracking-wider">Thành viên</th>
+                  <th className="text-left px-5 py-3 text-xs font-medium text-gray-400 uppercase tracking-wider">Member</th>
                   <th className="text-center px-3 py-3 text-xs font-medium text-gray-400 uppercase tracking-wider">Jobs</th>
                   <th className="text-center px-3 py-3 text-xs font-medium text-gray-400 uppercase tracking-wider">CV Client</th>
                   <th className="text-center px-3 py-3 text-xs font-medium text-gray-400 uppercase tracking-wider">Interview</th>
                   <th className="text-center px-3 py-3 text-xs font-medium text-gray-400 uppercase tracking-wider">Offer</th>
-                  <th className="px-3 py-3 text-xs font-medium text-gray-400 uppercase tracking-wider w-36">KPI Tháng</th>
-                  <th className="text-left px-3 py-3 text-xs font-medium text-gray-400 uppercase tracking-wider">Trạng thái</th>
+                  <th className="px-3 py-3 text-xs font-medium text-gray-400 uppercase tracking-wider w-36">Monthly KPI</th>
+                  <th className="text-left px-3 py-3 text-xs font-medium text-gray-400 uppercase tracking-wider">Status</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-50">
                 {teamMembers.length === 0 ? (
                   <tr>
                     <td colSpan={7} className="px-5 py-8 text-center text-gray-400">
-                      Chưa có thành viên nào trong team
+                      Chưa có members nào trong team
                     </td>
                   </tr>
                 ) : (
@@ -357,19 +357,19 @@ export default function TeamDashboardPage() {
           </div>
         </div>
 
-        {/* Jobs cần chú ý - Table Layout */}
+        {/* Jobs to watch - Table Layout */}
         <div className="bg-white rounded-2xl border border-gray-100 shadow-sm overflow-hidden">
           <div className="px-5 py-4 border-b border-gray-50 flex items-center justify-between">
             <h2 className="text-sm font-semibold text-gray-700 flex items-center gap-2">
               <Briefcase size={16} className="text-brand-500" />
-              Jobs cần chú ý
+              Jobs to watch
             </h2>
             <span className="text-xs text-gray-400">{teamJobs.length} jobs</span>
           </div>
           
           {teamJobs.length === 0 ? (
             <div className="p-8 text-center text-gray-400">
-              Không có job nào cần chú ý
+              No jobs need attention
             </div>
           ) : (
             <div className="overflow-x-auto">
@@ -383,8 +383,8 @@ export default function TeamDashboardPage() {
                     <th className="text-center px-3 py-3 text-xs font-medium text-gray-400 uppercase tracking-wider">PV</th>
                     <th className="text-center px-3 py-3 text-xs font-medium text-gray-400 uppercase tracking-wider">Offer</th>
                     <th className="text-center px-3 py-3 text-xs font-medium text-gray-400 uppercase tracking-wider">OB</th>
-                    <th className="text-left px-3 py-3 text-xs font-medium text-gray-400 uppercase tracking-wider">Giao cho</th>
-                    <th className="text-center px-3 py-3 text-xs font-medium text-gray-400 uppercase tracking-wider">Ngày</th>
+                    <th className="text-left px-3 py-3 text-xs font-medium text-gray-400 uppercase tracking-wider">Assigned to</th>
+                    <th className="text-center px-3 py-3 text-xs font-medium text-gray-400 uppercase tracking-wider">Days</th>
                     <th className="text-left px-3 py-3 text-xs font-medium text-gray-400 uppercase tracking-wider">Remind</th>
                     <th className="text-center px-3 py-3 text-xs font-medium text-gray-400 uppercase tracking-wider w-20"></th>
                   </tr>
@@ -455,7 +455,7 @@ export default function TeamDashboardPage() {
                               <div className="text-xs text-brand-600 mt-0.5">{job.assigned_week}</div>
                             </div>
                           ) : (
-                            <span className="text-xs text-gray-400">Chưa giao</span>
+                            <span className="text-xs text-gray-400">Unassigned</span>
                           )}
                         </td>
                         
@@ -504,7 +504,7 @@ export default function TeamDashboardPage() {
                             className="inline-flex items-center gap-1 px-2.5 py-1.5 text-xs font-medium text-brand-600 hover:text-white hover:bg-brand-600 border border-brand-300 hover:border-brand-600 rounded-lg transition-all"
                           >
                             <UserPlus size={12} />
-                            Giao
+                            Assign
                           </button>
                         </td>
                       </tr>

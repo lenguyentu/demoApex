@@ -5,6 +5,7 @@ import { JobDetailPage } from "../features/jobs/pages/JobDetailPage";
 import { ClientsPage } from "../features/clients/pages/ClientsPage";
 import { AddClientPage } from "../features/clients/pages/AddClientPage";
 import { CandidatesPage } from "../features/candidates/pages/CandidatesPage";
+import { CandidateDetailPage } from "../features/candidates/pages/CandidateDetailPage";
 import { ProcessPage } from "../features/processes/pages/ProcessPage";
 import DailyPlanPage from "../features/daily_plan/pages/DailyPlanPage";
 import ManageDailyPlansPage from "../features/daily_plan/pages/ManageDailyPlansPage";
@@ -60,6 +61,10 @@ export const router = createBrowserRouter([
       {
         path: "/candidates",
         element: <CandidatesPage mode="database" />,
+      },
+      {
+        path: "/candidates/:id",
+        element: <CandidateDetailPage />,
       },
       {
         path: "/candidates/my",
