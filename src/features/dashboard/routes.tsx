@@ -2,12 +2,12 @@ import { lazy } from "react";
 import type { FeatureRoute } from "../../routes/utils";
 import { PERMISSIONS } from "../auth/constants";
 
-const DashboardPage = lazy(() => import("./pages/DashboardPage").then(m => ({ default: m.DashboardPage })));
+const FreelancerManagementPage = lazy(() => import("../freelancer/pages/FreelancerManagementPage").then(m => ({ default: m.FreelancerManagementPage })));
 
 export const dashboardRoutes: FeatureRoute[] = [
   {
     path: "/",
-    element: <DashboardPage />,
-    permission: PERMISSIONS.VIEW_DASHBOARD,
+    element: <FreelancerManagementPage />,
+    permission: PERMISSIONS.MANAGE_USERS,
   },
 ];

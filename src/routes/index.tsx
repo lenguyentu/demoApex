@@ -1,7 +1,6 @@
 import { createBrowserRouter } from "react-router-dom";
 import { MainLayout } from "../components/layout/MainLayout";
-import { JobsPage } from "../features/jobs/pages/JobsPage";
-import { JobDetailPage } from "../features/jobs/pages/JobDetailPage";
+import { jobRoutes } from "../features/jobs/routes";
 import { ClientsPage } from "../features/clients/pages/ClientsPage";
 import { AddClientPage } from "../features/clients/pages/AddClientPage";
 import { CandidatesPage } from "../features/candidates/pages/CandidatesPage";
@@ -29,19 +28,7 @@ export const router = createBrowserRouter([
     path: "/",
     element: <MainLayout />,
     children: [
-
-      {
-        path: "/jobs/admin",
-        element: <JobsPage mode="admin" />,
-      },
-      {
-        path: "/jobs/open",
-        element: <JobsPage mode="open" />,
-      },
-      {
-        path: "/jobs/:id",
-        element: <JobDetailPage />,
-      },
+      ...(jobRoutes as any),
       {
         path: "/daily-plan",
         element: <DailyPlanPage />,

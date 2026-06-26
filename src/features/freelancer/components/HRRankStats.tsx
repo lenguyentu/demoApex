@@ -1,22 +1,23 @@
-
-import { Trophy, ChevronDown, ChevronUp, ExternalLink, Mail } from 'lucide-react';
+import { Trophy, ChevronDown, ChevronUp, ExternalLink, Mail, FileText } from 'lucide-react';
 import { useState } from 'react';
-import { useHRRankByRefCount } from '../hooks';
+import { useFreelancerPerformanceStats } from '../hooks';
 import type { DateRange } from '../../../components/DateRangePicker';
-import { HRReferralDetailsModal } from './HRReferralDetailsModal';
 
 interface HRRankStatsProps {
   dateRange: DateRange;
+  onSelectHeadhunt?: (id: string) => void;
 }
 
-export const HRRankStats = ({ dateRange }: HRRankStatsProps) => {
+export const HRRankStats = ({ dateRange, onSelectHeadhunt }: HRRankStatsProps) => {
   const [limit, setLimit] = useState(5);
-  const [selectedHR, setSelectedHR] = useState<{ id: string; name: string } | null>(null);
-  const { data, isLoading } = useHRRankByRefCount(dateRange, limit);
+  // Re-fetch or use the hook with limit (actually hook uses PAGE_SIZE=15, we'll just slice)
+  const { data, loading } = useFreelancerPerformanceStats('', dateRange);
 
   const toggleLimit = () => {
     setLimit(prev => prev === 5 ? 10 : 5);
   };
+
+  const topData = data ? data.slice(0, limit) : [];
 
   return (
     <div className="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden mb-6">
@@ -27,8 +28,8 @@ export const HRRankStats = ({ dateRange }: HRRankStatsProps) => {
             <Trophy className="w-5 h-5 text-amber-600" />
           </div>
           <div>
-            <h3 className="text-lg font-bold text-gray-900">Staff Ranking (By Ref Count)</h3>
-            <p className="text-sm text-gray-500 mt-0.5">Based on the number of users with corresponding assigned_hr_id</p>
+            <h3 className="text-lg font-bold text-gray-900">Headhunt Ranking (By CV Sent)</h3>
+            <p className="text-sm text-gray-500 mt-0.5">Top headhunters by number of CVs sent to TDC</p>
           </div>
         </div>
         
@@ -43,16 +44,16 @@ export const HRRankStats = ({ dateRange }: HRRankStatsProps) => {
 
       <div className="p-4">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-4">
-            {isLoading ? (
+            {loading && topData.length === 0 ? (
                 Array(4).fill(0).map((_, i) => (
                     <div key={i} className="flex items-center gap-4 p-4 rounded-xl border border-gray-50 animate-pulse">
                         <div className="h-4 bg-gray-100 rounded w-32 mb-2"></div>
                         <div className="h-3 bg-gray-100 rounded w-48"></div>
                     </div>
                 ))
-            ) : data && data.length > 0 ? (
-                data.map((item, index) => (
-                    <div key={item.hr_id} className="group relative p-4 rounded-xl border border-gray-100 hover:border-amber-200 hover:bg-amber-50/20 transition-all flex items-center justify-between gap-4">
+            ) : topData.length > 0 ? (
+                topData.map((item, index) => (
+                    <div key={item.id} className="group relative p-4 rounded-xl border border-gray-100 hover:border-amber-200 hover:bg-amber-50/20 transition-all flex items-center justify-between gap-4">
                         <div className="flex items-center gap-4 overflow-hidden">
                            <div className={`shrink-0 w-8 h-8 rounded-full flex items-center justify-center text-sm font-black shadow-sm ${
                                 index === 0 ? 'bg-amber-400 text-white' : index === 1 ? 'bg-slate-300 text-slate-700' : index === 2 ? 'bg-amber-700 text-white' : 'bg-gray-100 text-gray-500'
@@ -61,28 +62,31 @@ export const HRRankStats = ({ dateRange }: HRRankStatsProps) => {
                            </div>
                            <div className="min-w-0 pr-4">
                               <h4 className="text-sm font-bold text-gray-900 truncate group-hover:text-amber-800 transition-colors">
-                                  {item.hr_name || 'N/A'}
+                                  {item.name || 'N/A'}
                               </h4>
                               <p className="text-xs text-gray-500 truncate flex items-center gap-1 mt-0.5">
                                  <Mail className="w-3 h-3" />
-                                 {item.hr_email || 'no-email'}
+                                 {item.email || 'no-email'}
                               </p>
                            </div>
                         </div>
 
                         <div className="flex items-center gap-4 shrink-0">
                             <div className="flex flex-col items-end">
-                                <span className="text-sm font-black text-amber-600 bg-amber-50 px-3 py-1 rounded-full border border-amber-100 shadow-sm">
-                                    {item.ref_count} Ref
+                                <span className="text-sm font-black text-amber-600 bg-amber-50 px-3 py-1 rounded-full border border-amber-100 shadow-sm flex items-center gap-1">
+                                    <FileText className="w-3 h-3" />
+                                    {item.cvToTDC} CVs
                                 </span>
                             </div>
-                            <button 
-                                onClick={() => setSelectedHR({ id: item.hr_id, name: item.hr_name })}
-                                className="p-2 text-gray-400 hover:text-amber-600 hover:bg-amber-100/50 rounded-lg transition-all"
-                                title="View details"
-                            >
-                                <ExternalLink className="w-4 h-4" />
-                            </button>
+                            {onSelectHeadhunt && (
+                              <button 
+                                  onClick={() => onSelectHeadhunt(item.id)}
+                                  className="p-2 text-gray-400 hover:text-amber-600 hover:bg-amber-100/50 rounded-lg transition-all"
+                                  title="View details"
+                              >
+                                  <ExternalLink className="w-4 h-4" />
+                              </button>
+                            )}
                         </div>
                     </div>
                 ))
@@ -93,15 +97,6 @@ export const HRRankStats = ({ dateRange }: HRRankStatsProps) => {
             )}
         </div>
       </div>
-
-      {/* Referral Details Modal */}
-      <HRReferralDetailsModal 
-        isOpen={!!selectedHR}
-        onClose={() => setSelectedHR(null)}
-        hrId={selectedHR?.id || null}
-        hrName={selectedHR?.name || null}
-        dateRange={dateRange}
-      />
     </div>
   );
 };

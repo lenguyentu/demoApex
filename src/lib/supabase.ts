@@ -199,8 +199,24 @@ export const supabase = {
       return Promise.resolve({
         data: [
           {
-            id: 'freelancer-1', name: 'Nguyễn Văn A (Mock)', email: 'nguyenvana@example.com', phone: '0901234567',
+            id: 'freelancer-1', name: 'Nguyễn Văn A', email: 'nguyenvana@example.com', phone: '0901234567',
             cv_to_tdc: 120, cv_to_client: 90, interviews: 45, offers: 15, onboarding: 10, rejected: 30, conversion_rate: 8.3, total_count: 5
+          },
+          {
+            id: 'freelancer-2', name: 'Trần Thị B', email: 'tranthib@example.com', phone: '0902234567',
+            cv_to_tdc: 85, cv_to_client: 60, interviews: 30, offers: 10, onboarding: 5, rejected: 25, conversion_rate: 5.8, total_count: 5
+          },
+          {
+            id: 'freelancer-3', name: 'Lê Văn C', email: 'levanc@example.com', phone: '0903234567',
+            cv_to_tdc: 65, cv_to_client: 40, interviews: 20, offers: 5, onboarding: 3, rejected: 15, conversion_rate: 4.6, total_count: 5
+          },
+          {
+            id: 'freelancer-4', name: 'Phạm Thị D', email: 'phamthid@example.com', phone: '0904234567',
+            cv_to_tdc: 40, cv_to_client: 25, interviews: 10, offers: 2, onboarding: 1, rejected: 10, conversion_rate: 2.5, total_count: 5
+          },
+          {
+            id: 'freelancer-5', name: 'Hoàng Văn E', email: 'hoangvane@example.com', phone: '0905234567',
+            cv_to_tdc: 20, cv_to_client: 10, interviews: 5, offers: 1, onboarding: 0, rejected: 5, conversion_rate: 0, total_count: 5
           }
         ],
         error: null

@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 import * as XLSX from 'xlsx';
 import { Search, Award, FileText, Users, Activity, Download } from 'lucide-react';
 import {
-  BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell
+    BarChart, Bar, XAxis, YAxis, Tooltip, ResponsiveContainer, Cell
 } from 'recharts';
 import { useFreelancerPerformanceStats, useFreelancerGlobalStats } from '../hooks';
 import { FreelancerDetailsModal } from '../../processes/components/FreelancerDetailsModal';
@@ -29,13 +29,13 @@ export const FreelancerManagementPage = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     // List with pagination & server-side search
-    const { 
-        data: freelancerData, 
-        totalCount: totalFreelancersInList, 
-        loading, 
-        error, 
-        hasMore, 
-        loadMore 
+    const {
+        data: freelancerData,
+        totalCount: totalFreelancersInList,
+        loading,
+        error,
+        hasMore,
+        loadMore
     } = useFreelancerPerformanceStats(debouncedSearch, dateRange);
 
     // Global stats for cards
@@ -51,7 +51,7 @@ export const FreelancerManagementPage = () => {
 
         const dataToExport = freelancerData.map((f, index) => ({
             'No.': index + 1,
-            'Freelancer Name': f.name || '',
+            'Headhunt Name': f.name || '',
             'Phone': f.phone || '',
             'Email': f.email || '',
             'CV to TDC': f.cvToTDC || 0,
@@ -63,7 +63,7 @@ export const FreelancerManagementPage = () => {
         }));
 
         const worksheet = XLSX.utils.json_to_sheet(dataToExport);
-        
+
         // Align column widths
         const colWidths = [
             { wch: 5 },  // No.
@@ -80,15 +80,15 @@ export const FreelancerManagementPage = () => {
         worksheet['!cols'] = colWidths;
 
         const workbook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(workbook, worksheet, 'Freelancers');
-        
+        XLSX.utils.book_append_sheet(workbook, worksheet, 'Headhunters');
+
         const dateStr = new Date().toISOString().split('T')[0];
-        XLSX.writeFile(workbook, `Freelancer_List_${dateStr}.xlsx`);
+        XLSX.writeFile(workbook, `Headhunt_List_${dateStr}.xlsx`);
     };
 
     if (error) {
         return (
-             <div className="p-12 text-center text-red-500">
+            <div className="p-12 text-center text-red-500">
                 <p>Error loading data: {String(error)}</p>
             </div>
         );
@@ -99,13 +99,13 @@ export const FreelancerManagementPage = () => {
             {/* Header Section */}
             <div className="mb-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
                 <div>
-                    <h1 className="text-2xl font-bold text-gray-900">Freelancer Management</h1>
+                    <h1 className="text-2xl font-bold text-gray-900">Overview</h1>
                     <p className="text-sm text-gray-500 mt-1">
-                        Track freelancer performance & conversion rate
+                        Track headhunt performance & conversion rate
                     </p>
                 </div>
                 <div className="flex items-center gap-3 pr-15">
-                    <DateRangePicker 
+                    <DateRangePicker
                         value={dateRange}
                         onChange={setDateRange}
                         className="w-auto"
@@ -130,26 +130,26 @@ export const FreelancerManagementPage = () => {
                             <div className="absolute right-0 top-0 p-3 opacity-20 group-hover:opacity-30 transition-opacity">
                                 <Users className="w-10 h-10 text-blue-600" />
                             </div>
-                            <p className="text-sm font-medium text-gray-500">Total Freelancers</p>
+                            <p className="text-sm font-medium text-gray-500">Total Headhunters</p>
                             <p className="text-3xl font-bold text-blue-600 mt-2">{totalFreelancersCount}</p>
                         </div>
                         <div className="bg-white rounded-xl p-5 shadow-sm border border-emerald-100 relative overflow-hidden group hover:shadow-md transition-all">
-                                <div className="absolute right-0 top-0 p-3 opacity-20 group-hover:opacity-30 transition-opacity">
-                                    <FileText className="w-10 h-10 text-emerald-600" />
+                            <div className="absolute right-0 top-0 p-3 opacity-20 group-hover:opacity-30 transition-opacity">
+                                <FileText className="w-10 h-10 text-emerald-600" />
                             </div>
                             <p className="text-sm font-medium text-gray-500">Total CVs Sent</p>
                             <p className="text-3xl font-bold text-emerald-600 mt-2">{totalCVToTDC}</p>
                         </div>
                         <div className="bg-white rounded-xl p-5 shadow-sm border border-purple-100 relative overflow-hidden group hover:shadow-md transition-all">
-                                <div className="absolute right-0 top-0 p-3 opacity-20 group-hover:opacity-30 transition-opacity">
-                                    <Award className="w-10 h-10 text-purple-600" />
+                            <div className="absolute right-0 top-0 p-3 opacity-20 group-hover:opacity-30 transition-opacity">
+                                <Award className="w-10 h-10 text-purple-600" />
                             </div>
                             <p className="text-sm font-medium text-gray-500">Total Onboarding</p>
                             <p className="text-3xl font-bold text-purple-600 mt-2">{totalOnboarding}</p>
                         </div>
                         <div className="bg-white rounded-xl p-5 shadow-sm border border-orange-100 relative overflow-hidden group hover:shadow-md transition-all">
-                                <div className="absolute right-0 top-0 p-3 opacity-20 group-hover:opacity-30 transition-opacity">
-                                    <Activity className="w-10 h-10 text-orange-600" />
+                            <div className="absolute right-0 top-0 p-3 opacity-20 group-hover:opacity-30 transition-opacity">
+                                <Activity className="w-10 h-10 text-orange-600" />
                             </div>
                             <p className="text-sm font-medium text-gray-500">Conversion Rate</p>
                             <p className="text-3xl font-bold text-orange-600 mt-2">{overallConversionRate}%</p>
@@ -159,22 +159,22 @@ export const FreelancerManagementPage = () => {
             </div>
 
             <div className="bg-white rounded-xl border border-gray-200 shadow-sm mb-6">
-                 {/* Table Header & Search */}
+                {/* Table Header & Search */}
                 <div className="p-6 border-b border-gray-100">
-                     <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+                    <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
                         <div>
-                             <h3 className="text-lg font-bold text-gray-900">Freelancer List</h3>
-                             <p className="text-sm text-gray-500 mt-1">
-                                Freelancer focus job performance (Sorted by CV sent descending)
+                            <h3 className="text-lg font-bold text-gray-900">Headhunt List</h3>
+                            <p className="text-sm text-gray-500 mt-1">
+                                Headhunt focus job performance (Sorted by CV sent descending)
                             </p>
                         </div>
                         <div className="flex flex-col md:flex-row items-center gap-3 w-full lg:w-auto">
                             <div className="relative w-full md:w-80">
                                 <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
-                                <input 
-                                    type="text" 
-                                    className="flex h-10 w-full rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 pl-10 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#ED0A63] focus:bg-white transition-all" 
-                                    placeholder="Search by name, phone, email..." 
+                                <input
+                                    type="text"
+                                    className="flex h-10 w-full rounded-lg border border-gray-200 bg-gray-50 px-3 py-2 pl-10 text-sm text-gray-900 placeholder:text-gray-400 focus:outline-none focus:ring-2 focus:ring-[#ED0A63] focus:bg-white transition-all"
+                                    placeholder="Search by name, phone, email..."
                                     value={searchTerm}
                                     onChange={(e) => setSearchTerm(e.target.value)}
                                 />
@@ -191,7 +191,7 @@ export const FreelancerManagementPage = () => {
                     </div>
                 </div>
 
-                 {/* Table */}
+                {/* Table */}
                 <div className="overflow-x-auto relative">
                     {(loading && freelancerData.length > 0) && (
                         <div className="absolute top-0 left-0 w-full h-0.5 bg-gray-100 overflow-hidden z-10">
@@ -202,7 +202,7 @@ export const FreelancerManagementPage = () => {
                         <thead className="bg-gray-50/50 text-xs uppercase text-gray-500 font-medium">
                             <tr>
                                 <th className="px-6 py-4 text-center w-16">No.</th>
-                                <th className="px-6 py-4">Freelancer Name</th>
+                                <th className="px-6 py-4">Headhunt Name</th>
                                 <th className="px-6 py-4 text-center text-blue-600">CV to TDC</th>
                                 <th className="px-6 py-4 text-center">CV to Client</th>
                                 <th className="px-6 py-4 text-center">Interview</th>
@@ -211,7 +211,7 @@ export const FreelancerManagementPage = () => {
                                 <th className="px-6 py-4 text-center text-red-600">Rejected</th>
                             </tr>
                         </thead>
-                         <tbody className="divide-y divide-gray-100">
+                        <tbody className="divide-y divide-gray-100">
                             {loading && freelancerData.length === 0 ? (
                                 // Skeleton for Table Rows
                                 Array(5).fill(0).map((_, i) => (
@@ -250,7 +250,7 @@ export const FreelancerManagementPage = () => {
                                         </div>
                                     </td>
                                     <td className="px-6 py-4 text-center">
-                                        <Link 
+                                        <Link
                                             to={`/freelancer-management/${f.id}/cv-to-tdc`}
                                             target="_blank"
                                             className="inline-flex items-center justify-center min-w-[32px] h-7 px-2 rounded-full bg-blue-50 text-blue-700 font-bold text-xs ring-1 ring-blue-100 hover:bg-blue-100 transition-colors"
@@ -263,7 +263,7 @@ export const FreelancerManagementPage = () => {
                                     <td className="px-6 py-4 text-center font-bold text-purple-600">{f.offers}</td>
                                     <td className="px-6 py-4 text-center font-bold text-emerald-600 bg-emerald-50/30">{f.onboarding}</td>
                                     <td className="px-6 py-4 text-center font-medium text-red-500">
-                                        <Link 
+                                        <Link
                                             to={`/freelancer-management/${f.id}/rejected`}
                                             target="_blank"
                                             className="hover:underline hover:text-red-700 cursor-pointer block"
@@ -280,7 +280,7 @@ export const FreelancerManagementPage = () => {
                 {/* Load More Button */}
                 {hasMore && (
                     <div className="p-4 border-t border-gray-100 flex justify-center">
-                        <LoadMoreButton 
+                        <LoadMoreButton
                             onClick={loadMore}
                             loading={loading}
                             hasMore={hasMore}
@@ -290,49 +290,55 @@ export const FreelancerManagementPage = () => {
                     </div>
                 )}
             </div>
-            
+
             {/* HR/Staff Statistics */}
-            <HRRankStats dateRange={dateRange} />
+            <HRRankStats 
+                dateRange={dateRange} 
+                onSelectHeadhunt={(id) => {
+                    setSelectedFreelancerId(id);
+                    setIsModalOpen(true);
+                }}
+            />
 
             {/* Top Jobs Statistics */}
             <TopJobsStats dateRange={dateRange} />
 
-             {/* Chart Section */}
-             <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
+            {/* Chart Section */}
+            <div className="bg-white rounded-xl border border-gray-200 shadow-sm p-6">
                 <div className="mb-6">
-                     <h3 className="text-lg font-bold text-gray-900">Conversion Rate (Onboarding / CV sent)</h3>
-                     <p className="text-sm text-gray-500 mt-1">Success rate of top 5 freelancers</p>
+                    <h3 className="text-lg font-bold text-gray-900">Conversion Rate (Onboarding / CV sent)</h3>
+                    <p className="text-sm text-gray-500 mt-1">Success rate of top 5 headhunters</p>
                 </div>
-                 <div className="h-[300px] w-full">
+                <div className="h-[300px] w-full">
                     {loading && freelancerData.length === 0 ? (
                         // Skeleton for Chart
                         <div className="w-full h-full flex flex-col justify-end space-y-4 animate-pulse px-4">
                             {Array(5).fill(0).map((_, i) => (
                                 <div key={i} className="flex items-center gap-4">
-                                     <div className="h-4 bg-gray-200 w-24 rounded"></div>
-                                    <div className="h-8 bg-gray-200 flex-1 rounded-r-lg" style={{width: `${Math.random() * 50 + 20}%`}}></div>
+                                    <div className="h-4 bg-gray-200 w-24 rounded"></div>
+                                    <div className="h-8 bg-gray-200 flex-1 rounded-r-lg" style={{ width: `${Math.random() * 50 + 20}%` }}></div>
                                 </div>
                             ))}
                         </div>
                     ) : (
-                     <ResponsiveContainer width="100%" height="100%">
-                         <BarChart layout="vertical" data={freelancerData.slice(0, 5)} margin={{ top: 0, right: 30, left: 40, bottom: 5 }}>
-                            <XAxis type="number" hide />
-                            <YAxis type="category" dataKey="name" width={120} tick={{ fontSize: 13, fill: '#6B7280' }} tickLine={false} axisLine={false} />
-                            <Tooltip cursor={{fill: '#F3F4F6'}} contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }} />
-                            <Bar dataKey="conversionRate" barSize={24} radius={[0, 4, 4, 0]}>
-                                {freelancerData.slice(0, 5).map((_entry, index) => (
-                                    <Cell key={`cell-${index}`} fill="#ED0A63" fillOpacity={0.8} />
-                                ))}
-                            </Bar>
-                         </BarChart>
-                     </ResponsiveContainer>
+                        <ResponsiveContainer width="100%" height="100%">
+                            <BarChart layout="vertical" data={freelancerData.slice(0, 5)} margin={{ top: 0, right: 30, left: 40, bottom: 5 }}>
+                                <XAxis type="number" hide />
+                                <YAxis type="category" dataKey="name" width={120} tick={{ fontSize: 13, fill: '#6B7280' }} tickLine={false} axisLine={false} />
+                                <Tooltip cursor={{ fill: '#F3F4F6' }} contentStyle={{ borderRadius: '8px', border: 'none', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }} />
+                                <Bar dataKey="conversionRate" barSize={24} radius={[0, 4, 4, 0]}>
+                                    {freelancerData.slice(0, 5).map((_entry, index) => (
+                                        <Cell key={`cell-${index}`} fill="#ED0A63" fillOpacity={0.8} />
+                                    ))}
+                                </Bar>
+                            </BarChart>
+                        </ResponsiveContainer>
                     )}
-                 </div>
-             </div>
+                </div>
+            </div>
 
             {/* Freelancer Details Modal */}
-            <FreelancerDetailsModal 
+            <FreelancerDetailsModal
                 isOpen={isModalOpen}
                 onClose={() => setIsModalOpen(false)}
                 freelancerId={selectedFreelancerId}

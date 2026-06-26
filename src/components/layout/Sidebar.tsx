@@ -46,11 +46,9 @@ interface NavItem {
 const MENU_ITEMS: NavItem[] = [
   {
     name: "Dashboard",
+    path: "/",
     icon: <LayoutGrid />,
-    subItems: [
-      { name: "Overview", path: "/", icon: <BarChart />, permission: PERMISSIONS.VIEW_DASHBOARD },
-      { name: "Freelancer Management", path: "/freelancer-management", icon: <UserCog />, permission: PERMISSIONS.MANAGE_USERS }
-    ]
+    permission: PERMISSIONS.MANAGE_USERS
   },
 
   {
@@ -69,7 +67,7 @@ const MENU_ITEMS: NavItem[] = [
     permission: PERMISSIONS.VIEW_JOBS,
     subItems: [
       { name: "Open Job", path: "/jobs/open" },
-      { name: "Admin Job", path: "/jobs/admin", permission: PERMISSIONS.UPDATE_JOB }
+      { name: "Admin Job", path: "/jobs/admin", permission: PERMISSIONS.UPDATE_JOB },
     ]
   },
   { name: "Processes", path: "/processes", icon: <ListChecks />, permission: PERMISSIONS.VIEW_PROCESSES },
@@ -82,16 +80,7 @@ const MENU_ITEMS: NavItem[] = [
       { name: "CV Queue", path: "/landing/queue", icon: <Inbox size={20} /> },
     ],
   },
-  {
-    name: "Research",
-    icon: <ClipboardList />,
-    permission: PERMISSIONS.VIEW_RESEARCH_QUEUE,
-    subItems: [
-      { name: "Dashboard", path: "/research/dashboard", icon: <BarChart /> },
-      { name: "Queue",     path: "/research/queue",     icon: <ListChecks /> },
-      { name: "Daily Plan Management", path: "/manage-daily-plans", icon: <CalendarOff />, permission: PERMISSIONS.MANAGE_USERS },
-    ],
-  },
+
   { name: "Users", path: "/users", icon: <Users />, permission: PERMISSIONS.MANAGE_USERS },
   { name: "Notifications", path: "/notifications", icon: <Bell />, permission: PERMISSIONS.VIEW_DASHBOARD },
   { name: "Chat", path: "/chat", icon: <MessageCircle />, permission: PERMISSIONS.VIEW_CHAT },

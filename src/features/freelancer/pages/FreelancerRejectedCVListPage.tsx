@@ -86,7 +86,7 @@ export const FreelancerRejectedCVListPage = () => {
                     <div>
                         <h1 className="text-2xl font-bold text-gray-900">Rejected CV List</h1>
                         <p className="text-sm text-gray-500">
-                            Freelancer: <span className="font-semibold text-gray-700">{freelancerName}</span> • Total: {cvDetails.length} CVs
+                            Headhunter: <span className="font-semibold text-gray-700">{freelancerName}</span> • Total: {cvDetails.length} CVs
                         </p>
                     </div>
                 </div>

@@ -5,16 +5,16 @@
 export const DEFAULT_LANDING_CONFIG = {
   bio: 'Headhunter IT — kết nối ứng viên với team product, engineering và data. Minh bạch process, phản hồi nhanh.',
   hero: {
-    name: 'Minh Anh',
+    name: 'Thùy Dung',
     social: {
       zalo: 'https://zalo.me/',
-      email: 'mailto:minhanh.demo@tdconsulting.vn',
+      email: 'mailto:thuydung.demo@tdconsulting.vn',
       facebook: 'https://www.facebook.com/',
       linkedin: 'https://www.linkedin.com/',
     },
     chatCta: {
       href: '#contact',
-      label: 'Chat with Minh Anh',
+      label: 'Chat with Thùy Dung',
     },
     jobsCta: {
       href: '/jobs',
@@ -39,7 +39,7 @@ export const DEFAULT_LANDING_CONFIG = {
     { label: 'Partners & Clients', value: '30+', iconKey: 'building2' },
     { label: 'Candidate Satisfaction', value: '4.8/5', iconKey: 'star' },
   ],
-  title: 'Minh Anh | TD Consulting',
+  title: 'Thùy Dung | TD Consulting',
   photoUrl: '',
   aboutImageUrl: '',
   aboutGrid: [
@@ -68,7 +68,7 @@ export const DEFAULT_LANDING_CONFIG = {
     href: '/#contact',
     label: 'Contact Me',
   },
-  displayName: 'Minh Anh',
+  displayName: 'Thùy Dung',
   connectSection: {
     title: "Let's connect!",
     subtitle: 'Chọn kênh bạn hay dùng — Zalo/Facebook cho hỏi nhanh, email khi gửi CV.',

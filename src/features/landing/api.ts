@@ -18,7 +18,7 @@ export function validateSubdomainSlug(slug: string): string | null {
 }
 
 export async function fetchTakenSubdomainSlugs(excludeUserId?: string): Promise<string[]> {
-  return ['taken-demo', 'test-slug'];
+  return ['thuydung', 'maihha', 'huangocquynh'];
 }
 
 export function isSlugTakenByOthers(
@@ -36,7 +36,7 @@ export function isSlugTakenByOthers(
 let mockLandingPage: HeadhunterLandingPage | null = {
   id: 'landing-123',
   user_id: 'mock-user-123',
-  subdomain_slug: 'demo',
+  subdomain_slug: 'maihha',
   landing_config: DEFAULT_LANDING_CONFIG,
   is_published: true,
   created_at: new Date().toISOString(),

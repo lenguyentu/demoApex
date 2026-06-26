@@ -100,7 +100,7 @@ export function FreelancerDetailsModal({ isOpen, onClose, freelancerId }: Freela
                <User size={24} strokeWidth={1.5} />
             </div>
             <div>
-              <h2 className="text-lg font-bold text-gray-900">Freelancer Details</h2>
+              <h2 className="text-lg font-bold text-gray-900">Headhunt Details</h2>
               <p className="text-sm text-gray-500 font-normal">View profile and recruitment history</p>
             </div>
           </div>
@@ -144,7 +144,7 @@ export function FreelancerDetailsModal({ isOpen, onClose, freelancerId }: Freela
 
               {/* Processes Table */}
               <div>
-                <h3 className="font-semibold text-gray-800 mb-3 px-1">Processes owned by this freelancer</h3>
+                <h3 className="font-semibold text-gray-800 mb-3 px-1">Processes owned by this headhunter</h3>
                 <div className="overflow-hidden border border-gray-200 rounded-lg bg-white shadow-sm">
                   <div className="overflow-x-auto">
                   <table className="min-w-full divide-y divide-gray-200">
@@ -200,7 +200,7 @@ export function FreelancerDetailsModal({ isOpen, onClose, freelancerId }: Freela
                       ) : (
                         <tr>
                           <td colSpan={6} className="px-4 py-8 text-center text-sm text-gray-500">
-                            No processes found for this freelancer.
+                            No processes found for this headhunter.
                           </td>
                         </tr>
                       )}

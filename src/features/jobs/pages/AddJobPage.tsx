@@ -255,17 +255,26 @@ const AddJobPage = () => {
   const [formData, setFormData] = useState<JobFormData>({
     position_title: '',
     is_urgent: false,
+    urgent_info: { note: '' },
     client_id: preSelectedClientId || '',
     hr_contact_id: '',
     phase: 'Open',
     td_job_category: 'Non-IT',
+    industry_category: '',
+    job_category: '',
     job_rank: null,
     job_level: null,
+    report_to: '',
+    number_of_employees: 1,
+    company_overview: '',
     job_summary: '',
-    jd_clear: '',
     requirements: '',
+    evaluation_criteria: {},
+    jd_clear: '',
     work_location: '',
     work_address: '',
+    mrt_station: '',
+    working_hours: '',
     min_monthly_salary: '',
     max_monthly_salary: '',
     min_annual_salary: '',
@@ -277,14 +286,18 @@ const AddJobPage = () => {
     warranty_period_days: 60,
     interview_rounds: 0,
     english_level: 'Conversational',
+    other_languages: [],
     lower_age_limit: null,
     upper_age_limit: null,
+    visa_support: false,
     insurance: '',
     bonus: '',
     allowance: '',
     annual_leave: '',
-    number_of_employees: 1,
-    working_hours: '',
+    sick_leave: '',
+    probation_period: '',
+    internal_memo: '',
+    meeting_note: '',
   });
 
   // Internal data state (job_internal_data table)
@@ -339,7 +352,7 @@ const AddJobPage = () => {
     );
   };
 
-  // Tiptap editor
+  // Tiptap editors
   const editor = useEditor({
     extensions: [
       StarterKit,
@@ -351,6 +364,22 @@ const AddJobPage = () => {
     content: formData.job_summary || '',
     onUpdate: ({ editor: e }) => {
       setFormData((prev) => ({ ...prev, job_summary: e.getHTML() }));
+    },
+  });
+
+  const companyOverviewEditor = useEditor({
+    extensions: [StarterKit, Link.configure({ openOnClick: false }), ListItem, BulletList, OrderedList],
+    content: formData.company_overview || '',
+    onUpdate: ({ editor: e }) => {
+      setFormData((prev) => ({ ...prev, company_overview: e.getHTML() }));
+    },
+  });
+
+  const requirementsEditor = useEditor({
+    extensions: [StarterKit, Link.configure({ openOnClick: false }), ListItem, BulletList, OrderedList],
+    content: formData.requirements || '',
+    onUpdate: ({ editor: e }) => {
+      setFormData((prev) => ({ ...prev, requirements: e.getHTML() }));
     },
   });
 
@@ -372,17 +401,26 @@ const AddJobPage = () => {
       setFormData({
         position_title: existingJob.position_title || '',
         is_urgent: existingJob.is_urgent || false,
+        urgent_info: existingJob.urgent_info || { note: '' },
         client_id: existingJob.client_id || '',
         hr_contact_id: existingJob.hr_contact_id || '',
         phase: existingJob.phase || 'Open',
         td_job_category: existingJob.td_job_category || 'Non-IT',
+        industry_category: existingJob.industry_category || '',
+        job_category: existingJob.job_category || '',
         job_rank: existingJob.job_rank || null,
         job_level: existingJob.job_level || null,
+        report_to: existingJob.report_to || '',
+        number_of_employees: existingJob.number_of_employees || null,
+        company_overview: existingJob.company_overview || '',
         job_summary: existingJob.job_summary || '',
-        jd_clear: existingJob.jd_clear || '',
         requirements: existingJob.requirements || '',
+        evaluation_criteria: existingJob.evaluation_criteria || {},
+        jd_clear: existingJob.jd_clear || '',
         work_location: existingJob.work_location || '',
         work_address: existingJob.work_address || '',
+        mrt_station: existingJob.mrt_station || '',
+        working_hours: existingJob.working_hours || '',
         min_monthly_salary: existingJob.min_monthly_salary || '',
         max_monthly_salary: existingJob.max_monthly_salary || '',
         min_annual_salary: existingJob.min_annual_salary || '',
@@ -394,16 +432,22 @@ const AddJobPage = () => {
         warranty_period_days: existingJob.warranty_period_days || 60,
         interview_rounds: existingJob.interview_rounds || 2,
         english_level: existingJob.english_level || 'Conversational',
+        other_languages: existingJob.other_languages || [],
         lower_age_limit: existingJob.lower_age_limit || 25,
         upper_age_limit: existingJob.upper_age_limit || 40,
+        visa_support: existingJob.visa_support || false,
         insurance: existingJob.insurance || '',
         bonus: existingJob.bonus || '',
         allowance: existingJob.allowance || '',
         annual_leave: existingJob.annual_leave || '',
-        number_of_employees: existingJob.number_of_employees || null,
-        working_hours: existingJob.working_hours || '',
+        sick_leave: existingJob.sick_leave || '',
+        probation_period: existingJob.probation_period || '',
+        internal_memo: existingJob.internal_memo || '',
+        meeting_note: existingJob.meeting_note || '',
       });
       editor?.commands.setContent(existingJob.job_summary || '');
+      companyOverviewEditor?.commands.setContent(existingJob.company_overview || '');
+      requirementsEditor?.commands.setContent(existingJob.requirements || '');
 
       // Fetch internal data from job_internal_data table
       const fetchInternalData = async () => {
@@ -728,6 +772,28 @@ const AddJobPage = () => {
               </select>
             </FormField>
 
+            <FormField label="Industry Category">
+              <input
+                type="text"
+                name="industry_category"
+                value={formData.industry_category || ''}
+                onChange={handleChange}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-brand-500 dark:bg-gray-800"
+                placeholder="E.g.: Finance, Healthcare"
+              />
+            </FormField>
+
+            <FormField label="Job Category">
+              <input
+                type="text"
+                name="job_category"
+                value={formData.job_category || ''}
+                onChange={handleChange}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-brand-500 dark:bg-gray-800"
+                placeholder="E.g.: Software Engineering"
+              />
+            </FormField>
+
             <FormField label="Job Rank">
               <select
                 name="job_rank"
@@ -760,6 +826,17 @@ const AddJobPage = () => {
               </select>
             </FormField>
 
+            <FormField label="Report To">
+              <input
+                type="text"
+                name="report_to"
+                value={formData.report_to || ''}
+                onChange={handleChange}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-brand-500 focus:border-brand-500 dark:bg-gray-800"
+                placeholder="E.g.: CTO, Project Manager"
+              />
+            </FormField>
+
             <FormField label="Headcount">
               <input
                 type="number"
@@ -782,6 +859,56 @@ const AddJobPage = () => {
                 placeholder="E.g.: Mon - Fri (8:00 - 17:00)"
               />
             </FormField>
+
+            <div className="md:col-span-2 mt-2">
+              <label className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 cursor-pointer">
+                <input
+                  type="checkbox"
+                  name="is_urgent"
+                  checked={formData.is_urgent || false}
+                  onChange={(e) => setFormData((prev) => ({ ...prev, is_urgent: e.target.checked }))}
+                  className="w-4 h-4 text-brand-600 border-gray-300 rounded focus:ring-brand-500"
+                />
+                Urgent Request
+              </label>
+              
+              {formData.is_urgent && (
+                <div className="pl-6 space-y-3 mt-2 animate-fade-in border-l-2 border-brand-200 dark:border-brand-900">
+                  <div className="grid grid-cols-2 gap-3">
+                    <input
+                      type="text"
+                      placeholder="Tag 1 (e.g., ASAP)"
+                      value={formData.urgent_info?.tag1 || ''}
+                      onChange={(e) => setFormData((prev) => ({
+                        ...prev,
+                        urgent_info: { ...prev.urgent_info, tag1: e.target.value }
+                      }))}
+                      className="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded focus:ring-1 focus:ring-brand-500 dark:bg-gray-800"
+                    />
+                    <input
+                      type="text"
+                      placeholder="Tag 2"
+                      value={formData.urgent_info?.tag2 || ''}
+                      onChange={(e) => setFormData((prev) => ({
+                        ...prev,
+                        urgent_info: { ...prev.urgent_info, tag2: e.target.value }
+                      }))}
+                      className="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded focus:ring-1 focus:ring-brand-500 dark:bg-gray-800"
+                    />
+                  </div>
+                  <input
+                    type="text"
+                    placeholder="Urgent Notes"
+                    value={formData.urgent_info?.note || ''}
+                    onChange={(e) => setFormData((prev) => ({
+                      ...prev,
+                      urgent_info: { ...prev.urgent_info, note: e.target.value }
+                    }))}
+                    className="w-full px-3 py-2 text-sm border border-gray-300 dark:border-gray-600 rounded focus:ring-1 focus:ring-brand-500 dark:bg-gray-800"
+                  />
+                </div>
+              )}
+            </div>
             
           </div>
         </FormCard>
@@ -849,6 +976,90 @@ const AddJobPage = () => {
                 placeholder="123 Nguyen Van Troi, Phu Nhuan Dist..."
               />
             </FormField>
+
+            <FormField label="MRT Station">
+              <input
+                type="text"
+                name="mrt_station"
+                value={formData.mrt_station || ''}
+                onChange={handleChange}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-brand-500 dark:bg-gray-800"
+                placeholder="E.g.: Ben Thanh Station"
+              />
+            </FormField>
+
+            <div className="md:col-span-1 flex items-center mt-6">
+              <label className="flex items-center gap-2 text-sm font-medium text-gray-700 dark:text-gray-300 cursor-pointer">
+                <input
+                  type="checkbox"
+                  name="visa_support"
+                  checked={formData.visa_support || false}
+                  onChange={(e) => setFormData((prev) => ({ ...prev, visa_support: e.target.checked }))}
+                  className="w-4 h-4 text-brand-600 border-gray-300 rounded focus:ring-brand-500"
+                />
+                Visa Support Provided
+              </label>
+            </div>
+          </div>
+        </FormCard>
+
+        {/* Benefits */}
+        <FormCard title="Benefits & Conditions" icon={<Briefcase size={18} />}>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <FormField label="Insurance">
+              <input
+                type="text"
+                name="insurance"
+                value={formData.insurance || ''}
+                onChange={handleChange}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-brand-500 dark:bg-gray-800"
+                placeholder="E.g.: Premium Healthcare"
+              />
+            </FormField>
+
+            <FormField label="Bonus">
+              <input
+                type="text"
+                name="bonus"
+                value={formData.bonus || ''}
+                onChange={handleChange}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-brand-500 dark:bg-gray-800"
+                placeholder="E.g.: 13th Month Salary, Performance Bonus"
+              />
+            </FormField>
+
+            <FormField label="Allowance">
+              <input
+                type="text"
+                name="allowance"
+                value={formData.allowance || ''}
+                onChange={handleChange}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-brand-500 dark:bg-gray-800"
+                placeholder="E.g.: Lunch, Parking, Remote Setup"
+              />
+            </FormField>
+
+            <FormField label="Annual Leave">
+              <input
+                type="text"
+                name="annual_leave"
+                value={formData.annual_leave || ''}
+                onChange={handleChange}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-brand-500 dark:bg-gray-800"
+                placeholder="E.g.: 14 days/year"
+              />
+            </FormField>
+
+            <FormField label="Sick Leave">
+              <input
+                type="text"
+                name="sick_leave"
+                value={formData.sick_leave || ''}
+                onChange={handleChange}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-brand-500 dark:bg-gray-800"
+                placeholder="E.g.: 5 paid sick days"
+              />
+            </FormField>
           </div>
         </FormCard>
 
@@ -899,6 +1110,18 @@ const AddJobPage = () => {
               />
             </FormField>
           </div>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+            <FormField label="Probation Period">
+              <input
+                type="text"
+                name="probation_period"
+                value={formData.probation_period || ''}
+                onChange={handleChange}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-brand-500 dark:bg-gray-800"
+                placeholder="E.g.: 2 months (85% salary)"
+              />
+            </FormField>
+          </div>
         </FormCard>
 
         {/* Requirements */}
@@ -945,6 +1168,22 @@ const AddJobPage = () => {
                 min={1}
                 max={5}
                 className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-brand-500 dark:bg-gray-800"
+              />
+            </FormField>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
+            <FormField label="Other Languages">
+              <input
+                type="text"
+                name="other_languages"
+                value={formData.other_languages?.join(', ') || ''}
+                onChange={(e) => setFormData((prev) => ({
+                  ...prev,
+                  other_languages: e.target.value.split(',').map(l => l.trim()).filter(l => l)
+                }))}
+                className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-brand-500 dark:bg-gray-800"
+                placeholder="E.g.: Japanese N2, Chinese HSK4 (comma separated)"
               />
             </FormField>
           </div>
@@ -1059,7 +1298,7 @@ const AddJobPage = () => {
                 ))}
               </select>
             </FormField>
-            {/*<FormField label="Headhunt Fee">
+            <FormField label="Headhunt Fee">
               <input
                 type="text"
                 name="headhunt_fee"
@@ -1079,7 +1318,6 @@ const AddJobPage = () => {
                 placeholder="10M VND"
               />
             </FormField>
-           */}
             <FormField label="Freelance Fee">
               <input
                 type="text"
@@ -1118,39 +1356,97 @@ const AddJobPage = () => {
             </p>
           </FormField>
 
-          <FormField label="Internal Notes">
+          <FormField label="Internal Notes (job_internal_data)">
             <textarea
               value={internalData.internal_notes}
               onChange={(e) => setInternalData(prev => ({ ...prev, internal_notes: e.target.value }))}
-              rows={4}
+              rows={3}
               className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-brand-500 dark:bg-gray-800"
               placeholder="Notes for the internal team: actual salary, special requirements, sensitive information..."
             />
-            <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-              Information for this position is stored in a separate table, visible only to internal staff.
-            </p>
+          </FormField>
+
+          <FormField label="Internal Memo (jobs.internal_memo)">
+            <textarea
+              name="internal_memo"
+              value={formData.internal_memo || ''}
+              onChange={handleChange}
+              rows={2}
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-brand-500 dark:bg-gray-800"
+              placeholder="Internal memo..."
+            />
+          </FormField>
+
+          <FormField label="Meeting Note (jobs.meeting_note)">
+            <textarea
+              name="meeting_note"
+              value={formData.meeting_note || ''}
+              onChange={handleChange}
+              rows={2}
+              className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-brand-500 dark:bg-gray-800"
+              placeholder="Meeting note..."
+            />
           </FormField>
         </FormCard>
         </div>
 
-          {/* RIGHT COLUMN - Job Summary (Sticky) (2/5) */}
+          {/* RIGHT COLUMN - JD Content (2/5) */}
           <div className="lg:col-span-2">
-            <div className="lg:sticky lg:top-6 space-y-6">
-              <FormCard title="Job Description" icon={<FileText size={18} />}>
+            <div className="space-y-6">
+              <FormCard title="Job Details & Description" icon={<FileText size={18} />}>
+                <FormField label="Company Overview">
+                  <div 
+                    className="border border-gray-300 dark:border-gray-600 rounded-lg overflow-hidden cursor-text bg-white dark:bg-gray-800 focus-within:ring-2 focus-within:ring-brand-500 focus-within:border-brand-500 transition-all mb-4"
+                    onClick={() => companyOverviewEditor?.commands.focus()}
+                  >
+                    <EditorToolbar editor={companyOverviewEditor} />
+                    <EditorContent
+                      editor={companyOverviewEditor}
+                      className="p-4 prose dark:prose-invert max-w-none [&_.ProseMirror]:min-h-[100px] [&_.ProseMirror]:outline-none"
+                    />
+                  </div>
+                </FormField>
+
                 <FormField label="Job Summary">
                   <div 
-                    className="border border-gray-300 dark:border-gray-600 rounded-lg overflow-hidden cursor-text bg-white dark:bg-gray-800 focus-within:ring-2 focus-within:ring-brand-500 focus-within:border-brand-500 transition-all"
+                    className="border border-gray-300 dark:border-gray-600 rounded-lg overflow-hidden cursor-text bg-white dark:bg-gray-800 focus-within:ring-2 focus-within:ring-brand-500 focus-within:border-brand-500 transition-all mb-4"
                     onClick={() => editor?.commands.focus()}
                   >
                     <EditorToolbar editor={editor} />
                     <EditorContent
                       editor={editor}
-                      className="p-4 prose dark:prose-invert max-w-none [&_.ProseMirror]:min-h-[500px] [&_.ProseMirror]:outline-none"
+                      className="p-4 prose dark:prose-invert max-w-none [&_.ProseMirror]:min-h-[150px] [&_.ProseMirror]:outline-none"
                     />
                   </div>
                 </FormField>
 
-                <FormField label="JD Clear">
+                <FormField label="Requirements">
+                  <div 
+                    className="border border-gray-300 dark:border-gray-600 rounded-lg overflow-hidden cursor-text bg-white dark:bg-gray-800 focus-within:ring-2 focus-within:ring-brand-500 focus-within:border-brand-500 transition-all mb-4"
+                    onClick={() => requirementsEditor?.commands.focus()}
+                  >
+                    <EditorToolbar editor={requirementsEditor} />
+                    <EditorContent
+                      editor={requirementsEditor}
+                      className="p-4 prose dark:prose-invert max-w-none [&_.ProseMirror]:min-h-[150px] [&_.ProseMirror]:outline-none"
+                    />
+                  </div>
+                </FormField>
+
+                <FormField label="Evaluation Criteria">
+                  <textarea
+                    value={(formData.evaluation_criteria as any)?.notes || ''}
+                    onChange={(e) => setFormData(prev => ({
+                      ...prev,
+                      evaluation_criteria: { ...((prev.evaluation_criteria as any) || {}), notes: e.target.value }
+                    }))}
+                    rows={4}
+                    className="w-full px-3 py-2 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-brand-500 dark:bg-gray-800 mb-4"
+                    placeholder="E.g., Problem solving skills: 3/5..."
+                  />
+                </FormField>
+
+                <FormField label="JD Clear (Process Note)">
                   <textarea
                     ref={jdClearRef}
                     name="jd_clear"
